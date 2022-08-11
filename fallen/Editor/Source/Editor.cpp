@@ -2,7 +2,7 @@
 // Guy Simmons, 19th February 1997.
 
 #include	"Editor.hpp"
-#include	"c:\fallen\headers\sound.h"
+#include	"sound.h"
 #include	"mfx.h"
 
 //#include	"DXEngine.h"
@@ -557,7 +557,7 @@ UBYTE	editor_loop(void)
 	GameTexture		*the_texture;
 	SLONG	i;
 
-	the_display.MenuOff();
+	//the_display.MenuOff();
 
 	editor_texture_set = 0;
 /*
@@ -576,10 +576,22 @@ UBYTE	editor_loop(void)
 
 	load_game_textures(LOAD_SHARED_TEXTURES);
 
-	if(SetDisplay(800,600,16)==NoError)
+
+	//VideoRes = max(min(VideoRes, 4), 0);
+
+	//depth = 32;
+	//switch (VideoRes)
+	//{
+	//case 0:		width = 320; height = 240; break;
+	//case 1:		width = 512; height = 384; break;
+	//case 2:		width = 640; height = 480; break;
+	//case 3:		width = 800; height = 600; break;
+	//case 4:		width = 1024; height = 768; break;
+
+	if(SetDisplay(800,600,32)==NoError)
 	{
-		SetDrawFunctions(16);
-		SetWorkWindowBounds(0,0,800,600);
+		SetDrawFunctions(32);
+		SetWorkWindowBounds(0,0, 800, 600);
 /*
 		while(!LeftButton)
 		{
@@ -593,7 +605,7 @@ UBYTE	editor_loop(void)
 		}
 
 */
-		module_bounds.SetRect(0,0,800,20);
+		module_bounds.SetRect(0,0, 800,20);
 		LogText("Into editor_loop");
 		InterfaceDefaults	=	new	Interface;
 		if(InterfaceDefaults)
@@ -621,11 +633,11 @@ UBYTE	editor_loop(void)
 	MFX_free_wave_list();
 
 	free_game_textures(FREE_ALL_TEXTURES);
-	the_display.MenuOn();
+	//the_display.MenuOn();
 void	free_edit_memory(void);
 	free_edit_memory();
 
-	SetDisplay(640,480,16);
+	SetDisplay(1024, 768,32);
 	
 
 	return	0;

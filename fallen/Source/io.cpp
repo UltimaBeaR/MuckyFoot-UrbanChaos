@@ -558,12 +558,14 @@ void load_needed_anim_prims()
 		extern UBYTE this_level_has_the_balrog;
 		extern UBYTE this_level_has_bane;
 
-		if (this_level_has_the_balrog)
+		//if (this_level_has_the_balrog)
 		{
+			load_anim_prim_object(1);
+			load_anim_prim_object(2);
 			load_anim_prim_object(3); //balrog
 		}
 
-		if (this_level_has_bane)
+		//if (this_level_has_bane)
 		{
 			load_anim_prim_object(4); //bane
 		}
@@ -1141,14 +1143,15 @@ void load_all_individual_prims(void)
 	{
 		load_prim_object(i);
 	}
-	if(next_prim_object<266)
-		next_prim_object=266;
+	if(next_prim_object<264)
+		next_prim_object=264;
 	//
 	// now load the animating objects
 	//
 
-	for (i = 1; i < 256; i++)
+	for (i = 1; i < 16; i++)
 	{
+		TRACE(" load_anim_prim_object(i)  = %d\n", i);
 		load_anim_prim_object(i);
 	}
 }

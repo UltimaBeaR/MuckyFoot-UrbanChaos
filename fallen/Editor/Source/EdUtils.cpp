@@ -1,9 +1,9 @@
 // EdUtils.cpp
 // Guy Simmons, 5th April 1997
 
-#include	"Editor.hpp"
-#include	"c:\fallen\headers\animtmap.h"
-#include	"c:\fallen\headers\memory.h"
+#include	"..\Headers\Editor.hpp"
+#include	"..\Headers\animtmap.h"
+#include	"..\Headers\memory.h"
 
 
 extern	SLONG			key_frame_count,current_element;

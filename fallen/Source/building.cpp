@@ -14,8 +14,9 @@ struct	DepthStrip	edit_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];  //2meg
 UWORD	tex_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
 
 SBYTE	edit_map_roof_height[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
-struct	EditInfo	edit_info;
-UWORD	page_remap[64 * 8];
+//struct	EditInfo	edit_info;
+//EditInfo	edit_info;
+extern UWORD	page_remap[64 * 8];
 
 
 extern	SLONG	build_psx;
@@ -3760,6 +3761,26 @@ void	clear_reflective_flag(SLONG min_x,SLONG min_z,SLONG max_x,SLONG max_z)
 // Returns the OUTLINE_Outline of the given storey.  Returns NULL if
 // the storey is not circular.  Non-circular storeys are not defined.
 //
+
+void	clear_build_stuff(void)
+{
+	SLONG	c0;
+	for (c0 = 1; c0 < MAX_BUILDINGS; c0++)
+	{
+		building_list[c0].BuildingFlags = 0;
+	}
+	for (c0 = 1; c0 < MAX_STOREYS; c0++)
+	{
+		storey_list[c0].StoreyFlags = 0;
+	}
+	for (c0 = 1; c0 < MAX_WALLS; c0++)
+	{
+		wall_list[c0].WallFlags = 0;
+	}
+
+
+}
+
 
 OUTLINE_Outline *get_storey_outline(SLONG storey)
 {

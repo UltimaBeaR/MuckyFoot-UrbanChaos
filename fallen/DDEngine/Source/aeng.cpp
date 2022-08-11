@@ -89,6 +89,7 @@
 
 #include "polypage.h"
 #include "DCLowLevel.h"
+#include "es.h"
 
 #ifdef TARGET_DC
 #include <shsgintr.h>

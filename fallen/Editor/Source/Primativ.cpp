@@ -1,7 +1,7 @@
 // Primativ.cpp
 // Guy Simmons, 26th October 1996.
 
-#include	"Editor.hpp"
+#include	"..\Headers\Editor.hpp"
 #ifdef	EDITOR
 
 

@@ -59,7 +59,7 @@ struct KeyFrame			*anim_array[200],
 						//*next_frame,
 						*queued_frame;
 */
-struct KeyFrameChunk 	test_chunk,
+struct KeyFrameChunk 	*test_chunk,
 						test_chunk2,
 						test_chunk3;
 struct KeyFrameElement	*the_elements;
@@ -170,7 +170,8 @@ SLONG	is_thing_on_this_quad(SLONG x,SLONG z,SLONG face)
 
 	ASSERT(WITHIN(face, 1, next_prim_face4));
 
-	wall = prim_faces4[face].ThingIndex;
+	//wall = prim_faces4[face].ThingIndex;
+	wall = 0;
 
 	if (wall < 0)
 	{

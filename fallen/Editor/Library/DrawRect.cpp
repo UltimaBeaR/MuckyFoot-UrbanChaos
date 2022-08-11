@@ -2,7 +2,7 @@
 // Guy Simmons, 11th February 1997.
 
 
-#include	"Editor.hpp"
+#include	"..\Headers\Editor.hpp"
 
 
 //---------------------------------------------------------------

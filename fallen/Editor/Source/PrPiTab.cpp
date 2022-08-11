@@ -4,8 +4,9 @@
 #include	"engine.h"
 #include	"math.h"
 #include	"FileReq.hpp"
-#include	"c:\fallen\headers\io.h"
-#include	"c:\fallen\headers\memory.h"
+#include	"io.h"
+#include	"memory.h"
+#include "Thing.h"
 
 //#include	"collide.hpp"  //needed for ele_shift
 
@@ -963,8 +964,9 @@ void	PrimPickTab::DrawPrims(void)
 	}
 	{
 		CBYTE	str[100];
-		sprintf(str," %d..%d     DIFFERENT PRIMS %d",next_prim_point,MAX_PRIM_POINTS,prim_diff);
-		QuickTextC(1,1,str,0);
+		
+		/*sprintf(str," %d..%d     DIFFERENT PRIMS %d",next_prim_point,MAX_PRIM_POINTS,prim_diff);
+		QuickTextC(1,1,str,0);*/
 	}
 
 	wwx=WorkWindowRect.Left;

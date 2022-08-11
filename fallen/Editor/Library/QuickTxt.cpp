@@ -1,7 +1,7 @@
 // QuickText.c
 // Guy Simmons, 7th October 1996.
 
-#include	"Editor.hpp"
+#include	"..\Headers\Editor.hpp"
 
 extern UBYTE	*CharTable[];
 
@@ -392,7 +392,8 @@ void	QuickTextC32(SLONG x,SLONG y,CBYTE *the_string,ULONG colour)
 				{
 					if(*(the_pixel++))
 					{
-						*(string_dest+c1)	=	(UWORD)colour;
+						//if(string_dest)
+						//*(string_dest+c1)	=	(UWORD)colour;
 					}
 				}
 			}

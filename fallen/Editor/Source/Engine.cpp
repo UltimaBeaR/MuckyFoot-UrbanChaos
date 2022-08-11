@@ -1,9 +1,10 @@
+
+#include	"game.h"
 #include	"editor.hpp"
 #include	"edit.h"
 #include	"engine.h"
 #include	"prim.h"
-#include	"c:\fallen\headers\game.h"
-#include	"c:\fallen\headers\memory.h"
+#include	"memory.h"
 //#include	"trig.h"
 
 

@@ -440,11 +440,13 @@ SLONG	damage_person_on_land(Thing *p_thing)
 	// When Darci lands she makes a sound depending on how
 	// hard she hit the ground.
 	//
-
+	
 	     if (p_thing->DY < -20000) {sound = PCOM_SOUND_DROP_BIG;}
 	else if (p_thing->DY < -10000) {sound = PCOM_SOUND_DROP_MED;}
 	else if (p_thing->DY <  -5000) {sound = PCOM_SOUND_DROP;}
 	else                           {sound = NULL;}
+
+
 
 	if (sound)
 	{

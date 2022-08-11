@@ -203,8 +203,8 @@ int	gedit(void)
 		}
 
 		result	=	GetMessage(&msg, NULL, 0, 0);
-		if(result==0 || result==-1)
-			break;
+	/*	if(result==0 || result==-1)
+			break;*/
 
 		// damn you, evil mousewheel handler!
 		if (msg.message==WM_MOUSEWHEEL) {
@@ -1149,7 +1149,7 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 
 				case	IDC_NOPSX_BUTTON:
 #ifdef EDITOR
-					RenderState::AllowFadeOut=prim_psxmode = (IsDlgButtonChecked(hWnd,IDC_NOPSX_BUTTON)==BST_CHECKED);
+					//RenderState::AllowFadeOut=prim_psxmode = (IsDlgButtonChecked(hWnd,IDC_NOPSX_BUTTON)==BST_CHECKED);
 #endif
 					return TRUE;
 

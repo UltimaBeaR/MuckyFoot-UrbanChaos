@@ -4,6 +4,7 @@
 #include	"DDLib.h"
 #include	"..\headers\Sound.h"
 #include	"mfx.h"
+#include "GEdit.h"
 
 #define	PAUSE_TIMEOUT			500
 #define	PAUSE					(1<<0)
@@ -512,6 +513,7 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPTSTR lpszArgs, in
 	if (GetLastError() != ERROR_ALREADY_EXISTS)
 	#endif
 	{
+		//return gedit();
 		return MF_main(argc,argv);
 	}
 

@@ -11,7 +11,7 @@
 #include	"renderstate.h"
 #include	"Drive.h"
 #endif
-
+#include "GEdit.h"
 #ifdef GUY
 #include	"GEdit.h"
 #endif
@@ -246,7 +246,10 @@ extern void ENV_init ( void );
 		if(!SetupMemory())
 			return	EXIT_FAILURE;
 		init_memory();
+		//if (OpenDisplay(1920, 1080, 32, FLAGS_USE_3D | FLAGS_USE_WORKSCREEN) != 0)
+
 		LEDIT_do();
+		//gedit();
 
 		return EXIT_SUCCESS;
 	}
@@ -258,6 +261,7 @@ extern void ENV_init ( void );
 	{
 //		mkt_test();
 
+		//gedit();
 		game();
 	}
 	ResetHost();

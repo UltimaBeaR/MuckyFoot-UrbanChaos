@@ -2,7 +2,7 @@
 // Guy Simmons, 9th February 1998.
 
 
-#include	"Editor.hpp"
+#include	"..\Headers\Editor.hpp"
 
 
 #define	DRAW_STEPS		32

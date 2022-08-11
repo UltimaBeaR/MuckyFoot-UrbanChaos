@@ -1,7 +1,7 @@
 // Sprites.cpp
 // Guy Simmons, 13th February 1997.
 
-#include	"Editor.hpp"
+#include	"..\Headers\Editor.hpp"
 extern	UBYTE					CurrentPalette[256*3];
 /*
 #define	RGB_TO_RGB565(r,g,b)		(UWORD)(((r>>4)<<11)|((g>>3)<<5)|(b>>4))
@@ -268,8 +268,9 @@ void	DrawBSpritePal32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal)
 
 	dst_ptr		=	(ULONG*)WorkWindow+x+(y*WorkScreenPixelWidth);
 	line_ptr	=	dst_ptr;
-	src_ptr		=	the_sprite->SpriteData;
-	DRAW_SPRITE32(pal)
+	//src_ptr		=	the_sprite->SpriteData;
+	src_ptr = 0;
+	//DRAW_SPRITE32(pal)
 }
 
 void	DrawBSprite8(SLONG x,SLONG y,BSprite *the_sprite)
@@ -345,9 +346,10 @@ void	DrawMonoBSprite32(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 
 	dst_ptr		=	(ULONG*)WorkWindow+x+(y*WorkScreenPixelWidth);
 	line_ptr	=	dst_ptr;
-	src_ptr		=	the_sprite->SpriteData;
+	//src_ptr		=	the_sprite->SpriteData;
+	src_ptr = 0;
 	dup_pixel	=	(ULONG)colour;
-	DRAW_M_SPRITE
+	//DRAW_M_SPRITE
 }
 
 void	DrawMonoBSpriteC8(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
@@ -368,6 +370,7 @@ void	DrawMonoBSpriteC16(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 
 void	DrawMonoBSpriteC32(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 {
+	return;
 	if(x<0 || (x+the_sprite->SpriteWidth)>=WorkWindowWidth || y<0 || (y+the_sprite->SpriteHeight)>=WorkWindowHeight)
 		return;
 

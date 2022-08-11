@@ -522,7 +522,7 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 			y2 = y1 + (prim_normal[i].Y >> 3);
 			z2 = z1 + (prim_normal[i].Z >> 3);
 
-			e_draw_3d_line_col_sorted(
+			e_draw_3d_line_col_sorted_DUPA(
 				x1, y1, z1, 
 				x2, y2, z2,
 				128, 130, 150);
@@ -548,7 +548,7 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 					p1 = p_f4->Points[point_order[(i + 0) & 0x3]];
 					p2 = p_f4->Points[point_order[(i + 1) & 0x3]];
 
-					e_draw_3d_line(
+					e_draw_3d_line_DUPA(
 						prim_points[p1].X + x,
 						prim_points[p1].Y + y,
 						prim_points[p1].Z + z,
@@ -766,9 +766,9 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 				else
 				{
 					list	=	COLOUR_LIST_1;
-					r	=	dx_materials[p_f4->Col].R;
-					g	=	dx_materials[p_f4->Col].G;
-					b	=	dx_materials[p_f4->Col].B;
+					r	=	dx_materials[p_f4->Col2].R;
+					g	=	dx_materials[p_f4->Col2].G;
+					b	=	dx_materials[p_f4->Col2].B;
 					shade								=	p_f4->Bright[0]*SHADE_MUL;
 					vertex_pool[current_vertex+0].color	=	D3DRGB(r*shade,g*shade,b*shade);
 					shade								=	p_f4->Bright[1]*SHADE_MUL;
@@ -792,7 +792,7 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 					point[2] = p2;
 					point[3] = p3;
 
-					CRINKLE_do(0, 1.0, &vertex_pool[current_vertex], point, list, (SLONG) average_z);
+					//CRINKLE_do(0, 1.0, &vertex_pool[current_vertex], point, list, (SLONG) average_z);
 				}
 				else
 				{
@@ -921,9 +921,9 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 			else
 			{
 				list	=	COLOUR_LIST_1;
-				r	=	dx_materials[p_f3->Col].R;
-				g	=	dx_materials[p_f3->Col].G;
-				b	=	dx_materials[p_f3->Col].B;
+				r	=	dx_materials[p_f3->Col2].R;
+				g	=	dx_materials[p_f3->Col2].G;
+				b	=	dx_materials[p_f3->Col2].B;
 				shade								=	p_f3->Bright[0]*SHADE_MUL;
 				vertex_pool[current_vertex+0].color	=	D3DRGB(r*shade,g*shade,b*shade);
 				shade								=	p_f3->Bright[1]*SHADE_MUL;
@@ -1371,7 +1371,8 @@ void	e_draw_figure(Thing *p_thing,DrawTween *draw_info,SLONG x,SLONG y,SLONG z)
 
 		ele_count=draw_info->TheChunk->ElementCount;
 		start_object=prim_multi_objects[draw_info->TheChunk->MultiObject[0]].StartObject;
-		for(c1=0;c1<test_chunk.ElementCount;c1++)
+		//for(c1=0;c1<test_chunk.ElementCount;c1++)
+		for(c1=0;c1<1;c1++)
 		{
 			SLONG	object_offset;
 			//
@@ -1677,9 +1678,9 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 					//
 					// The colour of each point.
 					//
-					r    = ENGINE_palette[p_f4->Col].red;
-					g    = ENGINE_palette[p_f4->Col].green;
-					b    = ENGINE_palette[p_f4->Col].blue;
+					r    = ENGINE_palette[p_f4->Col2].red;
+					g    = ENGINE_palette[p_f4->Col2].green;
+					b    = ENGINE_palette[p_f4->Col2].blue;
 
 //					LogText(" draw fig col %d  rgb %d %d %d \n",p_f4->Col,r,g,b);
 
@@ -1946,9 +1947,9 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 				else
 				{
 					SLONG	r,g,b;
-					r    = ENGINE_palette[p_f3->Col].red;
-					g    = ENGINE_palette[p_f3->Col].green;
-					b    = ENGINE_palette[p_f3->Col].blue;
+					r    = ENGINE_palette[p_f3->Col2].red;
+					g    = ENGINE_palette[p_f3->Col2].green;
+					b    = ENGINE_palette[p_f3->Col2].blue;
 					list = COLOUR_LIST_1;
 
 //					LogText(" draw fig col %d  rgb %d %d %d \n",p_f3->Col,r,g,b);
@@ -2082,7 +2083,7 @@ exit:;
 
 
 
-void	e_draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+void	e_draw_3d_line_DUPA(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
 {
 
 	SVECTOR_F		temp;
@@ -2156,7 +2157,7 @@ void	e_draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
 }
 
 
-void	e_draw_3d_line_dir(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+void	e_draw_3d_line_dir_DUPA(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
 {
 	SLONG	dist;
 	SLONG	nx,ny,nz;
@@ -2187,16 +2188,16 @@ void	e_draw_3d_line_dir(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
 
 	for(c0=1;c0<(dist/20);c0+=8)
 	{
-		e_draw_3d_line(x1+vx*c0,y1+vy*c0,z1+vz*c0,x1+vx*(c0-1)+nx,y1+vy*c0,z1+vz*(c0-1)+nz);
-		e_draw_3d_line(x1+vx*c0,y1+vy*c0,z1+vz*c0,x1+vx*(c0-1)-nx,y1+vy*c0,z1+vz*(c0-1)-nz);
+		e_draw_3d_line_DUPA(x1+vx*c0,y1+vy*c0,z1+vz*c0,x1+vx*(c0-1)+nx,y1+vy*c0,z1+vz*(c0-1)+nz);
+		e_draw_3d_line_DUPA(x1+vx*c0,y1+vy*c0,z1+vz*c0,x1+vx*(c0-1)-nx,y1+vy*c0,z1+vz*(c0-1)-nz);
 	}
 
-	e_draw_3d_line(x1, y1, z1, x2, y2, z2);
+	e_draw_3d_line_DUPA(x1, y1, z1, x2, y2, z2);
 }
 
 
 
-void	e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b)
+void	e_draw_3d_line_col_sorted_DUPA(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b)
 {
 
 	SVECTOR_F		temp;
@@ -2262,7 +2263,7 @@ void	e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLON
 }
 
 
-void	e_draw_3d_line_col(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b)
+void	e_draw_3d_line_col_DUPA(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b)
 {
 
 	SVECTOR_F		temp;
@@ -2333,7 +2334,7 @@ void	e_draw_3d_line_col(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SL
 
 }
 
-void	e_draw_3d_mapwho(SLONG x1,SLONG z1)
+void	e_draw_3d_mapwho_DUPA(SLONG x1,SLONG z1)
 {
 	x1<<=ELE_SHIFT;
 	z1<<=ELE_SHIFT;
@@ -2341,16 +2342,16 @@ void	e_draw_3d_mapwho(SLONG x1,SLONG z1)
 #ifdef NDEBUG
 	return;
 #endif
-	e_draw_3d_line(x1,0,z1,x1+256,0,z1);
-	e_draw_3d_line(x1+256,0,z1,x1+256,0,z1+256);
-	e_draw_3d_line(x1+256,0,z1+256,x1,0,z1+256);
-	e_draw_3d_line(x1,0,z1+256,x1,0,z1);
+	e_draw_3d_line_DUPA(x1,0,z1,x1+256,0,z1);
+	e_draw_3d_line_DUPA(x1+256,0,z1,x1+256,0,z1+256);
+	e_draw_3d_line_DUPA(x1+256,0,z1+256,x1,0,z1+256);
+	e_draw_3d_line_DUPA(x1,0,z1+256,x1,0,z1);
 
 
 }
 
 
-void	e_draw_3d_mapwho_y(SLONG x1,SLONG y1,SLONG z1)
+void	e_draw_3d_mapwho_y_DUPA(SLONG x1,SLONG y1,SLONG z1)
 {
 	x1<<=ELE_SHIFT;
 	z1<<=ELE_SHIFT;
@@ -2358,10 +2359,10 @@ void	e_draw_3d_mapwho_y(SLONG x1,SLONG y1,SLONG z1)
 #ifdef NDEBUG
 	return;
 #endif
-	e_draw_3d_line(x1,y1,z1,x1+256,y1,z1);
-	e_draw_3d_line(x1+256,y1,z1,x1+256,y1,z1+256);
-	e_draw_3d_line(x1+256,y1,z1+256,x1,y1,z1+256);
-	e_draw_3d_line(x1,y1,z1+256,x1,y1,z1);
+	e_draw_3d_line_DUPA(x1,y1,z1,x1+256,y1,z1);
+	e_draw_3d_line_DUPA(x1+256,y1,z1,x1+256,y1,z1+256);
+	e_draw_3d_line_DUPA(x1+256,y1,z1+256,x1,y1,z1+256);
+	e_draw_3d_line_DUPA(x1,y1,z1+256,x1,y1,z1);
 
 
 }
@@ -2384,7 +2385,7 @@ void	e_draw_actual_col_vect(UWORD	col_vect)
 		points[1].Z=col_vects[ col_vect].Z[1];
 
 //		LogText(" DRAW COL VECT %d   (%d,%d,%d)--(%d,%d,%d)\n",points[0].X,points[0].Y,points[0].Z,points[1].X,points[1].Y,points[1].Z);
-		e_draw_3d_line_dir(points[0].X,points[0].Y,points[0].Z,points[1].X,points[1].Y,points[1].Z);
+		e_draw_3d_line_dir_DUPA(points[0].X,points[0].Y,points[0].Z,points[1].X,points[1].Y,points[1].Z);
 
 }
 void	e_draw_col_vects(UWORD	col_vect_link)

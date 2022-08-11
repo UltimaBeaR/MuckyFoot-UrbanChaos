@@ -1,7 +1,7 @@
 // Guy Simmons
 // 20th February 1997.
 
-#include	"Editor.hpp"
+#include	"..\Headers\Editor.hpp"
 // #include	"filereq.hpp"
 
 //---------------------------------------------------------------
@@ -81,7 +81,7 @@ FileRequester::FileRequester(CBYTE	*path,CBYTE *extension,CBYTE *title,CBYTE *fn
 UBYTE	edit_and_draw_text(EdRect	*rect,CBYTE *str)
 {
 	CBYTE	str2[100];
-	static	count=0;
+	static	int count=0;
 	count++;
 
 	strcpy(str2,str);

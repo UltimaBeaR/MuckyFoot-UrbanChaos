@@ -1179,6 +1179,7 @@ void LEDIT_load_map(CBYTE *name)
 	// Change the cursor to a busy bee.
 	//
 
+	//SetCursor(LEDIT_busy_bee);
 	SetCursor(LEDIT_busy_bee);
 
 	//
@@ -1490,6 +1491,7 @@ void LEDIT_process()
 			&range);
 
 		colour = (red << 16) | (green << 8) | (blue << 0);
+		colour = (255 << 16) | (0 << 8) | (0<< 0);
 
 		GI_light_draw(
 			mouse.x,
@@ -2470,7 +2472,7 @@ void LEDIT_do(void)
 	// Open this display using our engine window.
 	//
 
-	if(OpenDisplay(640,480,16,FLAGS_USE_3D|FLAGS_USE_WORKSCREEN) != 0)
+	if(OpenDisplay(640, 480, 16,FLAGS_USE_3D|FLAGS_USE_WORKSCREEN) != 0)
 	{
 		//
 		// Could not open display.

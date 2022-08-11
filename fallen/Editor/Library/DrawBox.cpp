@@ -2,8 +2,7 @@
 // Guy Simmons, 9th February 1997.
 
 
-#include	"Editor.hpp"
-
+#include	"..\Headers\Editor.hpp"
 #define	COLOUR_TO_LONG(c)	(0x01010101*c)
 #define	COLOURW_TO_LONG(c)	(0x00010001*c)
 

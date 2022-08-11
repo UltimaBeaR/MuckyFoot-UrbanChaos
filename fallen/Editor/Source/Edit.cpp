@@ -1,19 +1,20 @@
 
-#include	"Editor.hpp"
 
-#include	"engine.h"
-#include	"coltab.hpp"
+#include    "game.h"
+#include	"..\Headers\Editor.hpp"
+
+#include	"..\Headers\engine.h"
+#include	"..\Headers\coltab.hpp"
 //#include	"collide.hpp"
 #include	"map.h"
-#include    "c:\fallen\headers\game.h"
-#include	"c:\fallen\headers\light.h"
-#include	"extra.h"
-#include	"c:\fallen\headers\animtmap.h"
-#include	"c:\fallen\headers\pap.h"
-#include	"c:\fallen\headers\ob.h"
-#include	"c:\fallen\headers\supermap.h"
-#include	"c:\fallen\headers\io.h"
-#include	"c:\fallen\headers\memory.h"
+#include	"light.h"
+#include	"..\..\Editor\Headers\extra.h"
+#include	"animtmap.h"
+#include	"pap.h"
+#include	"ob.h"
+#include	"supermap.h"
+#include	"io.h"
+#include	"memory.h"
 
 #define	SET_TEXTURE_ROCKS(t)	{t.X=4;t.Y=4;t.Width=2;t.Height=2;t.Page=0;t.DrawFlags=(POLY_FLAG_GOURAD|POLY_FLAG_TEXTURED);}
 
@@ -701,8 +702,11 @@ void	load_tex_remap(CBYTE *name)
 
 	for(c0=0;c0<128;c0++)
 		psx_remap[c0]=page_remap[c0];
-
-	FileClose(handle);
+	
+	if (handle != FILE_OPEN_ERROR)
+	{
+		FileClose(handle);
+	}
 	
 }
 
@@ -2139,7 +2143,7 @@ BOOL	check_mouse_over_prim_tri(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SL
 void	check_mouse_quad(struct EditMapElement *p_ele,struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG p4,SLONG wx,SLONG wy,SLONG wz,SLONG face)
 {
 	SLONG	az;
-	static	count;
+	static int	count;
 	if(hilited_face.EditTurn!=editor_turn)
 	{
 		count=0;
@@ -3454,13 +3458,13 @@ SLONG	add_floor_face_to_bucket(SLONG	x1,SLONG	y1,SLONG	z1,SLONG	x2,SLONG	y2,SLON
 				SET_TX_TY(tx,ty,tx+tsize,ty,tx,ty+tsize,tx+tsize,ty+tsize);
 				break;
 			case	1:		
-				SET_TX_TY(	,tx+tsize,ty,tx+tsize,ty+tsize,tx,ty,tx,ty+tsize);
+				SET_TX_TY(	tx+tsize,ty,tx+tsize,ty+tsize,tx,ty,tx,ty+tsize);
 				break;
 			case	2:	
-				SET_TX_TY(	,tx+tsize,ty+tsize,tx,ty+tsize,tx+tsize,ty,tx,ty);
+				SET_TX_TY(	tx+tsize,ty+tsize,tx,ty+tsize,tx+tsize,ty,tx,ty);
 				break;
 			case	3:	
-				SET_TX_TY(	,tx,ty+tsize,tx,ty,tx+tsize,ty+tsize,tx+tsize,ty);
+				SET_TX_TY(	tx,ty+tsize,tx,ty,tx+tsize,ty+tsize,tx+tsize,ty);
 				break;
 		}
 	}

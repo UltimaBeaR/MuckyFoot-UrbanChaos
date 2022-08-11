@@ -1,8 +1,7 @@
 // Game.h
 // Guy Simmons, 17th October 1997.
 
-#ifndef	GAME_H
-#define	GAME_H
+#pragma once
 
 #ifdef	PSX
 #define	DRAW_DIST	13
@@ -575,5 +574,3 @@ void stop_all_fx_and_music ();
 #define	POLY_T						(POLY_FLAG_TEXTURED)
 #define	POLY_G						(POLY_FLAG_GOURAD)
 #define	POLY_F						(0)
-
-#endif

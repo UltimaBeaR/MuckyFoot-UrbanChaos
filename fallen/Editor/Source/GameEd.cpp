@@ -4,9 +4,9 @@
 #include	"Editor.hpp"
 #include	"EdCom.h"
 #include	"Edway.h"
-#include	"c:\fallen\headers\game.h"
-#include	"c:\fallen\headers\animtmap.h"
-#include	"c:\fallen\headers\memory.h"
+#include	"game.h"
+#include	"animtmap.h"
+#include	"memory.h"
 
 #define	MODE_PLACE		1
 #define	MODE_SELECT		2
@@ -536,7 +536,7 @@ UWORD	GameEditor::EngineKeys(void)
 static ControlDef		block_popup_def	=	{	POPUP_MENU,	0,	""};
 MenuDef2	block_popup[]	=
 {
-	{	"Place Waypoint"	},
+	{	"Place Waypoint2"	},
 	{	"!"					}
 };
 

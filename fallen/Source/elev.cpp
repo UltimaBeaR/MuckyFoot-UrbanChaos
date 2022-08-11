@@ -190,6 +190,8 @@ EventPoint event_point;
 extern	SLONG save_psx;
 SLONG	iamapsx=0;
 
+
+void load_level_anim_prims(void);
 void ELEV_load_level(CBYTE *fname_level)
 {
 	SLONG i;
@@ -2060,7 +2062,7 @@ extern SLONG WAND_find_good_start_point_for_car(SLONG* posx, SLONG* posz, SLONG*
 	}
 	else
 	{
-void load_level_anim_prims(void);
+
 		load_level_anim_prims();
 	}
 

@@ -807,6 +807,88 @@
     <ClCompile Include="outro\wire.cpp">
       <Filter>outro\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\Source\KFrameEd.cpp" />
+    <ClCompile Include="sedit\Source\es.cpp" />
+    <ClCompile Include="Editor\Library\Draw2d.cpp" />
+    <ClCompile Include="Editor\Library\QuickTxt.cpp" />
+    <ClCompile Include="Editor\Library\DrawBox.cpp" />
+    <ClCompile Include="Editor\Library\DrawCirc.cpp" />
+    <ClCompile Include="Editor\Library\DrawLine.cpp" />
+    <ClCompile Include="Editor\Library\DrawPnt.cpp" />
+    <ClCompile Include="Editor\Library\DrawPxl.cpp" />
+    <ClCompile Include="Editor\Library\DrawRect.cpp" />
+    <ClCompile Include="Editor\Library\Sprites.cpp" />
+    <ClCompile Include="Editor\Library\TextDef.cpp" />
+    <ClCompile Include="Editor\Source\Primativ.cpp" />
+    <ClCompile Include="Editor\Source\Controls2.cpp" />
+    <ClCompile Include="Editor\Source\FileReq.cpp" />
+    <ClCompile Include="Editor\Source\CtrlSet.cpp" />
+    <ClCompile Include="Editor\Source\EdUtils.cpp" />
+    <ClCompile Include="Editor\Source\Intrface.cpp" />
+    <ClCompile Include="Editor\Source\Edit.cpp" />
+    <ClCompile Include="Editor\Source\Thing2.cpp" />
+    <ClCompile Include="Editor\Source\Poly2.cpp" />
+    <ClCompile Include="Editor\Source\Engine.cpp" />
+    <ClCompile Include="Editor\Source\prim_draw.cpp" />
+    <ClCompile Include="Editor\Source\prim_edit.cpp" />
+    <ClCompile Include="Editor\Source\2Main.cpp" />
+    <ClCompile Include="Editor\Source\Editor.cpp" />
+    <ClCompile Include="Editor\Source\PaintTab.cpp" />
+    <ClCompile Include="Editor\Source\ColTab.cpp" />
+    <ClCompile Include="Editor\Source\ModeTab.cpp" />
+    <ClCompile Include="Editor\Source\extra.cpp" />
+    <ClCompile Include="Editor\Source\Alert.cpp" />
+    <ClCompile Include="Editor\Source\Icon.cpp" />
+    <ClCompile Include="Editor\Source\Window.cpp" />
+    <ClCompile Include="Editor\Source\EditMod.cpp" />
+    <ClCompile Include="Editor\Source\GameEd.cpp" />
+    <ClCompile Include="Editor\Source\LevelEd.cpp" />
+    <ClCompile Include="Editor\Source\EdCom.cpp" />
+    <ClCompile Include="Editor\Source\ComTab.cpp" />
+    <ClCompile Include="Editor\Source\EdText.cpp" />
+    <ClCompile Include="Editor\Source\CondTab.cpp" />
+    <ClCompile Include="Editor\Source\SaveTab.cpp" />
+    <ClCompile Include="Editor\Source\ThingTab.cpp" />
+    <ClCompile Include="Editor\Source\EdWay.cpp" />
+    <ClCompile Include="Editor\Source\undo.cpp" />
+    <ClCompile Include="Editor\Source\2BuildTab.cpp" />
+    <ClCompile Include="Editor\Source\sewertab.cpp" />
+    <ClCompile Include="Editor\Source\PrPiTab.cpp" />
+    <ClCompile Include="Editor\Source\LightTab.cpp" />
+    <ClCompile Include="Editor\Source\MapTab.cpp" />
+    <ClCompile Include="Editor\Source\MapEdTab.cpp" />
+    <ClCompile Include="Editor\Source\HmTab.cpp" />
+    <ClCompile Include="Editor\Source\scan.cpp" />
+    <ClCompile Include="Editor\Source\primtex.cpp" />
+    <ClCompile Include="Editor\Source\perstex.cpp" />
+    <ClCompile Include="Editor\Source\Control.cpp">
+      <Filter>Editor\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Source\Game.cpp">
+      <Filter>Editor\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Source\hair.cpp">
+      <Filter>Editor\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Source\interact.cpp">
+      <Filter>Editor\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Source\map.cpp">
+      <Filter>Editor\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Source\Move.cpp">
+      <Filter>Editor\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Source\pch_ed.cpp">
+      <Filter>Editor\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Source\Quaternion.cpp">
+      <Filter>Editor\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Source\scrflc.cpp">
+      <Filter>Editor\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sedit\Source\sedit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\america.h">
@@ -1664,6 +1746,7 @@
     <ClInclude Include="outro\wire.h">
       <Filter>outro\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sedit\Headers\es.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="DDLibrary\bitmap1.bmp">

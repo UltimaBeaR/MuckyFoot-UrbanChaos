@@ -3,12 +3,12 @@
 
 #include	"SewerTab.hpp"
 #include	"engine.h"
-#include	"c:\fallen\headers\enter.h"
-#include	"c:\fallen\headers\id.h"
+#include	"enter.h"
+#include	"id.h"
 #include	"extra.h"
-#include	"c:\fallen\headers\supermap.h"
-#include	"c:\fallen\headers\inside2.h"
-#include	"c:\fallen\headers\memory.h"
+#include	"supermap.h"
+#include	"inside2.h"
+#include	"memory.h"
 
 extern	void	draw_quad_now(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE tx,UBYTE ty,UBYTE page,UBYTE flip,UBYTE flags);
 
@@ -125,7 +125,7 @@ ControlDef	inside_tab_def[]	=
 	{	BUTTON,		0,	"14",				10+35*5,		 440,	0,	0		},
 	{	BUTTON,		0,	"15",				10+35*6,		 440,	0,	0		},
 	{	BUTTON,		0,	"16",				10+35*7,		 440,	0,	0		},
-	{	BUTTON,		0,	"Place Stairs",		10,		 100,	0,	0		},
+	{	BUTTON,		0,	"Place K Stairs",		10,		 100,	0,	0		},
 	{	BUTTON,		0,	"Delete Duplicate Insides",		10,		 250,	0,	0		},
 /*
 	{	CHECK_BOX,	0,	"Textures",					180,	200-50,	0,	10		},

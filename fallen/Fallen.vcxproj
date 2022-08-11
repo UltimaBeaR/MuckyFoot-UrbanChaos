@@ -26,7 +26,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -35,10 +35,12 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+    <Import Project="PropertySheet.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+    <Import Project="PropertySheet.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -61,20 +63,21 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <AdditionalIncludeDirectories>Headers;..\fallen\ledit\headers;..\fallen\sedit\headers;..\fallen\DDLibrary\Headers;..\fallen\gedit\headers;..\fallen\ddengine\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;_RELEASE;WIN32;_WINDOWS;VERSION_D3D;TEX_EMBED;FINAL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>Headers;..\fallen\ledit\headers;..\fallen\sedit\headers;..\fallen\DDLibrary\Headers;..\fallen\gedit\headers;..\fallen\ddengine\headers;C:\dev\workspaces\repo clones\MuckyFoot-UrbanChaos\jordandavidson-fork\MuckyFoot-UrbanChaos\fallen\Editor\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SEWERS;EDITOR;_RELEASE;WIN32;_WINDOWS;VERSION_D3D;TEX_EMBED;FINAL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
       <BrowseInformation>true</BrowseInformation>
       <PrecompiledHeaderOutputFile>.\Release\Fallen.pch</PrecompiledHeaderOutputFile>
       <ObjectFileName>.\Release\</ObjectFileName>
       <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
       <AdditionalOptions> /D /NODEFAULTLIB:libcmtd.lib" "</AdditionalOptions>
-      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <StructMemberAlignment>Default</StructMemberAlignment>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -122,7 +125,7 @@
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <AdditionalOptions> /D /NODEFAULTLIB:libcmtd.lib" "</AdditionalOptions>
       <StructMemberAlignment>1Byte</StructMemberAlignment>
-      <AdditionalIncludeDirectories>Headers;..\fallen\ledit\headers;..\fallen\sedit\headers;..\fallen\DDLibrary\Headers;..\fallen\gedit\headers;..\fallen\ddengine\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Headers;..\fallen\ledit\headers;..\fallen\sedit\headers;..\fallen\DDLibrary\Headers;..\fallen\gedit\headers;..\fallen\ddengine\headers;C:\dev\workspaces\repo clones\MuckyFoot-UrbanChaos\jordandavidson-fork\MuckyFoot-UrbanChaos\fallen\Editor\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Midl>
@@ -229,7 +232,69 @@
     <ClCompile Include="DDLibrary\Source\net.cpp" />
     <ClCompile Include="DDLibrary\Source\Tga.cpp" />
     <ClCompile Include="DDLibrary\Source\WindProcs.cpp" />
+    <ClCompile Include="Editor\Library\Draw2d.cpp" />
+    <ClCompile Include="Editor\Library\DrawBox.cpp" />
+    <ClCompile Include="Editor\Library\DrawCirc.cpp" />
+    <ClCompile Include="Editor\Library\DrawLine.cpp" />
+    <ClCompile Include="Editor\Library\DrawPnt.cpp" />
+    <ClCompile Include="Editor\Library\DrawPxl.cpp" />
+    <ClCompile Include="Editor\Library\DrawRect.cpp" />
+    <ClCompile Include="Editor\Library\QuickTxt.cpp" />
+    <ClCompile Include="Editor\Library\Sprites.cpp" />
+    <ClCompile Include="Editor\Library\TextDef.cpp" />
+    <ClCompile Include="Editor\Source\2BuildTab.cpp" />
+    <ClCompile Include="Editor\Source\Alert.cpp" />
+    <ClCompile Include="Editor\Source\ColTab.cpp" />
+    <ClCompile Include="Editor\Source\ComTab.cpp" />
+    <ClCompile Include="Editor\Source\CondTab.cpp" />
+    <ClCompile Include="Editor\Source\Control.cpp" />
+    <ClCompile Include="Editor\Source\Controls2.cpp" />
+    <ClCompile Include="Editor\Source\CtrlSet.cpp" />
+    <ClCompile Include="Editor\Source\EdCom.cpp" />
+    <ClCompile Include="Editor\Source\Edit.cpp" />
+    <ClCompile Include="Editor\Source\EditMod.cpp" />
+    <ClCompile Include="Editor\Source\Editor.cpp" />
+    <ClCompile Include="Editor\Source\EdText.cpp" />
+    <ClCompile Include="Editor\Source\EdUtils.cpp" />
+    <ClCompile Include="Editor\Source\EdWay.cpp" />
+    <ClCompile Include="Editor\Source\Engine.cpp" />
+    <ClCompile Include="Editor\Source\extra.cpp" />
+    <ClCompile Include="Editor\Source\FileReq.cpp" />
+    <ClCompile Include="Editor\Source\Game.cpp" />
+    <ClCompile Include="Editor\Source\GameEd.cpp" />
+    <ClCompile Include="Editor\Source\hair.cpp" />
+    <ClCompile Include="Editor\Source\HmTab.cpp" />
+    <ClCompile Include="Editor\Source\Icon.cpp" />
+    <ClCompile Include="Editor\Source\interact.cpp" />
+    <ClCompile Include="Editor\Source\Intrface.cpp" />
+    <ClCompile Include="Editor\Source\KFrameEd.cpp" />
+    <ClCompile Include="Editor\Source\2Main.cpp" />
+    <ClCompile Include="Editor\Source\LevelEd.cpp" />
+    <ClCompile Include="Editor\Source\LightTab.cpp" />
+    <ClCompile Include="Editor\Source\map.cpp" />
+    <ClCompile Include="Editor\Source\MapEdTab.cpp" />
+    <ClCompile Include="Editor\Source\MapTab.cpp" />
+    <ClCompile Include="Editor\Source\ModeTab.cpp" />
+    <ClCompile Include="Editor\Source\Move.cpp" />
     <ClCompile Include="Editor\Source\outline.cpp" />
+    <ClCompile Include="Editor\Source\PaintTab.cpp" />
+    <ClCompile Include="Editor\Source\pch_ed.cpp" />
+    <ClCompile Include="Editor\Source\perstex.cpp" />
+    <ClCompile Include="Editor\Source\Poly2.cpp" />
+    <ClCompile Include="Editor\Source\Primativ.cpp" />
+    <ClCompile Include="Editor\Source\primtex.cpp" />
+    <ClCompile Include="Editor\Source\prim_draw.cpp" />
+    <ClCompile Include="Editor\Source\prim_edit.cpp" />
+    <ClCompile Include="Editor\Source\PrPiTab.cpp" />
+    <ClCompile Include="Editor\Source\Quaternion.cpp" />
+    <ClCompile Include="Editor\Source\SaveTab.cpp" />
+    <ClCompile Include="Editor\Source\scan.cpp" />
+    <ClCompile Include="Editor\Source\scrflc.cpp" />
+    <ClCompile Include="Editor\Source\sewertab.cpp" />
+    <ClCompile Include="Editor\Source\Thing2.cpp" />
+    <ClCompile Include="Editor\Source\ThingTab.cpp" />
+    <ClCompile Include="Editor\Source\undo.cpp" />
+    <ClCompile Include="Editor\Source\Window.cpp" />
     <ClCompile Include="GEdit\Source\activatesetup.cpp" />
     <ClCompile Include="GEdit\Source\animSetup.cpp" />
     <ClCompile Include="GEdit\Source\barrelSetup.cpp" />
@@ -296,6 +361,8 @@
     <ClCompile Include="outro\outroMatrix.cpp" />
     <ClCompile Include="outro\OutroTga.cpp" />
     <ClCompile Include="outro\wire.cpp" />
+    <ClCompile Include="sedit\Source\es.cpp" />
+    <ClCompile Include="sedit\Source\sedit.cpp" />
     <ClCompile Include="Source\Anim.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> /D /NODEFAULTLIB:libcmtd.lib" "  /D /NODEFAULTLIB:libcmtd.lib" "</AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /D /NODEFAULTLIB:libcmtd.lib" "  /D /NODEFAULTLIB:libcmtd.lib" "</AdditionalOptions>
@@ -992,6 +1059,7 @@
     <ClInclude Include="outro\slap.h" />
     <ClInclude Include="outro\Tga.h" />
     <ClInclude Include="outro\wire.h" />
+    <ClInclude Include="sedit\Headers\es.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="DDLibrary\arrowcop.cur" />

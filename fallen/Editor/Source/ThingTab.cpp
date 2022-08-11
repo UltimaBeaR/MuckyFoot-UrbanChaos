@@ -2,6 +2,7 @@
 // Guy Simmons, 15th January 1998.
 
 #include	"Editor.hpp"
+#include "Game.h"
 
 
 //---------------------------------------------------------------

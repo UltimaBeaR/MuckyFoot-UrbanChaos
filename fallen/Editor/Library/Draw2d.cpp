@@ -1,7 +1,7 @@
 // Draw2D.c
 // Guy Simmons, 7th October 1996.
 
-#include	"Editor.hpp"
+#include	"..\Headers\Editor.hpp"
 
 //---------------------------------------------------------------
 // Function pointers for draw routines.

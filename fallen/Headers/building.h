@@ -3,6 +3,12 @@
 
 //#include	"c:\fallen\headers\memory.h"
 
+#include "..\..\MFStdLib\Headers\MFStdLib.h"
+#include "Structs.h"
+
+
+//#include "memory.h"
+
 //DEFINES
 
 //#define	TEXTURE_PIECE_TOP_LEFT		(0)

@@ -407,6 +407,7 @@ static void FreeVoiceSource(MFX_Voice* vptr)
 static void FreeVoice(MFX_Voice* vptr)
 {
 	if (!vptr)	return;
+	if (!QFreeLast) return;
 
 	// remove queue
 	QFreeLast->next = vptr->queue;

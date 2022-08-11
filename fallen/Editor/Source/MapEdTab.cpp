@@ -2,9 +2,10 @@
 
 #include	"MapEdTab.hpp"
 #include	"engine.h"
+#include "Map.h"
 //#include	"collide.hpp"
 
-static		counter;
+static	int	counter;
 
 //#define		ShowWorkWindow(x)	{DrawLineC(0+(counter-1)&255,0,WorkWindowWidth-1,WorkWindowHeight-1,0);DrawLineC(0+(counter++)&255,0,WorkWindowWidth-1,WorkWindowHeight-1,255);DrawLineC(0,WorkWindowHeight-1,WorkWindowWidth-1,0,255); ShowWorkWindow(x);}
 

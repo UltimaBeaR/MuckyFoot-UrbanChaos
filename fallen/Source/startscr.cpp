@@ -463,8 +463,8 @@ SLONG	MainE3BodgeLoop() {
 	}
 	ticker--;
 	if (ticker==-movie_delay) { // approx every 2 mins or so
-extern int do_only_game_intro(void);
-		if (dont_play_movie!=1) do_only_game_intro();
+//extern int do_only_game_intro(void);
+//		if (dont_play_movie!=1) do_only_game_intro();
 		ticker=0;
 	}
 	return 0;

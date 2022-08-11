@@ -6,6 +6,8 @@
 //
 
 #define LIGHT_COLOURED 1
+#define	THING_INDEX			UWORD
+#define	COMMON_INDEX		UWORD
 
 
 //

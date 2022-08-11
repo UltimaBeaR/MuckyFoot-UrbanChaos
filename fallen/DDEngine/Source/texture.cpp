@@ -1032,7 +1032,7 @@ extern void SetLastClumpfile(char* file, size_t size);	// in GDisplay.cpp, horri
 		// load textures from the clump
 		char	filename[256];
 		char*	leafname;
-
+		//if (!fname_level) return;
 		do
 		{
 			leafname = fname_level;

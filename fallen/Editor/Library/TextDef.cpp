@@ -3,7 +3,7 @@
 
 // Hard coded font definition for quick text functions.
 
-#include	"Editor.hpp"
+#include	"..\Headers\Editor.hpp"
 
 //---------------------------------------------------------------
 // Byte1	-	Width

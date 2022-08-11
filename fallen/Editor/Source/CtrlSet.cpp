@@ -1,7 +1,7 @@
 // CtrlSet.cpp
 // Guy Simmons, 25th November 1996.
 
-#include	"Editor.hpp"
+#include	"..\Headers\Editor.hpp"
 
 
 //---------------------------------------------------------------

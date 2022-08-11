@@ -2,18 +2,23 @@
 // Guy Simmons, 12th March 1997.
 
 
-#include	"Editor.hpp"
-#include	"FileReq.hpp"
-#include	"c:\fallen\editor\headers\Prim.h"
-#include	"c:\fallen\headers\FMatrix.h"
-#include	"c:\fallen\headers\animtmap.h"
-#include	"c:\fallen\headers\animate.h"
-#include	"c:\fallen\headers\memory.h"
-#include	"c:\fallen\headers\io.h"
+//#include	"..\Headers\Game.h"
+
+#include "..\Headers\interact.h"
+#include	"..\Headers\Editor.hpp"
+#include	"..\Headers\FileReq.hpp"
+#include	"..\Headers\Prim.h"
+#include	"..\Headers\FMatrix.h"
+#include	"..\Headers\animtmap.h"
+#include	"..\Headers\animate.h"
+#include	"..\Headers\memory.h"
+#include	"..\Headers\io.h"
 
 // JCL
-#include	"c:\fallen\ddengine\headers\Quaternion.h"
-#include	"c:\fallen\headers\Hierarchy.h"
+
+#include	"..\Headers\Quaternion.h"
+#include	"..\Headers\Hierarchy.h"
+
 
 #define	CONTROLS_HEIGHT			400
 #define	CONTROLS_WIDTH			300

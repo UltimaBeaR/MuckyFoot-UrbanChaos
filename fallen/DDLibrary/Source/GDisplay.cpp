@@ -285,7 +285,7 @@ extern HINSTANCE	hGlobalThisInst;
 
 	VideoRes = ENV_get_value_number("video_res", -1, "Render");
 
-	VideoRes = max(min(VideoRes, 4), 0);
+	VideoRes = max(min(VideoRes, 5), 0);
 
 	depth = 32;
 	switch (VideoRes)
@@ -295,7 +295,7 @@ extern HINSTANCE	hGlobalThisInst;
 	case 2:		width = 640; height = 480; break;
 	case 3:		width = 800; height = 600; break;
 	case 4:		width = 1024; height = 768; break;
-	//case 5:		width = 1920; height = 1080; break;		// TODO: Investigate modern screen resolutions
+	case 5:		width = 1920; height = 1080; break;		// TODO: Investigate modern screen resolutions
 	}
 
 	if(flags&FLAGS_USE_3D)

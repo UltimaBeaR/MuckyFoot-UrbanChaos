@@ -588,10 +588,10 @@ UBYTE	editor_loop(void)
 	//case 3:		width = 800; height = 600; break;
 	//case 4:		width = 1024; height = 768; break;
 
-	if(SetDisplay(800,600,32)==NoError)
+	if(SetDisplay(1920,1080,32)==NoError)
 	{
 		SetDrawFunctions(32);
-		SetWorkWindowBounds(0,0, 800, 600);
+		SetWorkWindowBounds(0,0, 1920, 1080);
 /*
 		while(!LeftButton)
 		{

@@ -5798,7 +5798,8 @@ extern DWORD m_dwSizeOfQueue;
 	{
 		CBYTE text[64];
 
-		sprintf(text, "FARFACET squares drawn: %d", FARFACET_num_squares_drawn);
+		//sprintf(text, "FARFACET squares drawn: %d", FARFACET_num_squares_drawn);
+		sprintf(text, "Witam serdecznie: %d", FARFACET_num_squares_drawn);
 
 
 
@@ -5815,7 +5816,7 @@ extern DWORD m_dwSizeOfQueue;
 			text,
 			50,
 			50,
-			0xffffff,
+			0xff00ff,
 			256,
 			POLY_PAGE_FONT2D,
 			0);

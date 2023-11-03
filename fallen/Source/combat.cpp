@@ -2722,7 +2722,7 @@ extern	 UBYTE	estate;
 			if(p_victim->Genus.Person->Flags2&FLAG2_PERSON_GUILTY)
 				return(1);
 
-			if(VIOLENCE==0)
+ 			if(VIOLENCE==0)
 			{
 				if(p_victim->Genus.Person->PersonType==PERSON_CIV&& (p_victim->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER))
 				{

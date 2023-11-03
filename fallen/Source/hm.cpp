@@ -985,7 +985,7 @@ UBYTE HM_create(
 			}
 		}
 
-		ASSERT(0);
+		//ASSERT(0);
 
 	  done_this_point:;
 

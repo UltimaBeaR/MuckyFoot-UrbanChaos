@@ -402,6 +402,9 @@ void	editor(void)
 		{
 			mouse_point.X	=	MouseX;
 			mouse_point.Y	=	MouseY;
+			TRACE("mouse_point.X <%lu>\n", mouse_point.X);
+			TRACE("mouse_point.Y <%lu>\n", mouse_point.Y);
+
 			module_set.HandleControlSet(&mouse_point);
 
 			if(LeftMouse.ButtonState)
@@ -576,22 +579,10 @@ UBYTE	editor_loop(void)
 
 	load_game_textures(LOAD_SHARED_TEXTURES);
 
-
-	//VideoRes = max(min(VideoRes, 4), 0);
-
-	//depth = 32;
-	//switch (VideoRes)
-	//{
-	//case 0:		width = 320; height = 240; break;
-	//case 1:		width = 512; height = 384; break;
-	//case 2:		width = 640; height = 480; break;
-	//case 3:		width = 800; height = 600; break;
-	//case 4:		width = 1024; height = 768; break;
-
-	if(SetDisplay(1920,1080,32)==NoError)
+	if(SetDisplay(800,600,32)==NoError)
 	{
 		SetDrawFunctions(32);
-		SetWorkWindowBounds(0,0, 1920, 1080);
+		SetWorkWindowBounds(0,0, 800, 600);
 /*
 		while(!LeftButton)
 		{
@@ -637,7 +628,7 @@ UBYTE	editor_loop(void)
 void	free_edit_memory(void);
 	free_edit_memory();
 
-	SetDisplay(1024, 768,32);
+	SetDisplay(640, 480,32);
 	
 
 	return	0;

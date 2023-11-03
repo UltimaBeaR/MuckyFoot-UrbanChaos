@@ -5799,8 +5799,13 @@ extern DWORD m_dwSizeOfQueue;
 		CBYTE text[64];
 
 		//sprintf(text, "FARFACET squares drawn: %d", FARFACET_num_squares_drawn);
-		sprintf(text, "Witam serdecznie: %d", FARFACET_num_squares_drawn);
 
+		//DrawTween* Tweened;
+		//DrawMesh* Mesh;
+
+		//sprintf(text, "Witam serdecznie: %d", FARFACET_num_squares_drawn);
+		//sprintf(text, "Thing size = : %d", sizeof(Thing));
+		sprintf(text, " HI YOUTUBE ! ");
 
 
 		FONT2D_DrawString(
@@ -5839,14 +5844,14 @@ extern DWORD m_dwSizeOfQueue;
 
 		sprintf(text, "music mode %d vol %f %s", just_asked_for_mode_number, music_volume, (MUSIC_is_playing()) ? "Playing" : "Silence");
 
-		FONT2D_DrawString(
-			text,
-			320,
-			200,
-			0xffff,
-			256,
-			POLY_PAGE_FONT2D,
-			0);
+		//FONT2D_DrawString(
+		//	text,
+		//	320,
+		//	200,
+		//	0xffff,
+		//	256,
+		//	POLY_PAGE_FONT2D,
+		//	0);
 	}
 	#endif
 	#endif

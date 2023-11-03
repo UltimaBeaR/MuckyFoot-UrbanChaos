@@ -266,6 +266,7 @@ void ELEV_load_level(CBYTE *fname_level)
 	//
 
 	load_ok = TRUE;
+	DWORD initialPointerValue = 0;
 
 	if (fname_level != NULL)
 	{
@@ -286,6 +287,8 @@ void ELEV_load_level(CBYTE *fname_level)
 			//
 
 			if (FileRead(handle, &version, sizeof(SLONG)) == FILE_READ_ERROR) goto file_error;	// Version
+			initialPointerValue = SetFilePointer(handle, 0, NULL, FILE_CURRENT);
+
 			if (FileRead(handle, &flag,    sizeof(SLONG)) == FILE_READ_ERROR) goto file_error;	// Used
 			if (FileRead(handle,  junk,    _MAX_PATH)	  == FILE_READ_ERROR) goto file_error;	// BriefName
 			if (FileRead(handle,  junk,    _MAX_PATH)	  == FILE_READ_ERROR) goto file_error;	// LightMapName
@@ -299,7 +302,7 @@ void ELEV_load_level(CBYTE *fname_level)
 			GAME_FLAGS &= ~GF_SHOW_CRIMERATE;
 			GAME_FLAGS &= ~GF_CARS_WITH_ROAD_PRIMS;
 
-			if (flag & MISSION_FLAG_SHOW_CRIMERATE      ) {GAME_FLAGS |= GF_SHOW_CRIMERATE      ;}
+			if (1 || (flag & MISSION_FLAG_SHOW_CRIMERATE)      ) {GAME_FLAGS |= GF_SHOW_CRIMERATE      ;}
 			if (flag & MISSION_FLAG_CARS_WITH_ROAD_PRIMS) {GAME_FLAGS |= GF_CARS_WITH_ROAD_PRIMS;}
 
 			//
@@ -699,15 +702,18 @@ SLONG	WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz);
 								default:
 								case PT_DARCI:
 									ed.subtype = PLAYER_DARCI; 
+								//	ed.subtype = PLAYER_COP;
 									break;
 								case PT_ROPER: 
 									ed.subtype = PLAYER_ROPER;
+								//	ed.subtype = PLAYER_COP;
 									break;
 								case PT_COP:
 									ed.subtype = PLAYER_COP;
 									break;
 								case PT_GANG:
 									ed.subtype = PLAYER_THUG;
+								//	ed.subtype = PLAYER_COP;
 									break;
 							}
 
@@ -849,10 +855,14 @@ SLONG	WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz);
 									ed.subtype = PERSON_ROPER;
 									break;
 
+
+
 								default:
 									ASSERT(0);
 									break;
 							}
+							//ed.subtype = PERSON_MIB1;
+							//ee.pcom_has |= PCOM_HAS_AK47;
 
 							ee.pcom_ai   = LOWORD(event_point.Data[5]);
 							ee.ai_skill  = HIWORD(event_point.Data[5]);
@@ -996,6 +1006,7 @@ extern	SWORD	people_types[50];
 									ASSERT(0);
 									break;
 							}
+							//ed.subtype = EWAY_SUBTYPE_VEHICLE_BIKE;
 
 							break;
 
@@ -1261,6 +1272,7 @@ extern	SWORD	people_types[50];
 							ed.type      = EWAY_DO_CHANGE_ENEMY;
 							ed.arg1      = event_point.Data[6];	// ID of waypoint that creates the person to adjust
 							ee.pcom_ai   = event_point.Data[5];
+							ee.pcom_ai   = PCOM_AI_KILL_COLOUR;
 							ee.pcom_bent = event_point.Data[4];
 							ee.pcom_move = event_point.Data[3] + 1;
 							ee.ai_other  = event_point.Data[7];	// For PCOM_AI_BODYGUARD/PCOM_AI_ASSASIN, the ID of the waypoint that creates the person you guard.
@@ -1406,6 +1418,8 @@ extern	SWORD	people_types[50];
 							break;
 
 						case WPT_CREATE_TREASURE:
+							//ed.type = EWAY_DO_NAV_BEACON;
+
 							ed.type    = EWAY_DO_CREATE_ITEM;
 							ed.subtype = SPECIAL_TREASURE;
 #ifdef	MIKE
@@ -1730,15 +1744,21 @@ extern	SWORD	people_types[50];
 				EWAY_set_message(i, junk);
 			}
 
-		} else {
+		} 
+		else {
 
 			for (i = 0; i < mess_count+cutscene_count; i++)
 			{
 				SLONG l;
 				UBYTE what;
 
+				DWORD filePointer = SetFilePointer(handle, 0, NULL, FILE_CURRENT);
+				DWORD diffPointer = filePointer - initialPointerValue;
+
 				FileRead(handle,&what,1);
 
+				filePointer = SetFilePointer(handle, 0, NULL, FILE_CURRENT);
+					
 				switch (what) {
 				case 1: // message
 					ZeroMemory(junk,sizeof(junk));
@@ -1757,6 +1777,9 @@ extern	SWORD	people_types[50];
 			}
 
 		}
+
+		DWORD afterExtraPointer = SetFilePointer(handle, 0, NULL, FILE_CURRENT);
+
 
 		if (version >= 2)
 		{
@@ -1820,6 +1843,8 @@ extern	SWORD	people_types[50];
 		//
 		// Finish with the file.
 		//
+
+		DWORD filePointer = SetFilePointer(handle, 0, NULL, FILE_CURRENT);
 
 		FileClose(handle);
 

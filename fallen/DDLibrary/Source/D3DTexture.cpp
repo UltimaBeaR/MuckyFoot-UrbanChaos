@@ -417,6 +417,11 @@ HRESULT D3DTexture::Reload_TGA(void)
 
 	TRACE("texture = %s\n", this->texture_name);
 
+	if (strcmp(this->texture_name,"server\\textures\\shared\\prims\\tex052hi.tga") == 0)
+	{
+		TRACE("!!!");
+	}
+
 	//
 	// Does this texture page contain alpha?
 	//

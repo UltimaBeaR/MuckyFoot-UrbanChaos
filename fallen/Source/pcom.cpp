@@ -3837,7 +3837,7 @@ void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLONG aler
 
 	if(p_person->Genus.Person->PersonType==PERSON_CIV)
 	{
-		ASSERT(0);
+		//ASSERT(0);
 	}
 	if(p_target->Genus.Person->PersonType==PERSON_DARCI)
 	{

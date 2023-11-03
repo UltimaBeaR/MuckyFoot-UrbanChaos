@@ -672,11 +672,11 @@ void BIKE_process_normal(Thing *p_bike)
 
 		if ((bb->flag & BIKE_FLAG_ONGROUND_BACK))
 		{
-			MFX_set_pitch(THING_NUMBER(p_bike),S_BIKE_IDLE, abs(BIKE_get_speed(p_bike))<<2);
+			//MFX_set_pitch(THING_NUMBER(p_bike),S_BIKE_IDLE, abs(BIKE_get_speed(p_bike))<<2);
 		}
 		else
 		{
-			MFX_set_pitch(THING_NUMBER(p_bike),S_BIKE_IDLE, abs(BIKE_get_speed(p_bike))<<3);
+			//MFX_set_pitch(THING_NUMBER(p_bike),S_BIKE_IDLE, abs(BIKE_get_speed(p_bike))<<3);
 		}
 
 		if (bb->flag & BIKE_FLAG_ONGROUND_BACK)
@@ -1386,7 +1386,7 @@ again:;
 
 					if (dt->FrameIndex == 12)
 					{
-						MFX_play_thing(THING_NUMBER(p_bike),S_BIKE_IDLE,MFX_REPLACE|MFX_LOOPED|MFX_MOVING,p_bike);
+						//MFX_play_thing(THING_NUMBER(p_bike),S_BIKE_IDLE,MFX_REPLACE|MFX_LOOPED|MFX_MOVING,p_bike);
 					}
 
 					SLONG advance_keyframe(DrawTween *draw_info);

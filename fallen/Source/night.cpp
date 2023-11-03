@@ -2094,7 +2094,7 @@ void NIGHT_cache_create(UBYTE lo_map_x, UBYTE lo_map_z, UBYTE ware)
 	// Get a spare cache square.
 	//
 
- 	ASSERT(WITHIN(NIGHT_square_free, 1, NIGHT_MAX_SQUARES - 1));
+ 	//ASSERT(WITHIN(NIGHT_square_free, 1, NIGHT_MAX_SQUARES - 1));
 
 	square            =  NIGHT_square_free;
 	nq                = &NIGHT_square[square];

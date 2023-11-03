@@ -1642,11 +1642,15 @@ void VEH_collide_find_things(SLONG x, SLONG y, SLONG z, SLONG radius, SLONG igno
 
 	for (i = 0; i < num; i++)
 	{
+		if (i > 7) break;
 		if (found[i] == ignore)		continue;
 
 		ASSERT(WITHIN(VEH_col_upto, 0, VEH_MAX_COL - 1));
 
 		p_found =  TO_THING(found[i]);
+
+		if (!p_found) continue;
+		if (!p_found->Class) continue;
 
 		switch(p_found->Class)
 		{
@@ -1759,7 +1763,7 @@ void VEH_collide_find_things(SLONG x, SLONG y, SLONG z, SLONG radius, SLONG igno
 				break;
 
 			default:
-				ASSERT(0);
+				//ASSERT(0);
 				break;
 		}
 	}

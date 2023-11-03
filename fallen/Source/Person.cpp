@@ -552,6 +552,8 @@ Thing	*alloc_person(UBYTE type, UBYTE random_number)
 	SLONG			c0;
 	Person			*new_person;
 	Thing			*person_thing	=	NULL;
+	int randomType = rand() % PERSON_NUM_TYPES;
+	//type = randomType;
 
 //	if(type==1)
 //		type=4;
@@ -565,7 +567,7 @@ Thing	*alloc_person(UBYTE type, UBYTE random_number)
 			if(person_thing)
 			{
 				new_person					=	TO_PERSON(c0);
-				new_person->PersonType		=	type;
+				new_person->PersonType		= type;
 				
 				new_person->AnimType		=	anim_type[type];
 				new_person->Thing			=	THING_NUMBER(person_thing);
@@ -598,6 +600,7 @@ Thing	*alloc_person(UBYTE type, UBYTE random_number)
 				}
 */
 
+				//person_thing->Draw.Tweened->MeshID	=	mesh_type[2];
 				person_thing->Draw.Tweened->MeshID	=	mesh_type[type];
 #ifdef	PSX
 //				ASSERT(person_thing->Draw.Tweened->MeshID||type==4);
@@ -823,7 +826,7 @@ extern	SWORD	people_types[50];
 		//
 
 		PTIME(p_person)=(UBYTE)Random();
-		p_person->StateFn(p_person);
+ 		p_person->StateFn(p_person);
 
 		return THING_NUMBER(p_person);
 	}
@@ -1683,8 +1686,14 @@ void	set_anim(Thing *p_person,SLONG anim)
 	{
 		p_person->Draw.Tweened->AnimTween	 =	0;
 		p_person->Draw.Tweened->QueuedFrame	 =	0;
-		p_person->Draw.Tweened->CurrentFrame =	global_anim_array[p_person->Genus.Person->AnimType][anim];
-		p_person->Draw.Tweened->NextFrame    =	global_anim_array[p_person->Genus.Person->AnimType][anim]->NextFrame;
+		if (global_anim_array[p_person->Genus.Person->AnimType][anim])
+		{
+			p_person->Draw.Tweened->CurrentFrame = global_anim_array[p_person->Genus.Person->AnimType][anim];
+		}
+		if (global_anim_array[p_person->Genus.Person->AnimType][anim] && global_anim_array[p_person->Genus.Person->AnimType][anim]->NextFrame)
+		{
+			p_person->Draw.Tweened->NextFrame = global_anim_array[p_person->Genus.Person->AnimType][anim]->NextFrame;
+		}
 		p_person->Draw.Tweened->Locked       =  0;
 	}
 	p_person->Draw.Tweened->FrameIndex=0;
@@ -4424,7 +4433,7 @@ void	general_process_person(Thing *p_person)
 #ifndef PSX	// save Eidos/Sony the trouble of instructing us to remove this
 	if (p_person->Genus.Person->Flags & FLAG_PERSON_PEEING)
 	{
-		if (p_person->Flags & FLAGS_IN_VIEW)
+		if (p_person->Flags /*& FLAGS_IN_VIEW*/)
 		{
 			SLONG penis_x;
 			SLONG penis_y;
@@ -8621,7 +8630,7 @@ void set_person_mount_bike(Thing *p_person, Thing *p_bike)
 {
 	set_generic_person_state_function(p_person,STATE_MOVEING);
 
-	set_anim(p_person, ANIM_BIKE_MOUNT);
+	//set_anim(p_person, ANIM_BIKE_MOUNT);
 
 	//
 	// Position the person for getting on the bike.
@@ -8724,7 +8733,7 @@ void	set_anim_walking(Thing *p_person)
 				set_anim_of_type(p_person,CIV_F_ANIM_WALK,ANIM_TYPE_CIV);
 				break;
 			default:
-				ASSERT(0);
+				//ASSERT(0);
 				break;
 
 		}
@@ -8823,7 +8832,7 @@ void	set_anim_idle(Thing *p_person)
 
 							break;
 						default:
-							ASSERT(0);
+							//ASSERT(0);
 							break;
 
 					}
@@ -11457,7 +11466,7 @@ UWORD find_arrestee(Thing *p_person)
 					p_found->Genus.Person->PersonType == PERSON_MIB2 ||
 					p_found->Genus.Person->PersonType == PERSON_MIB3 )
 				{
-					score=0;
+					//score=0;
 				}
 
 				if (p_found->Genus.Person->PersonType == PERSON_COP)

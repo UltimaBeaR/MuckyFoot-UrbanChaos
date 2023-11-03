@@ -39,29 +39,30 @@
 
 typedef	struct
 {
-	UBYTE				TweakSpeed;
-	SBYTE				Locked;     //which frame if any is locked in place
-	UBYTE				FrameIndex;
-	UBYTE				QueuedFrameIndex;
+	UBYTE				TweakSpeed; // 0
+	SBYTE				Locked;     //which frame if any is locked in place // 1
+	UBYTE				FrameIndex; //2 
+	UBYTE				QueuedFrameIndex; // 3
 	
-	SWORD				Angle,AngleTo,
-						Roll,DRoll,
-						Tilt,TiltTo;
+	SWORD				Angle,AngleTo, // 4, 6
+						Roll,DRoll, // 8, 10
+						Tilt,TiltTo; // 12, 14
 
-	SLONG				CurrentAnim,
-						AnimTween,
-						TweenStage;
-	struct	GameKeyFrame			*CurrentFrame,
-						*NextFrame,
-						*InterruptFrame,
-						*QueuedFrame;
-	struct	GameKeyFrameChunk		*TheChunk;
+	SLONG				CurrentAnim, // 16
+						AnimTween, // 20
+						TweenStage; // 24
+	struct	GameKeyFrame			*CurrentFrame, //28
+						*NextFrame, //  32
+						*InterruptFrame, // 36
+						*QueuedFrame; // 40
+	struct	GameKeyFrameChunk		*TheChunk; // 44
 
-	UBYTE				Flags;
-	UBYTE				Drawn;  //game turn last drawn
-	UBYTE				MeshID;
-	UBYTE				PersonID;
+	UBYTE				Flags; // 48
+	UBYTE				Drawn;  //game turn last drawn 49
+	UBYTE				MeshID; // 50
+	UBYTE				PersonID; // 51
 }DrawTween;
+// SIZE = 52 BYTES
 
 typedef	struct
 {
@@ -73,7 +74,7 @@ typedef	struct
 	UBYTE				Hm;		// 255 => NULL
 
 }DrawMesh;
-
+// SIZE = 10 BYTES
 
 
 

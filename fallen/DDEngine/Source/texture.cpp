@@ -1015,7 +1015,7 @@ void TEXTURE_initialise_clumping(CBYTE *fname_level)
 	
 extern void SetLastClumpfile(char* file, size_t size);	// in GDisplay.cpp, horrible bodge
 
-	if (!clumping)
+	if (1 || !clumping)
 	{
 		// load textures directly
 		IndividualTextures = true;

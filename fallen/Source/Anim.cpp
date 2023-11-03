@@ -930,6 +930,7 @@ void	setup_people_anims(void)
 #endif	
 
 	setup_anim_stuff();
+	//load_anim_system(&game_chunk[ANIM_TYPE_DARCI],"C:\\stuff\\DARCI1.all",1);
 	load_anim_system(&game_chunk[ANIM_TYPE_DARCI],"darci1.all",1);
 //	load_anim_system(&game_chunk[1],"police1.all");
 //	if(!build_psx)		  
@@ -939,32 +940,46 @@ void	setup_people_anims(void)
 		if(roper_pickup)
 		{
 //			ASSERT(0);
-			load_anim_system(&game_chunk[ANIM_TYPE_ROPER],"roper_up.all");
+			//load_anim_system(&game_chunk[ANIM_TYPE_ROPER],"C:\\stuff\\roper_up.all");
+			load_anim_system(&game_chunk[ANIM_TYPE_ROPER], "roper_up.all");
 		}
 		else
-			load_anim_system(&game_chunk[ANIM_TYPE_ROPER],"psxroper.all");
+		{
+			//load_anim_system(&game_chunk[ANIM_TYPE_ROPER], "C:\\stuff\\psxroper.all");
+			load_anim_system(&game_chunk[ANIM_TYPE_ROPER], "psxroper.all");
+		}
 	}
 	else
 	{
-		load_anim_system(&game_chunk[ANIM_TYPE_ROPER],"roper.all");
-
-
-
-
+		//load_anim_system(&game_chunk[ANIM_TYPE_ROPER],"C:\\stuff\\roper.all");
+		load_anim_system(&game_chunk[ANIM_TYPE_ROPER], "roper.all");
 	}
 
-	if(save_psx)
-		load_anim_system(&game_chunk[ANIM_TYPE_CIV],"rthug.all",2); //rpsxthug.all
+	if (save_psx)
+	{
+		//load_anim_system(&game_chunk[ANIM_TYPE_CIV], "C:\\stuff\\rthug.all", 2); //rpsxthug.all
+		load_anim_system(&game_chunk[ANIM_TYPE_CIV], "rthug.all", 2); //rpsxthug.all
+	}
 	else
-		load_anim_system(&game_chunk[ANIM_TYPE_CIV],"rthug.all",2);
+	{
+		//load_anim_system(&game_chunk[ANIM_TYPE_CIV], "C:\\stuff\\rthug.all", 2);
+		load_anim_system(&game_chunk[ANIM_TYPE_CIV], "rthug.all", 2);
+	}
 
-	if(!save_psx)// || roper_pickup)
-		load_anim_system(&game_chunk[ANIM_TYPE_ROPER2],"roper2.all");
+	if (!save_psx)// || roper_pickup)
+	{
+		//load_anim_system(&game_chunk[ANIM_TYPE_ROPER2], "C:\\stuff\\roper2.all");
+		load_anim_system(&game_chunk[ANIM_TYPE_ROPER2], "roper2.all");
+	}
 
 
-	append_anim_system(&game_chunk[ANIM_TYPE_ROPER],"police1.all",200,0);
-	append_anim_system(&game_chunk[ANIM_TYPE_CIV],"newciv.all",CIV_M_START,1);
-	append_anim_system(&game_chunk[ANIM_TYPE_CIV],"newcivf.all",CIV_F_START,1);
+	//append_anim_system(&game_chunk[ANIM_TYPE_ROPER],"C:\\stuff\\police1.all",200,0);
+	//append_anim_system(&game_chunk[ANIM_TYPE_CIV],"C:\\stuff\\newciv.all",CIV_M_START,1);
+	//append_anim_system(&game_chunk[ANIM_TYPE_CIV],"C:\\stuff\\newcivf.all",CIV_F_START,1);
+
+	append_anim_system(&game_chunk[ANIM_TYPE_ROPER], "police1.all", 200, 0);
+	append_anim_system(&game_chunk[ANIM_TYPE_CIV], "newciv.all", CIV_M_START, 1);
+	append_anim_system(&game_chunk[ANIM_TYPE_CIV], "newcivf.all", CIV_F_START, 1);
 
 extern SLONG	playing_combat_tutorial(void);
 extern	SLONG	playing_level(const CBYTE *name);
@@ -1009,6 +1024,7 @@ extern	SLONG	playing_level(const CBYTE *name);
 
 void	setup_global_anim_array(void)
 {
+	//setup_people_anims();
 	//
 	// Make everyone use Darci's animations (including Darci!)
 	//

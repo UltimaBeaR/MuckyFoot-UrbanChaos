@@ -55,8 +55,8 @@ void Interface::SetupInterfaceDefaults(void)
 	SetPalette(InterfacePalette);
 
    	ContentColourBr	=	FindColour(InterfacePalette,115+20,128+20,156+20);
-   	//ContentColourBr	=	FindColour(InterfacePalette,0,0,0);
-   	//ContentColour	=	FindColour(InterfacePalette,255,0,0);
+   	ContentColourBr	=	FindColour(InterfacePalette,0,0,0);
+   	ContentColour	=	FindColour(InterfacePalette,255,0,0);
    	ContentColour	=	FindColour(InterfacePalette,115,128,156);
 	TextColour		=	FindColour(InterfacePalette,256,256,256);
 	HiliteColour	=	FindColour(InterfacePalette,115+30,128+30,156+30);

@@ -179,6 +179,15 @@ void FONT2D_init(SLONG font_id)
 		    &((*FONT2D_data)[0][0]),
 		    font_id, FALSE);
 
+
+	CBYTE  curr_directory[_MAX_PATH];
+	CBYTE	filter[100];
+	OPENFILENAME ofn;
+	SLONG	save = 0, ret = 0, c0;
+
+	GetCurrentDirectory(_MAX_PATH, curr_directory);
+
+
 	ASSERT(ti.valid);
 	ASSERT(ti.width  == 256);
 	ASSERT(ti.height == 256);

@@ -171,7 +171,7 @@ UBYTE InkeyToAsciiShift[]=
 
 #ifndef PSX
 
-CBYTE *cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","bangunsnotgames", "boo", NULL};
+CBYTE *cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","viol", "boo", NULL};
 
 EWAY_Way* eway_find(SLONG id)
 {
@@ -427,22 +427,22 @@ extern	UWORD	fade_black;
 			case 21:
 				if(allow_debug_keys)
 				{
-					darci->Genus.Person->PersonType =  PERSON_ROPER;
-					darci->Genus.Person->AnimType =  ANIM_TYPE_ROPER;
+					darci->Genus.Person->PersonType = PERSON_ROPER;
+					darci->Genus.Person->AnimType = ANIM_TYPE_ROPER;
 					darci->Draw.Tweened->TheChunk	= &game_chunk[ANIM_TYPE_ROPER];
 					darci->Draw.Tweened->MeshID	= 0;
-					darci->Draw.Tweened->PersonID=0;
+					darci->Draw.Tweened->PersonID=0; 
 					set_person_idle(darci);
 				}
 				break;
 			case 22:
 				if(allow_debug_keys)
 				{
-					darci->Genus.Person->PersonType =  PERSON_DARCI;
-					darci->Genus.Person->AnimType =  ANIM_TYPE_DARCI;
+					darci->Genus.Person->PersonType = PERSON_DARCI;
+					darci->Genus.Person->AnimType = ANIM_TYPE_DARCI;
 					darci->Draw.Tweened->TheChunk	= &game_chunk[ANIM_TYPE_DARCI];
 					darci->Draw.Tweened->MeshID	= 0;
-					darci->Draw.Tweened->PersonID=0;
+ 					darci->Draw.Tweened->PersonID=0;
 					set_person_idle(darci);
 				}
 				break;
@@ -456,8 +456,8 @@ extern int AENG_detail_crinkles;
 				break;
 
 			case 24:
-//				if(allow_debug_keys)
-//				VIOLENCE=1;
+				if(allow_debug_keys)
+				VIOLENCE=1;
 				break;
 
 			case 25:

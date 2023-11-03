@@ -610,7 +610,7 @@ NIGHT_Colour *MESH_draw_guts(
 					page  |= p_f4->TexturePage;
 					page+=FACE_PAGE_OFFSET;
 
-					if (p_f4->FaceFlags & FACE_FLAG_TINT)
+ 					if (p_f4->FaceFlags & FACE_FLAG_TINT)
 					{
 						qc0 = quad[0]->colour;
 						qc1 = quad[1]->colour;
@@ -675,7 +675,7 @@ NIGHT_Colour *MESH_draw_guts(
 					}
 					page=872;
 */
-					POLY_add_quad(quad, page,!(p_f4->DrawFlags & POLY_FLAG_DOUBLESIDED));
+ 					POLY_add_quad(quad, page,!(p_f4->DrawFlags & POLY_FLAG_DOUBLESIDED));
 
 /*
 void POLY_add_line_tex_uv(POLY_Point *p1, POLY_Point *p2, float width1, float width2, SLONG page, UBYTE sort_to_front);

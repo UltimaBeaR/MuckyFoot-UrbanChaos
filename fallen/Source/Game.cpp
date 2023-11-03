@@ -87,6 +87,9 @@
 #include	"..\ddengine\headers\truetype.h"
 #include "panel.h"
 
+#include "GEdit.h"
+#include "..\Headers\io.h"
+
 #else
 #include	"c:\fallen\psxeng\headers\psxeng.h"
 #include	<ctrller.h>
@@ -1128,14 +1131,17 @@ void	game(void)
 
 		if(GAME_STATE&GS_EDITOR)
 		{
-			if(editor_loop())
-				GAME_STATE	=	0;
-			else
-			{
-//				global_load();  //editor screws up the global load
+			//	ANIM_init();
+			//global_load();
+			gedit();
+			//if(editor_loop())
+			//	GAME_STATE	=	0;
+			//else
+			//{
+			//	global_load();  //editor screws up the global load
 
-				GAME_STATE	=	GS_ATTRACT_MODE;
-			}
+			//	GAME_STATE	=	GS_ATTRACT_MODE;
+			//}
 		}
 #endif
 #endif
@@ -1358,13 +1364,13 @@ SLONG  form_left_map  = 0;
 void	lock_frame_rate(SLONG fps)
 {
 #if !defined(PSX) && !defined(TARGET_DC)
-	static	SLONG tick1 = 0;
-	SLONG tick2;
-	SLONG timet;
+	static	ULONGLONG tick1 = 0;
+	ULONGLONG tick2;
+	ULONGLONG timet;
 
 	while(1)
 	{
-		tick2 = GetTickCount();
+		tick2 = GetTickCount64();
 		timet = tick2 - tick1;
 
 		if (timet > (1000 / fps))

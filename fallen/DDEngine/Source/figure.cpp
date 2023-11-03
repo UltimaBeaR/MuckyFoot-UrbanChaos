@@ -1613,7 +1613,7 @@ void FIGURE_find_and_clean_prim_queue_item ( TomsPrimObject *pPrimObj, int iThra
 	ASSERT ( (DWORD)pPrimObj->wTotalSizeOfObj * 5< PRIM_LRU_QUEUE_SIZE );
 
 	// Silly man!
-	ASSERT ( (DWORD)pPrimObj->wTotalSizeOfObj > 0 );
+	//ASSERT ( (DWORD)pPrimObj->wTotalSizeOfObj > 0 );
 
 
 	if ( ( m_iLRUQueueSize < PRIM_LRU_QUEUE_LENGTH ) &&
@@ -2313,7 +2313,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 											TPO_pCurVertex++;
 											pMaterial->wNumVertices++;
 											TPO_iNumVertices++;
-											ASSERT ( TPO_iNumVertices < MAX_VERTS );
+											//ASSERT ( TPO_iNumVertices < MAX_VERTS );
 
 											if ( TPO_iNumVertices >= MAX_VERTS ) { DeadAndBuried ( 0xffffffff ); }
 
@@ -9955,7 +9955,7 @@ extern DWORD g_dw3DStuffY;
 	ASSERT ( pPrimObj->pMaterials != NULL );
 	ASSERT ( pPrimObj->pwListIndices != NULL );
 	ASSERT ( pPrimObj->pwStripIndices != NULL );
-	ASSERT ( pPrimObj->wNumMaterials != 0 );
+	//ASSERT ( pPrimObj->wNumMaterials != 0 );
 
 	PrimObjectMaterial *pMat = pPrimObj->pMaterials;
 

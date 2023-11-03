@@ -1404,7 +1404,7 @@ extern	void	set_person_turn_to_hug_wall(Thing *p_person);
 				extern UWORD find_arrestee(Thing *p_person);
 				//PANEL_new_text(NULL,4000,"ACTION find arrest");
 
-				if (p_thing->Genus.Person->PersonType == PERSON_DARCI && (index = find_arrestee(p_thing)))
+				if (/*p_thing->Genus.Person->PersonType == PERSON_DARCI &&*/ (index = find_arrestee(p_thing)))
 				{
 					set_person_arrest(p_thing, index);
 
@@ -1764,7 +1764,7 @@ extern	SLONG	person_on_floor(Thing *p_person);
 
 						if (OB_ob[ob_index].prim == PRIM_OBJ_SWITCH_OFF)
 						{
-							OB_ob[ob_index].prim = PRIM_OBJ_SWITCH_ON;
+							OB_ob[ob_index].prim = PRIM_OBJ_CHOPPER;
 						}
 
 						//PANEL_new_text(NULL,4000,"ACTION do switch");

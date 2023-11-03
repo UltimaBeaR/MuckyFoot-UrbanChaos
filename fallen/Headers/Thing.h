@@ -64,25 +64,25 @@
 
 struct Thing
 {
-	UBYTE			Class,
-					State,
-					OldState,
-					SubState;
-	ULONG			Flags;
-	THING_INDEX		Child,
-					Parent,
-					LinkChild,
-					LinkParent;
+	UBYTE			Class, // 0
+					State, // 1
+					OldState, // 2
+					SubState; // 3
+	ULONG			Flags; // 4
+	THING_INDEX		Child, // 8
+					Parent, // 10
+					LinkChild, // 12
+					LinkParent; // 14
 
-	GameCoord		WorldPos;
+	GameCoord		WorldPos; // 16
 
-	void			(*StateFn)(Thing*);	// Things state function.
+	void			(*StateFn)(Thing*);	// Things state function. // 28
 
 	union
 	{
 		DrawTween			*Tweened;
 		DrawMesh			*Mesh;
-	}Draw;
+	}Draw; // 32
 
 	union
 	{
@@ -104,7 +104,7 @@ struct Thing
 		#endif
 		BatPtr			 Bat;
 
-	}Genus;
+	}Genus; // 36
 	UBYTE			DrawType;
 	UBYTE			Lead; //42
 
@@ -123,6 +123,8 @@ struct Thing
 
 	THING_INDEX		DogPoo2; //SwitchThing;	//	Temporary for building unlock switches.
 };
+
+// SIZE 60 BYTES - POINTERS
 
 typedef struct Thing Thing;
 

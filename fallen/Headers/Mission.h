@@ -15,30 +15,36 @@
 
 #define	MAX_EVENTPOINTS		512
 
+#pragma pack(push, 1)
+
 struct	EventPoint
 {
-	UBYTE		Colour,				// (the colour and group (A-Z) combine to make a set of 
-				Group,				//  events that are linked, eg the waypoints along a patrol)
-				WaypointType,		// WPT_* -- what the event does when triggered
-				Used,				// bool, whether the event is in use
+	UBYTE		Colour,				// (the colour and group (A-Z) combine to make a set of         // 0
+				Group,				//  events that are linked, eg the waypoints along a patrol)   // 1
+				WaypointType,		// WPT_* -- what the event does when triggered                 //2
+				Used,				// bool, whether the event is in use                          //3
 
-				TriggeredBy,		// TT_*  -- what triggers the event
-				OnTrigger,			// OT_*  -- how the trigger should continue/reset 
-				Direction,			// Angle in degrees, scaled to fit a byte
-				Flags;				// New and improved! Now contains sucks, inverse and inside info too!
+				TriggeredBy,		// TT_*  -- what triggers the event							// 4
+				OnTrigger,			// OT_*  -- how the trigger should continue/reset			// 5
+				Direction,			// Angle in degrees, scaled to fit a byte					//6
+				Flags;				// New and improved! Now contains sucks, inverse and inside info too!		//7
 
-	UWORD		EPRef,				// Dependency index for TT_DEPENDENCY and TT_BOOLEAN (first input)
-				EPRefBool,			// index for TT_BOOLEAN (second input)
-				AfterTimer;			// for OT_ACTIVE_TIME, how long to wait before resetting
+	UWORD		EPRef,				// Dependency index for TT_DEPENDENCY and TT_BOOLEAN (first input)		//8
+				EPRefBool,			// index for TT_BOOLEAN (second input)								//10
+				AfterTimer;			// for OT_ACTIVE_TIME, how long to wait before resetting			//12
 //fuck	UWORD		MorePadding;        // PSX requires this
-	SLONG		Data[10],
-				Radius,				// for TT_RADIUS; used as time argument for TT_TIMER or pointer for TT_SHOUT (eek)
-				X,Y,Z;
+	SLONG		Data[10],					// 14
+				Radius,				// for TT_RADIUS; used as time argument for TT_TIMER or pointer for TT_SHOUT (eek)		// 54
+				X,Y,Z;		// 58, 62, 66
 	
 
-	UWORD		Next,
-				Prev;
+	UWORD		Next, // 70
+				Prev; // 72
 };
+#pragma pack(pop)
+
+// SIZE 74 BYTES?
+
 
 extern	EventPoint		*current_ep;
 
@@ -50,9 +56,11 @@ extern	EventPoint		*current_ep;
 #define MISSION_FLAG_SHOW_CRIMERATE       (1 << 1)
 #define MISSION_FLAG_CARS_WITH_ROAD_PRIMS (1 << 2)
 
+#pragma pack(push, 1)
+
 struct	Mission
 {
-	CBYTE			Flags;
+	SLONG			Flags;
 	CBYTE			BriefName[_MAX_PATH],
 					LightMapName[_MAX_PATH],
 					MapName[_MAX_PATH],
@@ -69,6 +77,8 @@ struct	Mission
 	UBYTE			CarsRate,
 					MusicWorld;
 };
+#pragma pack(pop)
+
 
 struct	OldMissionB
 {

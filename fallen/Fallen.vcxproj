@@ -68,7 +68,7 @@
       <WarningLevel>Level3</WarningLevel>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <AdditionalIncludeDirectories>Headers;..\fallen\ledit\headers;..\fallen\sedit\headers;..\fallen\DDLibrary\Headers;..\fallen\gedit\headers;..\fallen\ddengine\headers;C:\dev\workspaces\repo clones\MuckyFoot-UrbanChaos\jordandavidson-fork\MuckyFoot-UrbanChaos\fallen\Editor\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SEWERS;EDITOR;_RELEASE;WIN32;_WINDOWS;VERSION_D3D;TEX_EMBED;FINAL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SEWERS;EDITOR;_RELEASE;WIN32;_WINDOWS;VERSION_D3D;TEX_EMBED;FINAL;_CRT_SECURE_NO_WARNINGS;BIKE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
       <BrowseInformation>true</BrowseInformation>
       <PrecompiledHeaderOutputFile>.\Release\Fallen.pch</PrecompiledHeaderOutputFile>
@@ -1065,10 +1065,19 @@
     <CustomBuild Include="DDLibrary\arrowcop.cur" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="DDLibrary\ahead.bmp" />
     <Image Include="DDLibrary\bitmap1.bmp" />
+    <Image Include="DDLibrary\bitmap2.bmp" />
     <Image Include="DDLibrary\bmp00001.bmp" />
     <Image Include="DDLibrary\ico00001.ico" />
     <Image Include="DDLibrary\icon1.ico" />
+    <Image Include="DDLibrary\icon2.ico" />
+    <Image Include="DDLibrary\mucky_lo.bmp" />
+    <Image Include="DDLibrary\rightturn.bmp" />
+    <Image Include="DDLibrary\scene_ic.bmp" />
+    <Image Include="DDLibrary\stop.bmp" />
+    <Image Include="DDLibrary\toolbar.bmp" />
+    <Image Include="DDLibrary\uturn.BMP" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DDLibrary\DDlib.rc">

@@ -1380,7 +1380,7 @@ void LEDIT_process()
 	ScreenToClient(LEDIT_handle_engine, &mouse);
 	GetClientRect(LEDIT_handle_engine, &clientrect);
 
-	if (WITHIN(mouse.x, clientrect.left, clientrect.right) &&
+	if ( WITHIN(mouse.x, clientrect.left, clientrect.right) &&
 		WITHIN(mouse.y, clientrect.top,  clientrect.bottom))
 	{
 /*		if (!LEDIT_insides)*/ INDOORS_INDEX=0;
@@ -1391,6 +1391,9 @@ void LEDIT_process()
 							   &LEDIT_mouse_world_x,
 							   &LEDIT_mouse_world_y,
 							   &LEDIT_mouse_world_z,INDOORS_INDEX);
+		//TRACE("mouse.x = %ld\n", mouse.x);
+
+
 
 /*		INDOORS_INDEX = calc_inside_for_xyz(LEDIT_mouse_world_x,LEDIT_mouse_world_y,LEDIT_mouse_world_z,&INDOORS_ROOM);
 		if (LEDIT_insides&&!INDOORS_INDEX) {
@@ -1491,7 +1494,7 @@ void LEDIT_process()
 			&range);
 
 		colour = (red << 16) | (green << 8) | (blue << 0);
-		colour = (255 << 16) | (0 << 8) | (0<< 0);
+		colour = (255 << 16) | (0 << 8) | (0 << 0);
 
 		GI_light_draw(
 			mouse.x,
@@ -2472,7 +2475,12 @@ void LEDIT_do(void)
 	// Open this display using our engine window.
 	//
 
-	if(OpenDisplay(640, 480, 16,FLAGS_USE_3D|FLAGS_USE_WORKSCREEN) != 0)
+	//if(OpenDisplay(640, 480, 16,FLAGS_USE_3D|FLAGS_USE_WORKSCREEN) != 0)
+
+	int display_width = 640;
+	int display_height = 480;
+	
+	if (OpenDisplay(display_width, display_height, 32, FLAGS_USE_3D | FLAGS_USE_WORKSCREEN) != 0)
 	{
 		//
 		// Could not open display.
@@ -2522,9 +2530,9 @@ void LEDIT_do(void)
 	}
 	
 	rect.left   = 0;
-	rect.right  = 640;
+	rect.right  = display_width;
 	rect.top    = 0;
-	rect.bottom = 480;
+	rect.bottom = display_height;
 
 	AdjustWindowRectEx(
 		&rect,

@@ -5563,6 +5563,8 @@ extern void PCOM_set_person_ai_normal(Thing *p_person);
 
 						p_person->Genus.Person->pcom_ai   = PCOM_AI_NONE;
 						p_person->Genus.Person->pcom_bent = PCOM_BENT_ROBOT;
+						p_person->Genus.Person->Flags &= ~FLAG_PERSON_PEEING;
+
 
 						remove_thing_from_map(p_person);
 

@@ -1341,8 +1341,8 @@ BOOL	init_map_view(void)
 //---------------------------------------------------------------
 
 
-#define	SCROLL_RATE		4
-#define	ZOOM_RATE		4
+#define	SCROLL_RATE		1
+#define	ZOOM_RATE		1
 #define	YAW_RATE		1
 #define	PITCH_RATE		1
 
@@ -1526,8 +1526,8 @@ void	process_view_wind(void)
 		cam_focus_z += dl * cam_left[2] >> 12;
 
 		cam_focus_dist += dd * 16;
-		cam_yaw        += dy * 16;
-		cam_pitch      += dp * 16;
+		cam_yaw        += dy ;
+		cam_pitch      += dp;
 
 		cam_yaw   &= 2047;
 		cam_pitch &= 2047;

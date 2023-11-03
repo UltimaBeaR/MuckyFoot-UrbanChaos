@@ -133,6 +133,7 @@ Thing	*create_player(UBYTE type,MAPCO16 x,MAPCO16 y,MAPCO16 z,SLONG player_id)
 			case	PLAYER_THUG:	person_type	=	PERSON_THUG_RASTA;	break;
 		}
 
+		//person_type = PERSON_COP;
 		person_index = create_person(
 							person_type,
 							0,

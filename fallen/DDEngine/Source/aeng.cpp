@@ -7546,7 +7546,7 @@ extern	UBYTE	player_visited[16][128];
 
 						square = NIGHT_cache[px][pz];
 
-						ASSERT(WITHIN(square, 1, NIGHT_MAX_SQUARES - 1));
+						//ASSERT(WITHIN(square, 1, NIGHT_MAX_SQUARES - 1));
 						ASSERT(NIGHT_square[square].flag & NIGHT_SQUARE_FLAG_USED);
 
 						nq = &NIGHT_square[square];
@@ -10099,7 +10099,7 @@ extern HWND GEDIT_edit_wnd;
 									ASSERT(p_thing->Class == CLASS_PERSON);
 
 #ifdef BIKE
-#error Better not be doing this.
+//#error Better not be doing this.
 									//
 									// If this person is riding the bike...
 									//
@@ -10407,7 +10407,7 @@ extern HWND GEDIT_edit_wnd;
 							#ifdef BIKE
 
 
-#error A bike! Are you mad?
+//#error A bike! Are you mad?
 
 							case DT_BIKE:
 

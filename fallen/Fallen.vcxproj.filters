@@ -1761,6 +1761,15 @@
     <Image Include="DDLibrary\icon1.ico">
       <Filter>Res</Filter>
     </Image>
+    <Image Include="DDLibrary\ahead.bmp" />
+    <Image Include="DDLibrary\stop.bmp" />
+    <Image Include="DDLibrary\rightturn.bmp" />
+    <Image Include="DDLibrary\uturn.BMP" />
+    <Image Include="DDLibrary\icon2.ico" />
+    <Image Include="DDLibrary\mucky_lo.bmp" />
+    <Image Include="DDLibrary\toolbar.bmp" />
+    <Image Include="DDLibrary\bitmap2.bmp" />
+    <Image Include="DDLibrary\scene_ic.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="text\lang_english.txt">

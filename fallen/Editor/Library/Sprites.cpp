@@ -268,9 +268,9 @@ void	DrawBSpritePal32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal)
 
 	dst_ptr		=	(ULONG*)WorkWindow+x+(y*WorkScreenPixelWidth);
 	line_ptr	=	dst_ptr;
-	//src_ptr		=	the_sprite->SpriteData;
+//	src_ptr		=	the_sprite->SpriteData;
 	src_ptr = 0;
-	//DRAW_SPRITE32(pal)
+//	DRAW_SPRITE32(pal)
 }
 
 void	DrawBSprite8(SLONG x,SLONG y,BSprite *the_sprite)

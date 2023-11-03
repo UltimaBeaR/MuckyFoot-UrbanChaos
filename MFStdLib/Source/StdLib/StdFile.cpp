@@ -31,8 +31,21 @@ BOOL	FileExists( CBYTE *file_name)
 {
 	file_name = MakeFullPathName ( file_name );
 
-	if(GetFileAttributes(file_name)==0xffffffff)
+	if (GetFileAttributes(file_name) == 0xffffffff)
+	{
+		DWORD errorMessageID = ::GetLastError();
+
+		LPSTR messageBuffer = nullptr;
+
+		//Ask Win32 to give us the string version of that message ID.
+		//The parameters we pass in, tell Win32 to create the buffer that holds the message for us (because we don't yet know how long the message string will be).
+		size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+			NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
+
+		DebugText("\n ERROR failed to open \n");
+
 		return	FALSE;
+	}
 	else
 		return	TRUE;
 }

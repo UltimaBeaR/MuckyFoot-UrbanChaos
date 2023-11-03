@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by C:\fallen\DDLibrary\DDlib.rc
+// Microsoft Visual C++ generated include file.
+// Used by C:\dev\workspaces\repo clones\Clean-UrbanChaos\MuckyFoot-UrbanChaos\fallen\DDLibrary\DDlib.rc
 //
 #define IDR_MAIN_MENU                   101
 #define IDD_ABOUT                       102
@@ -322,7 +322,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        201
+#define _APS_NEXT_RESOURCE_VALUE        202
 #define _APS_NEXT_COMMAND_VALUE         40156
 #define _APS_NEXT_CONTROL_VALUE         1189
 #define _APS_NEXT_SYMED_VALUE           104

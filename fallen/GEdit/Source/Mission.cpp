@@ -13,6 +13,9 @@
 #include	"console.h"
 #include	"cutscene.h"
 
+// ADDED BY PZI 
+#include "playcuts.h"
+
 
 //---------------------------------------------------------------
 
@@ -468,13 +471,19 @@ void	write_event_extra(FILE *file_handle, EventPoint *ep) {
 		case WPT_CONVERSATION:
 		case WPT_BONUS_POINTS:
 			u=1;
+			fflush(file_handle);
 			fwrite(&u,1,1,file_handle);
+			fflush(file_handle);
 			if (!ep->Data[0]) {
 				l=0; fwrite(&l,4,1,file_handle);
+				fflush(file_handle);
 			} else {
 				l=strlen((char*)ep->Data[0]);
 				fwrite(&l,4,1,file_handle);
+				fflush(file_handle);
 				fwrite((void*)ep->Data[0],l,1,file_handle);
+				fflush(file_handle);
+
 			}
 			break;
 		case WPT_CUT_SCENE:
@@ -530,7 +539,15 @@ void	read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, SLONG
 			if (ver>7) // has a byte-code indicating what it is
 				fread(&u,1,1,file_handle);
 			// these don't have translations, they're internal codes or filenames
-			if (ver>4) fread(&l,4,1,file_handle); else l=_MAX_PATH;
+			if (ver > 4)
+			{
+				fread(&l, 4, 1, file_handle);
+				//if (l > _MAX_PATH || l < 0)
+				//{
+				//	l = _MAX_PATH;
+				//}
+			}
+			else l = _MAX_PATH;
 			if (l) {
 				ep->Data[0]	=	(SLONG)malloc(l+1);
 				ZeroMemory((char*)ep->Data[0],l+1);
@@ -564,6 +581,57 @@ void	read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, SLONG
 
 #define	M_VERSION		10
 #define	EP_VERSION		1
+
+void new_export_mission(void)
+{
+	CBYTE				curr_dir[_MAX_PATH];
+	ULONG				m_vers;
+	ULONG				c0,
+		count,
+		current_ep;
+	EventPoint* ep_base,
+		* ep_ptr;
+	FILE* file_handle;
+	OPENFILENAME		save_mission;
+
+	Mission* temp_mission;
+
+	if (current_mission)
+	{
+		//	Set up the default directory.
+		sprintf(map_default_dir, "c:\\Fallen\\Levels", curr_dir);
+
+		//	Set up the save file structure.
+		ZeroMemory(&save_mission, sizeof(OPENFILENAME));
+		//		sprintf(mission_name,"*.ucm");
+		sprintf(mission_name, "%s.ucm", current_mission->MissionName);
+		save_mission.lStructSize = sizeof(OPENFILENAME);
+		save_mission.hwndOwner = NULL;
+		save_mission.lpstrFilter = "Game Mission Files\0*.ucm\0\0";
+		save_mission.lpstrFile = mission_name;
+		save_mission.nMaxFile = _MAX_PATH;
+		save_mission.lpstrInitialDir = map_default_dir;
+		save_mission.lpstrTitle = "Export a mission file";
+		save_mission.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
+		save_mission.lpstrDefExt = "ucm";
+
+		if (GetSaveFileName(&save_mission))
+		{
+			//	Save the mission.
+			file_handle = fopen(mission_name, "wb");
+
+			if (file_handle)
+			{
+				//	Save the file version.
+				m_vers = M_VERSION;
+				fwrite(&m_vers, sizeof(m_vers), 1, file_handle);
+
+			}
+		}
+
+
+	}
+}
 
 BOOL	export_mission(void)
 {
@@ -1031,106 +1099,335 @@ void import_mission(void) {
 
 //---------------------------------------------------------------
 
-void refresh_mission(void)
+
+
+void old_refresh_mission(void)
 {
-//	UWORD				new_mission;
+	//	UWORD				new_mission;
 	OPENFILENAME		open_mission;
-	CBYTE				file_name[_MAX_PATH], *chr, msg[_MAX_PATH+200];
+	CBYTE				file_name[_MAX_PATH], * chr, msg[_MAX_PATH + 200];
 	FILE				*file_handle;
 	ULONG				m_vers;
 	SLONG				temp_map;
-//	HTREEITEM			map_handle;
-//	TV_ITEM				map_item;
-//	TV_INSERTSTRUCT		tv_is;
-//	WSElement			*map_element,
-//						*new_element;
+	//	HTREEITEM			map_handle;
+	//	TV_ITEM				map_item;
+	//	TV_INSERTSTRUCT		tv_is;
+	//	WSElement			*map_element,
+	//						*new_element;
 	SLONG				c0;
-//	Mission				*the_mission;
+	//	Mission				*the_mission;
 
-	if (!current_mission) {
-		MessageBox(0,"Select a mission to refresh first.","Error",MB_ICONEXCLAMATION|MB_OK);
+	if (!current_mission)
+	{
+		MessageBox(0, "Select a mission to refresh first.", "Error", MB_ICONEXCLAMATION | MB_OK);
 	}
 
-	strcpy(file_name,"c:\\fallen\\levels\\");
-	strcat(file_name,current_mission->MissionName);
+	strcpy(file_name, "c:\\fallen\\levels\\");
+	strcat(file_name, current_mission->MissionName);
 	_strlwr(file_name);
-	if (!strstr(file_name,".ucm"))
-		strcat(file_name,".ucm");
+	if (!strstr(file_name, ".ucm"))
+		strcat(file_name, ".ucm");
 
-	if (!FileExists(file_name)) {
-		sprintf(msg,"Cannot find an updated version of the mission in %s.",file_name);
-		MessageBox(0,msg,"Error",MB_ICONEXCLAMATION|MB_OK);
+	if (!FileExists(file_name))
+	{
+		sprintf(msg, "Cannot find an updated version of the mission in %s.", file_name);
+		MessageBox(0, msg, "Error", MB_ICONEXCLAMATION | MB_OK);
 		return;
 	}
 
-	temp_map=current_mission->MapIndex;
+	temp_map = current_mission->MapIndex;
 
 	file_handle	=	fopen(file_name,"rb");
 
-	if(!file_handle) {
-		sprintf(msg,"Cannot open the updated version of the mission from %s.",file_name);
-		MessageBox(0,msg,"Error",MB_ICONEXCLAMATION|MB_OK);
+
+	/*MFFileHandle new_file_handle = NULL;
+	new_file_handle = FileOpen(file_name);*/
+
+
+	if (!file_handle)
+	{
+		sprintf(msg, "Cannot open the updated version of the mission from %s.", file_name);
+		MessageBox(0, msg, "Error", MB_ICONEXCLAMATION | MB_OK);
 		return;
 	}
 
 	//  Go through and clear out the old mission data (esp. the memory allocated to waypoints!)
 
-	for(c0=0;c0<MAX_EVENTPOINTS;c0++)
-	  free_eventpoint(current_mission->EventPoints+c0);
+	for (c0 = 0; c0 < MAX_EVENTPOINTS; c0++)
+		free_eventpoint(current_mission->EventPoints + c0);
 
 	//	Read the file version.
-	m_vers	=	M_VERSION;
-	fread(&m_vers,sizeof(m_vers),1,file_handle);
+	m_vers = M_VERSION;
+	//fread(&m_vers,sizeof(m_vers),1,file_handle);
+
+	int ye = sizeof(EventPoint);
+
+
+	int mess_count = 0;
+	int cutscene_count = 0;
+	DWORD initialPointer = 0;
 
 	// Read the mission data
-	if (m_vers>8)
-		fread((void*)current_mission,sizeof(Mission),1,file_handle);
-	else
-		if (m_vers>5) {
-			OldMissionB temp;
-			fread((void*)&temp,sizeof(OldMissionB),1,file_handle);
-			ZeroMemory(current_mission,sizeof(Mission));
-			memcpy(current_mission,&temp,sizeof(OldMissionB));
-		} else {
-			OldMission temp;
-			fread((void*)&temp,sizeof(OldMission),1,file_handle);
-			ZeroMemory(current_mission,sizeof(Mission));
-			memcpy(current_mission,&temp,sizeof(OldMission));
+	if (m_vers > 8)
+	{
+
+		//OLD WAY
+		//fread((void*)current_mission, sizeof(Mission), 1, file_handle);
+
+		// NEW WAY
+		SLONG version;
+		SLONG flag;
+		CBYTE      junk[2048];
+		EventPoint event_point;
+
+		//if (FileRead(new_file_handle, &version, sizeof(SLONG)) == FILE_READ_ERROR) { return; }
+		//if (FileRead(new_file_handle, &flag, sizeof(SLONG)) == FILE_READ_ERROR) { return; }	// Used
+		//if (FileRead(new_file_handle, &current_mission->BriefName[0], _MAX_PATH) == FILE_READ_ERROR) { return; }	// BriefName
+		//if (FileRead(new_file_handle, &current_mission->LightMapName[0], _MAX_PATH) == FILE_READ_ERROR) { return; }	// LightMapName
+		//if (FileRead(new_file_handle, &current_mission->MapName[0], _MAX_PATH) == FILE_READ_ERROR) { return; }	// MapName
+		//if (FileRead(new_file_handle, &current_mission->MissionName[0], _MAX_PATH) == FILE_READ_ERROR) { return; }	// MissionName
+		//if (FileRead(new_file_handle, &current_mission->CitSezMapName[0], _MAX_PATH) == FILE_READ_ERROR) { return; }	// SewerMapName
+		//if (FileRead(new_file_handle, &current_mission->MapIndex, sizeof(UWORD)) == FILE_READ_ERROR) { return; }	// MapIndex... what's this?
+		//if (FileRead(new_file_handle, &current_mission->FreeEPoints, sizeof(UWORD)) == FILE_READ_ERROR) { return; }	// Used
+		//if (FileRead(new_file_handle, &current_mission->UsedEPoints, sizeof(UWORD)) == FILE_READ_ERROR) { return; }	// Free
+
+		//if (FileRead(new_file_handle, junk, sizeof(UWORD)) == FILE_READ_ERROR) { return; }	// Crime rate byte / Padding byte
+
+		fread(&version, sizeof(SLONG), 1, file_handle);
+		DWORD filePointer = 0;
+		initialPointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);;
+
+		fread(&flag, sizeof(SLONG), 1, file_handle);
+		filePointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);
+		fread(&current_mission->BriefName[0], _MAX_PATH, 1, file_handle);
+		filePointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);
+		fread(&current_mission->LightMapName[0], _MAX_PATH, 1, file_handle);
+		fread(&current_mission->MapName[0], _MAX_PATH, 1, file_handle);
+		fread(&current_mission->MissionName[0], _MAX_PATH, 1, file_handle);
+		fread(&current_mission->CitSezMapName[0], _MAX_PATH, 1, file_handle);
+		fread(&current_mission->MapIndex, sizeof(UWORD), 1, file_handle);
+		//current_mission->MapIndex = 1;
+		fread(&current_mission->FreeEPoints, sizeof(UWORD), 1, file_handle);
+		fread(&current_mission->UsedEPoints, sizeof(UWORD), 1, file_handle);
+		fread(&current_mission->CrimeRate, sizeof(UBYTE), 1, file_handle);
+		fread(&current_mission->CivsRate, sizeof(UBYTE), 1, file_handle);
+
+		filePointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);
+
+		current_mission->Flags = flag;
+
+
+		for (int i = 0; i < MAX_EVENTPOINTS; i++)
+		{/*
+			if (FileRead(new_file_handle, &event_point, 14) == FILE_READ_ERROR) { return; }
+			if (FileRead(new_file_handle, &event_point.Data[0], 14 * 4 + 4) == FILE_READ_ERROR) { return; }*/
+
+			fread(&event_point, 14, 1, file_handle);
+			filePointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);
+			fread(&event_point.Data[0], 14 * 4 + 4, 1, file_handle);
+			filePointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);
+
+			unsigned char wType = event_point.WaypointType;
+			unsigned char wUsed = event_point.Used;
+
+			if (wUsed)
+			{
+				if (wType == WPT_MESSAGE || wType == WPT_NAV_BEACON || wType == WPT_BONUS_POINTS || wType == WPT_CONVERSATION)
+				{
+					mess_count++;
+				}
+				if (wType == WPT_CUT_SCENE)
+				{
+					cutscene_count++;
+				}
+			}
+
+			current_mission->EventPoints[i] = event_point;
 		}
-	if (m_vers<10) current_mission->BoredomRate=4;
+
+		for (int i = 0; i < 254; i++)
+		{
+			UBYTE SkillLevel;
+			//if (FileRead(new_file_handle, &SkillLevel, sizeof(UBYTE)) == FILE_READ_ERROR) { return; }	// SkillLevels
+			fread(&SkillLevel, sizeof(UBYTE), 1, file_handle);
+
+			current_mission->SkillLevels[i] = SkillLevel;
+		}
+		/*if (FileRead(new_file_handle, &current_mission->BoredomRate, sizeof(UBYTE)) == FILE_READ_ERROR) { return; }
+		if (FileRead(new_file_handle, &current_mission->CarsRate, sizeof(UBYTE)) == FILE_READ_ERROR) { return; }
+		if (FileRead(new_file_handle, &current_mission->MusicWorld, sizeof(UBYTE)) == FILE_READ_ERROR) { return; }*/
+
+		fread(&current_mission->BoredomRate, sizeof(UBYTE), 1, file_handle);
+
+		fread(&current_mission->CarsRate, sizeof(UBYTE), 1, file_handle);
+
+		fread(&current_mission->MusicWorld, sizeof(UBYTE), 1, file_handle);
+
+
+	}
+	else if (m_vers>5)
+	{
+		OldMissionB temp;
+		fread((void*)&temp, sizeof(OldMissionB), 1, file_handle);
+		ZeroMemory(current_mission, sizeof(Mission));
+		memcpy(current_mission, &temp, sizeof(OldMissionB));
+	}
+	else
+	{
+		OldMission temp;
+		fread((void*)&temp, sizeof(OldMission), 1, file_handle);
+		ZeroMemory(current_mission, sizeof(Mission));
+		memcpy(current_mission, &temp, sizeof(OldMission));
+	}
+	if (m_vers < 10) current_mission->BoredomRate = 4;
 
 	//	Read in the text.
-	for(c0=0;c0<MAX_EVENTPOINTS;c0++)
-		read_event_extra(file_handle,&current_mission->EventPoints[c0],current_mission->EventPoints,m_vers);
+	bool newWayToReadExtra = false;
+	CBYTE      junk[2048];
 
+	if (newWayToReadExtra)
+	{
+		for (int i = 0; i < mess_count + cutscene_count; i++)
+		{
+			SLONG l;
+			UBYTE what;
+
+			DWORD filePointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);
+			DWORD diffPointer = filePointer - initialPointer;
+
+			FileRead(file_handle, &what, 1);
+
+			filePointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);
+			switch (what)
+			{
+				case 1: // message
+					ZeroMemory(junk, sizeof(junk));
+					FileRead(file_handle, &l, 4);
+					if (FileRead(file_handle, junk, l) == FILE_READ_ERROR)
+					{
+						// PROBLEM
+						FileClose(file_handle);
+
+						//fclose(file_handle);
+					}
+					//
+					// We do not ? Tell the EWAY module what each message is.
+					//
+					//EWAY_set_message(i, junk);
+					break;
+				case 2: // cutscene
+					//PLAYCUTS_cutscenes[PLAYCUTS_cutscene_ctr++]=PLAYCUTS_Read(handle);
+
+					//CUTSCENE_read(file_handle, (CSData**)&ep->Data[0]);
+					PLAYCUTS_Read(file_handle); // don't care bout result -- static alloc
+					break;
+			}
+		}
+	}
+	else
+	{
+		for (c0 = 0; c0 < MAX_EVENTPOINTS; c0++)
+		{
+			read_event_extra(file_handle, &current_mission->EventPoints[c0], current_mission->EventPoints, m_vers);
+		}
+	}
+
+	DWORD afterExtraPointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);
+
+
+	//if (version >= 2)
+	//{
+	//	//
+	//	// Load in the zone squares.
+	//	//
+
+	//	for (int x = 0; x < 128; x++)
+	//	{
+	//		if (FileRead(new_file_handle, junk, 128) == FILE_READ_ERROR) { return; }
+
+	//		for (int z = 0; z < 128; z++)
+	//		{
+	//			PAP_2HI(x, z).Flags &= ~PAP_FLAG_ZONE1;
+	//			PAP_2HI(x, z).Flags &= ~PAP_FLAG_ZONE2;
+	//			PAP_2HI(x, z).Flags &= ~PAP_FLAG_ZONE3;
+	//			PAP_2HI(x, z).Flags &= ~PAP_FLAG_ZONE4;
+
+	//			if (junk[z] & ZF_ZONE1) { PAP_2HI(x, z).Flags |= PAP_FLAG_ZONE1; }
+	//			if (junk[z] & ZF_ZONE2) { PAP_2HI(x, z).Flags |= PAP_FLAG_ZONE2; }
+	//			if (junk[z] & ZF_ZONE3) { PAP_2HI(x, z).Flags |= PAP_FLAG_ZONE3; }
+	//			if (junk[z] & ZF_ZONE4) { PAP_2HI(x, z).Flags |= PAP_FLAG_ZONE4; }
+
+	//			if (junk[z] & ZF_NO_WANDER)
+	//			{
+	//				if (PAP_2HI(x, z).Flags & PAP_FLAG_HIDDEN)
+	//				{
+	//					//
+	//					// For hidden squares, the PAP_FLAG_WANDER flag means something else!
+	//					//
+	//				}
+	//				else
+	//				{
+	//					PAP_2HI(x, z).Flags &= ~PAP_FLAG_WANDER;
+	//				}
+	//			}
+
+	//			if (junk[z] & ZF_NO_GO)
+	//			{
+	//				void MAV_turn_off_whole_square(
+	//					SLONG x,
+	//					SLONG z);
+
+	//				void MAV_turn_off_whole_square_car(
+	//					SLONG x,
+	//					SLONG z);
+
+	//				MAV_turn_off_whole_square(x, z);
+	//				MAV_turn_off_whole_square_car(x, z);
+
+	//				PAP_2HI(x, z).Flags |= PAP_FLAG_NOGO;
+	//			}
+	//			else
+	//			{
+	//				PAP_2HI(x, z).Flags &= ~PAP_FLAG_NOGO;
+	//			}
+	//		}
+	//	}
+	//}
+
+	//if (FileRead(new_file_handle, (void*)MissionZones[current_mission - mission_pool], 128 * 128) == FILE_READ_ERROR) { return; }
 	fread((void*)MissionZones[current_mission-mission_pool],128*128,1,file_handle);
 
-	current_mission->MapIndex=temp_map;//MAP_NUMBER(current_map);
+	//current_mission->MapIndex = temp_map;//MAP_NUMBER(current_map);
 
-//		the_mission->MapIndex=map_element->MapRef;
-//		strcpy(the_mission->MapName,game_maps[map_element->MapRef].MapName);
-	
-/*		//	Now create the new mission tree entry
-	new_element	=	new WSElement;
-	if(new_element)
-	{
-		tv_is.hParent				=	map_handle;
-		tv_is.hInsertAfter			=	TVI_LAST;
-		tv_is.item.mask				=	TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_TEXT|TVIF_PARAM;
-		tv_is.item.iImage			=	IM_MISSION;
-		tv_is.item.iSelectedImage	=	IM_MISSION;
-		tv_is.item.pszText			=	the_mission->MissionName;
-		tv_is.item.lParam			=	(LPARAM)new_element;
-		new_element->TreeItem		=	TreeView_InsertItem(ws_tree,&tv_is);
-		new_element->ElementType	=	ET_MISSION;
-		new_element->MapRef			=	map_element->MapRef;
-		new_element->MissionRef		=	new_mission;
+	//		the_mission->MapIndex=map_element->MapRef;
+	//		strcpy(the_mission->MapName,game_maps[map_element->MapRef].MapName);
 
-		//	Update the window.
-		InvalidateRect(ws_tree, NULL, FALSE);
-	}*/
+	/*		//	Now create the new mission tree entry
+		new_element	=	new WSElement;
+		if(new_element)
+		{
+			tv_is.hParent				=	map_handle;
+			tv_is.hInsertAfter			=	TVI_LAST;
+			tv_is.item.mask				=	TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_TEXT|TVIF_PARAM;
+			tv_is.item.iImage			=	IM_MISSION;
+			tv_is.item.iSelectedImage	=	IM_MISSION;
+			tv_is.item.pszText			=	the_mission->MissionName;
+			tv_is.item.lParam			=	(LPARAM)new_element;
+			new_element->TreeItem		=	TreeView_InsertItem(ws_tree,&tv_is);
+			new_element->ElementType	=	ET_MISSION;
+			new_element->MapRef			=	map_element->MapRef;
+			new_element->MissionRef		=	new_mission;
 
-	fclose(file_handle);
+			//	Update the window.
+			InvalidateRect(ws_tree, NULL, FALSE);
+		}*/
+
+		fclose(file_handle);
+
+	//DWORD filePointer = SetFilePointer(new_file_handle, 0, NULL, FILE_CURRENT);
+
+	//FileClose(new_file_handle);
+
 
 	ResetFreelist(current_mission);
 	ResetUsedlist(current_mission);
@@ -1139,6 +1436,355 @@ void refresh_mission(void)
 
 	reset_wptlist();
 	fill_wptlist(current_mission);
+}
+
+
+void new_refresh_mission(void)
+{
+	//	UWORD				new_mission;
+	OPENFILENAME		open_mission;
+	CBYTE				file_name[_MAX_PATH], * chr, msg[_MAX_PATH + 200];
+	//FILE				*file_handle;
+	ULONG				m_vers;
+	SLONG				temp_map;
+	//	HTREEITEM			map_handle;
+	//	TV_ITEM				map_item;
+	//	TV_INSERTSTRUCT		tv_is;
+	//	WSElement			*map_element,
+	//						*new_element;
+	SLONG				c0;
+	//	Mission				*the_mission;
+
+	if (!current_mission)
+	{
+		MessageBox(0, "Select a mission to refresh first.", "Error", MB_ICONEXCLAMATION | MB_OK);
+	}
+
+	strcpy(file_name, "c:\\fallen\\levels\\");
+	strcat(file_name, current_mission->MissionName);
+	_strlwr(file_name);
+	if (!strstr(file_name, ".ucm"))
+		strcat(file_name, ".ucm");
+
+	if (!FileExists(file_name))
+	{
+		sprintf(msg, "Cannot find an updated version of the mission in %s.", file_name);
+		MessageBox(0, msg, "Error", MB_ICONEXCLAMATION | MB_OK);
+		return;
+	}
+
+	temp_map = current_mission->MapIndex;
+
+	//file_handle	=	fopen(file_name,"rb");
+
+
+	MFFileHandle new_file_handle = NULL;
+	new_file_handle = FileOpen(file_name);
+
+
+	if (!new_file_handle)
+	{
+		sprintf(msg, "Cannot open the updated version of the mission from %s.", file_name);
+		MessageBox(0, msg, "Error", MB_ICONEXCLAMATION | MB_OK);
+		return;
+	}
+
+	//  Go through and clear out the old mission data (esp. the memory allocated to waypoints!)
+
+	for (c0 = 0; c0 < MAX_EVENTPOINTS; c0++)
+		free_eventpoint(current_mission->EventPoints + c0);
+
+	//	Read the file version.
+	m_vers = M_VERSION;
+	//fread(&m_vers,sizeof(m_vers),1,file_handle);
+
+	int ye = sizeof(EventPoint);
+
+
+	int mess_count = 0;
+	int cutscene_count = 0;
+	DWORD initialPointer = 0;
+
+	// Read the mission data
+	if (m_vers > 8)
+	{
+
+		//OLD WAY
+		//fread((void*)current_mission, sizeof(Mission), 1, file_handle);
+
+		// NEW WAY
+		SLONG version;
+		SLONG flag;
+		CBYTE      junk[8];
+		EventPoint event_point;
+
+		if (FileRead(new_file_handle, &version, sizeof(SLONG)) == FILE_READ_ERROR) { return; }
+		if (FileRead(new_file_handle, &flag, sizeof(SLONG)) == FILE_READ_ERROR) { return; }	// Used
+		if (FileRead(new_file_handle, &current_mission->BriefName[0], _MAX_PATH) == FILE_READ_ERROR) { return; }	// BriefName
+		if (FileRead(new_file_handle, &current_mission->LightMapName[0], _MAX_PATH) == FILE_READ_ERROR) { return; }	// LightMapName
+		if (FileRead(new_file_handle, &current_mission->MapName[0], _MAX_PATH) == FILE_READ_ERROR) { return; }	// MapName
+		if (FileRead(new_file_handle, &current_mission->MissionName[0], _MAX_PATH) == FILE_READ_ERROR) { return; }	// MissionName
+		if (FileRead(new_file_handle, &current_mission->CitSezMapName[0], _MAX_PATH) == FILE_READ_ERROR) { return; }	// SewerMapName
+		if (FileRead(new_file_handle, junk, sizeof(UWORD)) == FILE_READ_ERROR) { return; }	// MapIndex... what's this?
+		current_mission->MapIndex = 1;
+
+		if (FileRead(new_file_handle, &current_mission->FreeEPoints, sizeof(UWORD)) == FILE_READ_ERROR) { return; }	// Used
+		if (FileRead(new_file_handle, &current_mission->UsedEPoints, sizeof(UWORD)) == FILE_READ_ERROR) { return; }	// Free
+
+		if (FileRead(new_file_handle, junk, sizeof(UWORD)) == FILE_READ_ERROR) { return; }	// Crime rate byte / Padding byte
+
+		/*fread(&version, sizeof(SLONG), 1, file_handle);
+		DWORD filePointer = 0;
+		initialPointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);;
+
+		fread(&flag, sizeof(SLONG), 1, file_handle);
+		filePointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);
+		fread(&current_mission->BriefName[0], _MAX_PATH, 1, file_handle);
+		filePointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);
+		fread(&current_mission->LightMapName[0], _MAX_PATH, 1, file_handle);
+		fread(&current_mission->MapName[0], _MAX_PATH, 1, file_handle);
+		fread(&current_mission->MissionName[0], _MAX_PATH, 1, file_handle);
+		fread(&current_mission->CitSezMapName[0], _MAX_PATH, 1, file_handle);
+		fread(&current_mission->MapIndex, sizeof(UWORD), 1, file_handle);
+		current_mission->MapIndex = 1;
+		fread(&current_mission->FreeEPoints, sizeof(UWORD), 1, file_handle);
+		fread(&current_mission->UsedEPoints, sizeof(UWORD), 1, file_handle);
+		fread(&current_mission->CrimeRate, sizeof(UBYTE), 1, file_handle);
+		fread(&current_mission->CivsRate, sizeof(UBYTE), 1, file_handle);
+
+		filePointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);*/
+
+		current_mission->Flags = flag;
+
+
+		for (int i = 0; i < MAX_EVENTPOINTS; i++)
+		{
+			if (FileRead(new_file_handle, &event_point, 14) == FILE_READ_ERROR) { return; }
+			if (FileRead(new_file_handle, &event_point.Data[0], 14 * 4 + 4) == FILE_READ_ERROR) { return; }
+
+			//fread(&event_point, 14, 1, file_handle);
+			//filePointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);
+			//fread(&event_point.Data[0], 14 * 4 + 4, 1, file_handle);
+			//filePointer = SetFilePointer(file_handle, 0, NULL, FILE_CURRENT);
+
+			unsigned char wType = event_point.WaypointType;
+			unsigned char wUsed = event_point.Used;
+
+			if (wUsed)
+			{
+				if (wType == WPT_MESSAGE || wType == WPT_NAV_BEACON || wType == WPT_BONUS_POINTS || wType == WPT_CONVERSATION)
+				{
+					mess_count++;
+				}
+				if (wType == WPT_CUT_SCENE)
+				{
+					cutscene_count++;
+				}
+			}
+
+			current_mission->EventPoints[i] = event_point;
+		}
+
+		for (int i = 0; i < 254; i++)
+		{
+			UBYTE SkillLevel;
+			if (FileRead(new_file_handle, &SkillLevel, sizeof(UBYTE)) == FILE_READ_ERROR) { return; }	// SkillLevels
+			//fread(&SkillLevel, sizeof(UBYTE), 1, file_handle);
+
+			current_mission->SkillLevels[i] = SkillLevel;
+		}
+		if (FileRead(new_file_handle, &current_mission->BoredomRate, sizeof(UBYTE)) == FILE_READ_ERROR) { return; }
+		if (FileRead(new_file_handle, &current_mission->CarsRate, sizeof(UBYTE)) == FILE_READ_ERROR) { return; }
+		if (FileRead(new_file_handle, &current_mission->MusicWorld, sizeof(UBYTE)) == FILE_READ_ERROR) { return; }
+
+		//fread(&current_mission->BoredomRate, sizeof(UBYTE), 1, file_handle);
+
+		//fread(&current_mission->CarsRate, sizeof(UBYTE), 1, file_handle);
+
+		//fread(&current_mission->MusicWorld, sizeof(UBYTE), 1, file_handle);
+
+
+	}
+	/*else if (m_vers>5)
+	{
+		OldMissionB temp;
+		fread((void*)&temp, sizeof(OldMissionB), 1, file_handle);
+		ZeroMemory(current_mission, sizeof(Mission));
+		memcpy(current_mission, &temp, sizeof(OldMissionB));
+	}
+	else
+	{
+		OldMission temp;
+		fread((void*)&temp, sizeof(OldMission), 1, file_handle);
+		ZeroMemory(current_mission, sizeof(Mission));
+		memcpy(current_mission, &temp, sizeof(OldMission));
+	}*/
+	if (m_vers < 10) current_mission->BoredomRate = 4;
+
+	//	Read in the text.
+	bool newWayToReadExtra = true;
+	CBYTE      junk[2048];
+
+	if (newWayToReadExtra)
+	{
+		for (int i = 0; i < mess_count + cutscene_count; i++)
+		{
+			SLONG l;
+			UBYTE what;
+
+			DWORD filePointer = SetFilePointer(new_file_handle, 0, NULL, FILE_CURRENT);
+			DWORD diffPointer = filePointer - initialPointer;
+
+			FileRead(new_file_handle, &what, 1);
+
+			filePointer = SetFilePointer(new_file_handle, 0, NULL, FILE_CURRENT);
+			switch (what)
+			{
+				case 1: // message
+					ZeroMemory(junk, sizeof(junk));
+					FileRead(new_file_handle, &l, 4);
+					if (FileRead(new_file_handle, junk, l) == FILE_READ_ERROR)
+					{
+						// PROBLEM
+						FileClose(new_file_handle);
+
+						//fclose(file_handle);
+					}
+					//
+					// We do not ? Tell the EWAY module what each message is.
+					//
+					//EWAY_set_message(i, junk);
+					break;
+				case 2: // cutscene
+					//PLAYCUTS_cutscenes[PLAYCUTS_cutscene_ctr++]=PLAYCUTS_Read(handle);
+
+					//CUTSCENE_read(file_handle, (CSData**)&ep->Data[0]);
+					PLAYCUTS_Read(new_file_handle); // don't care bout result -- static alloc
+					break;
+			}
+		}
+	}
+	else
+	{
+		for (c0 = 0; c0 < MAX_EVENTPOINTS; c0++)
+		{
+			//read_event_extra(file_handle, &current_mission->EventPoints[c0], current_mission->EventPoints, m_vers);
+		}
+	}
+
+	DWORD afterExtraPointer = SetFilePointer(new_file_handle, 0, NULL, FILE_CURRENT);
+
+
+	//if (version >= 2)
+	//{
+	//	//
+	//	// Load in the zone squares.
+	//	//
+
+	//	for (int x = 0; x < 128; x++)
+	//	{
+	//		if (FileRead(new_file_handle, junk, 128) == FILE_READ_ERROR) { return; }
+
+	//		for (int z = 0; z < 128; z++)
+	//		{
+	//			PAP_2HI(x, z).Flags &= ~PAP_FLAG_ZONE1;
+	//			PAP_2HI(x, z).Flags &= ~PAP_FLAG_ZONE2;
+	//			PAP_2HI(x, z).Flags &= ~PAP_FLAG_ZONE3;
+	//			PAP_2HI(x, z).Flags &= ~PAP_FLAG_ZONE4;
+
+	//			if (junk[z] & ZF_ZONE1) { PAP_2HI(x, z).Flags |= PAP_FLAG_ZONE1; }
+	//			if (junk[z] & ZF_ZONE2) { PAP_2HI(x, z).Flags |= PAP_FLAG_ZONE2; }
+	//			if (junk[z] & ZF_ZONE3) { PAP_2HI(x, z).Flags |= PAP_FLAG_ZONE3; }
+	//			if (junk[z] & ZF_ZONE4) { PAP_2HI(x, z).Flags |= PAP_FLAG_ZONE4; }
+
+	//			if (junk[z] & ZF_NO_WANDER)
+	//			{
+	//				if (PAP_2HI(x, z).Flags & PAP_FLAG_HIDDEN)
+	//				{
+	//					//
+	//					// For hidden squares, the PAP_FLAG_WANDER flag means something else!
+	//					//
+	//				}
+	//				else
+	//				{
+	//					PAP_2HI(x, z).Flags &= ~PAP_FLAG_WANDER;
+	//				}
+	//			}
+
+	//			if (junk[z] & ZF_NO_GO)
+	//			{
+	//				void MAV_turn_off_whole_square(
+	//					SLONG x,
+	//					SLONG z);
+
+	//				void MAV_turn_off_whole_square_car(
+	//					SLONG x,
+	//					SLONG z);
+
+	//				MAV_turn_off_whole_square(x, z);
+	//				MAV_turn_off_whole_square_car(x, z);
+
+	//				PAP_2HI(x, z).Flags |= PAP_FLAG_NOGO;
+	//			}
+	//			else
+	//			{
+	//				PAP_2HI(x, z).Flags &= ~PAP_FLAG_NOGO;
+	//			}
+	//		}
+	//	}
+	//}
+
+	if (FileRead(new_file_handle, (void*)MissionZones[current_mission - mission_pool], 128 * 128) == FILE_READ_ERROR) { return; }
+	//fread((void*)MissionZones[current_mission-mission_pool],128*128,1,file_handle);
+
+	current_mission->MapIndex = temp_map;//MAP_NUMBER(current_map);
+
+	//		the_mission->MapIndex=map_element->MapRef;
+	//		strcpy(the_mission->MapName,game_maps[map_element->MapRef].MapName);
+
+	/*		//	Now create the new mission tree entry
+		new_element	=	new WSElement;
+		if(new_element)
+		{
+			tv_is.hParent				=	map_handle;
+			tv_is.hInsertAfter			=	TVI_LAST;
+			tv_is.item.mask				=	TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_TEXT|TVIF_PARAM;
+			tv_is.item.iImage			=	IM_MISSION;
+			tv_is.item.iSelectedImage	=	IM_MISSION;
+			tv_is.item.pszText			=	the_mission->MissionName;
+			tv_is.item.lParam			=	(LPARAM)new_element;
+			new_element->TreeItem		=	TreeView_InsertItem(ws_tree,&tv_is);
+			new_element->ElementType	=	ET_MISSION;
+			new_element->MapRef			=	map_element->MapRef;
+			new_element->MissionRef		=	new_mission;
+
+			//	Update the window.
+			InvalidateRect(ws_tree, NULL, FALSE);
+		}*/
+
+		//fclose(file_handle);
+
+	DWORD filePointer = SetFilePointer(new_file_handle, 0, NULL, FILE_CURRENT);
+
+	FileClose(new_file_handle);
+
+
+	ResetFreelist(current_mission);
+	ResetUsedlist(current_mission);
+	ResetFreepoint(current_mission);
+	ResetUsedpoint(current_mission);
+
+	reset_wptlist();
+	fill_wptlist(current_mission);
+}
+
+
+
+
+void refresh_mission(void)
+{
+	//new_refresh_mission();
+	old_refresh_mission();
 }
 
 //---------------------------------------------------------------
@@ -1629,6 +2275,11 @@ BOOL valid_mission() {
 	ep=current_mission->EventPoints;
 	for(c0=0;c0<MAX_EVENTPOINTS;c0++,ep++) 
 		if (ep->Used) {
+			int aah = valid_ep(ep);
+			if (aah == 0)
+			{
+				printf("AAAAH!\n");
+			}
 			ep->Flags=(ep->Flags&~WPT_FLAGS_SUCKS)|(!valid_ep(ep));
 			miss_valid&=!(ep->Flags&WPT_FLAGS_SUCKS);
 		}
@@ -1694,22 +2345,22 @@ BOOL valid_mission() {
 						// This is a message from someone... so it can't be a street name.
 						//
 					}
-					else
-					if (is_street_name((CBYTE *) ep->Data[0]))
-					{
-						CBYTE mess[512];
+					//else
+					//if (is_street_name((CBYTE *) ep->Data[0]))
+					//{
+					//	CBYTE mess[512];
 
-						sprintf(mess, "%s\n\n\"%s\"\n\n(Tell Mark if it misses out a street name or mistakes a normal message for one.)", title, ep->Data[0]);
+					//	sprintf(mess, "%s\n\n\"%s\"\n\n(Tell Mark if it misses out a street name or mistakes a normal message for one.)", title, ep->Data[0]);
 
-						//
-						// This could be a street name... better ask the level designer!
-						//
+					//	//
+					//	// This could be a street name... better ask the level designer!
+					//	//
 
-						if (MessageBox(NULL, mess, "Change message type?", MB_ICONQUESTION | MB_YESNO) == IDYES)
-						{
-							ep->Data[2] = 0xffff;
-						}
-					}
+					//	if (MessageBox(NULL, mess, "Change message type?", MB_ICONQUESTION | MB_YESNO) == IDYES)
+					//	{
+					//		ep->Data[2] = 0xffff;
+					//	}
+					//}
 				}
 			}
 		}

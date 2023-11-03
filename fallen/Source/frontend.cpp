@@ -2174,7 +2174,7 @@ void	FRONTEND_MissionBrief(CBYTE *script, UBYTE i) {
 		strcat(path,pcSpeechLanguageDir);
 #else
 		// On PC it's always talk2.
-		strcat ( path, "talk2\\" );
+ 		strcat ( path, "talk2\\" );
 #endif
 		strcat(path,brief_wav[mdata->ObjID]);
 

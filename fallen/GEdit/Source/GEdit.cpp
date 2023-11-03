@@ -967,6 +967,7 @@ BOOL CALLBACK		mission_editor_proc	(
 				GetWindowRect(GetDlgItem(hWnd,item->CtlID),&rc);
 				item->itemWidth=rc.right-rc.left;
 				item->itemHeight=20;
+
 				return TRUE;
 			} else {
 				return	ticklist_measure(hWnd, wParam, lParam);

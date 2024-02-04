@@ -588,10 +588,10 @@ UBYTE	editor_loop(void)
 	//case 3:		width = 800; height = 600; break;
 	//case 4:		width = 1024; height = 768; break;
 
-	if(SetDisplay(1920,1080,32)==NoError)
+	if(SetDisplay(1024, 768,16)==NoError)
 	{
-		SetDrawFunctions(32);
-		SetWorkWindowBounds(0,0, 1920, 1080);
+		SetDrawFunctions(16);
+		SetWorkWindowBounds(0,0, 1024, 768);
 /*
 		while(!LeftButton)
 		{
@@ -605,7 +605,7 @@ UBYTE	editor_loop(void)
 		}
 
 */
-		module_bounds.SetRect(0,0, 800,20);
+		module_bounds.SetRect(0,0, 1024,20);
 		LogText("Into editor_loop");
 		InterfaceDefaults	=	new	Interface;
 		if(InterfaceDefaults)
@@ -637,7 +637,7 @@ UBYTE	editor_loop(void)
 void	free_edit_memory(void);
 	free_edit_memory();
 
-	SetDisplay(1024, 768,32);
+	SetDisplay(640, 480,16);
 	
 
 	return	0;

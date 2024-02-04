@@ -1358,13 +1358,13 @@ SLONG  form_left_map  = 0;
 void	lock_frame_rate(SLONG fps)
 {
 #if !defined(PSX) && !defined(TARGET_DC)
-	static	SLONG tick1 = 0;
-	SLONG tick2;
-	SLONG timet;
+	static	ULONG tick1 = 0;
+	ULONG tick2;
+	ULONG timet;
 
 	while(1)
 	{
-		tick2 = GetTickCount();
+		tick2 = GetTickCount64();
 		timet = tick2 - tick1;
 
 		if (timet > (1000 / fps))

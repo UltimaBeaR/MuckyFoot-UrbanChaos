@@ -1149,10 +1149,13 @@ void load_all_individual_prims(void)
 	// now load the animating objects
 	//
 
-	for (i = 1; i < 16; i++)
+	for (i = 1; i < 256; i++)
 	{
 		TRACE(" load_anim_prim_object(i)  = %d\n", i);
-		load_anim_prim_object(i);
+		if (i != 25)
+		{
+			load_anim_prim_object(i);
+		}
 	}
 }
 

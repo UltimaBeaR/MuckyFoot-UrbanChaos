@@ -67,7 +67,7 @@ extern Interface				*InterfaceDefaults;
 #define	GREEN_COL  				InterfaceDefaults->GetGreenColour()
 #define	BLUE_COL  				InterfaceDefaults->GetBlueColour()
 
-#define	INTERFACE_SPRITE(ID)	InterfaceDefaults->GetInterfaceSprite(ID)
+#define	INTERFACE_SPRITE(ID)	InterfaceDefaults->GetInterfaceSprite(1)
 #define	INTERFACE_POINTER(ID)	InterfaceDefaults->GetInterfacePointer(ID)
 
 #define	PALETTE					InterfaceDefaults->GetPalette()

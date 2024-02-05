@@ -87,9 +87,6 @@
 #include	"..\ddengine\headers\truetype.h"
 #include "panel.h"
 
-#include "GEdit.h"
-#include "..\Headers\io.h"
-
 #else
 #include	"c:\fallen\psxeng\headers\psxeng.h"
 #include	<ctrller.h>

@@ -253,6 +253,7 @@ void	DrawBSpritePal16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal)
 	dst_ptr		=	(UWORD*)WorkWindow+x+(y*WorkScreenPixelWidth);
 	line_ptr	=	dst_ptr;
 	src_ptr		=	the_sprite->SpriteData;
+
 	DRAW_SPRITE16(pal)
 }
 
@@ -331,6 +332,7 @@ void	DrawMonoBSprite16(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 	line_ptr	=	dst_ptr;
 	src_ptr		=	the_sprite->SpriteData;
 	dup_pixel	=	(UWORD)colour;
+	
 	DRAW_M_SPRITE
 }
 

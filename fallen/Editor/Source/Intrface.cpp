@@ -54,9 +54,9 @@ void Interface::SetupInterfaceDefaults(void)
 #endif
 	SetPalette(InterfacePalette);
 
-   	ContentColourBr	=	FindColour(InterfacePalette,115+20,128+20,156+20);
    	ContentColourBr	=	FindColour(InterfacePalette,0,0,0);
-   	ContentColour	=	FindColour(InterfacePalette,255,0,0);
+   	//ContentColourBr	=	FindColour(InterfacePalette,0,0,0);
+   	//ContentColour	=	FindColour(InterfacePalette,255,0,0);
    	ContentColour	=	FindColour(InterfacePalette,115,128,156);
 	TextColour		=	FindColour(InterfacePalette,256,256,256);
 	HiliteColour	=	FindColour(InterfacePalette,115+30,128+30,156+30);
@@ -72,31 +72,31 @@ void Interface::SetupInterfaceDefaults(void)
 
 	InactiveColour	=	ContentColour;
 
-	//file_handle	=	FileOpen("Editor\\Data\\intrface.spr");
-	//ERROR_MSG(!(file_handle==FILE_OPEN_ERROR),"Can't open sprite ref file.");
-	//if(file_handle!=FILE_OPEN_ERROR)
-	//{
-	//	file_size	=	FileSize(file_handle);
-	//	interface_sprites	=	(BSprite*)MemAlloc(file_size);
-	//	if(interface_sprites)
-	//	{
-	//		FileRead(file_handle,interface_sprites,file_size);
-	//	}
-	//	FileClose(file_handle);
-	//}
+	file_handle	=	FileOpen("Editor\\Data\\intrface.spr");
+	ERROR_MSG(!(file_handle==FILE_OPEN_ERROR),"Can't open sprite ref file.");
+	if(file_handle!=FILE_OPEN_ERROR)
+	{
+		file_size	=	FileSize(file_handle);
+		interface_sprites	=	(BSprite*)MemAlloc(file_size);
+		if(interface_sprites)
+		{
+			FileRead(file_handle,interface_sprites,file_size);
+		}
+		FileClose(file_handle);
+	}
 
-	//file_handle	=	FileOpen("Editor\\Data\\intrface.spd");
-	//ERROR_MSG(!(file_handle==FILE_OPEN_ERROR),"Can't open sprite data file.");
-	//if(file_handle!=FILE_OPEN_ERROR)
-	//{
-	//	file_size	=	FileSize(file_handle);
-	//	interface_sprite_data	=	(UBYTE*)MemAlloc(file_size);
-	//	if(interface_sprite_data)
-	//	{
-	//		FileRead(file_handle,interface_sprite_data,file_size);
-	//	}
-	//	FileClose(file_handle);
-	//}
+	file_handle	=	FileOpen("Editor\\Data\\intrface.spd");
+	ERROR_MSG(!(file_handle==FILE_OPEN_ERROR),"Can't open sprite data file.");
+	if(file_handle!=FILE_OPEN_ERROR)
+	{
+		file_size	=	FileSize(file_handle);
+		interface_sprite_data	=	(UBYTE*)MemAlloc(file_size);
+		if(interface_sprite_data)
+		{
+			FileRead(file_handle,interface_sprite_data,file_size);
+		}
+		FileClose(file_handle);
+	}
 
 	if(interface_sprites && interface_sprite_data)
 		SetupBSprites(interface_sprites,interface_sprite_data);	

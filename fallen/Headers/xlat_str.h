@@ -227,6 +227,7 @@
 #define X_CREDITS					(177)
 #define X_BONUS_MISSION_UNLOCKED	(178)
 #define X_JUMP_CAM					(179)
+#define X_MISSION_EDITOR			(179)
 
 #ifdef TARGET_DC
 #define X_PAD_MODE					(180)

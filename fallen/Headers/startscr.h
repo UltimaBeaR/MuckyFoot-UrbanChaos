@@ -12,6 +12,7 @@
 #define	STARTS_PSX		8
 #define	STARTS_MULTI	9
 #define STARTS_LANGUAGE_CHANGE 10
+#define STARTS_MISSION_EDITOR 11
 
 struct	StartMenu
 {

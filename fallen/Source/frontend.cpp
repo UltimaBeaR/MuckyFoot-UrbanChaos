@@ -137,6 +137,7 @@ void	FRONTEND_display ( void );
 #define FE_START			(-3)
 #define FE_EDITOR			(-4)
 #define FE_CREDITS			(-5)
+#define FE_MISSION_EDITOR			(-6)
 #ifdef TARGET_DC
 #define FE_CHANGE_JOYPAD	(-6)
 #endif
@@ -341,6 +342,7 @@ RawMenuData raw_menu_data[] = {
 	// sheer MADNESS!
 	{				  0,	OT_BUTTON,	X_LOAD_UCM, 	0,	FE_START			},
 	{				  0,	OT_BUTTON,	X_EDITOR,		0,  FE_EDITOR			},
+	{				  0,	OT_BUTTON,	X_MISSION_EDITOR,		0,  FE_MISSION_EDITOR			},
 #endif
 #ifndef VERSION_DEMO
 	{				  0,	OT_BUTTON,	X_CREDITS,		0,	FE_CREDITS			},
@@ -3865,6 +3867,7 @@ UBYTE	FRONTEND_input() {
 			// temp thingy:
 			//if (item->Data==FE_MAPSCREEN) return FE_START;
 			if (item->Data==FE_EDITOR) return FE_EDITOR;
+			if (item->Data== FE_MISSION_EDITOR) return FE_MISSION_EDITOR;
 			if (item->Data==FE_CREDITS) return FE_CREDITS;
 			
 			FRONTEND_kibble_flurry();
@@ -4539,6 +4542,10 @@ extern int g_iCheatNumber;
 	if (res==FE_NO_REALLY_QUIT) return STARTS_EXIT;
 #endif
 	if (res==FE_EDITOR)			return STARTS_EDITOR;
+	if (res == FE_MISSION_EDITOR)
+	{
+		return STARTS_MISSION_EDITOR;
+	}
 	if (res==FE_LOADSCREEN)		return STARTS_START;
 
 	if (res==FE_START)

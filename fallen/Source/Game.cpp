@@ -1129,7 +1129,18 @@ void	game(void)
 
 #ifdef	EDITOR
 
-		if(GAME_STATE&GS_EDITOR)
+		if (GAME_STATE & GS_EDITOR)
+		{
+			if (editor_loop())
+				GAME_STATE = 0;
+			else
+			{
+				//				global_load();  //editor screws up the global load
+
+				GAME_STATE = GS_ATTRACT_MODE;
+			}
+		}
+		if(GAME_STATE&GS_MISSION_EDITOR)
 		{
 			//	ANIM_init();
 			//global_load();

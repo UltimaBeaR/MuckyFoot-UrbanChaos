@@ -460,6 +460,9 @@ extern void	init_joypad_config(void);
 						GAME_STATE	|=	GS_PLAYBACK;
 						go_into_game =  TRUE;
 						break;
+					case	STARTS_MISSION_EDITOR:
+						GAME_STATE = GS_MISSION_EDITOR;
+						break;
 					case	STARTS_EDITOR:
 						GAME_STATE	=	GS_EDITOR;
 						break;

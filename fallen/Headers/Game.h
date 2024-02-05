@@ -177,6 +177,7 @@ extern	struct MemTable save_table[];
 #define	GS_PLAYBACK				(1<<7)
 #define	GS_REPLAY				(1<<8)
 
+#define	GS_MISSION_EDITOR		(1<<9)
 #define	GS_EDITOR				(1<<16)
 
 // Game Flags.

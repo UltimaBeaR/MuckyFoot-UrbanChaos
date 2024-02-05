@@ -710,8 +710,8 @@ static void TEXTURE_load_page(SLONG page)
 	FILE *exists64;
 	FILE *exists128;
 
-	ASSERT(TEXTURE_set);
-	ASSERT(WITHIN(page, 0, TEXTURE_MAX_TEXTURES - 1));
+	//ASSERT(TEXTURE_set);
+	//ASSERT(WITHIN(page, 0, TEXTURE_MAX_TEXTURES - 1));
 
 	if (TEXTURE_dontexist[page])
 	{
@@ -1015,7 +1015,7 @@ void TEXTURE_initialise_clumping(CBYTE *fname_level)
 	
 extern void SetLastClumpfile(char* file, size_t size);	// in GDisplay.cpp, horrible bodge
 
-	if (1 || !clumping)
+	if (1 ||!clumping)
 	{
 		// load textures directly
 		IndividualTextures = true;

@@ -5805,26 +5805,26 @@ extern DWORD m_dwSizeOfQueue;
 
 		//sprintf(text, "Witam serdecznie: %d", FARFACET_num_squares_drawn);
 		//sprintf(text, "Thing size = : %d", sizeof(Thing));
-		sprintf(text, " HI YOUTUBE ! ");
+		//sprintf(text, " HI YOUTUBE ! ");
 
 
-		FONT2D_DrawString(
-			text,
-			51,
-			51,
-			0x000000,
-			256,
-			POLY_PAGE_FONT2D,
-			0);
+		//FONT2D_DrawString(
+		//	text,
+		//	51,
+		//	51,
+		//	0x000000,
+		//	256,
+		//	POLY_PAGE_FONT2D,
+		//	0);
 
-		FONT2D_DrawString(
-			text,
-			50,
-			50,
-			0xff00ff,
-			256,
-			POLY_PAGE_FONT2D,
-			0);
+		//FONT2D_DrawString(
+		//	text,
+		//	50,
+		//	50,
+		//	0xff00ff,
+		//	256,
+		//	POLY_PAGE_FONT2D,
+		//	0);
 
 	}
 

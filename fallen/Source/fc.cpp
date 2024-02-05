@@ -624,7 +624,7 @@ void FC_calc_focus(FC_Cam *fc)
 					// Take (x,z) from the position of the head.
 					//
 
-					return;
+					//return;
 					calc_sub_objects_position(
 						fc->focus,
 						fc->focus->Draw.Tweened->AnimTween,

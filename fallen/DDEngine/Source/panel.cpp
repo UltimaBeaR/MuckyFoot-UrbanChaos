@@ -1360,7 +1360,7 @@ void PANEL_do_heartbeat(SLONG which, float stamina, SLONG death)
 	float amp1 = 0.6F + stamina * 0.3F;
 	float amp2 = 0.3F + stamina * 0.5F;
 
-	ULONG now = GetTickCount();
+	ULONG now = GetTickCount64();
 
 	//
 	// Process the heatbeat 20 times a second. But no more than 4 times a
@@ -1716,7 +1716,7 @@ void PANEL_do_tosses(void)
 
 	PANEL_Toss *pt;
 
-	ULONG now = GetTickCount();
+	ULONG now = GetTickCount64();
 
 	//
 	// Process 20 times a second but no more than 4 times a frame.
@@ -2294,7 +2294,7 @@ void PANEL_new_text_process()
 
 	PANEL_Text *pt;
 
-	ULONG now = GetTickCount();
+	ULONG now = GetTickCount64();
 
 	//
 	// Process 20 times a second but no more than 4 times a frame.
@@ -3494,7 +3494,7 @@ void PANEL_fadeout_start()
 {
 	if (!PANEL_fadeout_time)
 	{
-		PANEL_fadeout_time = GetTickCount();
+		PANEL_fadeout_time = GetTickCount64();
 	}
 }
 
@@ -3513,7 +3513,7 @@ void PANEL_fadeout_draw()
 		// Make the fadeout zoom in and turn.
 		//
 
-		float angle = float(GetTickCount() - PANEL_fadeout_time) * angle_mul;
+		float angle = float(GetTickCount64() - PANEL_fadeout_time) * angle_mul;
 		float zoom  = angle * zoom_mul;
 
 		float xdu = -(float)cos(angle) * zoom * 1.33F;
@@ -3583,7 +3583,7 @@ void PANEL_fadeout_draw()
 		// Darken the screen at the end.
 		//
 
-		if (GetTickCount() > (unsigned)PANEL_fadeout_time + 768)
+		if (GetTickCount64() > (unsigned)PANEL_fadeout_time + 768)
 		{
 			SLONG bright;
 
@@ -3591,7 +3591,7 @@ void PANEL_fadeout_draw()
 			// Fadeout the colour.
 			// 
 
-			bright = GetTickCount() - (PANEL_fadeout_time + 768);
+			bright = GetTickCount64() - (PANEL_fadeout_time + 768);
 
 			SATURATE(bright, 0, 255);
 
@@ -3630,7 +3630,7 @@ SLONG PANEL_fadeout_finished()
 {
 	if (PANEL_fadeout_time)
 	{
-		if (GetTickCount() > (unsigned)PANEL_fadeout_time + 1024)
+		if (GetTickCount64() > (unsigned)PANEL_fadeout_time + 1024)
 		{
 			return TRUE;
 		}
@@ -3929,7 +3929,7 @@ SLONG PANEL_sign_time;
 
 void PANEL_flash_sign(SLONG sign, SLONG flip)
 {
-	PANEL_sign_time  = GetTickCount();
+	PANEL_sign_time  = GetTickCount64();
 	PANEL_sign_flip  = flip;
 	PANEL_sign_which = sign;
 }
@@ -3947,7 +3947,7 @@ void PANEL_new_info_message(CBYTE *fmt, ...)
 	vsprintf(PANEL_info_message, fmt, ap);
 	va_end  (ap);
 	
-	PANEL_info_time = GetTickCount();
+	PANEL_info_time = GetTickCount64();
 }
 
 
@@ -5152,7 +5152,7 @@ extern	ULONG	strip_stats[];
 					float size = (mb->pad&&!is_dot) ? 9.0F : 6.0F;
 
 
-					SLONG alive = GetTickCount() - mb->ticks;
+					SLONG alive = GetTickCount64() - mb->ticks;
 
 					if (alive < 4096)
 					{
@@ -5192,17 +5192,17 @@ extern	ULONG	strip_stats[];
 			mb->pad = FALSE;
 		}
 
-		if (PANEL_info_time > GetTickCount() - 2000)
+		if (PANEL_info_time > GetTickCount64() - 2000)
 		{
 			SLONG x_right;
 
 			SLONG colour_main;
 			SLONG colour_shad;
 
-//			if (!WITHIN(PANEL_info_time, GetTickCount() - 1100, GetTickCount() - 900))
+//			if (!WITHIN(PANEL_info_time, GetTickCount64() - 1100, GetTickCount64() - 900))
 
 
-			SLONG now   = GetTickCount();
+			SLONG now   = GetTickCount64();
 			SLONG onfor = now - PANEL_info_time;
 
 			if (onfor < 255)
@@ -5552,7 +5552,7 @@ extern	ULONG	strip_stats[];
 	// Draw the signs.
 	//
 
-	SLONG dtime = GetTickCount() - PANEL_sign_time;
+	ULONG dtime = GetTickCount64() - PANEL_sign_time;
 
 	if (dtime < 3000)
 	{

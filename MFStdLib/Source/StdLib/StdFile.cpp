@@ -42,7 +42,7 @@ BOOL	FileExists( CBYTE *file_name)
 		size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 			NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
 
-		DebugText("\n ERROR failed to open \n");
+		DebugText("\n ERROR failed to open %s\n", file_name);
 
 		return	FALSE;
 	}

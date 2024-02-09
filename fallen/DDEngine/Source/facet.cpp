@@ -396,7 +396,7 @@ SLONG texture_quad(POLY_Point *quad[4],SLONG texture_style,SLONG pos,SLONG count
 //		ASSERT(p_storey->Count!=2);
 
 		index=p_storey->Index;
-		ASSERT(p_storey->Count);
+		//ASSERT(p_storey->Count);
 		
 		if(pos<p_storey->Count)
 		{
@@ -2771,7 +2771,7 @@ void FACET_draw_rare(SLONG facet,UBYTE alpha)
 		LogText(" diagonal wall \n");
 		if(p_facet->FacetType==STOREY_TYPE_NORMAL)
 		{
-			ASSERT(0);
+			//ASSERT(0);
 		}
 
 
@@ -3971,7 +3971,7 @@ draw_the_facet_common:;
 	//		return;
 
 	// No diagonal walls allowed.
-	ASSERT ( !(dx && dz) );
+	//ASSERT ( !(dx && dz) );
 
 	{
 		if(dx)

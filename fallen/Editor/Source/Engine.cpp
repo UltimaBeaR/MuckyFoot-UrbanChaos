@@ -1103,7 +1103,7 @@ void	render_buckets_3dfx(UBYTE highlight);
 	{
 		CBYTE	str[100];
 		static	SLONG	times[10],turn=0;
-		SLONG	time;
+		ULONG	time;
 		turn++;
 		Time(&the_time);
 		time=the_time.Ticks;

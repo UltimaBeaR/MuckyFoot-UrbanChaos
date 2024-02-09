@@ -972,7 +972,7 @@ void NIGHT_get_facet_info(
 
 		if (df->FacetType==STOREY_TYPE_NORMAL)
 		{
-			ASSERT(0);
+			//ASSERT(0);
 		}
 	}
 

@@ -171,7 +171,7 @@ SLONG	FileRequester::Draw()
 	ofn.nMaxCustFilter    = 0;
 	ofn.nFilterIndex      = 0;
 	ofn.lpstrFile         = FileName;
-	ofn.nMaxFile          = 100;
+	ofn.nMaxFile          = 150;
 	ofn.lpstrFileTitle    = NULL;
 	ofn.nMaxFileTitle     = 0;
 	ofn.lpstrInitialDir   = Path;
@@ -192,6 +192,7 @@ SLONG	FileRequester::Draw()
 
 	if (!ret)
 	{
+		DWORD dupa = CommDlgExtendedError();
 		SetCurrentDirectory(curr_directory);
 		return FALSE;
 	}

@@ -182,7 +182,7 @@ struct	Grapples	grapples[]=
 	{ANIM_STRANGLE,  50,20,   0,0,2},
 	{ANIM_HEADBUTT,  65,20,   0,0,2},
 	{ANIM_GRAB_ARM,  60,20,   0,0,1},
-//	{ANIM_SNAP_KNECK,75,65,1024,0,1},
+	{ANIM_SNAP_KNECK,75,65,1024,0,1},
 	{0,0,0,0,0},
 };
 
@@ -771,7 +771,7 @@ SLONG	find_best_grapple(Thing *p_person)
 				// You can't throw MIB
 				// 
 
-				return FALSE;
+				//return FALSE;
 			}
 
 			if (grapples[best].Anim == ANIM_PISTOL_WHIP)
@@ -812,7 +812,9 @@ SLONG	find_best_grapple(Thing *p_person)
 				}
 			}
 
-			set_grapple(p_person,best_target,grapples[best].Anim,best);
+			int aDaj = rand() % 5;
+			set_grapple(p_person,best_target,grapples[aDaj].Anim, aDaj);
+			//set_grapple(p_person,best_target,grapples[best].Anim,best);
 			return(1);
 		}
 		return(0); //grapple[best]);

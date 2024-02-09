@@ -4801,7 +4801,6 @@ void	show_facet(SLONG facet)
 
 void AENG_draw_people_messages()
 {
-	return;
 
 	SLONG x;
 	SLONG z;
@@ -10738,7 +10737,7 @@ extern	void	ANIMAL_draw(Thing *p_thing);
 
 #ifndef TARGET_DC
 	if(!INDOORS_INDEX||outside)
-	AENG_draw_released_balloons();
+  	AENG_draw_released_balloons();
 #endif
 
 	LOG_EXIT ( AENG_Draw_Ballons )

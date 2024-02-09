@@ -131,7 +131,7 @@ struct MFTime
 				Day,
 				Month,			//	1 - 12;		January		=	1
 				Year;
-	SLONG		Ticks;			// Number of ticks(milliseconds) since windows started.
+	ULONG		Ticks;			// Number of ticks(milliseconds) since windows started.
 };
 
 SLONG			main(UWORD argc, TCHAR** argv);

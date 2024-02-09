@@ -106,6 +106,8 @@ extern ControllerPacket	PAD_Input1,PAD_Input2;
 #include "..\ddengine\headers\fastprim.h"
 #include "..\ddengine\headers\supercrinkle.h"
 
+#include "GEdit.h"
+
 
 SLONG CAM_cur_x, CAM_cur_y, CAM_cur_z, 
 	  CAM_cur_yaw, CAM_cur_pitch, CAM_cur_roll; // these are set appropriate to whichever cam

@@ -433,7 +433,7 @@ void	Time(MFTime *the_time)
 	the_time->Day		=	new_time.wDay;
 	the_time->Month		=	new_time.wMonth;
 	the_time->Year		=	new_time.wYear;
-	the_time->Ticks		=	GetTickCount();			// Identified as an overflow issue that occurs every 49 days
+	the_time->Ticks		=	GetTickCount64();			// Identified as an overflow issue that occurs every 49 days
 }
 
 //---------------------------------------------------------------

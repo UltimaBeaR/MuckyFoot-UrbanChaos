@@ -402,8 +402,8 @@ void	editor(void)
 		{
 			mouse_point.X	=	MouseX;
 			mouse_point.Y	=	MouseY;
-			TRACE("mouse_point.X <%lu>\n", mouse_point.X);
-			TRACE("mouse_point.Y <%lu>\n", mouse_point.Y);
+			//TRACE("mouse_point.X <%lu>\n", mouse_point.X);
+			//TRACE("mouse_point.Y <%lu>\n", mouse_point.Y);
 
 			module_set.HandleControlSet(&mouse_point);
 

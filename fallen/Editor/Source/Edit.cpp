@@ -2511,9 +2511,9 @@ ULONG	engine_keys_spin(void)
 		
 	if(Keys[KB_HOME])
 	{
-		engine.AngleX+=2048;
-		engine.AngleX+=2048;
-		engine.AngleX+=2048;
+		//engine.AngleX+=2048;
+		//engine.AngleX+=2048;
+		//engine.AngleX+=2048;
 		engine.AngleX+=2048;
 		engine.AngleX=((engine.AngleX+(2048<<8))&((2048<<8)-1));
 //		if(engine.AngleX< (1536<<8) && (engine.AngleX>512<<8))
@@ -2523,9 +2523,9 @@ ULONG	engine_keys_spin(void)
 
 	if(Keys[KB_END])
 	{
-		engine.AngleX-=2048;
-		engine.AngleX-=2048;
-		engine.AngleX-=2048;
+		//engine.AngleX-=2048;
+		//engine.AngleX-=2048;
+		//engine.AngleX-=2048;
 		engine.AngleX-=2048;
 		engine.AngleX=((engine.AngleX+(2048<<8))&((2048<<8)-1));
 //		if(engine.AngleX< (1536<<8) && (engine.AngleX>512<<8))

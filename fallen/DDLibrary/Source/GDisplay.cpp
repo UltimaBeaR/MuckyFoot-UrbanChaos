@@ -285,6 +285,8 @@ extern HINSTANCE	hGlobalThisInst;
 
 	VideoRes = ENV_get_value_number("video_res", -1, "Render");
 
+	SLONG fullscreenMode = ENV_get_value_number("fullscreen_mode", -1, "Render");
+
 	VideoRes = max(min(VideoRes, 5), 0);
 
 	depth = 32;
@@ -304,7 +306,14 @@ extern HINSTANCE	hGlobalThisInst;
 	if(flags&FLAGS_USE_WORKSCREEN)
 		the_display.UseWorkOn();
 
-	the_display.FullScreenOff();
+	if (fullscreenMode == 1)
+	{
+		the_display.FullScreenOn();
+	}
+	else
+	{
+		the_display.FullScreenOff();
+	}
 
 	result = SetDisplay(width,height,depth);
 

@@ -1,6 +1,8 @@
 // GHost.cpp
 // Guy Simmons, 20th November 1997.
 
+//#define DIRECT3D_VERSION         0x0700
+
 #include	"DDLib.h"
 #include	"..\headers\Sound.h"
 #include	"mfx.h"

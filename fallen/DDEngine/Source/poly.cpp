@@ -224,6 +224,10 @@ SLONG POLY_page_is_masked_self_illuminating(SLONG page)
 }
 
 
+D3DMATRIX g_matProjection;
+D3DVIEWPORT2 g_viewData;
+DWORD g_dw3DStuffHeight;
+DWORD g_dw3DStuffY;
 #if USE_TOMS_ENGINE_PLEASE_BOB
 D3DMATRIX g_matProjection;
 D3DVIEWPORT2 g_viewData;
@@ -865,7 +869,7 @@ SLONG POLY_get_screen_pos(
 // The combined rotation matrix.
 //
 
-#if USE_TOMS_ENGINE_PLEASE_BOB
+#if 1
 D3DMATRIX g_matWorld;
 #endif
 

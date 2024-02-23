@@ -971,7 +971,7 @@ void game_fini(void)
 
 	// Free up the figure caches.
 void FIGURE_clean_all_LRU_slots ( void );
-	FIGURE_clean_all_LRU_slots();
+	//FIGURE_clean_all_LRU_slots();
 
 
 	//

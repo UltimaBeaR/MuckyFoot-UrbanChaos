@@ -639,7 +639,7 @@ void	load_general_prims(void)
 	// Various extras.
 	//
 
-//no	load_prim_object(PRIM_OBJ_HOOK);	// The grappling hook
+	load_prim_object(PRIM_OBJ_HOOK);	// The grappling hook
 	load_prim_object(PRIM_OBJ_CAN);
 //no	load_prim_object(PRIM_OBJ_BALLOON);
 	load_prim_object(PRIM_OBJ_BARREL);

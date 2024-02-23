@@ -7061,7 +7061,7 @@ void	set_person_grapple_windup(Thing *p_person)
 	// Set the animation.
 	//
 
-	set_anim(p_person, ANIM_GRAPPLING_HOOK_WINDUP);
+	//set_anim(p_person, ANIM_GRAPPLING_HOOK_WINDUP);
 
 	//
 	// Set the state.
@@ -7085,7 +7085,7 @@ void	set_person_grappling_hook_release(Thing *p_person)
 	// Set the animation.
 	//
 
-	set_anim(p_person, ANIM_GRAPPLING_HOOK_RELEASE);
+	//set_anim(p_person, ANIM_GRAPPLING_HOOK_RELEASE);
 
 	//
 	// Set the state.

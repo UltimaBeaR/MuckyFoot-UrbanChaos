@@ -224,7 +224,7 @@ SLONG POLY_page_is_masked_self_illuminating(SLONG page)
 }
 
 
-#if USE_TOMS_ENGINE_PLEASE_BOB
+#if 1
 D3DMATRIX g_matProjection;
 D3DVIEWPORT2 g_viewData;
 // Used to hack in letterbox mode.
@@ -865,7 +865,7 @@ SLONG POLY_get_screen_pos(
 // The combined rotation matrix.
 //
 
-#if USE_TOMS_ENGINE_PLEASE_BOB
+#if 1
 D3DMATRIX g_matWorld;
 #endif
 

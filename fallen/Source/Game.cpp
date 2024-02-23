@@ -971,7 +971,7 @@ void game_fini(void)
 
 	// Free up the figure caches.
 void FIGURE_clean_all_LRU_slots ( void );
-	FIGURE_clean_all_LRU_slots();
+	//FIGURE_clean_all_LRU_slots();
 
 
 	//
@@ -2456,7 +2456,7 @@ void	check_pows(void);
 				DOOR_process();
 
 #ifndef TARGET_DC
-				TRACE("Eway process\n");
+				//TRACE("Eway process\n");
 #endif
 
 				EWAY_process();
@@ -2586,7 +2586,7 @@ extern	void	do_packets(void);
 			//
 			// process moveing sfx, ambient stuff etc
 			//
-			handle_sfx();
+			//handle_sfx();
 
 			GAME_TURN++;
 

@@ -2779,13 +2779,13 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 */
 	}
 
-	/*
+	
 
 	//
 	// Hook control.
 	//
 
-	if (HOOK_get_state() == HOOK_STATE_SPINNING)
+	if (HOOK_get_state() == HOOK_STATE_SPINNING)  
 	{
 		static SLONG spin_speed = 0;
 
@@ -2811,12 +2811,13 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 		py += darci->WorldPos.Y >> 8;
 		pz += darci->WorldPos.Z >> 8;
 
-		HOOK_spin(
-			px,
-			py,
-			pz,
-			darci->Draw.Tweened->Angle,
-			spin_speed);
+
+			HOOK_spin(
+				px,
+				py,
+				pz,
+				darci->Draw.Tweened->Angle,
+				spin_speed);
 
 		if (Keys[KB_F])
 		{
@@ -2826,11 +2827,11 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 		}
 	}
 
-	*/
+	
 
-	/*
+	
 
-	if(!(GAME_FLAGS & GF_SHOW_MAP))
+	if(1)
 	{
 		if(Keys[KB_TAB])
 		{
@@ -2842,7 +2843,7 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 		}
 	}
 
-	*/
+	
 
 	if(Keys[KB_E])
 	{
@@ -3914,6 +3915,10 @@ extern	void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLO
 
 			darci->Genus.Person->Flags |= FLAG_PERSON_NO_RETURN_TO_NORMAL;
 			darci->Genus.Person->Action = ACTION_SIT_BENCH;
+
+			HOOK_init(
+				NET_PERSON(0)->WorldPos.X - 0x20000 >> 8,
+				NET_PERSON(0)->WorldPos.Z - 0x20000 >> 8);
 		}
 
 /*

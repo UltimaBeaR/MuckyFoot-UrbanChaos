@@ -137,9 +137,13 @@ void FIGURE_draw_prim_tween_person_only(
 bool m_bPleaseInflatePeople = FALSE;
 #endif
 
+#define ALIGNED_STATIC_ARRAY(def,name,number,mytype,align)														\
+	static char c##name##mytype##align##StaticArray [ align + number * sizeof ( mytype ) ];						\
+	def##name = (mytype *)( ( (DWORD)c##name##mytype##align##StaticArray + (align-1) ) & ~(align-1) )
 
 
 #if USE_TOMS_ENGINE_PLEASE_BOB
+
 
 
 
@@ -2508,7 +2512,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 						int iNumEdges = 0;
 						WORD *pSrcIndex = pFirstListIndex;
 						WORD wI1, wI2, wI3, wI4;
-						for ( i = pMaterial->wNumListIndices / 3; i > 0; i-- )
+						for ( int i = pMaterial->wNumListIndices / 3; i > 0; i-- )
 						{
 							wI1 = pSrcIndex[0];
 							wI2 = pSrcIndex[1];
@@ -2549,7 +2553,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 
 						// Now scan the edges, creating the midpoints.
 						EdgeList *pEdgeCur = pEdgeList;
-						for ( i = 0; i < iNumEdges; i++ )
+						for (int  i = 0; i < iNumEdges; i++ )
 						{
 							D3DVERTEX *pvertMid, *pvert1, *pvert2;
 
@@ -2705,7 +2709,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 						pSrcIndex = pFirstListIndex + pMaterial->wNumListIndices;
 						WORD *pDstIndex = pFirstListIndex + iNewMatNumListIndices;
 						WORD wMid[3];
-						for ( i = pMaterial->wNumListIndices / 3; i > 0; i-- )
+						for ( int i = pMaterial->wNumListIndices / 3; i > 0; i-- )
 						{
 							pSrcIndex -= 3;
 							pDstIndex -= 3 * 4;
@@ -2727,7 +2731,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 										break;
 									}
 								}
-								ASSERT ( k != iNumEdges );
+								//ASSERT ( k != iNumEdges );
 
 								// Next edge.
 								wI1 = wI2;
@@ -3863,17 +3867,17 @@ extern D3DMATRIX g_matWorld;
 		if ( !pa->RS.NeedsSorting() && ( FIGURE_alpha == 255 ) &&
 			 ( ( ( g_matWorld._43 * 32768.0f ) - ( pPrimObj->fBoundingSphereRadius * character_scalef ) ) > ( POLY_ZCLIP_PLANE * 32768.0f ) ) )
 		{
-			// Non-alpha path.
-			if ( wPage & TEXTURE_PAGE_FLAG_TINT )
-			{
-				// Tinted colours.
-				d3dmm.lpLightTable = MM_pcFadeTableTint;
-			}
-			else
-			{
-				// Normal.
-				d3dmm.lpLightTable = MM_pcFadeTable;
-			}
+			//// Non-alpha path.
+			//if ( wPage & TEXTURE_PAGE_FLAG_TINT )
+			//{
+			//	// Tinted colours.
+			//	d3dmm.lpLightTable = MM_pcFadeTableTint;
+			//}
+			//else
+			//{
+			//	// Normal.
+			//	d3dmm.lpLightTable = MM_pcFadeTable;
+			//}
 			d3dmm.lpvVertices = pVertex;
 
 
@@ -3950,15 +3954,15 @@ extern DIJOYSTATE the_state;
 			//if (pMat->wNumVertices &&
 			//	pMat->wNumStripIndices)
 			{
-				//TRACE ( "S4" );
+				TRACE ( "S4" );
 				hres = DrawIndPrimMM (
 						(the_display.lp_D3D_Device),
-						D3DFVF_VERTEX,
+					D3DFVF_VERTEX,
 						&d3dmm,
 						pMat->wNumVertices,
 						pwStripIndices,
 						pMat->wNumStripIndices );
-				//TRACE ( "F4" );
+				TRACE ( "F4" );
 			}
 #endif
 
@@ -5627,7 +5631,7 @@ ULONG leg_col;
 
 
 // Set to 1 for the all-in-one method of drawing things.
-#define DRAW_WHOLE_PERSON_AT_ONCE 1
+#define DRAW_WHOLE_PERSON_AT_ONCE 0
 
 
 
@@ -5635,11 +5639,12 @@ ULONG leg_col;
 
 
 
-#if DRAW_WHOLE_PERSON_AT_ONCE
 // Static arrays of the things we need for each part of the body.
 ALIGNED_STATIC_ARRAY ( static D3DMATRIX *, MMBodyParts_pMatrix,	MAX_NUM_BODY_PARTS_AT_ONCE, D3DMATRIX, 32 );
 ALIGNED_STATIC_ARRAY ( static float *, MMBodyParts_pNormal,		MAX_NUM_BODY_PARTS_AT_ONCE*4, float, 8 );
 
+
+#if DRAW_WHOLE_PERSON_AT_ONCE
 void FIGURE_draw_hierarchical_prim_recurse_individual_cull ( Thing *p_person );
 #endif
 
@@ -5873,6 +5878,11 @@ extern int g_iCheatNumber;
 										recurse_level,
 									    p_person
 									);
+				if (!bVisible)
+				{
+					//TRACE("GGGGGGG");
+					bWholePersonVisible = FALSE;
+				}
 
 				bWholePersonVisible &= bVisible;
 				bBitsOfPersonVisible |= bVisible;
@@ -6257,10 +6267,12 @@ extern DIJOYSTATE the_state;
 
 
 
-			//if (pMat->wNumVertices &&
-			//	pMat->wNumStripIndices)
+			if (pMat->wNumVertices &&
+				pMat->wNumStripIndices)
 			{
 				//TRACE ( "S4" );
+				//the_display.lp_D3D_Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void*)d3dmm, numvert, pwind, numind, D3DDP_MULTIMATRIX);
+				//#define DrawIndPrimMM(dev,type,d3dmm,numvert,pwind,numind) dev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,type,(void*)d3dmm,numvert,pwind,numind,D3DDP_MULTIMATRIX)
 				hres = DrawIndPrimMM (
 						(the_display.lp_D3D_Device),
 						D3DFVF_VERTEX,
@@ -6362,9 +6374,9 @@ extern DIJOYSTATE the_state;
 
 	// Person drawn!
 
-	LOG_EXIT ( Figure_Draw_Hierarchical )
-
-}
+//	LOG_EXIT ( Figure_Draw_Hierarchical );
+//
+//}
 
 
 
@@ -6453,7 +6465,7 @@ extern int g_iCheatNumber;
 				body_part=FIGURE_dhpr_data.body_def->BodyPart[iPartNumber];
 				rot_mat=FIGURE_dhpr_data.world_mat;
 
-#if 0
+#if 1
 				FIGURE_draw_prim_tween( FIGURE_dhpr_data.start_object + body_part, //FIGURE_dhpr_data.body_def->BodyPart[FIGURE_dhpr_rdata1[recurse_level].part_number],
 										FIGURE_dhpr_data.world_pos->M[0],
 										FIGURE_dhpr_data.world_pos->M[1],
@@ -9197,12 +9209,32 @@ bool FIGURE_draw_prim_tween_person_only_just_set_matrix
 	// ...but it seems to work OK.
 	ASSERT ( ( character_scalef < 1.2f ) && ( character_scalef > 0.8f ) );
 	//ASSERT ( !pa->RS.NeedsSorting() && ( FIGURE_alpha == 255 ) );
-	if ( ( ( ( g_matWorld._43 * 32768.0f ) - ( (m_fObjectBoundingSphereRadius[prim]) * character_scalef ) ) < ( POLY_ZCLIP_PLANE * 32768.0f ) ) )
+
+	//if (( ( ( g_matWorld._43 * 32768.0f ) - ( (m_fObjectBoundingSphereRadius[prim]) * character_scalef ) ) < ( POLY_ZCLIP_PLANE * 32768.0f ) ) )
+	//{
+	//	// Clipped by Z-plane. Don't set this matrix up, just return.
+	//	return FALSE;
+	//}
+
+
+	// Define variables
+	float char_scale = character_scalef;
+	float poly_zclip_plane = POLY_ZCLIP_PLANE * 32768.0f;
+	//float obj_bound_sphere_radius = m_fObjectBoundingSphereRadius[prim];
+	float world_43 = g_matWorld._43 * 32768.0f;
+
+	float bound_sphere_radius_mul_by_char_scale =  char_scale;
+
+	// Refactored if statement
+
+	
+	TRACE("bound_sphere_radius_mul_by_char_scale=%f, prim=%d\n", bound_sphere_radius_mul_by_char_scale, prim);
+	//TRACE("world_43=%f, prim=%d\n", world_43, prim);
+	if (world_43 - bound_sphere_radius_mul_by_char_scale < poly_zclip_plane)
 	{
 		// Clipped by Z-plane. Don't set this matrix up, just return.
 		return FALSE;
 	}
-
 
 
 	//
@@ -9260,128 +9292,128 @@ bool FIGURE_draw_prim_tween_person_only_just_set_matrix
 no_muzzle_calcs:
 
 
-
-#if !USE_TOMS_ENGINE_PLEASE_BOB
-#error Dont use this rout if USE_TOMS_ENGINE_PLEASE_BOB is not 1
-#endif
-
-
-	ASSERT ( MM_bLightTableAlreadySetUp );
-
-	ASSERT (!WITHIN(prim, 261, 263));
-
-	{
-
-		ASSERT ( MM_bLightTableAlreadySetUp );
-
-		LOG_ENTER ( Figure_Build_Matrices )
-
-		extern float POLY_cam_matrix_comb[9];
-		extern float POLY_cam_off_x;
-		extern float POLY_cam_off_y;
-		extern float POLY_cam_off_z;
-
-
-		extern D3DMATRIX g_matProjection;
-		extern D3DMATRIX g_matWorld;
-		extern D3DVIEWPORT2 g_viewData;
-
-
-		D3DMATRIX matTemp;
-
-		matTemp._11 = g_matWorld._11*g_matProjection._11 + g_matWorld._12*g_matProjection._21 + g_matWorld._13*g_matProjection._31 + g_matWorld._14*g_matProjection._41;
-		matTemp._12 = g_matWorld._11*g_matProjection._12 + g_matWorld._12*g_matProjection._22 + g_matWorld._13*g_matProjection._32 + g_matWorld._14*g_matProjection._42;
-		matTemp._13 = g_matWorld._11*g_matProjection._13 + g_matWorld._12*g_matProjection._23 + g_matWorld._13*g_matProjection._33 + g_matWorld._14*g_matProjection._43;
-		matTemp._14 = g_matWorld._11*g_matProjection._14 + g_matWorld._12*g_matProjection._24 + g_matWorld._13*g_matProjection._34 + g_matWorld._14*g_matProjection._44;
-
-		matTemp._21 = g_matWorld._21*g_matProjection._11 + g_matWorld._22*g_matProjection._21 + g_matWorld._23*g_matProjection._31 + g_matWorld._24*g_matProjection._41;
-		matTemp._22 = g_matWorld._21*g_matProjection._12 + g_matWorld._22*g_matProjection._22 + g_matWorld._23*g_matProjection._32 + g_matWorld._24*g_matProjection._42;
-		matTemp._23 = g_matWorld._21*g_matProjection._13 + g_matWorld._22*g_matProjection._23 + g_matWorld._23*g_matProjection._33 + g_matWorld._24*g_matProjection._43;
-		matTemp._24 = g_matWorld._21*g_matProjection._14 + g_matWorld._22*g_matProjection._24 + g_matWorld._23*g_matProjection._34 + g_matWorld._24*g_matProjection._44;
-
-		matTemp._31 = g_matWorld._31*g_matProjection._11 + g_matWorld._32*g_matProjection._21 + g_matWorld._33*g_matProjection._31 + g_matWorld._34*g_matProjection._41;
-		matTemp._32 = g_matWorld._31*g_matProjection._12 + g_matWorld._32*g_matProjection._22 + g_matWorld._33*g_matProjection._32 + g_matWorld._34*g_matProjection._42;
-		matTemp._33 = g_matWorld._31*g_matProjection._13 + g_matWorld._32*g_matProjection._23 + g_matWorld._33*g_matProjection._33 + g_matWorld._34*g_matProjection._43;
-		matTemp._34 = g_matWorld._31*g_matProjection._14 + g_matWorld._32*g_matProjection._24 + g_matWorld._33*g_matProjection._34 + g_matWorld._34*g_matProjection._44;
-
-		matTemp._41 = g_matWorld._41*g_matProjection._11 + g_matWorld._42*g_matProjection._21 + g_matWorld._43*g_matProjection._31 + g_matWorld._44*g_matProjection._41;
-		matTemp._42 = g_matWorld._41*g_matProjection._12 + g_matWorld._42*g_matProjection._22 + g_matWorld._43*g_matProjection._32 + g_matWorld._44*g_matProjection._42;
-		matTemp._43 = g_matWorld._41*g_matProjection._13 + g_matWorld._42*g_matProjection._23 + g_matWorld._43*g_matProjection._33 + g_matWorld._44*g_matProjection._43;
-		matTemp._44 = g_matWorld._41*g_matProjection._14 + g_matWorld._42*g_matProjection._24 + g_matWorld._43*g_matProjection._34 + g_matWorld._44*g_matProjection._44;
-
-
-
-
-
-
-
-		// Now make up the matrices.
-
-#if 0
-		// Officially correct version.
-		DWORD dwWidth = g_viewData.dwWidth >> 1;
-		DWORD dwHeight = g_viewData.dwHeight >> 1;
-		DWORD dwX = g_viewData.dwX;
-		DWORD dwY = g_viewData.dwY;
-#else
-		// Version that knows about the letterbox mode hack.
-extern DWORD g_dw3DStuffHeight;
-extern DWORD g_dw3DStuffY;
-		DWORD dwWidth = g_viewData.dwWidth >> 1;
-		DWORD dwHeight = g_dw3DStuffHeight >> 1;
-		DWORD dwX = g_viewData.dwX;
-		DWORD dwY = g_dw3DStuffY;
-#endif
-
-		// Set up the matrix.
-		D3DMATRIX *pmat = &(MMBodyParts_pMatrix[iMatrixNum]);
-		pmat->_11 = 0.0f;
-		pmat->_12 = matTemp._11 *   (float)dwWidth  + matTemp._14 * (float)( dwX + dwWidth  );
-		pmat->_13 = matTemp._12 * - (float)dwHeight + matTemp._14 * (float)( dwY + dwHeight );
-		pmat->_14 = matTemp._14;
-		pmat->_21 = 0.0f;
-		pmat->_22 = matTemp._21 *   (float)dwWidth  + matTemp._24 * (float)( dwX + dwWidth  );
-		pmat->_23 = matTemp._22 * - (float)dwHeight + matTemp._24 * (float)( dwY + dwHeight );
-		pmat->_24 = matTemp._24;
-		pmat->_31 = 0.0f;
-		pmat->_32 = matTemp._31 *   (float)dwWidth  + matTemp._34 * (float)( dwX + dwWidth  );
-		pmat->_33 = matTemp._32 * - (float)dwHeight + matTemp._34 * (float)( dwY + dwHeight );
-		pmat->_34 = matTemp._34;
-		// Validation magic number.
-		unsigned long EVal = 0xe0001000;
-		pmat->_41 = *(float *)&EVal;
-		pmat->_42 = matTemp._41 *   (float)dwWidth  + matTemp._44 * (float)( dwX + dwWidth  );
-		pmat->_43 = matTemp._42 * - (float)dwHeight + matTemp._44 * (float)( dwY + dwHeight );
-		pmat->_44 = matTemp._44;
-
-
-
-		// 251 is a magic number for the DIP call!
-		const float fNormScale = 251.0f;
-
-		// Transform the lighting direction(s) by the inverse object matrix to get it into object space.
-		// Assume inverse=transpose.
-		D3DVECTOR vTemp;
-		vTemp.x = MM_vLightDir.x * fmatrix[0] + MM_vLightDir.y * fmatrix[3] + MM_vLightDir.z * fmatrix[6];
-		vTemp.y = MM_vLightDir.x * fmatrix[1] + MM_vLightDir.y * fmatrix[4] + MM_vLightDir.z * fmatrix[7];
-		vTemp.z = MM_vLightDir.x * fmatrix[2] + MM_vLightDir.y * fmatrix[5] + MM_vLightDir.z * fmatrix[8];
-
-		// Set up the lighting vector.
-		float *pnorm = &(MMBodyParts_pNormal[iMatrixNum<<2]);
-		pnorm[0] = 0.0f;
-		pnorm[1] = vTemp.x * fNormScale;
-		pnorm[2] = vTemp.y * fNormScale;
-		pnorm[3] = vTemp.z * fNormScale;
-
-
-		LOG_EXIT ( Figure_Build_Matrices )
-	}
-
-
-	// No environment mapping.
-	ASSERT ( p_thing && ( p_thing->Class != CLASS_VEHICLE ) );
-
-	ASSERT ( MM_bLightTableAlreadySetUp );
+//
+//#if !USE_TOMS_ENGINE_PLEASE_BOB
+//#error Dont use this rout if USE_TOMS_ENGINE_PLEASE_BOB is not 1
+//#endif
+//
+//
+//	ASSERT ( MM_bLightTableAlreadySetUp );
+//
+//	ASSERT (!WITHIN(prim, 261, 263));
+//
+//	{
+//
+//		ASSERT ( MM_bLightTableAlreadySetUp );
+//
+//		LOG_ENTER ( Figure_Build_Matrices )
+//
+//		extern float POLY_cam_matrix_comb[9];
+//		extern float POLY_cam_off_x;
+//		extern float POLY_cam_off_y;
+//		extern float POLY_cam_off_z;
+//
+//
+//		extern D3DMATRIX g_matProjection;
+//		extern D3DMATRIX g_matWorld;
+//		extern D3DVIEWPORT2 g_viewData;
+//
+//
+//		D3DMATRIX matTemp;
+//
+//		matTemp._11 = g_matWorld._11*g_matProjection._11 + g_matWorld._12*g_matProjection._21 + g_matWorld._13*g_matProjection._31 + g_matWorld._14*g_matProjection._41;
+//		matTemp._12 = g_matWorld._11*g_matProjection._12 + g_matWorld._12*g_matProjection._22 + g_matWorld._13*g_matProjection._32 + g_matWorld._14*g_matProjection._42;
+//		matTemp._13 = g_matWorld._11*g_matProjection._13 + g_matWorld._12*g_matProjection._23 + g_matWorld._13*g_matProjection._33 + g_matWorld._14*g_matProjection._43;
+//		matTemp._14 = g_matWorld._11*g_matProjection._14 + g_matWorld._12*g_matProjection._24 + g_matWorld._13*g_matProjection._34 + g_matWorld._14*g_matProjection._44;
+//
+//		matTemp._21 = g_matWorld._21*g_matProjection._11 + g_matWorld._22*g_matProjection._21 + g_matWorld._23*g_matProjection._31 + g_matWorld._24*g_matProjection._41;
+//		matTemp._22 = g_matWorld._21*g_matProjection._12 + g_matWorld._22*g_matProjection._22 + g_matWorld._23*g_matProjection._32 + g_matWorld._24*g_matProjection._42;
+//		matTemp._23 = g_matWorld._21*g_matProjection._13 + g_matWorld._22*g_matProjection._23 + g_matWorld._23*g_matProjection._33 + g_matWorld._24*g_matProjection._43;
+//		matTemp._24 = g_matWorld._21*g_matProjection._14 + g_matWorld._22*g_matProjection._24 + g_matWorld._23*g_matProjection._34 + g_matWorld._24*g_matProjection._44;
+//
+//		matTemp._31 = g_matWorld._31*g_matProjection._11 + g_matWorld._32*g_matProjection._21 + g_matWorld._33*g_matProjection._31 + g_matWorld._34*g_matProjection._41;
+//		matTemp._32 = g_matWorld._31*g_matProjection._12 + g_matWorld._32*g_matProjection._22 + g_matWorld._33*g_matProjection._32 + g_matWorld._34*g_matProjection._42;
+//		matTemp._33 = g_matWorld._31*g_matProjection._13 + g_matWorld._32*g_matProjection._23 + g_matWorld._33*g_matProjection._33 + g_matWorld._34*g_matProjection._43;
+//		matTemp._34 = g_matWorld._31*g_matProjection._14 + g_matWorld._32*g_matProjection._24 + g_matWorld._33*g_matProjection._34 + g_matWorld._34*g_matProjection._44;
+//
+//		matTemp._41 = g_matWorld._41*g_matProjection._11 + g_matWorld._42*g_matProjection._21 + g_matWorld._43*g_matProjection._31 + g_matWorld._44*g_matProjection._41;
+//		matTemp._42 = g_matWorld._41*g_matProjection._12 + g_matWorld._42*g_matProjection._22 + g_matWorld._43*g_matProjection._32 + g_matWorld._44*g_matProjection._42;
+//		matTemp._43 = g_matWorld._41*g_matProjection._13 + g_matWorld._42*g_matProjection._23 + g_matWorld._43*g_matProjection._33 + g_matWorld._44*g_matProjection._43;
+//		matTemp._44 = g_matWorld._41*g_matProjection._14 + g_matWorld._42*g_matProjection._24 + g_matWorld._43*g_matProjection._34 + g_matWorld._44*g_matProjection._44;
+//
+//
+//
+//
+//
+//
+//
+//		// Now make up the matrices.
+//
+//#if 0
+//		// Officially correct version.
+//		DWORD dwWidth = g_viewData.dwWidth >> 1;
+//		DWORD dwHeight = g_viewData.dwHeight >> 1;
+//		DWORD dwX = g_viewData.dwX;
+//		DWORD dwY = g_viewData.dwY;
+//#else
+//		// Version that knows about the letterbox mode hack.
+//extern DWORD g_dw3DStuffHeight;
+//extern DWORD g_dw3DStuffY;
+//		DWORD dwWidth = g_viewData.dwWidth >> 1;
+//		DWORD dwHeight = g_dw3DStuffHeight >> 1;
+//		DWORD dwX = g_viewData.dwX;
+//		DWORD dwY = g_dw3DStuffY;
+//#endif
+//
+//		// Set up the matrix.
+//		D3DMATRIX *pmat = &(MMBodyParts_pMatrix[iMatrixNum]);
+//		pmat->_11 = 0.0f;
+//		pmat->_12 = matTemp._11 *   (float)dwWidth  + matTemp._14 * (float)( dwX + dwWidth  );
+//		pmat->_13 = matTemp._12 * - (float)dwHeight + matTemp._14 * (float)( dwY + dwHeight );
+//		pmat->_14 = matTemp._14;
+//		pmat->_21 = 0.0f;
+//		pmat->_22 = matTemp._21 *   (float)dwWidth  + matTemp._24 * (float)( dwX + dwWidth  );
+//		pmat->_23 = matTemp._22 * - (float)dwHeight + matTemp._24 * (float)( dwY + dwHeight );
+//		pmat->_24 = matTemp._24;
+//		pmat->_31 = 0.0f;
+//		pmat->_32 = matTemp._31 *   (float)dwWidth  + matTemp._34 * (float)( dwX + dwWidth  );
+//		pmat->_33 = matTemp._32 * - (float)dwHeight + matTemp._34 * (float)( dwY + dwHeight );
+//		pmat->_34 = matTemp._34;
+//		// Validation magic number.
+//		unsigned long EVal = 0xe0001000;
+//		pmat->_41 = *(float *)&EVal;
+//		pmat->_42 = matTemp._41 *   (float)dwWidth  + matTemp._44 * (float)( dwX + dwWidth  );
+//		pmat->_43 = matTemp._42 * - (float)dwHeight + matTemp._44 * (float)( dwY + dwHeight );
+//		pmat->_44 = matTemp._44;
+//
+//
+//
+//		// 251 is a magic number for the DIP call!
+//		const float fNormScale = 251.0f;
+//
+//		// Transform the lighting direction(s) by the inverse object matrix to get it into object space.
+//		// Assume inverse=transpose.
+//		D3DVECTOR vTemp;
+//		vTemp.x = MM_vLightDir.x * fmatrix[0] + MM_vLightDir.y * fmatrix[3] + MM_vLightDir.z * fmatrix[6];
+//		vTemp.y = MM_vLightDir.x * fmatrix[1] + MM_vLightDir.y * fmatrix[4] + MM_vLightDir.z * fmatrix[7];
+//		vTemp.z = MM_vLightDir.x * fmatrix[2] + MM_vLightDir.y * fmatrix[5] + MM_vLightDir.z * fmatrix[8];
+//
+//		// Set up the lighting vector.
+//		float *pnorm = &(MMBodyParts_pNormal[iMatrixNum<<2]);
+//		pnorm[0] = 0.0f;
+//		pnorm[1] = vTemp.x * fNormScale;
+//		pnorm[2] = vTemp.y * fNormScale;
+//		pnorm[3] = vTemp.z * fNormScale;
+//
+//
+//		LOG_EXIT ( Figure_Build_Matrices )
+//	}
+//
+//
+//	// No environment mapping.
+//	ASSERT ( p_thing && ( p_thing->Class != CLASS_VEHICLE ) );
+//
+//	ASSERT ( MM_bLightTableAlreadySetUp );
 
 	LOG_EXIT ( Figure_Draw_Prim_Tween )
 
@@ -9696,502 +9728,502 @@ no_muzzle_calcs:
 
 
 
-#if !USE_TOMS_ENGINE_PLEASE_BOB
-#error Dont use this rout if USE_TOMS_ENGINE_PLEASE_BOB is not 1
-#endif
-
-
-	ASSERT ( MM_bLightTableAlreadySetUp );
-
-	if (WITHIN(prim, 261, 263))
-	{
-		//
-		// This is a muzzle flash! They don't have any lighting!
-		//
-
-		for (i = sp; i < ep; i++)
-		{
-			ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
-
-			pp = &POLY_buffer[POLY_buffer_upto++];
-
-			POLY_transform_using_local_rotation(
-				AENG_dx_prim_points[i].X,
-				AENG_dx_prim_points[i].Y,
-				AENG_dx_prim_points[i].Z,
-				pp);
-
-			pp->colour   = 0xff808080;
-			pp->specular = 0xff000000;
-		}
-
-
-		for (i = p_obj->StartFace4; i < p_obj->EndFace4; i++)
-		{
-			p_f4 = &prim_faces4[i];
-
-			p0 = p_f4->Points[0] - sp;
-			p1 = p_f4->Points[1] - sp;
-			p2 = p_f4->Points[2] - sp;
-			p3 = p_f4->Points[3] - sp;
-			
-			ASSERT(WITHIN(p0, 0, POLY_buffer_upto - 1));
-			ASSERT(WITHIN(p1, 0, POLY_buffer_upto - 1));
-			ASSERT(WITHIN(p2, 0, POLY_buffer_upto - 1));
-			ASSERT(WITHIN(p3, 0, POLY_buffer_upto - 1));
-
-			quad[0] = &POLY_buffer[p0];
-			quad[1] = &POLY_buffer[p1];
-			quad[2] = &POLY_buffer[p2];
-			quad[3] = &POLY_buffer[p3];
-
-			if (POLY_valid_quad(quad))
-			{
-				quad[0]->u = float(p_f4->UV[0][0] & 0x3f) * (1.0F / 32.0F);
-				quad[0]->v = float(p_f4->UV[0][1]       ) * (1.0F / 32.0F);
-														
-				quad[1]->u = float(p_f4->UV[1][0]       ) * (1.0F / 32.0F);
-				quad[1]->v = float(p_f4->UV[1][1]       ) * (1.0F / 32.0F);
-														
-				quad[2]->u = float(p_f4->UV[2][0]       ) * (1.0F / 32.0F);
-				quad[2]->v = float(p_f4->UV[2][1]       ) * (1.0F / 32.0F);
-
-				quad[3]->u = float(p_f4->UV[3][0]       ) * (1.0F / 32.0F);
-				quad[3]->v = float(p_f4->UV[3][1]       ) * (1.0F / 32.0F);
-
-				page   = p_f4->UV[0][0] & 0xc0;
-				page <<= 2;
-				page  |= p_f4->TexturePage;
-
-				if(tex_page_offset && page>10*64 && alt_texture[page-10*64])
-				{
-					page=alt_texture[page-10*64]+tex_page_offset-1;
-				}
-				else
-					page+=FACE_PAGE_OFFSET;
-
-				POLY_add_quad(quad, page, !(p_f4->DrawFlags & POLY_FLAG_DOUBLESIDED));
-			}
-		}
-
-		for (i = p_obj->StartFace3; i < p_obj->EndFace3; i++)
-		{
-			p_f3 = &prim_faces3[i];
-
-			p0 = p_f3->Points[0] - sp;
-			p1 = p_f3->Points[1] - sp;
-			p2 = p_f3->Points[2] - sp;
-			
-			ASSERT(WITHIN(p0, 0, POLY_buffer_upto - 1));
-			ASSERT(WITHIN(p1, 0, POLY_buffer_upto - 1));
-			ASSERT(WITHIN(p2, 0, POLY_buffer_upto - 1));
-
-			tri[0] = &POLY_buffer[p0];
-			tri[1] = &POLY_buffer[p1];
-			tri[2] = &POLY_buffer[p2];
-
-			if (POLY_valid_triangle(tri))
-			{
-				tri[0]->u = float(p_f3->UV[0][0] & 0x3f) * (1.0F / 32.0F);
-				tri[0]->v = float(p_f3->UV[0][1]       ) * (1.0F / 32.0F);
-														
-				tri[1]->u = float(p_f3->UV[1][0]       ) * (1.0F / 32.0F);
-				tri[1]->v = float(p_f3->UV[1][1]       ) * (1.0F / 32.0F);
-														
-				tri[2]->u = float(p_f3->UV[2][0]       ) * (1.0F / 32.0F);
-				tri[2]->v = float(p_f3->UV[2][1]       ) * (1.0F / 32.0F);
-
-				page   = p_f3->UV[0][0] & 0xc0;
-				page <<= 2;
-				page  |= p_f3->TexturePage;
-
-				if(tex_page_offset && page>10*64 && alt_texture[page-10*64])
-				{
-					page=alt_texture[page-10*64]+tex_page_offset-1;
-				}
-				else
-					page+=FACE_PAGE_OFFSET;
-
-				POLY_add_triangle(tri, page, !(p_f3->DrawFlags & POLY_FLAG_DOUBLESIDED));
-			}
-		}
-
-		LOG_EXIT ( Figure_Draw_Prim_Tween )
-		return;
-	}
-	else
-	{
-
-
-
-		ASSERT ( MM_bLightTableAlreadySetUp );
-
-		LOG_ENTER ( Figure_Build_Matrices )
-
-		extern float POLY_cam_matrix_comb[9];
-		extern float POLY_cam_off_x;
-		extern float POLY_cam_off_y;
-		extern float POLY_cam_off_z;
-
-
-		extern D3DMATRIX g_matProjection;
-		extern D3DMATRIX g_matWorld;
-		extern D3DVIEWPORT2 g_viewData;
-
-
-		D3DMATRIX matTemp;
-
-		matTemp._11 = g_matWorld._11*g_matProjection._11 + g_matWorld._12*g_matProjection._21 + g_matWorld._13*g_matProjection._31 + g_matWorld._14*g_matProjection._41;
-		matTemp._12 = g_matWorld._11*g_matProjection._12 + g_matWorld._12*g_matProjection._22 + g_matWorld._13*g_matProjection._32 + g_matWorld._14*g_matProjection._42;
-		matTemp._13 = g_matWorld._11*g_matProjection._13 + g_matWorld._12*g_matProjection._23 + g_matWorld._13*g_matProjection._33 + g_matWorld._14*g_matProjection._43;
-		matTemp._14 = g_matWorld._11*g_matProjection._14 + g_matWorld._12*g_matProjection._24 + g_matWorld._13*g_matProjection._34 + g_matWorld._14*g_matProjection._44;
-
-		matTemp._21 = g_matWorld._21*g_matProjection._11 + g_matWorld._22*g_matProjection._21 + g_matWorld._23*g_matProjection._31 + g_matWorld._24*g_matProjection._41;
-		matTemp._22 = g_matWorld._21*g_matProjection._12 + g_matWorld._22*g_matProjection._22 + g_matWorld._23*g_matProjection._32 + g_matWorld._24*g_matProjection._42;
-		matTemp._23 = g_matWorld._21*g_matProjection._13 + g_matWorld._22*g_matProjection._23 + g_matWorld._23*g_matProjection._33 + g_matWorld._24*g_matProjection._43;
-		matTemp._24 = g_matWorld._21*g_matProjection._14 + g_matWorld._22*g_matProjection._24 + g_matWorld._23*g_matProjection._34 + g_matWorld._24*g_matProjection._44;
-
-		matTemp._31 = g_matWorld._31*g_matProjection._11 + g_matWorld._32*g_matProjection._21 + g_matWorld._33*g_matProjection._31 + g_matWorld._34*g_matProjection._41;
-		matTemp._32 = g_matWorld._31*g_matProjection._12 + g_matWorld._32*g_matProjection._22 + g_matWorld._33*g_matProjection._32 + g_matWorld._34*g_matProjection._42;
-		matTemp._33 = g_matWorld._31*g_matProjection._13 + g_matWorld._32*g_matProjection._23 + g_matWorld._33*g_matProjection._33 + g_matWorld._34*g_matProjection._43;
-		matTemp._34 = g_matWorld._31*g_matProjection._14 + g_matWorld._32*g_matProjection._24 + g_matWorld._33*g_matProjection._34 + g_matWorld._34*g_matProjection._44;
-
-		matTemp._41 = g_matWorld._41*g_matProjection._11 + g_matWorld._42*g_matProjection._21 + g_matWorld._43*g_matProjection._31 + g_matWorld._44*g_matProjection._41;
-		matTemp._42 = g_matWorld._41*g_matProjection._12 + g_matWorld._42*g_matProjection._22 + g_matWorld._43*g_matProjection._32 + g_matWorld._44*g_matProjection._42;
-		matTemp._43 = g_matWorld._41*g_matProjection._13 + g_matWorld._42*g_matProjection._23 + g_matWorld._43*g_matProjection._33 + g_matWorld._44*g_matProjection._43;
-		matTemp._44 = g_matWorld._41*g_matProjection._14 + g_matWorld._42*g_matProjection._24 + g_matWorld._43*g_matProjection._34 + g_matWorld._44*g_matProjection._44;
-
-
-
-
-
-
-
-		// Now make up the matrices.
-
-#if 0
-		// Officially correct version.
-		DWORD dwWidth = g_viewData.dwWidth >> 1;
-		DWORD dwHeight = g_viewData.dwHeight >> 1;
-		DWORD dwX = g_viewData.dwX;
-		DWORD dwY = g_viewData.dwY;
-#else
-		// Version that knows about the letterbox mode hack.
-extern DWORD g_dw3DStuffHeight;
-extern DWORD g_dw3DStuffY;
-		DWORD dwWidth = g_viewData.dwWidth >> 1;
-		DWORD dwHeight = g_dw3DStuffHeight >> 1;
-		DWORD dwX = g_viewData.dwX;
-		DWORD dwY = g_dw3DStuffY;
-#endif
-		MM_pMatrix[0]._11 = 0.0f;
-		MM_pMatrix[0]._12 = matTemp._11 *   (float)dwWidth  + matTemp._14 * (float)( dwX + dwWidth  );
-		MM_pMatrix[0]._13 = matTemp._12 * - (float)dwHeight + matTemp._14 * (float)( dwY + dwHeight );
-		MM_pMatrix[0]._14 = matTemp._14;
-		MM_pMatrix[0]._21 = 0.0f;
-		MM_pMatrix[0]._22 = matTemp._21 *   (float)dwWidth  + matTemp._24 * (float)( dwX + dwWidth  );
-		MM_pMatrix[0]._23 = matTemp._22 * - (float)dwHeight + matTemp._24 * (float)( dwY + dwHeight );
-		MM_pMatrix[0]._24 = matTemp._24;
-		MM_pMatrix[0]._31 = 0.0f;
-		MM_pMatrix[0]._32 = matTemp._31 *   (float)dwWidth  + matTemp._34 * (float)( dwX + dwWidth  );
-		MM_pMatrix[0]._33 = matTemp._32 * - (float)dwHeight + matTemp._34 * (float)( dwY + dwHeight );
-		MM_pMatrix[0]._34 = matTemp._34;
-		// Validation magic number.
-		unsigned long EVal = 0xe0001000;
-		MM_pMatrix[0]._41 = *(float *)&EVal;
-		MM_pMatrix[0]._42 = matTemp._41 *   (float)dwWidth  + matTemp._44 * (float)( dwX + dwWidth  );
-		MM_pMatrix[0]._43 = matTemp._42 * - (float)dwHeight + matTemp._44 * (float)( dwY + dwHeight );
-		MM_pMatrix[0]._44 = matTemp._44;
-
-
-
-		// 251 is a magic number for the DIP call!
-		const float fNormScale = 251.0f;
-
-		// Transform the lighting direction(s) by the inverse object matrix to get it into object space.
-		// Assume inverse=transpose.
-		D3DVECTOR vTemp;
-		vTemp.x = MM_vLightDir.x * fmatrix[0] + MM_vLightDir.y * fmatrix[3] + MM_vLightDir.z * fmatrix[6];
-		vTemp.y = MM_vLightDir.x * fmatrix[1] + MM_vLightDir.y * fmatrix[4] + MM_vLightDir.z * fmatrix[7];
-		vTemp.z = MM_vLightDir.x * fmatrix[2] + MM_vLightDir.y * fmatrix[5] + MM_vLightDir.z * fmatrix[8];
-
-		MM_pNormal[0] = 0.0f;
-		MM_pNormal[1] = vTemp.x * fNormScale;
-		MM_pNormal[2] = vTemp.y * fNormScale;
-		MM_pNormal[3] = vTemp.z * fNormScale;
-
-		LOG_EXIT ( Figure_Build_Matrices )
-	}
-
-
-
-	// The wonderful NEW system!
-
-
-	LOG_ENTER ( Figure_Draw_Polys )
-
-#if 1
-	// The MM stuff doesn't like specular to be enabled.
-	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, FALSE );
-#endif
-
-
-	// For now, just calculate as-and-when.
-	TomsPrimObject *pPrimObj = &(D3DObj[prim]);
-	if ( pPrimObj->wNumMaterials == 0 )
-	{
-		// Not initialised. Do so.
-		// It's not fair to count this as part of the drawing! :-)
-		LOG_EXIT ( Figure_Draw_Polys )
-
-		FIGURE_generate_D3D_object ( prim );
-		LOG_ENTER ( Figure_Draw_Polys )
-	}
-
-	// Tell the LRU cache we used this one.
-	FIGURE_touch_LRU_of_object ( pPrimObj );
-
-	ASSERT ( pPrimObj->pD3DVertices != NULL );
-	ASSERT ( pPrimObj->pMaterials != NULL );
-	ASSERT ( pPrimObj->pwListIndices != NULL );
-	ASSERT ( pPrimObj->pwStripIndices != NULL );
-	//ASSERT ( pPrimObj->wNumMaterials != 0 );
-
-	PrimObjectMaterial *pMat = pPrimObj->pMaterials;
-
-	D3DMULTIMATRIX d3dmm;
-	d3dmm.lpd3dMatrices = MM_pMatrix;
-	d3dmm.lpvLightDirs = MM_pNormal;
-
-	D3DVERTEX *pVertex = (D3DVERTEX *)pPrimObj->pD3DVertices;
-	UWORD *pwListIndices = pPrimObj->pwListIndices;
-	UWORD *pwStripIndices = pPrimObj->pwStripIndices;
-	for ( int iMatNum = pPrimObj->wNumMaterials; iMatNum > 0; iMatNum-- )
-	{
-		// Set up the right texture for this material.
-
-		UWORD wPage = pMat->wTexturePage;
-		UWORD wRealPage = wPage & TEXTURE_PAGE_MASK;
-
-		if ( wPage & TEXTURE_PAGE_FLAG_JACKET )
-		{
-			// Find the real jacket page.
-			wRealPage = jacket_lookup [ wRealPage ][GET_SKILL(p_thing)>>2];
-			wRealPage += FACE_PAGE_OFFSET;
-		}
-		else if ( wPage & TEXTURE_PAGE_FLAG_OFFSET )
-		{
-			// An "offset" texture. This will be offset by a certain amount to
-			// allow each prim to have different coloured clothes on.
-			if ( tex_page_offset == 0 )
-			{
-				// No lookup offset.
-				// This has not been offset yet.
-				wRealPage += FACE_PAGE_OFFSET;
-			}
-			else
-			{
-				// Look this up.
-				wRealPage = alt_texture[wRealPage-(10*64)]+tex_page_offset-1;
-			}
-		}
-
-#ifdef DEBUG
-		if ( wPage & TEXTURE_PAGE_FLAG_NOT_TEXTURED )
-		{
-			ASSERT ( wRealPage == POLY_PAGE_COLOUR );
-		}
-#endif
-
-extern D3DMATRIX g_matWorld;
-
-		PolyPage *pa = &(POLY_Page[wRealPage]);
-		// Not sure if I'm using character_scalef correctly...
-		ASSERT ( ( character_scalef < 1.2f ) && ( character_scalef > 0.8f ) );
-		ASSERT ( !pa->RS.NeedsSorting() && ( FIGURE_alpha == 255 ) );
-		if ( ( ( ( g_matWorld._43 * 32768.0f ) - ( pPrimObj->fBoundingSphereRadius * character_scalef ) ) > ( POLY_ZCLIP_PLANE * 32768.0f ) ) )
-		{
-			// Non-alpha path.
-			if ( wPage & TEXTURE_PAGE_FLAG_TINT )
-			{
-				// Tinted colours.
-				d3dmm.lpLightTable = MM_pcFadeTableTint;
-			}
-			else
-			{
-				// Normal.
-				d3dmm.lpLightTable = MM_pcFadeTable;
-			}
-			d3dmm.lpvVertices = pVertex;
-
-
-
-#if 1
-
-
-
-#ifdef DEBUG
-static int iCounter = 0;
-			if ( iCounter != 0 )
-			{
-				iCounter--;
-				ASSERT ( iCounter != 0 );
-			}
-#endif
-
-			// Fast as lightning.
-			LOG_ENTER ( Figure_Set_RenderState )
-			pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
-			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
-			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
-			pa->RS.SetChanged();
-			LOG_EXIT ( Figure_Set_RenderState )
-			LOG_ENTER ( Figure_DrawIndPrimMM )
-
-
-#if 0
-			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
-					D3DPT_TRIANGLELIST,
-					D3DFVF_VERTEX,
-					(void *)&d3dmm,
-					pMat->wNumVertices,
-					pwStripIndices,
-					pMat->wNumStripIndices,
-					D3DDP_MULTIMATRIX );
-			//TRACE("Drew %i vertices, %i indices\n", (int)( pMat->wNumVertices ), (int)( pMat->wNumStripIndices ) );
-#else
-			// Use platform-independent version.
-
-			HRESULT hres;
-
-
-
-
-#define SHOW_ME_FIGURE_DEBUGGING_PLEASE_BOB defined
-
-#ifdef SHOW_ME_FIGURE_DEBUGGING_PLEASE_BOB
-#ifdef DEBUG
-#ifdef TARGET_DC
-#define BUTTON_IS_PRESSED(value) ((value&0x80)!=0)
-extern DIJOYSTATE the_state;
-			bool bShowDebug = FALSE;
-			if ( BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER] ) && BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER] ) )
-			{
-				DWORD dwColour = (DWORD)pwStripIndices;
-				dwColour = ( dwColour >> 2 ) ^ ( dwColour >> 6 ) ^ ( dwColour ) ^ ( dwColour << 3 );
-				dwColour = ( dwColour << 9 ) ^ ( dwColour << 19 ) ^ ( dwColour ) ^ ( dwColour << 29 ) ^ ( dwColour >> 3 );
-				dwColour &= 0x7f7f7f7f;
-				for ( int i = 0; i < 128; i++ )
-				{
-					d3dmm.lpLightTable[i] = dwColour;
-				}
-
-				// And NULL texture (i.e. white).
-				the_display.lp_D3D_Device->SetTexture ( 0, NULL );
-			}
-#endif
-#endif
-#endif
-
-
-
-			//if (pMat->wNumVertices &&
-			//	pMat->wNumStripIndices)
-			{
-				//TRACE ( "S4" );
-				hres = DrawIndPrimMM (
-						(the_display.lp_D3D_Device),
-						D3DFVF_VERTEX,
-						&d3dmm,
-						pMat->wNumVertices,
-						pwStripIndices,
-						pMat->wNumStripIndices );
-				//TRACE ( "F4" );
-			}
-#endif
-
-
-
-
-#else
-
-			// Do some performance tracing.
-#ifndef DTRACE
-#error Don't use this codepath unless DTRACING, fool!
-#endif
-
-			LOG_ENTER ( Figure_Set_RenderState )
-			pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
-			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
-			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
-			pa->RS.SetChanged();
-
-			WORD wTempVerts[4];
-			wTempVerts[0] = 0;
-			wTempVerts[1] = 1;
-			wTempVerts[2] = 2;
-			wTempVerts[3] = -1;
-			(the_display.lp_D3D_Device)->DrawIndexedPrimitive (
-					D3DPT_TRIANGLELIST,
-					D3DFVF_VERTEX,
-					(void *)&d3dmm,
-					3,
-					wTempVerts,
-					4,
-					D3DDP_MULTIMATRIX );
-			LOG_EXIT ( Figure_Set_RenderState )
-
-			LOG_ENTER ( Figure_DrawIndPrimMM )
-			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
-					D3DPT_TRIANGLELIST,
-					D3DFVF_VERTEX,
-					(void *)&d3dmm,
-					pMat->wNumVertices,
-					pwStripIndices,
-					pMat->wNumStripIndices,
-					D3DDP_MULTIMATRIX );
-			//TRACE("Drew %i vertices, %i indices\n", (int)( pMat->wNumVertices ), (int)( pMat->wNumStripIndices ) );
-
-#endif
-
-//			ASSERT ( SUCCEEDED ( hres ) );  //triggers all the time when inside on start of RTA
-			LOG_EXIT ( Figure_DrawIndPrimMM )
-
-		}
-		else
-		{
-			// Alpha/clipped path - do with standard non-MM calls.
-			// FIXME. Needs to be done.
-
-			// Actually, the fast-accept works very well, and it's only when the camera somehow gets REALLY close
-			// that this happens. And actually a pop-reject seems a bit better than a clip. Certainly
-			// there is no visually "right" thing to do. So leave it for now until someone complains. ATF.
-			//TRACE ( "Tried to draw an alpha/clipped prim!" );
-		}
-		
-
-
-		// Next material
-		pVertex += pMat->wNumVertices;
-		pwListIndices += pMat->wNumListIndices;
-		pwStripIndices += pMat->wNumStripIndices;
-
-		pMat++;
-	}
-
-#if 1
-	// The MM stuff doesn't like specular to be enabled.
-	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, TRUE );
-#endif
-
-	LOG_EXIT ( Figure_Draw_Polys )
-
-
-
-	// No environment mapping.
-	ASSERT ( p_thing && ( p_thing->Class != CLASS_VEHICLE ) );
-
-	ASSERT ( MM_bLightTableAlreadySetUp );
+//#if !USE_TOMS_ENGINE_PLEASE_BOB
+//#error Dont use this rout if USE_TOMS_ENGINE_PLEASE_BOB is not 1
+//#endif
+//
+//
+//	ASSERT ( MM_bLightTableAlreadySetUp );
+//
+//	if (WITHIN(prim, 261, 263))
+//	{
+//		//
+//		// This is a muzzle flash! They don't have any lighting!
+//		//
+//
+//		for (i = sp; i < ep; i++)
+//		{
+//			ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
+//
+//			pp = &POLY_buffer[POLY_buffer_upto++];
+//
+//			POLY_transform_using_local_rotation(
+//				AENG_dx_prim_points[i].X,
+//				AENG_dx_prim_points[i].Y,
+//				AENG_dx_prim_points[i].Z,
+//				pp);
+//
+//			pp->colour   = 0xff808080;
+//			pp->specular = 0xff000000;
+//		}
+//
+//
+//		for (i = p_obj->StartFace4; i < p_obj->EndFace4; i++)
+//		{
+//			p_f4 = &prim_faces4[i];
+//
+//			p0 = p_f4->Points[0] - sp;
+//			p1 = p_f4->Points[1] - sp;
+//			p2 = p_f4->Points[2] - sp;
+//			p3 = p_f4->Points[3] - sp;
+//			
+//			ASSERT(WITHIN(p0, 0, POLY_buffer_upto - 1));
+//			ASSERT(WITHIN(p1, 0, POLY_buffer_upto - 1));
+//			ASSERT(WITHIN(p2, 0, POLY_buffer_upto - 1));
+//			ASSERT(WITHIN(p3, 0, POLY_buffer_upto - 1));
+//
+//			quad[0] = &POLY_buffer[p0];
+//			quad[1] = &POLY_buffer[p1];
+//			quad[2] = &POLY_buffer[p2];
+//			quad[3] = &POLY_buffer[p3];
+//
+//			if (POLY_valid_quad(quad))
+//			{
+//				quad[0]->u = float(p_f4->UV[0][0] & 0x3f) * (1.0F / 32.0F);
+//				quad[0]->v = float(p_f4->UV[0][1]       ) * (1.0F / 32.0F);
+//														
+//				quad[1]->u = float(p_f4->UV[1][0]       ) * (1.0F / 32.0F);
+//				quad[1]->v = float(p_f4->UV[1][1]       ) * (1.0F / 32.0F);
+//														
+//				quad[2]->u = float(p_f4->UV[2][0]       ) * (1.0F / 32.0F);
+//				quad[2]->v = float(p_f4->UV[2][1]       ) * (1.0F / 32.0F);
+//
+//				quad[3]->u = float(p_f4->UV[3][0]       ) * (1.0F / 32.0F);
+//				quad[3]->v = float(p_f4->UV[3][1]       ) * (1.0F / 32.0F);
+//
+//				page   = p_f4->UV[0][0] & 0xc0;
+//				page <<= 2;
+//				page  |= p_f4->TexturePage;
+//
+//				if(tex_page_offset && page>10*64 && alt_texture[page-10*64])
+//				{
+//					page=alt_texture[page-10*64]+tex_page_offset-1;
+//				}
+//				else
+//					page+=FACE_PAGE_OFFSET;
+//
+//				POLY_add_quad(quad, page, !(p_f4->DrawFlags & POLY_FLAG_DOUBLESIDED));
+//			}
+//		}
+//
+//		for (i = p_obj->StartFace3; i < p_obj->EndFace3; i++)
+//		{
+//			p_f3 = &prim_faces3[i];
+//
+//			p0 = p_f3->Points[0] - sp;
+//			p1 = p_f3->Points[1] - sp;
+//			p2 = p_f3->Points[2] - sp;
+//			
+//			ASSERT(WITHIN(p0, 0, POLY_buffer_upto - 1));
+//			ASSERT(WITHIN(p1, 0, POLY_buffer_upto - 1));
+//			ASSERT(WITHIN(p2, 0, POLY_buffer_upto - 1));
+//
+//			tri[0] = &POLY_buffer[p0];
+//			tri[1] = &POLY_buffer[p1];
+//			tri[2] = &POLY_buffer[p2];
+//
+//			if (POLY_valid_triangle(tri))
+//			{
+//				tri[0]->u = float(p_f3->UV[0][0] & 0x3f) * (1.0F / 32.0F);
+//				tri[0]->v = float(p_f3->UV[0][1]       ) * (1.0F / 32.0F);
+//														
+//				tri[1]->u = float(p_f3->UV[1][0]       ) * (1.0F / 32.0F);
+//				tri[1]->v = float(p_f3->UV[1][1]       ) * (1.0F / 32.0F);
+//														
+//				tri[2]->u = float(p_f3->UV[2][0]       ) * (1.0F / 32.0F);
+//				tri[2]->v = float(p_f3->UV[2][1]       ) * (1.0F / 32.0F);
+//
+//				page   = p_f3->UV[0][0] & 0xc0;
+//				page <<= 2;
+//				page  |= p_f3->TexturePage;
+//
+//				if(tex_page_offset && page>10*64 && alt_texture[page-10*64])
+//				{
+//					page=alt_texture[page-10*64]+tex_page_offset-1;
+//				}
+//				else
+//					page+=FACE_PAGE_OFFSET;
+//
+//				POLY_add_triangle(tri, page, !(p_f3->DrawFlags & POLY_FLAG_DOUBLESIDED));
+//			}
+//		}
+//
+//		LOG_EXIT ( Figure_Draw_Prim_Tween )
+//		return;
+//	}
+//	else
+//	{
+//
+//
+//
+//		//ASSERT ( MM_bLightTableAlreadySetUp );
+//
+//		LOG_ENTER ( Figure_Build_Matrices )
+//
+//		extern float POLY_cam_matrix_comb[9];
+//		extern float POLY_cam_off_x;
+//		extern float POLY_cam_off_y;
+//		extern float POLY_cam_off_z;
+//
+//
+//		extern D3DMATRIX g_matProjection;
+//		extern D3DMATRIX g_matWorld;
+//		extern D3DVIEWPORT2 g_viewData;
+//
+//
+//		D3DMATRIX matTemp;
+//
+//		matTemp._11 = g_matWorld._11*g_matProjection._11 + g_matWorld._12*g_matProjection._21 + g_matWorld._13*g_matProjection._31 + g_matWorld._14*g_matProjection._41;
+//		matTemp._12 = g_matWorld._11*g_matProjection._12 + g_matWorld._12*g_matProjection._22 + g_matWorld._13*g_matProjection._32 + g_matWorld._14*g_matProjection._42;
+//		matTemp._13 = g_matWorld._11*g_matProjection._13 + g_matWorld._12*g_matProjection._23 + g_matWorld._13*g_matProjection._33 + g_matWorld._14*g_matProjection._43;
+//		matTemp._14 = g_matWorld._11*g_matProjection._14 + g_matWorld._12*g_matProjection._24 + g_matWorld._13*g_matProjection._34 + g_matWorld._14*g_matProjection._44;
+//
+//		matTemp._21 = g_matWorld._21*g_matProjection._11 + g_matWorld._22*g_matProjection._21 + g_matWorld._23*g_matProjection._31 + g_matWorld._24*g_matProjection._41;
+//		matTemp._22 = g_matWorld._21*g_matProjection._12 + g_matWorld._22*g_matProjection._22 + g_matWorld._23*g_matProjection._32 + g_matWorld._24*g_matProjection._42;
+//		matTemp._23 = g_matWorld._21*g_matProjection._13 + g_matWorld._22*g_matProjection._23 + g_matWorld._23*g_matProjection._33 + g_matWorld._24*g_matProjection._43;
+//		matTemp._24 = g_matWorld._21*g_matProjection._14 + g_matWorld._22*g_matProjection._24 + g_matWorld._23*g_matProjection._34 + g_matWorld._24*g_matProjection._44;
+//
+//		matTemp._31 = g_matWorld._31*g_matProjection._11 + g_matWorld._32*g_matProjection._21 + g_matWorld._33*g_matProjection._31 + g_matWorld._34*g_matProjection._41;
+//		matTemp._32 = g_matWorld._31*g_matProjection._12 + g_matWorld._32*g_matProjection._22 + g_matWorld._33*g_matProjection._32 + g_matWorld._34*g_matProjection._42;
+//		matTemp._33 = g_matWorld._31*g_matProjection._13 + g_matWorld._32*g_matProjection._23 + g_matWorld._33*g_matProjection._33 + g_matWorld._34*g_matProjection._43;
+//		matTemp._34 = g_matWorld._31*g_matProjection._14 + g_matWorld._32*g_matProjection._24 + g_matWorld._33*g_matProjection._34 + g_matWorld._34*g_matProjection._44;
+//
+//		matTemp._41 = g_matWorld._41*g_matProjection._11 + g_matWorld._42*g_matProjection._21 + g_matWorld._43*g_matProjection._31 + g_matWorld._44*g_matProjection._41;
+//		matTemp._42 = g_matWorld._41*g_matProjection._12 + g_matWorld._42*g_matProjection._22 + g_matWorld._43*g_matProjection._32 + g_matWorld._44*g_matProjection._42;
+//		matTemp._43 = g_matWorld._41*g_matProjection._13 + g_matWorld._42*g_matProjection._23 + g_matWorld._43*g_matProjection._33 + g_matWorld._44*g_matProjection._43;
+//		matTemp._44 = g_matWorld._41*g_matProjection._14 + g_matWorld._42*g_matProjection._24 + g_matWorld._43*g_matProjection._34 + g_matWorld._44*g_matProjection._44;
+//
+//
+//
+//
+//
+//
+//
+//		// Now make up the matrices.
+//
+//#if 0
+//		// Officially correct version.
+//		DWORD dwWidth = g_viewData.dwWidth >> 1;
+//		DWORD dwHeight = g_viewData.dwHeight >> 1;
+//		DWORD dwX = g_viewData.dwX;
+//		DWORD dwY = g_viewData.dwY;
+//#else
+//		// Version that knows about the letterbox mode hack.
+//extern DWORD g_dw3DStuffHeight;
+//extern DWORD g_dw3DStuffY;
+//		DWORD dwWidth = g_viewData.dwWidth >> 1;
+//		DWORD dwHeight = g_dw3DStuffHeight >> 1;
+//		DWORD dwX = g_viewData.dwX;
+//		DWORD dwY = g_dw3DStuffY;
+//#endif
+//		MM_pMatrix[0]._11 = 0.0f;
+//		MM_pMatrix[0]._12 = matTemp._11 *   (float)dwWidth  + matTemp._14 * (float)( dwX + dwWidth  );
+//		MM_pMatrix[0]._13 = matTemp._12 * - (float)dwHeight + matTemp._14 * (float)( dwY + dwHeight );
+//		MM_pMatrix[0]._14 = matTemp._14;
+//		MM_pMatrix[0]._21 = 0.0f;
+//		MM_pMatrix[0]._22 = matTemp._21 *   (float)dwWidth  + matTemp._24 * (float)( dwX + dwWidth  );
+//		MM_pMatrix[0]._23 = matTemp._22 * - (float)dwHeight + matTemp._24 * (float)( dwY + dwHeight );
+//		MM_pMatrix[0]._24 = matTemp._24;
+//		MM_pMatrix[0]._31 = 0.0f;
+//		MM_pMatrix[0]._32 = matTemp._31 *   (float)dwWidth  + matTemp._34 * (float)( dwX + dwWidth  );
+//		MM_pMatrix[0]._33 = matTemp._32 * - (float)dwHeight + matTemp._34 * (float)( dwY + dwHeight );
+//		MM_pMatrix[0]._34 = matTemp._34;
+//		// Validation magic number.
+//		unsigned long EVal = 0xe0001000;
+//		MM_pMatrix[0]._41 = *(float *)&EVal;
+//		MM_pMatrix[0]._42 = matTemp._41 *   (float)dwWidth  + matTemp._44 * (float)( dwX + dwWidth  );
+//		MM_pMatrix[0]._43 = matTemp._42 * - (float)dwHeight + matTemp._44 * (float)( dwY + dwHeight );
+//		MM_pMatrix[0]._44 = matTemp._44;
+//
+//
+//
+//		// 251 is a magic number for the DIP call!
+//		const float fNormScale = 251.0f;
+//
+//		// Transform the lighting direction(s) by the inverse object matrix to get it into object space.
+//		// Assume inverse=transpose.
+//		D3DVECTOR vTemp;
+//		vTemp.x = MM_vLightDir.x * fmatrix[0] + MM_vLightDir.y * fmatrix[3] + MM_vLightDir.z * fmatrix[6];
+//		vTemp.y = MM_vLightDir.x * fmatrix[1] + MM_vLightDir.y * fmatrix[4] + MM_vLightDir.z * fmatrix[7];
+//		vTemp.z = MM_vLightDir.x * fmatrix[2] + MM_vLightDir.y * fmatrix[5] + MM_vLightDir.z * fmatrix[8];
+//
+//		MM_pNormal[0] = 0.0f;
+//		MM_pNormal[1] = vTemp.x * fNormScale;
+//		MM_pNormal[2] = vTemp.y * fNormScale;
+//		MM_pNormal[3] = vTemp.z * fNormScale;
+//
+//		LOG_EXIT ( Figure_Build_Matrices )
+//	}
+//
+//
+//
+//	// The wonderful NEW system!
+//
+//
+//	LOG_ENTER ( Figure_Draw_Polys )
+//
+//#if 1
+//	// The MM stuff doesn't like specular to be enabled.
+//	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, FALSE );
+//#endif
+//
+//
+//	// For now, just calculate as-and-when.
+//	TomsPrimObject *pPrimObj = &(D3DObj[prim]);
+//	if ( pPrimObj->wNumMaterials == 0 )
+//	{
+//		// Not initialised. Do so.
+//		// It's not fair to count this as part of the drawing! :-)
+//		LOG_EXIT ( Figure_Draw_Polys )
+//
+//		FIGURE_generate_D3D_object ( prim );
+//		LOG_ENTER ( Figure_Draw_Polys )
+//	}
+//
+//	// Tell the LRU cache we used this one.
+//	FIGURE_touch_LRU_of_object ( pPrimObj );
+//
+//	ASSERT ( pPrimObj->pD3DVertices != NULL );
+//	ASSERT ( pPrimObj->pMaterials != NULL );
+//	ASSERT ( pPrimObj->pwListIndices != NULL );
+//	ASSERT ( pPrimObj->pwStripIndices != NULL );
+//	ASSERT ( pPrimObj->wNumMaterials != 0 );
+//
+//	PrimObjectMaterial *pMat = pPrimObj->pMaterials;
+//
+//	D3DMULTIMATRIX d3dmm;
+//	d3dmm.lpd3dMatrices = MM_pMatrix;
+//	d3dmm.lpvLightDirs = MM_pNormal;
+//
+//	D3DVERTEX *pVertex = (D3DVERTEX *)pPrimObj->pD3DVertices;
+//	UWORD *pwListIndices = pPrimObj->pwListIndices;
+//	UWORD *pwStripIndices = pPrimObj->pwStripIndices;
+//	for ( int iMatNum = pPrimObj->wNumMaterials; iMatNum > 0; iMatNum-- )
+//	{
+//		// Set up the right texture for this material.
+//
+//		UWORD wPage = pMat->wTexturePage;
+//		UWORD wRealPage = wPage & TEXTURE_PAGE_MASK;
+//
+//		if ( wPage & TEXTURE_PAGE_FLAG_JACKET )
+//		{
+//			// Find the real jacket page.
+//			wRealPage = jacket_lookup [ wRealPage ][GET_SKILL(p_thing)>>2];
+//			wRealPage += FACE_PAGE_OFFSET;
+//		}
+//		else if ( wPage & TEXTURE_PAGE_FLAG_OFFSET )
+//		{
+//			// An "offset" texture. This will be offset by a certain amount to
+//			// allow each prim to have different coloured clothes on.
+//			if ( tex_page_offset == 0 )
+//			{
+//				// No lookup offset.
+//				// This has not been offset yet.
+//				wRealPage += FACE_PAGE_OFFSET;
+//			}
+//			else
+//			{
+//				// Look this up.
+//				wRealPage = alt_texture[wRealPage-(10*64)]+tex_page_offset-1;
+//			}
+//		}
+//
+//#ifdef DEBUG
+//		if ( wPage & TEXTURE_PAGE_FLAG_NOT_TEXTURED )
+//		{
+//			ASSERT ( wRealPage == POLY_PAGE_COLOUR );
+//		}
+//#endif
+//
+//extern D3DMATRIX g_matWorld;
+//
+//		PolyPage *pa = &(POLY_Page[wRealPage]);
+//		// Not sure if I'm using character_scalef correctly...
+//		ASSERT ( ( character_scalef < 1.2f ) && ( character_scalef > 0.8f ) );
+//		//ASSERT ( !pa->RS.NeedsSorting() && ( FIGURE_alpha == 255 ) );
+//		if ( ( ( ( g_matWorld._43 * 32768.0f ) - ( pPrimObj->fBoundingSphereRadius * character_scalef ) ) > ( POLY_ZCLIP_PLANE * 32768.0f ) ) )
+//		{
+//			// Non-alpha path.
+//			if ( wPage & TEXTURE_PAGE_FLAG_TINT )
+//			{
+//				// Tinted colours.
+//				d3dmm.lpLightTable = MM_pcFadeTableTint;
+//			}
+//			else
+//			{
+//				// Normal.
+//				d3dmm.lpLightTable = MM_pcFadeTable;
+//			}
+//			d3dmm.lpvVertices = pVertex;
+//
+//
+//
+//#if 1
+//
+//
+//
+//#ifdef DEBUG
+//static int iCounter = 0;
+//			if ( iCounter != 0 )
+//			{
+//				iCounter--;
+//				ASSERT ( iCounter != 0 );
+//			}
+//#endif
+//
+//			// Fast as lightning.
+//			LOG_ENTER ( Figure_Set_RenderState )
+//			pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
+//			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+//			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
+//			pa->RS.SetChanged();
+//			LOG_EXIT ( Figure_Set_RenderState )
+//			LOG_ENTER ( Figure_DrawIndPrimMM )
+//
+//
+//#if 0
+//			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
+//					D3DPT_TRIANGLELIST,
+//					D3DFVF_VERTEX,
+//					(void *)&d3dmm,
+//					pMat->wNumVertices,
+//					pwStripIndices,
+//					pMat->wNumStripIndices,
+//					D3DDP_MULTIMATRIX );
+//			//TRACE("Drew %i vertices, %i indices\n", (int)( pMat->wNumVertices ), (int)( pMat->wNumStripIndices ) );
+//#else
+//			// Use platform-independent version.
+//
+//			HRESULT hres;
+//
+//
+//
+//
+//#define SHOW_ME_FIGURE_DEBUGGING_PLEASE_BOB defined
+//
+//#ifdef SHOW_ME_FIGURE_DEBUGGING_PLEASE_BOB
+//#ifdef DEBUG
+//#ifdef TARGET_DC
+//#define BUTTON_IS_PRESSED(value) ((value&0x80)!=0)
+//extern DIJOYSTATE the_state;
+//			bool bShowDebug = FALSE;
+//			if ( BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER] ) && BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER] ) )
+//			{
+//				DWORD dwColour = (DWORD)pwStripIndices;
+//				dwColour = ( dwColour >> 2 ) ^ ( dwColour >> 6 ) ^ ( dwColour ) ^ ( dwColour << 3 );
+//				dwColour = ( dwColour << 9 ) ^ ( dwColour << 19 ) ^ ( dwColour ) ^ ( dwColour << 29 ) ^ ( dwColour >> 3 );
+//				dwColour &= 0x7f7f7f7f;
+//				for ( int i = 0; i < 128; i++ )
+//				{
+//					d3dmm.lpLightTable[i] = dwColour;
+//				}
+//
+//				// And NULL texture (i.e. white).
+//				the_display.lp_D3D_Device->SetTexture ( 0, NULL );
+//			}
+//#endif
+//#endif
+//#endif
+//
+//
+//
+//			//if (pMat->wNumVertices &&
+//			//	pMat->wNumStripIndices)
+//			{
+//				//TRACE ( "S4" );
+//				hres = DrawIndPrimMM (
+//						(the_display.lp_D3D_Device),
+//						D3DFVF_VERTEX,
+//						&d3dmm,
+//						pMat->wNumVertices,
+//						pwStripIndices,
+//						pMat->wNumStripIndices );
+//				//TRACE ( "F4" );
+//			}
+//#endif
+//
+//
+//
+//
+//#else
+//
+//			// Do some performance tracing.
+//#ifndef DTRACE
+//#error Don't use this codepath unless DTRACING, fool!
+//#endif
+//
+//			LOG_ENTER ( Figure_Set_RenderState )
+//			pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
+//			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+//			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
+//			pa->RS.SetChanged();
+//
+//			WORD wTempVerts[4];
+//			wTempVerts[0] = 0;
+//			wTempVerts[1] = 1;
+//			wTempVerts[2] = 2;
+//			wTempVerts[3] = -1;
+//			(the_display.lp_D3D_Device)->DrawIndexedPrimitive (
+//					D3DPT_TRIANGLELIST,
+//					D3DFVF_VERTEX,
+//					(void *)&d3dmm,
+//					3,
+//					wTempVerts,
+//					4,
+//					D3DDP_MULTIMATRIX );
+//			LOG_EXIT ( Figure_Set_RenderState )
+//
+//			LOG_ENTER ( Figure_DrawIndPrimMM )
+//			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
+//					D3DPT_TRIANGLELIST,
+//					D3DFVF_VERTEX,
+//					(void *)&d3dmm,
+//					pMat->wNumVertices,
+//					pwStripIndices,
+//					pMat->wNumStripIndices,
+//					D3DDP_MULTIMATRIX );
+//			//TRACE("Drew %i vertices, %i indices\n", (int)( pMat->wNumVertices ), (int)( pMat->wNumStripIndices ) );
+//
+//#endif
+//
+////			ASSERT ( SUCCEEDED ( hres ) );  //triggers all the time when inside on start of RTA
+//			LOG_EXIT ( Figure_DrawIndPrimMM )
+//
+//		}
+//		else
+//		{
+//			// Alpha/clipped path - do with standard non-MM calls.
+//			// FIXME. Needs to be done.
+//
+//			// Actually, the fast-accept works very well, and it's only when the camera somehow gets REALLY close
+//			// that this happens. And actually a pop-reject seems a bit better than a clip. Certainly
+//			// there is no visually "right" thing to do. So leave it for now until someone complains. ATF.
+//			//TRACE ( "Tried to draw an alpha/clipped prim!" );
+//		}
+//		
+//
+//
+//		// Next material
+//		pVertex += pMat->wNumVertices;
+//		pwListIndices += pMat->wNumListIndices;
+//		pwStripIndices += pMat->wNumStripIndices;
+//
+//		pMat++;
+//	}
+//
+//#if 1
+//	// The MM stuff doesn't like specular to be enabled.
+//	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, TRUE );
+//#endif
+//
+//	LOG_EXIT ( Figure_Draw_Polys )
+//
+//
+//
+//	// No environment mapping.
+//	ASSERT ( p_thing && ( p_thing->Class != CLASS_VEHICLE ) );
+//
+//	//ASSERT ( MM_bLightTableAlreadySetUp );
 
 	LOG_EXIT ( Figure_Draw_Prim_Tween )
 

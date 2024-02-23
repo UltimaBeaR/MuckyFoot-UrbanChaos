@@ -104,7 +104,29 @@
 #define AENG_BBOX_PUSH_OUT	4
 
 
+//
+// AA test.
+//
 
+#define AENG_AA_LEFT	 20
+#define AENG_AA_TOP		 20
+#define AENG_AA_PIX_SIZE  4
+#define AENG_AA_BUF_SIZE 32
+
+//
+// The shift of the floor...
+//
+
+#define ALT_SHIFT (3)
+
+
+#define AENG_NUM_SHADOWS 4
+
+
+
+
+
+UBYTE AENG_aa_buffer[AENG_AA_BUF_SIZE][AENG_AA_BUF_SIZE];
 
 //#ifdef DEBUG
 #if 0
@@ -138,10 +160,13 @@ static void ScribbleCheck ( void )
 
 
 
+
+UWORD* GetShadowPixelMapping();
 void	AENG_draw_far_facets(void);
 void AENG_draw_box_around_recessed_door(DFacet *df, SLONG inside_out);
 void AENG_get_rid_of_unused_dfcache_lighting(SLONG splitscreen);
 void	AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade);
+void AENG_add_projected_fadeout_shadow_poly(SMAP_Link* sl);
 
 UBYTE	aeng_draw_cloud_flag = 1;
 UWORD	light_inside=0;
@@ -178,9 +203,1742 @@ int AENG_estimate_detail_levels = 1;
 
 
 
+struct
+{
+	Thing* p_person;
+	SLONG  dist;
+
+}      shadow_person[AENG_NUM_SHADOWS];
+SLONG  shadow_person_upto = 0;
+
+//
+// Adds a projected shadow poly to the POLY module.
+// 
+
+float AENG_project_offset_u;
+float AENG_project_offset_v;
+
+float AENG_project_mul_u;
+float AENG_project_mul_v;
+
+float AENG_project_lit_light_x;
+float AENG_project_lit_light_y;
+float AENG_project_lit_light_z;
+float AENG_project_lit_light_range;
+
+float AENG_project_fadeout_x;
+float AENG_project_fadeout_z;
+
+
+extern SLONG dfacets_drawn_this_gameturn;
+extern BOOL allow_debug_keys;
+
+
+
+//
+// The maximum draw distance.
+//
+
+float AENG_lens = 4.0F;
+
+//static SLONG	NormalDrawDistance = 22<<8;
+SLONG	CurDrawDistance = 22 << 8;
+
+//#define AENG_DRAW_DIST ((FC_cam[1].focus) ? 16 : 22)
+#define AENG_DRAW_DIST			(CurDrawDistance>>8)
+#define AENG_DRAW_DIST_PRECISE	(CurDrawDistance)
+#define	AENG_DRAW_PEOPLE_DIST	(CurDrawDistance + 128)
+
+#define AENG_LENS		(AENG_lens)
+
+
+
+//
+// The camera.
+// 
+
+float AENG_cam_x;
+float AENG_cam_y;
+float AENG_cam_z;
+
+float AENG_cam_yaw;
+float AENG_cam_pitch;
+float AENG_cam_roll;
+
+float AENG_cam_matrix[9];
+
+SLONG AENG_cam_vec[3];
 
 
 SLONG AENG_cur_fc_cam;
+
+struct bboxStruct
+{
+	SLONG x1;
+	SLONG y1;
+	SLONG x2;
+	SLONG y2;
+	SLONG water_box;
+};
+
+void FigureOutThingsInView()
+{
+	for (int z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
+	{
+		for (int x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++)
+		{
+			UWORD t_index = PAP_2LO(x, z).MapWho;
+
+			while (t_index)
+			{
+				Thing* p_thing = TO_THING(t_index);
+
+				if (p_thing->Flags & FLAGS_IN_BUILDING)
+				{
+					//
+					// Dont draw things inside buildings when we are outdoors.
+					//
+				}
+				else
+				{
+					switch (p_thing->Class)
+					{
+						case CLASS_PERSON:
+
+							//
+							// We only have a rejection test for people now.
+							//
+
+							if (p_thing->Genus.Person->PlayerID && !p_thing->Genus.Person->Ware)
+								p_thing->Flags |= FLAGS_IN_VIEW;
+							else
+								if (!p_thing->Genus.Person->Ware && FC_can_see_person(AENG_cur_fc_cam, p_thing))
+								{
+									if (POLY_sphere_visible(
+										float(p_thing->WorldPos.X >> 8),
+										float(p_thing->WorldPos.Y >> 8) + 0x80,
+										float(p_thing->WorldPos.Z >> 8),
+										256.0F / (AENG_DRAW_DIST * 256.0F)))
+									{
+										p_thing->Flags |= FLAGS_IN_VIEW;
+									}
+								}
+
+							break;
+
+						default:
+							p_thing->Flags |= FLAGS_IN_VIEW;
+							break;
+					}
+				}
+
+				t_index = p_thing->Child;
+			}
+
+			NIGHT_square[NIGHT_cache[x][z]].flag &= ~NIGHT_SQUARE_FLAG_DELETEME;
+		}
+	}
+}
+
+void DrawPeopleReflection(SLONG bbox_upto, bboxStruct* bbox)
+{
+
+	SLONG mx;
+	SLONG mz;
+
+	if (AENG_detail_people_reflection)
+		for (int z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
+		{
+			for (int x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++)
+			{
+				UWORD t_index = PAP_2LO(x, z).MapWho;
+
+				while (t_index)
+				{
+					Thing* p_thing = TO_THING(t_index);
+
+					if (p_thing->Class == CLASS_PERSON && (p_thing->Flags & FLAGS_IN_VIEW))
+					{
+						//
+						// This is a person... Is she standing near a puddle or some water?
+						//
+
+						mx = p_thing->WorldPos.X >> 16;
+						mz = p_thing->WorldPos.Z >> 16;
+
+						if (!PAP_on_map_hi(mx, mz))
+						{
+							//
+							// Off the map.
+							//
+						}
+						else
+						{
+							PAP_Hi* ph = &PAP_2HI(mx, mz);
+
+							if (ph->Flags & (PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER))
+							{
+								//
+								// Not too far away?
+								//
+
+								SLONG dx = abs(p_thing->WorldPos.X - FC_cam[AENG_cur_fc_cam].x >> 8);
+								SLONG dz = abs(p_thing->WorldPos.Z - FC_cam[AENG_cur_fc_cam].z >> 8);
+
+								if (dx + dz < 0x600)
+								{
+									SLONG reflect_height;
+
+									//
+									// Puddles are always on the floor nowadays...
+									//
+
+									if (ph->Flags & PAP_FLAG_REFLECTIVE)
+									{
+										reflect_height = PAP_calc_height_at(p_thing->WorldPos.X >> 8, p_thing->WorldPos.Z >> 8);
+									}
+									else
+									{
+										//
+										// The height of the water is given by the lo-res mapsquare corresponding
+										// to the hi-res mapsquare that Darci is standing on.
+										// 
+
+										PAP_Lo* pl = &PAP_2LO(
+											p_thing->WorldPos.X >> (8 + PAP_SHIFT_LO),
+											p_thing->WorldPos.Z >> (8 + PAP_SHIFT_LO));
+
+										reflect_height = pl->water << ALT_SHIFT;
+									}
+
+									//
+									// Draw the reflection!
+									//
+
+									FIGURE_draw_reflection(p_thing, reflect_height);
+
+									if (WITHIN(bbox_upto, 0, AENG_MAX_BBOXES - 1))
+									{
+										//
+										// Create a new bounding box 
+										//
+
+										bbox[bbox_upto].x1 = MAX(FIGURE_reflect_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
+										bbox[bbox_upto].y1 = MAX(FIGURE_reflect_y1, 0);
+										bbox[bbox_upto].x2 = MIN(FIGURE_reflect_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth - AENG_BBOX_PUSH_IN);
+										bbox[bbox_upto].y2 = MIN(FIGURE_reflect_y2, DisplayHeight);
+
+										bbox[bbox_upto].water_box = ph->Flags & PAP_FLAG_WATER;
+
+										bbox_upto += 1;
+									}
+								}
+							}
+						}
+					}
+
+					t_index = p_thing->Child;
+				}
+			}
+		}
+
+	/*
+
+	//
+	// Draw the reflections of the OBs.
+	//
+
+	if(DETAIL_LEVEL&DETAIL_REFLECTIONS)
+	for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
+	{
+		for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++)
+		{
+			for (oi = OB_find(x,z); oi->prim; oi += 1)
+			{
+				//
+				// On map?
+				//
+
+				mx = oi->x >> 8;
+				mz = oi->z >> 8;
+
+				if (WITHIN(mx, 0, PAP_SIZE_HI - 1) &&
+					WITHIN(mz, 0, PAP_SIZE_HI - 1))
+				{
+					//
+					// On a reflective square?
+					//
+
+					if (PAP_2HI(mx,mz).Flags & (PAP_FLAG_WATER|PAP_FLAG_REFLECTIVE))
+					{
+						//
+						// Not too far away?
+						//
+
+						dx = abs(oi->x - (FC_cam[AENG_cur_fc_cam].x >> 8));
+						dz = abs(oi->z - (FC_cam[AENG_cur_fc_cam].z >> 8));
+
+						if (dx + dz < 0x00)
+						{
+							MESH_draw_reflection(
+								oi->prim,
+								oi->x,
+								oi->y,
+								oi->z,
+								oi->yaw,
+								NULL);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	*/
+}
+
+void DrawMoon()
+{
+	if (AENG_detail_moon_reflection && !(NIGHT_flag & NIGHT_FLAG_DAYTIME) && !(GAME_FLAGS & GF_NO_FLOOR))
+	{
+		//
+		// The moon upside down...
+		//
+
+		float moon_x1;
+		float moon_y1;
+		float moon_x2;
+		float moon_y2;
+
+		if (SKY_draw_moon_reflection(
+			AENG_cam_x,
+			AENG_cam_y,
+			AENG_cam_z,
+			AENG_DRAW_DIST * 256.0F,
+			&moon_x1,
+			&moon_y1,
+			&moon_x2,
+			&moon_y2))
+		{
+			/*
+
+			//
+			// The moon is wibbled with polys now.
+			//
+
+			bbox[0].x1 = MAX((SLONG)moon_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
+			bbox[0].y1 = MAX((SLONG)moon_y1, 0);
+			bbox[0].x2 = MIN((SLONG)moon_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth  - AENG_BBOX_PUSH_IN);
+			bbox[0].y2 = MIN((SLONG)moon_y2, DisplayHeight);
+
+			bbox[0].water_box = FALSE;
+
+			bbox_upto = 1;
+
+			*/
+		}
+	}
+}
+
+
+void DrawStars()
+{
+
+	if (AENG_detail_stars && !(NIGHT_flag & NIGHT_FLAG_DAYTIME))
+	{
+		//
+		// Draw the stars...
+		//
+		if (the_display.screen_lock())
+		{
+			BreakTime("Locked for stars");
+
+			SKY_draw_stars(
+				AENG_cam_x,
+				AENG_cam_y,
+				AENG_cam_z,
+				AENG_DRAW_DIST * 256.0F);
+
+			BreakTime("Drawn stars");
+
+			the_display.screen_unlock();
+		}
+	}
+}
+
+void DrawShadows()
+{
+	struct
+	{
+		Thing* p_person;
+		SLONG  dist;
+
+	}      shadow_person[AENG_NUM_SHADOWS];
+	SLONG  shadow_person_upto = 0;
+
+	if (AENG_detail_shadows)
+	{
+		Thing* darci = FC_cam[AENG_cur_fc_cam].focus;
+
+		//
+		// How many people do we generate shadows for?
+		//
+
+		SLONG  shadow_person_worst_dist = -INFINITY;
+		SLONG  shadow_person_worst_person;
+
+		for (int z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
+		{
+			for (int x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++)
+			{
+				UWORD t_index = PAP_2LO(x, z).MapWho;
+
+				while (t_index)
+				{
+					Thing* p_thing = TO_THING(t_index);
+
+					if (p_thing->Class == CLASS_PERSON && (p_thing->Flags & FLAGS_IN_VIEW))
+					{
+						//
+						// Distance from darci.
+						//
+
+						SLONG dx = p_thing->WorldPos.X - darci->WorldPos.X;
+						SLONG dz = p_thing->WorldPos.Z - darci->WorldPos.Z;
+
+						SLONG dist = abs(dx) + abs(dz);
+
+						if (dist < 0x60000)
+						{
+
+							if (shadow_person_upto < AENG_NUM_SHADOWS)
+							{
+								//
+								// Put this person in the shadow array.
+								//
+
+								shadow_person[shadow_person_upto].p_person = p_thing;
+								shadow_person[shadow_person_upto].dist = dist;
+
+								//
+								// Keep track of the furthest person away.
+								//
+
+								if (dist > shadow_person_worst_dist)
+								{
+									shadow_person_worst_dist = dist;
+									shadow_person_worst_person = shadow_person_upto;
+								}
+
+								shadow_person_upto += 1;
+							}
+							else
+							{
+								if (dist < shadow_person_worst_dist)
+								{
+									//
+									// Replace the worst person.
+									//
+
+									ASSERT(WITHIN(shadow_person_worst_person, 0, AENG_NUM_SHADOWS - 1));
+
+									shadow_person[shadow_person_worst_person].p_person = p_thing;
+									shadow_person[shadow_person_worst_person].dist = dist;
+
+									//
+									// Find the worst person
+									//
+
+									shadow_person_worst_dist = -INFINITY;
+
+									for (int i = 0; i < AENG_NUM_SHADOWS; i++)
+									{
+										if (shadow_person[i].dist > shadow_person_worst_dist)
+										{
+											shadow_person_worst_dist = shadow_person[i].dist;
+											shadow_person_worst_person = i;
+										}
+									}
+								}
+							}
+						}
+					}
+
+					t_index = p_thing->Child;
+				}
+			}
+		}
+
+		//
+		// Draw the people's shadow maps.
+		//
+
+		SLONG offset_x;
+		SLONG offset_y;
+
+		POLY_flush_local_rot();
+
+		for (int i = 0; i < shadow_person_upto; i++)
+		{
+			darci = shadow_person[i].p_person;
+
+			memset(AENG_aa_buffer, 0, sizeof(AENG_aa_buffer));
+
+			SMAP_person(
+				darci,
+				(UBYTE*)AENG_aa_buffer,
+				AENG_AA_BUF_SIZE,
+				AENG_AA_BUF_SIZE,
+				147,
+				-148,
+				-147);
+
+			//
+			// Where do we put it in the shadow texture page? Hard code everything!
+			//
+
+			ASSERT(AENG_AA_BUF_SIZE == 32);
+			ASSERT(TEXTURE_SHADOW_SIZE == 64);
+
+			offset_x = (i & 1) << 5;
+			offset_y = (i & 2) << 4;
+
+			//
+			// Plonk it into the shadow texture page.
+			//
+
+			if (TEXTURE_shadow_lock())
+			{
+				SLONG  x;
+				SLONG  y;
+				UWORD* line;
+				UBYTE* buf = (UBYTE*)AENG_aa_buffer;
+				UWORD* mapping = GetShadowPixelMapping();
+
+				for (y = 0; y < AENG_AA_BUF_SIZE; y++)
+				{
+					line = &TEXTURE_shadow_bitmap[((y + offset_y) * TEXTURE_shadow_pitch >> 1) + offset_x];
+
+					for (x = AENG_AA_BUF_SIZE - 1; x >= 0; x--)
+					{
+						*line++ = mapping[*buf++];
+					}
+				}
+
+				TEXTURE_shadow_unlock();
+			}
+
+			//
+			// How we map floating points coordinates from 0 to 1 onto
+			// where we plonked the shadow map in the texture page.
+			//
+
+			AENG_project_offset_u = float(offset_x) / float(TEXTURE_SHADOW_SIZE);
+			AENG_project_offset_v = float(offset_y) / float(TEXTURE_SHADOW_SIZE);
+			AENG_project_mul_u = float(AENG_AA_BUF_SIZE) / float(TEXTURE_SHADOW_SIZE);
+			AENG_project_mul_v = float(AENG_AA_BUF_SIZE) / float(TEXTURE_SHADOW_SIZE);
+
+			//
+			// The position from which the shadow fades out.
+			//
+
+			AENG_project_fadeout_x = float(darci->WorldPos.X >> 8);
+			AENG_project_fadeout_z = float(darci->WorldPos.Z >> 8);
+
+			{
+				//
+				// Map this poly onto the mapsquares surrounding darci.
+				//
+
+				SLONG i;
+
+				SLONG mx;
+				SLONG mz;
+				SLONG dx;
+				SLONG dz;
+
+				SLONG mx1;
+				SLONG mz1;
+				SLONG mx2;
+				SLONG mz2;
+				SLONG exit = FALSE;
+
+				SLONG mx_lo;
+				SLONG mz_lo;
+
+#ifndef TARGET_DC
+				MapElement* me[4];
+#endif
+				PAP_Hi* ph[4];
+
+				SVector_F  poly[4];
+				SMAP_Link* projected;
+
+				SLONG v_list;
+				SLONG i_vect;
+
+				DFacet* df;
+
+				SLONG w_list;
+				SLONG w_face;
+
+				PrimFace4* p_f4;
+				PrimPoint* pp;
+
+				SLONG wall;
+				SLONG storey;
+				SLONG building;
+				SLONG thing;
+				SLONG face_height;
+				UBYTE face_order[4] = { 0,1,3,2 };
+
+				Thing* p_fthing;
+
+				//
+				// Colvects we have already done.
+				// 
+
+#define AENG_MAX_DONE 8
+
+				SLONG done[AENG_MAX_DONE];
+				SLONG done_upto = 0;
+
+				for (dx = -1; dx <= 1; dx++)
+					for (dz = -1; dz <= 1; dz++)
+					{
+						mx = (darci->WorldPos.X >> 16) + dx;
+						mz = (darci->WorldPos.Z >> 16) + dz;
+
+						if (WITHIN(mx, 0, MAP_WIDTH - 2) &&
+							WITHIN(mz, 0, MAP_HEIGHT - 2))
+						{
+#ifndef TARGET_DC
+							me[0] = &MAP[MAP_INDEX(mx + 0, mz + 0)];
+							me[1] = &MAP[MAP_INDEX(mx + 1, mz + 0)];
+							me[2] = &MAP[MAP_INDEX(mx + 1, mz + 1)];
+							me[3] = &MAP[MAP_INDEX(mx + 0, mz + 1)];
+#endif
+
+							ph[0] = &PAP_2HI(mx + 0, mz + 0);
+							ph[1] = &PAP_2HI(mx + 1, mz + 0);
+							ph[2] = &PAP_2HI(mx + 1, mz + 1);
+							ph[3] = &PAP_2HI(mx + 0, mz + 1);
+
+							if ((!(PAP_2HI(mx, mz).Flags & (PAP_FLAG_HIDDEN | PAP_FLAG_WATER))) || (PAP_2HI(mx, mz).Flags & (PAP_FLAG_ROOF_EXISTS)))
+							{
+								poly[3].X = float(mx << 8);
+								poly[3].Z = float(mz << 8);
+
+								poly[0].X = poly[3].X + 256.0F;
+								poly[0].Z = poly[3].Z;
+
+								poly[1].X = poly[3].X + 256.0F;
+								poly[1].Z = poly[3].Z + 256.0F;
+
+								poly[2].X = poly[3].X;
+								poly[2].Z = poly[3].Z + 256.0F;
+
+
+								if (PAP_2HI(mx, mz).Flags & (PAP_FLAG_ROOF_EXISTS))
+								{
+									poly[0].Y = poly[1].Y = poly[2].Y = poly[3].Y = MAVHEIGHT(mx, mz) << 6;
+								}
+								else
+								{
+									poly[3].Y = float(ph[0]->Alt << ALT_SHIFT);
+									poly[2].Y = float(ph[3]->Alt << ALT_SHIFT);
+									poly[0].Y = float(ph[1]->Alt << ALT_SHIFT);
+									poly[1].Y = float(ph[2]->Alt << ALT_SHIFT);
+								}
+
+								if (PAP_2HI(mx, mz).Flags & PAP_FLAG_SINK_SQUARE)
+								{
+									poly[0].Y -= KERB_HEIGHT;
+									poly[1].Y -= KERB_HEIGHT;
+									poly[2].Y -= KERB_HEIGHT;
+									poly[3].Y -= KERB_HEIGHT;
+								}
+
+								if (ph[0]->Alt == ph[1]->Alt &&
+									ph[0]->Alt == ph[2]->Alt &&
+									ph[0]->Alt == ph[3]->Alt)
+								{
+									//
+									// This quad is coplanar.
+									//
+
+									projected = SMAP_project_onto_poly(poly, 4);
+
+									if (projected)
+									{
+										AENG_add_projected_fadeout_shadow_poly(projected);
+									}
+								}
+								else
+								{
+									//
+									// Do each triangle separatly.
+									//
+
+									projected = SMAP_project_onto_poly(poly, 3);
+
+									if (projected)
+									{
+										AENG_add_projected_fadeout_shadow_poly(projected);
+									}
+
+									//
+									// The triangles are 0,1,2 and 0,2,3.
+									//
+
+									poly[1] = poly[0];
+
+									projected = SMAP_project_onto_poly(poly + 1, 3);
+
+									if (projected)
+									{
+										AENG_add_projected_fadeout_shadow_poly(projected);
+									}
+								}
+							}
+						}
+					}
+
+				mx1 = (darci->WorldPos.X >> 8) - 0x100 >> PAP_SHIFT_LO;
+				mz1 = (darci->WorldPos.Z >> 8) - 0x100 >> PAP_SHIFT_LO;
+
+				mx2 = (darci->WorldPos.X >> 8) + 0x100 >> PAP_SHIFT_LO;
+				mz2 = (darci->WorldPos.Z >> 8) + 0x100 >> PAP_SHIFT_LO;
+
+				SATURATE(mx1, 0, PAP_SIZE_LO - 1);
+				SATURATE(mz1, 0, PAP_SIZE_LO - 1);
+				SATURATE(mx2, 0, PAP_SIZE_LO - 1);
+				SATURATE(mz2, 0, PAP_SIZE_LO - 1);
+
+				for (mx_lo = mx1; mx_lo <= mx2; mx_lo++)
+					for (mz_lo = mz1; mz_lo <= mz2; mz_lo++)
+					{
+						SLONG count = 0;
+
+						//
+						// Project onto nearby colvects...
+						//
+
+						v_list = PAP_2LO(mx_lo, mz_lo).ColVectHead;
+
+						if (v_list)
+						{
+							exit = FALSE;
+
+							while (!exit)
+							{
+								i_vect = facet_links[v_list];
+
+								if (i_vect < 0)
+								{
+									i_vect = -i_vect;
+
+									exit = TRUE;
+								}
+
+								df = &dfacets[i_vect];
+
+								if (df->FacetType == STOREY_TYPE_NORMAL)
+								{
+									for (i = 0; i < done_upto; i++)
+									{
+										if (done[i] == i_vect)
+										{
+											//
+											// Dont do this facet again
+											//
+
+											goto ignore_this_facet;
+										}
+									}
+
+									if (1 /* Fast facet shadows */)
+									{
+										float facet_height = float((df->BlockHeight << 4) * (df->Height >> 2));
+
+										poly[0].X = float(df->x[1] << 8);
+										poly[0].Y = float(df->Y[1]);
+										poly[0].Z = float(df->z[1] << 8);
+
+										poly[1].X = float(df->x[1] << 8);
+										poly[1].Y = float(df->Y[1]) + facet_height;
+										poly[1].Z = float(df->z[1] << 8);
+
+										poly[2].X = float(df->x[0] << 8);
+										poly[2].Y = float(df->Y[0]) + facet_height;
+										poly[2].Z = float(df->z[0] << 8);
+
+										poly[3].X = float(df->x[0] << 8);
+										poly[3].Y = float(df->Y[0]);
+										poly[3].Z = float(df->z[0] << 8);
+
+										if (df->FHeight)
+										{
+											//
+											// Foundations go down deep into the ground...
+											//
+
+											poly[0].Y -= 512.0F;
+											poly[3].Y -= 512.0F;
+										}
+
+										projected = SMAP_project_onto_poly(poly, 4);
+
+										if (projected)
+										{
+											AENG_add_projected_fadeout_shadow_poly(projected);
+										}
+									}
+									else
+									{
+										//
+										// Slow crinkled-shadows!
+										//
+
+										FACET_project_crinkled_shadow(i_vect);
+									}
+
+									//
+									// Remember We've already done this facet.
+									//
+
+									if (done_upto < AENG_MAX_DONE)
+									{
+										done[done_upto++] = i_vect;
+									}
+								}
+
+							ignore_this_facet:;
+
+								v_list++;
+							}
+						}
+
+						//if (darci->OnFace) Always do this.
+						{
+							//
+							// Cast shadow on walkable faces.
+							//
+
+							w_face = PAP_2LO(mx_lo, mz_lo).Walkable;
+
+							while (w_face)
+							{
+								if (w_face > 0)
+								{
+									p_f4 = &prim_faces4[w_face];
+									face_height = prim_points[p_f4->Points[0]].Y;
+
+									if (face_height > ((darci->WorldPos.Y + 0x11000) >> 8))
+									{
+										//
+										// This face is above Darci, so don't put her shadow
+										// on it.
+										//
+									}
+									else
+									{
+										for (i = 0; i < 4; i++)
+										{
+											pp = &prim_points[p_f4->Points[face_order[i]]];
+
+											poly[i].X = float(pp->X);
+											poly[i].Y = float(pp->Y);
+											poly[i].Z = float(pp->Z);
+										}
+
+										projected = SMAP_project_onto_poly(poly, 4);
+
+										if (projected)
+										{
+											AENG_add_projected_fadeout_shadow_poly(projected);
+										}
+									}
+
+									w_face = p_f4->Col2;
+								}
+								else
+								{
+									struct		RoofFace4* rf;
+									rf = &roof_faces4[-w_face];
+									face_height = rf->Y;
+
+									if (face_height > ((darci->WorldPos.Y + 0x11000) >> 8))
+									{
+										//
+										// This face is above Darci, so don't put her shadow
+										// on it.
+										//
+									}
+									else
+									{
+										SLONG	mx, mz;
+										mx = (rf->RX & 127) << 8;
+										mz = (rf->RZ & 127) << 8;
+
+										poly[0].X = (float)(mx);
+										poly[0].Y = (float)(rf->Y);
+										poly[0].Z = (float)(mz);
+
+										poly[1].X = (float)(mx + 256);
+										poly[1].Y = (float)(rf->Y + (rf->DY[0] << ROOF_SHIFT));
+										poly[1].Z = (float)(mz);
+
+										poly[2].X = (float)(mx + 256);
+										poly[2].Y = (float)(rf->Y + (rf->DY[1] << ROOF_SHIFT));
+										poly[2].Z = (float)(mz + 256);
+
+										poly[3].X = (float)(mx);
+										poly[3].Y = (float)(rf->Y + (rf->DY[2] << ROOF_SHIFT));
+										poly[3].Z = (float)(mz + 256);
+
+
+										projected = SMAP_project_onto_poly(poly, 4);
+
+										if (projected)
+										{
+											AENG_add_projected_fadeout_shadow_poly(projected);
+										}
+									}
+
+									w_face = rf->Next;
+
+								}
+							}
+						}
+					}
+			}
+
+			TEXTURE_shadow_update();
+		}
+	}
+}
+
+void DrawPuddles(SLONG bbox_upto, bboxStruct* bbox)
+{
+	if (AENG_detail_puddles && !(GAME_FLAGS & GF_NO_FLOOR))
+	{
+		SLONG i;
+
+		PUDDLE_Info* pi;
+
+		float px1;
+		float pz1;
+		float px2;
+		float pz2;
+
+		float world_x;
+		float world_y;
+		float world_z;
+
+		static struct
+		{
+			float u;
+			float v;
+
+		} texture_coords[4] =
+		{
+			{0.0F,0.0F},
+			{1.0F,0.0F},
+			{1.0F,1.0F},
+			{0.0F,1.0F}
+		};
+
+		POLY_Point  pp[4];
+		POLY_Point* quad[4];
+
+		quad[0] = &pp[0];
+		quad[1] = &pp[1];
+		quad[2] = &pp[2];
+		quad[3] = &pp[3];
+
+		for (int z = NGAMUT_zmin; z <= NGAMUT_zmax; z++)
+		{
+			PUDDLE_get_start(z, NGAMUT_gamut[z].xmin, NGAMUT_gamut[z].xmax);
+
+			while (pi = PUDDLE_get_next())
+			{
+				px1 = float(pi->x1);
+				pz1 = float(pi->z1);
+				px2 = float(pi->x2);
+				pz2 = float(pi->z2);
+
+				world_y = float(pi->y);
+
+				for (i = 0; i < 4; i++)
+				{
+					world_x = (i & 0x1) ? px1 : px2;
+					world_z = (i & 0x2) ? pz1 : pz2;
+
+					POLY_transform(
+						world_x,
+						world_y,
+						world_z,
+						&pp[i]);
+
+					if (pp[i].MaybeValid())
+					{
+						pp[i].u = ((i & 0x1) ? float(pi->u1) : float(pi->u2)) * (1.0F / 256.0F);
+						pp[i].v = ((i & 0x2) ? float(pi->v1) : float(pi->v2)) * (1.0F / 256.0F);
+						pp[i].colour = 0xffffffff;
+
+						if (ControlFlag) { pp[i].colour = 0x44ffffff; }
+						if (ShiftFlag) { pp[i].colour = 0x88ffffff; }
+
+						pp[i].specular = 0xff000000;
+					}
+					else
+					{
+						goto ignore_this_puddle;
+					}
+				}
+
+				if (POLY_valid_quad(quad))
+				{
+					if ((GAME_FLAGS & GF_RAINING) && (rand() & 0x100))
+					{
+						float drip_along_x;
+						float drip_along_z;
+
+						//
+						// Choose somewhere in the puddle to put a drip.
+						//
+
+						drip_along_x = float(rand() & 0xff) * (1.0F / 256.0F);
+						drip_along_z = float(rand() & 0xff) * (1.0F / 256.0F);
+
+						world_x = px1 + (px2 - px1) * drip_along_x;
+						world_z = pz1 + (pz2 - pz1) * drip_along_z;
+
+						DRIP_create(
+							UWORD(world_x),
+							SWORD(world_y),
+							UWORD(world_z),
+							1);
+
+						if (rand() & 0x11)
+						{
+							//
+							// Don't splash.
+							//
+						}
+						else
+						{
+							//
+							// Splash the puddle.
+							//
+
+							PUDDLE_splash(
+								SLONG(world_x),
+								SLONG(world_y),
+								SLONG(world_z));
+						}
+					}
+
+					if (pi->rotate_uvs)
+					{
+						SWAP_FL(pp[0].u, pp[1].u);
+						SWAP_FL(pp[1].u, pp[3].u);
+						SWAP_FL(pp[3].u, pp[2].u);
+
+						SWAP_FL(pp[0].v, pp[1].v);
+						SWAP_FL(pp[1].v, pp[3].v);
+						SWAP_FL(pp[3].v, pp[2].v);
+					}
+
+					POLY_add_quad(quad, POLY_PAGE_PUDDLE, FALSE);
+
+					if (pi->puddle_s1 | pi->puddle_s2)
+					{
+						//
+						// Find the bounding box of this puddle quad on screen.
+						//
+
+						SLONG px;
+						SLONG py;
+						SLONG px1 = +INFINITY;
+						SLONG py1 = +INFINITY;
+						SLONG px2 = -INFINITY;
+						SLONG py2 = -INFINITY;
+
+						for (i = 0; i < 4; i++)
+						{
+							px = SLONG(pp[i].X);
+							py = SLONG(pp[i].Y);
+
+							if (px < px1) { px1 = px; }
+							if (py < py1) { py1 = py; }
+							if (px > px2) { px2 = px; }
+							if (py > py2) { py2 = py; }
+						}
+
+						//
+						// Wibble the intersection of this bounding box with the bounding
+						// box of each reflection we have drawn.
+						//
+
+						SLONG ix1;
+						SLONG iy1;
+						SLONG ix2;
+						SLONG iy2;
+
+						for (i = 0; i < bbox_upto; i++)
+						{
+							if (bbox[i].water_box)
+							{
+								//
+								// This box always gets wibbled anyway.
+								// 
+
+								continue;
+							}
+
+							ix1 = MAX(px1, bbox[i].x1);
+							iy1 = MAX(py1, bbox[i].y1);
+							ix2 = MIN(px2, bbox[i].x2);
+							iy2 = MIN(py2, bbox[i].y2);
+
+							if (ix1 < ix2 && iy1 < iy2)
+							{
+								if (the_display.screen_lock())
+								{
+									//
+									// Wibble away!
+									//
+
+									WIBBLE_simple(
+										ix1, iy1,
+										ix2, iy2,
+										pi->puddle_y1,
+										pi->puddle_y2,
+										pi->puddle_g1,
+										pi->puddle_g2,
+										pi->puddle_s1,
+										pi->puddle_s2);
+
+									the_display.screen_unlock();
+								}
+							}
+						}
+					}
+				}
+
+			ignore_this_puddle:;
+			}
+		}
+	}
+}
+
+void DrawPZI()
+{
+
+	for (int z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
+	{
+		for (int x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++)
+		{
+			//
+			// The cached lighting for this low-res mapsquare.
+			//
+
+			ASSERT(WITHIN(x, 0, PAP_SIZE_LO - 1));
+			ASSERT(WITHIN(z, 0, PAP_SIZE_LO - 1));
+
+
+			int t_index = PAP_2LO(x, z).MapWho;
+
+			while (t_index)
+			{
+				Thing* p_thing = TO_THING(t_index);
+
+				if (p_thing->Flags & FLAGS_IN_VIEW)
+				{
+					//						p_thing->Flags &=~FLAGS_IN_VIEW;
+					switch (p_thing->DrawType)
+					{
+						case DT_NONE:
+							break;
+
+						case DT_BUILDING:
+							break;
+
+						case DT_PRIM:
+							break;
+						case DT_ANIM_PRIM:
+							extern	void ANIM_obj_draw(Thing * p_thing, DrawTween * dt);
+							ANIM_obj_draw(p_thing, p_thing->Draw.Tweened);
+
+							if (p_thing->Class == CLASS_BAT &&
+								p_thing->Genus.Bat->type == BAT_TYPE_BANE)
+							{
+								DRAWXTRA_final_glow(
+									p_thing->WorldPos.X >> 8,
+									p_thing->WorldPos.Y + 0x8000 >> 8,
+									p_thing->WorldPos.Z >> 8,
+									p_thing->Genus.Bat->glow >> 8);
+							}
+							break;
+
+						case DT_ROT_MULTI:
+							LOG_ENTER(AENG_Draw_DT_ROT_MULTI)
+
+								/*
+								if (ControlFlag)
+								if (p_thing->Genus.Person->PlayerID)
+								{
+									//
+									// Draw some wheels above Darci's head!
+									//
+
+									AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_BIKE_BWHEEL);
+
+									MESH_draw_poly(
+											PRIM_OBJ_BIKE_BWHEEL,
+											p_thing->WorldPos.X          >> 8,
+											p_thing->WorldPos.Y + 0xa000 >> 8,
+											p_thing->WorldPos.Z          >> 8,
+											p_thing->Draw.Tweened->Angle,
+											0,0,
+											NULL,0);
+
+									AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_VAN_WHEEL);
+
+									MESH_draw_poly(
+											PRIM_OBJ_VAN_WHEEL,
+											p_thing->WorldPos.X           >> 8,
+											p_thing->WorldPos.Y + 0x10000 >> 8,
+											p_thing->WorldPos.Z           >> 8,
+											p_thing->Draw.Tweened->Angle,
+											0,0,
+											NULL,0);
+
+									AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_CAR_WHEEL);
+
+									MESH_draw_poly(
+											PRIM_OBJ_CAR_WHEEL,
+											p_thing->WorldPos.X           >> 8,
+											p_thing->WorldPos.Y + 0x16000 >> 8,
+											p_thing->WorldPos.Z           >> 8,
+											p_thing->Draw.Tweened->Angle,
+											0,0,
+											NULL,0);
+								}
+								*/
+
+							{
+								ASSERT(p_thing->Class == CLASS_PERSON);
+
+#ifdef BIKE
+								//#error Better not be doing this.
+																	//
+																	// If this person is riding the bike...
+																	//
+
+								if (p_thing->SubState == SUB_STATE_RIDING_BIKE)
+								{
+									Thing* p_bike = TO_THING(p_thing->Genus.Person->InCar);
+
+									ASSERT(p_thing->Genus.Person->Flags & FLAG_PERSON_BIKING);
+									ASSERT(p_thing->Genus.Person->InCar);
+
+									BIKE_Drawinfo bdi = BIKE_get_drawinfo(p_bike);
+
+									//
+									// Move to the same position above the bike.
+									//
+
+									GameCoord newpos = p_bike->WorldPos;
+
+									p_thing->Draw.Tweened->Angle = bdi.yaw;
+									p_thing->Draw.Tweened->Tilt = bdi.pitch;
+									p_thing->Draw.Tweened->Roll = bdi.roll;
+
+									/*
+									{
+										SLONG roll = bdi.roll;
+
+										if (roll > 1024)
+										{
+											roll -= 2048;
+										}
+
+										roll /= 2;
+										roll &= 2047;
+
+										p_thing->Draw.Tweened->Roll = roll;
+									}
+									*/
+
+									{
+										BIKE_Control bc;
+										DrawTween* dt = p_thing->Draw.Tweened;
+										SLONG	steer;
+
+										bc = BIKE_control_get(p_bike);
+										steer = bc.steer >> 1;
+
+										if (steer > 32)
+											steer = 32;
+										else
+											if (steer < -32)
+												steer = -32;
+
+										if (abs(steer) > 21)
+										{
+											SLONG	tween;
+											if (steer < 0)
+											{
+												dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT];
+												dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT_FOOT];
+												tween = ((-steer) - 21) << 5;
+
+
+											}
+											else
+											{
+												dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT];
+												dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT_FOOT];
+												tween = ((steer)-21) << 5;
+											}
+											if (tween < 0)
+												tween = 0;
+											if (tween > 255)
+												tween = 255;
+
+											dt->AnimTween = tween;
+										}
+										else
+											if (bc.steer == 0)
+											{
+												//dt->CurrentFrame = dt->TheChunk->AnimList[248];
+												//dt->NextFrame    = dt->TheChunk->AnimList[248];
+												dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
+												dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
+											}
+											else
+												if (bc.steer < 0)
+												{
+
+													//dt->CurrentFrame =  dt->TheChunk->AnimList[248];
+													//dt->NextFrame    =  dt->TheChunk->AnimList[250];
+													dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
+													dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT];
+													dt->AnimTween = -steer << 3;
+												}
+												else
+												{
+													//dt->CurrentFrame = dt->TheChunk->AnimList[248];
+													//dt->NextFrame    = dt->TheChunk->AnimList[252];
+													dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
+													dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT];
+													dt->AnimTween = steer << 3;
+												}
+									}
+
+									{
+										GameCoord oldpos = p_thing->WorldPos;
+
+
+										p_thing->WorldPos = newpos;
+										FIGURE_draw(p_thing);
+
+										p_thing->WorldPos = oldpos;
+									}
+
+									/*
+
+
+								//	p_person->Draw.Tweened->Roll = bdi.roll;//BIKE_get_roll(TO_THING(p_person->Genus.Person->InCar));
+								//	p_person->Draw.Tweened->Tilt = bdi.pitch;
+
+								//	if (p_person->Draw.Tweened.Roll > 1024)
+
+									*/
+								}
+								else
+#endif
+								{
+									if (p_thing->Genus.Person->PlayerID)
+									{
+					/*					if (FirstPersonMode)
+										{
+											FirstPersonAlpha -= (TICK_RATIO * 16) >> TICK_SHIFT;
+											if (FirstPersonAlpha < MAX_FPM_ALPHA)	FirstPersonAlpha = MAX_FPM_ALPHA;
+										}
+										else
+										{
+											FirstPersonAlpha += (TICK_RATIO * 16) >> TICK_SHIFT;
+											if (FirstPersonAlpha > 255)				FirstPersonAlpha = 255;
+										}*/
+
+										FIGURE_alpha = FirstPersonAlpha;
+										FIGURE_draw(p_thing);
+										//FIGURE_alpha = 255;
+									}
+									else
+									{
+										SLONG	dx, dy, dz, dist;
+
+										dx = fabs((p_thing->WorldPos.X >> 8) - AENG_cam_x);
+										dy = fabs((p_thing->WorldPos.Y >> 8) - AENG_cam_y);
+										dz = fabs((p_thing->WorldPos.Z >> 8) - AENG_cam_z);
+
+										dist = QDIST3(dx, dy, dz);
+
+										if (dist < AENG_DRAW_PEOPLE_DIST)
+										{
+
+											FIGURE_draw(p_thing);
+										}
+									}
+								}
+
+								p_thing->Draw.Tweened->Drawn = (UBYTE)SUPERMAP_counter;
+
+								if (ControlFlag && allow_debug_keys)
+								{
+									AENG_world_text(
+										(p_thing->WorldPos.X >> 8),
+										(p_thing->WorldPos.Y >> 8) + 0x60,
+										(p_thing->WorldPos.Z >> 8),
+										200,
+										180,
+										50,
+										TRUE,
+										PCOM_person_state_debug(p_thing));
+								}
+
+#if DRAW_THIS_DEBUG_STUFF
+
+								AENG_world_line(
+									(p_thing->WorldPos.X >> 8),
+									(p_thing->WorldPos.Y >> 8) + 0x60,
+									(p_thing->WorldPos.Z >> 8),
+									32,
+									0x00ffffff,
+									(x << PAP_SHIFT_LO) + (1 << (PAP_SHIFT_LO - 1)),
+									(p_thing->WorldPos.Y >> 8),
+									(z << PAP_SHIFT_LO) + (1 << (PAP_SHIFT_LO - 1)),
+									0,
+									0x0000ff00,
+									FALSE);
+
+#endif
+							}
+
+#ifndef TARGET_DC
+#if NO_MORE_BALLOONS
+
+							if (p_thing->Genus.Person->Balloon)
+							{
+								SLONG balloon;
+								BALLOON_Balloon* bb;
+
+								//
+								// Draw this person's balloon.
+								//
+
+								for (balloon = p_thing->Genus.Person->Balloon; balloon; balloon = BALLOON_balloon[balloon].next)
+								{
+									SHAPE_draw_balloon(balloon);
+								}
+							}
+
+#endif
+#endif
+
+							if (p_thing->State == STATE_DEAD)
+							{
+								if (p_thing->Genus.Person->Timer1 > 10)
+								{
+									if (p_thing->Genus.Person->PersonType == PERSON_MIB1 ||
+										p_thing->Genus.Person->PersonType == PERSON_MIB2 ||
+										p_thing->Genus.Person->PersonType == PERSON_MIB3)
+									{
+										//
+										// Dead MIB self destruct!
+										//
+										DRAWXTRA_MIB_destruct(p_thing);
+										/*
+																					SLONG px;
+																					SLONG py;
+																					SLONG pz;
+
+																					calc_sub_objects_position(
+																						p_thing,
+																						p_thing->Draw.Tweened->AnimTween,
+																						SUB_OBJECT_PELVIS,
+																					   &px,
+																					   &py,
+																					   &pz);
+
+																					px += p_thing->WorldPos.X >> 8;
+																					py += p_thing->WorldPos.Y >> 8;
+																					pz += p_thing->WorldPos.Z >> 8;
+
+																					//
+																					// Ripped from the DRAWXTRA_special!
+																					//
+
+																					// (So why didn't you put it there?!)
+
+																					{
+																						SLONG c0;
+																						SLONG dx;
+																						SLONG dz;
+
+																					  c0=3+(THING_NUMBER(p_thing)&7);
+																					  c0=(((GAME_TURN*c0)+(THING_NUMBER(p_thing)*9))<<4)&2047;
+																					  dx=SIN(c0)>>8;
+																					  dz=COS(c0)>>8;
+																					  BLOOM_draw(
+																						px, py+15, pz,
+																						dx,0,dz,0x9F2040,0);
+																					}*/
+									}
+								}
+							}
+
+							if (p_thing->Genus.Person->pcom_ai == PCOM_AI_BANE)
+							{
+								DRAWXTRA_final_glow(
+									p_thing->WorldPos.X >> 8,
+									p_thing->WorldPos.Y + 0x8000 >> 8,
+									p_thing->WorldPos.Z >> 8,
+									-p_thing->Draw.Tweened->Tilt);
+							}
+
+							LOG_EXIT(AENG_Draw_DT_ROT_MULTI)
+
+								break;
+
+						case DT_EFFECT:
+							break;
+
+						case DT_MESH:
+							break;
+						{
+							// Weapons & other powerups.
+							if (p_thing->Class == CLASS_SPECIAL) DRAWXTRA_Special(p_thing);
+
+							MESH_draw_poly(
+								p_thing->Draw.Mesh->ObjectId,
+								p_thing->WorldPos.X >> 8,
+								p_thing->WorldPos.Y >> 8,
+								p_thing->WorldPos.Z >> 8,
+								p_thing->Draw.Mesh->Angle,
+								p_thing->Draw.Mesh->Tilt,
+								p_thing->Draw.Mesh->Roll,
+								NULL, 0xff, 0);
+						}
+
+						break;
+
+#ifdef BIKE
+
+
+						//#error A bike! Are you mad?
+
+						case DT_BIKE:
+
+							ASSERT(p_thing->Class == CLASS_BIKE);
+							{
+								//
+								// Nasty eh! But I can't be arsed to create a new drawtype.
+								// 
+
+								BIKE_Drawinfo bdi = BIKE_get_drawinfo(p_thing);
+
+								//
+								// Draw the frame of the bike.
+								//
+
+								ANIM_obj_draw(p_thing, p_thing->Draw.Tweened);
+
+								//
+								// If the bike is parked or being mounted then the wheels are
+								// included in the animating object.
+								//
+
+								if (p_thing->Genus.Bike->mode == BIKE_MODE_DRIVING)
+								{
+									AENG_set_bike_wheel_rotation(bdi.front_rot, PRIM_OBJ_BIKE_BWHEEL);
+
+									MESH_draw_poly(
+										PRIM_OBJ_BIKE_BWHEEL,
+										bdi.front_x,
+										bdi.front_y,
+										bdi.front_z,
+										bdi.steer,
+										bdi.pitch,
+										bdi.roll,
+										NULL, 0xff, 0);
+
+									AENG_set_bike_wheel_rotation(bdi.back_rot, PRIM_OBJ_BIKE_BWHEEL);
+
+									MESH_draw_poly(
+										PRIM_OBJ_BIKE_BWHEEL,
+										bdi.back_x,
+										bdi.back_y,
+										bdi.back_z,
+										bdi.yaw,
+										0,
+										bdi.roll,
+										NULL, 0xff, 0);
+								}
+
+								// Now some bike fx... first the exhaust
+								PARTICLE_Exhaust2(p_thing, 5, 16);
+
+								if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME))
+								{
+									SLONG matrix[9], vector[3], dx, dy, dz;
+									//										FMATRIX_calc(matrix, 1024-bdi.steer, bdi.pitch, bdi.roll);
+									FMATRIX_calc(matrix, bdi.steer, bdi.pitch, bdi.roll);
+									FMATRIX_TRANSPOSE(matrix);
+									vector[2] = -255; vector[1] = 0; vector[0] = 0;
+									FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
+									dx = vector[0]; dy = vector[1]; dz = vector[2];
+									vector[2] = 25; vector[1] = 80; vector[0] = 0;
+									FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
+									BLOOM_draw(bdi.front_x + vector[0], bdi.front_y + vector[1], bdi.front_z + vector[2], dx, dy, dz, 0x606040, BLOOM_LENSFLARE | BLOOM_BEAM);
+
+									FMATRIX_calc(matrix, bdi.yaw, bdi.pitch, bdi.roll);
+									FMATRIX_TRANSPOSE(matrix);
+									vector[2] = 255; vector[1] = 0; vector[0] = 0;
+									FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
+									dx = vector[0]; dy = vector[1]; dz = vector[2];
+									vector[2] = 70; vector[1] = 75; vector[0] = 0;
+									FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
+
+									BLOOM_draw(
+										(p_thing->WorldPos.X >> 8) + vector[0],
+										(p_thing->WorldPos.Y >> 8) + vector[1],
+										(p_thing->WorldPos.Z >> 8) + vector[2],
+										dx, dy, dz, 0x800000, 0);
+
+								}
+							}
+
+							break;
+
+#endif
+
+						case DT_VEHICLE:
+
+							if (p_thing->Class == CLASS_VEHICLE)
+							{
+								if (p_thing->Genus.Vehicle->Driver)
+								{
+									TO_THING(p_thing->Genus.Vehicle->Driver)->Flags |= FLAGS_IN_VIEW;
+
+								}
+							}
+							//
+							// Set the tinted colour of this van.
+							//
+
+							{
+#if 1
+								ULONG car_colours[6] =
+								{
+									0xffffff00,
+									0xffff00ff,
+									0xff00ffff,
+									0xffff0000,
+									0xff00ff00,
+									0xf00000ff
+								};
+
+								MESH_colour_and = car_colours[THING_NUMBER(p_thing) % 6];
+#else
+
+#define	DEFCOL(R,G,B)	(0xFF000000 | R | (G << 8) | (B << 16))
+
+								static DWORD colours[7] =
+								{
+									DEFCOL(18,192,120),
+									DEFCOL(255,14,90),
+									DEFCOL(112,122,216),
+									DEFCOL(176,158,54),
+									DEFCOL(0,149,186),
+									DEFCOL(194,162,34),
+									DEFCOL(255,255,255),
+								};
+
+								int	col = THING_NUMBER(p_thing) % 7;
+								MESH_colour_and = colours[col];
+#endif
+							}
+
+							extern void draw_car(Thing * p_car);
+
+							draw_car(p_thing);
+
+#ifndef TARGET_DC
+							if (ControlFlag && allow_debug_keys)
+							{
+								//
+								// Draw a line towards where you have to be
+								// to get into the van.
+								//
+
+								SLONG dx = -SIN(p_thing->Genus.Vehicle->Draw.Angle);
+								SLONG dz = -COS(p_thing->Genus.Vehicle->Draw.Angle);
+
+								SLONG ix = p_thing->WorldPos.X >> 8;
+								SLONG iz = p_thing->WorldPos.Z >> 8;
+
+								ix += dx >> 9;
+								iz += dz >> 9;
+
+								ix -= dz >> 9;
+								iz += dx >> 9;
+
+								AENG_world_line(
+									p_thing->WorldPos.X >> 8, p_thing->WorldPos.Y >> 8, p_thing->WorldPos.Z >> 8, 64, 0x00ffffff,
+									ix, p_thing->WorldPos.Y >> 8, iz, 0, 0x0000ff00, TRUE);
+							}
+#endif
+
+							break;
+
+						case DT_CHOPPER:
+							CHOPPER_draw_chopper(p_thing);
+							break;
+
+						case DT_PYRO:
+							PYRO_draw_pyro(p_thing);
+							break;
+						case DT_ANIMAL_PRIM:
+#if 0
+							extern	void	ANIMAL_draw(Thing * p_thing);
+							ANIMAL_draw(p_thing);
+#endif
+							break;
+
+						case DT_TRACK:
+							if (!INDOORS_INDEX)
+								TRACKS_DrawTrack(p_thing);
+							break;
+
+
+						default:
+							ASSERT(0);
+							break;
+					}
+				}
+				t_index = p_thing->Child;
+			}
+
+		}
+	}
+
+}
 
 
 #ifndef TARGET_DC
@@ -455,30 +2213,7 @@ UWORD*	GetShadowPixelMapping()
 	return mapping;
 }
 
-extern SLONG dfacets_drawn_this_gameturn;
-extern BOOL allow_debug_keys;
 
-//
-// The shift of the floor...
-//
-
-#define ALT_SHIFT (3)
-
-//
-// The maximum draw distance.
-//
-
-float AENG_lens = 4.0F;
-
-//static SLONG	NormalDrawDistance = 22<<8;
-SLONG	CurDrawDistance = 22<<8;
-
-//#define AENG_DRAW_DIST ((FC_cam[1].focus) ? 16 : 22)
-#define AENG_DRAW_DIST			(CurDrawDistance>>8)
-#define AENG_DRAW_DIST_PRECISE	(CurDrawDistance)
-#define	AENG_DRAW_PEOPLE_DIST	(CurDrawDistance + 128)
-
-#define AENG_LENS		(AENG_lens)
 
 SLONG AENG_get_draw_distance()
 {
@@ -493,21 +2228,6 @@ void AENG_set_draw_distance(SLONG dist)
 #endif
 }
 
-//
-// The camera.
-// 
-
-float AENG_cam_x;
-float AENG_cam_y;
-float AENG_cam_z;
-
-float AENG_cam_yaw;
-float AENG_cam_pitch;
-float AENG_cam_roll;
-
-float AENG_cam_matrix[9];
-
-SLONG AENG_cam_vec[3];
 
 //
 // The floating point prim points.
@@ -2021,23 +3741,6 @@ void AENG_get_rid_of_deleteme_squares()
 	}
 }
 
-//
-// Adds a projected shadow poly to the POLY module.
-// 
-
-float AENG_project_offset_u;
-float AENG_project_offset_v;
-
-float AENG_project_mul_u;
-float AENG_project_mul_v;
-
-float AENG_project_lit_light_x;
-float AENG_project_lit_light_y;
-float AENG_project_lit_light_z;
-float AENG_project_lit_light_range;
-
-float AENG_project_fadeout_x;
-float AENG_project_fadeout_z;
 
 
 #define SHADOW_Z_BIAS_BODGE 0.0001f
@@ -3254,6 +4957,7 @@ void AENG_draw_dirt()
 		{
 			case DIRT_TYPE_LEAF:
 			case DIRT_TYPE_SNOW:
+
 				
 				{
 					//
@@ -4447,16 +6151,6 @@ void AENG_draw_released_balloons(void)
 #endif
 
 
-//
-// AA test.
-//
-
-#define AENG_AA_LEFT	 20
-#define AENG_AA_TOP		 20
-#define AENG_AA_PIX_SIZE  4
-#define AENG_AA_BUF_SIZE 32
-
-UBYTE AENG_aa_buffer[AENG_AA_BUF_SIZE][AENG_AA_BUF_SIZE];
 
 #ifdef TARGET_DC
 // Try to misalign the map rows to try to stop the cache thrashing.
@@ -7249,6 +8943,271 @@ extern DIJOYSTATE			the_state;
 #endif
 
 
+void OVERSIMPLIFIED_AENG_draw_city()
+{
+
+	SLONG i;
+
+	SLONG x;
+	SLONG y;
+	SLONG z;
+
+	SLONG dx;
+	SLONG dy;
+	SLONG dz;
+	SLONG dist;
+
+	SLONG nx;
+	SLONG nz;
+
+	SLONG page;
+	SLONG shadow;
+	SLONG square;
+
+	float world_x;
+	float world_y;
+	float world_z;
+
+	POLY_Point* pp;
+	POLY_Point* ppl;
+#ifndef TARGET_DC
+	MapElement* me;
+#endif
+
+	PAP_Lo* pl;
+	PAP_Hi* ph;
+
+	THING_INDEX t_index;
+	Thing* p_thing;
+
+	POLY_Point* tri[3];
+	POLY_Point* quad[4];
+
+	NIGHT_Square* nq;
+
+	SLONG red;
+	SLONG green;
+	SLONG blue;
+
+	SLONG px;
+	SLONG pz;
+
+	SLONG sx;
+	SLONG sz;
+
+	SLONG px1;
+	SLONG pz1;
+	SLONG px2;
+	SLONG pz2;
+
+	SLONG mx;
+	SLONG mz;
+
+	SLONG worked_out_colour;
+	ULONG colour;
+	ULONG specular;
+
+	OB_Info* oi;
+
+	LIGHT_Colour pcol;
+	static int outside = 1;
+	static int sea_offset = 0;
+	FigureOutThingsInView();
+
+//	if (!INDOORS_INDEX || outside)
+//		for (z = NGAMUT_point_zmin; z <= NGAMUT_point_zmax; z++)
+//		{
+//			for (x = NGAMUT_point_gamut[z].xmin; x <= NGAMUT_point_gamut[z].xmax; x++)
+//			{
+//				ASSERT(WITHIN(x, 0, MAP_WIDTH - 1));
+//				ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
+//
+//				extern	UBYTE	player_visited[16][128];
+//				//			player_visited[x>>3][z]|=1<<(x&7);
+//
+//				ph = &PAP_2HI(x, z);
+//				//show_gamut_hi(x,z);
+//
+//				//
+//				// The upper point.
+//				//
+//
+//				world_x = x * 256.0F;
+//				world_y = ph->Alt * float(1 << ALT_SHIFT);
+//				world_z = z * 256.0F;
+//
+//				worked_out_colour = FALSE;
+//
+//				if (!(ph->Flags & PAP_FLAG_NOUPPER))
+//				{
+//					pp = &AENG_upper[x & 63][z & 63];
+//
+//					POLY_transform(world_x, world_y, world_z, pp);
+//
+//					if (pp->MaybeValid())
+//					{
+//						//
+//						// Work out the colour of this point... what a palaver!
+//						//
+//
+//
+//						if (INDOORS_INDEX)
+//						{
+//							/*
+//													NIGHT_get_d3d_colour_dim(
+//														nq->colour[dx + dz * PAP_BLOCKS],
+//													   &pp->colour,
+//													   &pp->specular);
+//							*/
+//#ifdef TARGET_DC
+//							pp->colour = 0xff808080;//202020;
+//							pp->specular = 0xff000000;
+//#else
+//							pp->colour = 0x80808080;//202020;
+//							pp->specular = 0x80000000;
+//#endif
+//						}
+//						else
+//						{
+//							px = x >> 2;
+//							pz = z >> 2;
+//
+//							dx = x & 0x3;
+//							dz = z & 0x3;
+//
+//							ASSERT(WITHIN(px, 0, PAP_SIZE_LO - 1));
+//							ASSERT(WITHIN(pz, 0, PAP_SIZE_LO - 1));
+//
+//							square = NIGHT_cache[px][pz];
+//
+//							//ASSERT(WITHIN(square, 1, NIGHT_MAX_SQUARES - 1));
+//							ASSERT(NIGHT_square[square].flag & NIGHT_SQUARE_FLAG_USED);
+//
+//							nq = &NIGHT_square[square];
+//
+//							NIGHT_get_d3d_colour(
+//								nq->colour[dx + dz * PAP_BLOCKS],
+//								&pp->colour,
+//								&pp->specular);
+//						}
+//
+//#ifndef TARGET_DC
+//						apply_cloud((SLONG)world_x, (SLONG)world_y, (SLONG)world_z, &pp->colour);
+//#endif
+//
+//
+//						POLY_fadeout_point(pp);
+//
+//						colour = pp->colour;
+//						specular = pp->specular;
+//
+//						worked_out_colour = TRUE;
+//					}
+//				}
+//
+//				//
+//				// The lower point.
+//				//
+//
+//				if (ph->Flags & PAP_FLAG_SINK_POINT || (MAV_SPARE(x, z) & MAV_SPARE_FLAG_WATER))
+//				{
+//
+//					if (ph->Flags & PAP_FLAG_SINK_POINT)
+//					{
+//						world_y -= KERB_HEIGHT;
+//					}
+//					else
+//					{
+//						world_y += (COS(((x << 8) + (sea_offset >> 1)) & 2047) + SIN(((z << 8) + (sea_offset >> 1) + 700) & 2047)) >> 13;
+//
+//					}
+//
+//					ppl = &AENG_lower[x & 63][z & 63];
+//
+//					POLY_transform(world_x, world_y, world_z, ppl);
+//
+//					if (ppl->MaybeValid())
+//					{
+//						if (worked_out_colour)
+//						{
+//							//
+//							// Use the colour of the upper point...
+//							//
+//
+//							ppl->colour = colour;
+//							ppl->specular = specular;
+//#ifdef TARGET_DC
+//							ppl->colour |= 0xff000000;
+//							ppl->specular |= 0xff000000;
+//#endif
+//						}
+//						else
+//						{
+//							//
+//							// Work out the colour of this point... what a palaver!
+//							//
+//
+//
+//							if (INDOORS_INDEX)
+//							{
+//								/*
+//															NIGHT_get_d3d_colour_dim(
+//																nq->colour[dx + dz * PAP_BLOCKS],
+//															   &ppl->colour,
+//															   &ppl->specular);
+//								*/
+//								ppl->colour = 0x202020;
+//								ppl->specular = 0xff000000;
+//#ifdef TARGET_DC
+//								ppl->colour |= 0xff000000;
+//								ppl->specular |= 0xff000000;
+//#endif
+//
+//							}
+//							else
+//							{
+//								px = x >> 2;
+//								pz = z >> 2;
+//
+//								dx = x & 0x3;
+//								dz = z & 0x3;
+//
+//								ASSERT(WITHIN(px, 0, PAP_SIZE_LO - 1));
+//								ASSERT(WITHIN(pz, 0, PAP_SIZE_LO - 1));
+//
+//								square = NIGHT_cache[px][pz];
+//
+//								ASSERT(WITHIN(square, 1, NIGHT_MAX_SQUARES - 1));
+//								ASSERT(NIGHT_square[square].flag & NIGHT_SQUARE_FLAG_USED);
+//
+//								nq = &NIGHT_square[square];
+//
+//								NIGHT_get_d3d_colour(
+//									nq->colour[dx + dz * PAP_BLOCKS],
+//									&ppl->colour,
+//									&ppl->specular);
+//							}
+//
+//							POLY_fadeout_point(ppl);
+//						}
+//#ifndef TARGET_DC
+//						apply_cloud((SLONG)world_x, (SLONG)world_y, (SLONG)world_z, &ppl->colour);
+//#endif
+//					}
+//				}
+//			}
+//		}
+//
+//	DrawShadows();
+//
+//	DrawMoon();
+
+	DrawPZI();
+
+	POLY_frame_draw(TRUE, TRUE);
+}
+
+
 
 UBYTE	index_lookup[]={0,1,3,2};
 			   
@@ -7262,6 +9221,8 @@ void AENG_draw_city()
 
 	ANNOYINGSCRIBBLECHECK;
 
+	/*OVERSIMPLIFIED_AENG_draw_city();
+	return;*/
 
 	//DumpTracies();
 
@@ -7352,70 +9313,22 @@ extern	SLONG	tick_tock_unclipped;
 #endif
 
 
+	// PZI
+
+	FigureOutThingsInView();
 
 
 
 	LOG_ENTER ( AENG_Check_Visible );
 
+
+
+
 	//
 	// Work out which things are in view.
 	//
 
-	for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
-	{
-		for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++)
-		{
-			t_index = PAP_2LO(x,z).MapWho;
-
-			while(t_index)
-			{
-				p_thing = TO_THING(t_index);
-
-				if (p_thing->Flags & FLAGS_IN_BUILDING)
-				{
-					//
-					// Dont draw things inside buildings when we are outdoors.
-					//
-				}
-				else
-				{
-					switch(p_thing->Class)
-					{
-						case CLASS_PERSON:
-							
-							//
-							// We only have a rejection test for people now.
-							//
-
-							if(p_thing->Genus.Person->PlayerID && !p_thing->Genus.Person->Ware)
-								p_thing->Flags |= FLAGS_IN_VIEW;
-							else
-							if (!p_thing->Genus.Person->Ware && FC_can_see_person(AENG_cur_fc_cam, p_thing))
-							{
-								if (POLY_sphere_visible(
-									float(p_thing->WorldPos.X >> 8),
-									float(p_thing->WorldPos.Y >> 8) + 0x80,
-									float(p_thing->WorldPos.Z >> 8),
-									256.0F / (AENG_DRAW_DIST * 256.0F)))
-								{
-									p_thing->Flags |= FLAGS_IN_VIEW;
-								}
-							}
-
-							break;
-
-						default:
-							p_thing->Flags |= FLAGS_IN_VIEW;
-							break;
-					}
-				}
-
-				t_index = p_thing->Child;
-			}
-
-			NIGHT_square[NIGHT_cache[x][z]].flag &= ~NIGHT_SQUARE_FLAG_DELETEME;
-		}
-	}
+	//FigureOutThingsInView();
 
 	BreakTime("Worked out things in view");
 
@@ -7424,6 +9337,8 @@ extern	SLONG	tick_tock_unclipped;
 	LOG_ENTER ( AENG_Draw_Indoors_Floors );
 
 	ANNOYINGSCRIBBLECHECK;
+
+
 
 
 	//
@@ -7676,28 +9591,8 @@ extern	UBYTE	player_visited[16][128];
 
 #ifndef TARGET_DC
 	LOG_ENTER ( AENG_Draw_Stars );
-
-	if (AENG_detail_stars && !(NIGHT_flag & NIGHT_FLAG_DAYTIME))
-	{
-		//
-		// Draw the stars...
-		//
-		if (the_display.screen_lock())
-		{
-			BreakTime("Locked for stars");
-
-			SKY_draw_stars(
-				AENG_cam_x,
-				AENG_cam_y,
-				AENG_cam_z,
-				AENG_DRAW_DIST * 256.0F);
-
-			BreakTime("Drawn stars");
-
-			the_display.screen_unlock();
-		}
-	}
-
+	
+	DrawStars();
 	BreakTime("Done stars");
 
 	LOG_EXIT ( AENG_Draw_Stars );
@@ -7719,555 +9614,10 @@ extern	UBYTE	player_visited[16][128];
 
 	LOG_ENTER ( AENG_Draw_Shadows )
 
-	struct
-	{
-		Thing *p_person;
-		SLONG  dist;
 
-	}      shadow_person[AENG_NUM_SHADOWS];
-	SLONG  shadow_person_upto = 0;
 
 
-	if (AENG_detail_shadows)
-	{
-		Thing *darci = FC_cam[AENG_cur_fc_cam].focus;
-
-		//
-		// How many people do we generate shadows for?
-		//
-
-		SLONG  shadow_person_worst_dist = -INFINITY;
-		SLONG  shadow_person_worst_person;
-
-		for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
-		{
-			for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++)
-			{
-				t_index = PAP_2LO(x,z).MapWho;
-
-				while(t_index)
-				{
-					p_thing = TO_THING(t_index);
-
-					if (p_thing->Class == CLASS_PERSON && (p_thing->Flags & FLAGS_IN_VIEW))
-					{
-						//
-						// Distance from darci.
-						//
-
-						dx = p_thing->WorldPos.X - darci->WorldPos.X;
-						dz = p_thing->WorldPos.Z - darci->WorldPos.Z;
-
-						dist = abs(dx) + abs(dz);
-
-						if (dist < 0x60000)
-						{
-							if (shadow_person_upto < AENG_NUM_SHADOWS)
-							{
-								//
-								// Put this person in the shadow array.
-								//
-
-								shadow_person[shadow_person_upto].p_person = p_thing;
-								shadow_person[shadow_person_upto].dist     = dist;
-
-								//
-								// Keep track of the furthest person away.
-								//
-
-								if (dist > shadow_person_worst_dist)
-								{
-									shadow_person_worst_dist   = dist;
-									shadow_person_worst_person = shadow_person_upto;
-								}
-
-								shadow_person_upto += 1;
-							}
-							else
-							{
-								if (dist < shadow_person_worst_dist)
-								{
-									//
-									// Replace the worst person.
-									//
-
-									ASSERT(WITHIN(shadow_person_worst_person, 0, AENG_NUM_SHADOWS - 1));
-
-									shadow_person[shadow_person_worst_person].p_person = p_thing;
-									shadow_person[shadow_person_worst_person].dist     = dist;
-
-									//
-									// Find the worst person
-									//
-
-									shadow_person_worst_dist = -INFINITY;
-
-									for (i = 0; i < AENG_NUM_SHADOWS; i++)
-									{
-										if (shadow_person[i].dist > shadow_person_worst_dist)
-										{
-											shadow_person_worst_dist   = shadow_person[i].dist;
-											shadow_person_worst_person = i;
-										}
-									}
-								}
-							}
-						}
-					}
-
-					t_index = p_thing->Child;
-				}
-			}
-		}
-
-		//
-		// Draw the people's shadow maps.
-		//
-
-		SLONG offset_x;
-		SLONG offset_y;
-
-		POLY_flush_local_rot();
-
-		for (i = 0; i < shadow_person_upto; i++)
-		{
-			darci = shadow_person[i].p_person;
-
-			memset(AENG_aa_buffer, 0, sizeof(AENG_aa_buffer));
-
-			SMAP_person(
-				darci,
-				(UBYTE *) AENG_aa_buffer,
-				AENG_AA_BUF_SIZE,
-				AENG_AA_BUF_SIZE,
-				147,
-			   -148,
-			   -147);
-
-			//
-			// Where do we put it in the shadow texture page? Hard code everything!
-			//
-
-			ASSERT(AENG_AA_BUF_SIZE    == 32);
-			ASSERT(TEXTURE_SHADOW_SIZE == 64);
-			
-			offset_x = (i & 1) << 5;
-			offset_y = (i & 2) << 4;
-
-			//
-			// Plonk it into the shadow texture page.
-			//
-
-			if (TEXTURE_shadow_lock())
-			{
-				SLONG  x;
-				SLONG  y;
-				UWORD *line;
-				UBYTE *buf = (UBYTE *) AENG_aa_buffer;
-				UWORD*	mapping = GetShadowPixelMapping();
-
-				for (y = 0; y < AENG_AA_BUF_SIZE; y++)
-				{
-					line = &TEXTURE_shadow_bitmap[((y + offset_y) * TEXTURE_shadow_pitch >> 1) + offset_x];
-
-					for (x = AENG_AA_BUF_SIZE - 1; x >= 0; x--)
-					{
-						*line++ = mapping[*buf++];
-					}
-				}
-
-				TEXTURE_shadow_unlock();
-			}
-
-			//
-			// How we map floating points coordinates from 0 to 1 onto
-			// where we plonked the shadow map in the texture page.
-			//
-
-			AENG_project_offset_u = float(offset_x) / float(TEXTURE_SHADOW_SIZE);
-			AENG_project_offset_v = float(offset_y) / float(TEXTURE_SHADOW_SIZE);
-			AENG_project_mul_u    = float(AENG_AA_BUF_SIZE) / float(TEXTURE_SHADOW_SIZE);
-			AENG_project_mul_v    = float(AENG_AA_BUF_SIZE) / float(TEXTURE_SHADOW_SIZE);
-
-			//
-			// The position from which the shadow fades out.
-			//
-
-			AENG_project_fadeout_x = float(darci->WorldPos.X >> 8);
-			AENG_project_fadeout_z = float(darci->WorldPos.Z >> 8);
-
-			{
-				//
-				// Map this poly onto the mapsquares surrounding darci.
-				//
-
-				SLONG i;
-
-				SLONG mx;
-				SLONG mz;
-				SLONG dx;
-				SLONG dz;
-
-				SLONG mx1;
-				SLONG mz1;
-				SLONG mx2;
-				SLONG mz2;
-				SLONG exit = FALSE;
-
-				SLONG mx_lo;
-				SLONG mz_lo;
-
-#ifndef TARGET_DC
-				MapElement *me[4];
-#endif
-				PAP_Hi     *ph[4];
-
-				SVector_F  poly[4];
-				SMAP_Link *projected;
-
-				SLONG v_list;
-				SLONG i_vect;
-
-				DFacet *df;
-
-				SLONG w_list;
-				SLONG w_face;
-
-				PrimFace4 *p_f4;
-				PrimPoint *pp;
-
-				SLONG wall;
-				SLONG storey;
-				SLONG building;
-				SLONG thing;
-				SLONG face_height;
-				UBYTE face_order[4] = {0,1,3,2};
-
-				Thing *p_fthing;
-
-				//
-				// Colvects we have already done.
-				// 
-
-				#define AENG_MAX_DONE 8
-
-				SLONG done[AENG_MAX_DONE];
-				SLONG done_upto = 0;
-
-				for (dx = -1; dx <= 1; dx++)
-				for (dz = -1; dz <= 1; dz++)
-				{
-					mx = (darci->WorldPos.X >> 16) + dx;
-					mz = (darci->WorldPos.Z >> 16) + dz;
-
-					if (WITHIN(mx, 0, MAP_WIDTH  - 2) &&
-						WITHIN(mz, 0, MAP_HEIGHT - 2))
-					{
-#ifndef TARGET_DC
-						me[0] = &MAP[MAP_INDEX(mx + 0, mz + 0)];
-						me[1] = &MAP[MAP_INDEX(mx + 1, mz + 0)];
-						me[2] = &MAP[MAP_INDEX(mx + 1, mz + 1)];
-						me[3] = &MAP[MAP_INDEX(mx + 0, mz + 1)];
-#endif
-
-						ph[0] = &PAP_2HI(mx + 0, mz + 0);
-						ph[1] = &PAP_2HI(mx + 1, mz + 0);
-						ph[2] = &PAP_2HI(mx + 1, mz + 1);
-						ph[3] = &PAP_2HI(mx + 0, mz + 1);
-
-						if ( (!(PAP_2HI(mx,mz).Flags & (PAP_FLAG_HIDDEN|PAP_FLAG_WATER))) || (PAP_2HI(mx,mz).Flags & (PAP_FLAG_ROOF_EXISTS)))
-						{
-							poly[3].X = float(mx << 8);
-							poly[3].Z = float(mz << 8);
-
-							poly[0].X = poly[3].X + 256.0F;
-							poly[0].Z = poly[3].Z;
-
-							poly[1].X = poly[3].X + 256.0F;
-							poly[1].Z = poly[3].Z + 256.0F;
-
-							poly[2].X = poly[3].X;
-							poly[2].Z = poly[3].Z + 256.0F;
-
-
-							if (PAP_2HI(mx,mz).Flags & (PAP_FLAG_ROOF_EXISTS))
-							{
-								poly[0].Y =poly[1].Y =poly[2].Y =poly[3].Y = MAVHEIGHT(mx,mz)<<6;
-							}
-							else
-							{
-								poly[3].Y = float(ph[0]->Alt << ALT_SHIFT);
-								poly[2].Y = float(ph[3]->Alt << ALT_SHIFT);
-								poly[0].Y = float(ph[1]->Alt << ALT_SHIFT);
-								poly[1].Y = float(ph[2]->Alt << ALT_SHIFT);
-							}
-
-							if (PAP_2HI(mx,mz).Flags & PAP_FLAG_SINK_SQUARE)
-							{
-								poly[0].Y -= KERB_HEIGHT;
-								poly[1].Y -= KERB_HEIGHT;
-								poly[2].Y -= KERB_HEIGHT;
-								poly[3].Y -= KERB_HEIGHT;
-							}
-
-							if (ph[0]->Alt == ph[1]->Alt &&
-								ph[0]->Alt == ph[2]->Alt &&
-								ph[0]->Alt == ph[3]->Alt)
-							{
-								//
-								// This quad is coplanar.
-								//
-
-								projected = SMAP_project_onto_poly(poly, 4);
-
-								if (projected)
-								{
-									AENG_add_projected_fadeout_shadow_poly(projected);
-								}
-							}
-							else
-							{
-								//
-								// Do each triangle separatly.
-								//
-
-								projected = SMAP_project_onto_poly(poly, 3);
-
-								if (projected)
-								{
-									AENG_add_projected_fadeout_shadow_poly(projected);
-								}
-
-								//
-								// The triangles are 0,1,2 and 0,2,3.
-								//
-
-								poly[1] = poly[0];
-
-								projected = SMAP_project_onto_poly(poly + 1, 3);
-
-								if (projected)
-								{
-									AENG_add_projected_fadeout_shadow_poly(projected);
-								}
-							}
-						}
-					}
-				}
-
-				mx1 = (darci->WorldPos.X >> 8) - 0x100 >> PAP_SHIFT_LO;
-				mz1 = (darci->WorldPos.Z >> 8) - 0x100 >> PAP_SHIFT_LO;
-
-				mx2 = (darci->WorldPos.X >> 8) + 0x100 >> PAP_SHIFT_LO;
-				mz2 = (darci->WorldPos.Z >> 8) + 0x100 >> PAP_SHIFT_LO;
-
-				SATURATE(mx1, 0, PAP_SIZE_LO - 1);
-				SATURATE(mz1, 0, PAP_SIZE_LO - 1);
-				SATURATE(mx2, 0, PAP_SIZE_LO - 1);
-				SATURATE(mz2, 0, PAP_SIZE_LO - 1);
-
-				for (mx_lo = mx1; mx_lo <= mx2; mx_lo++)
-				for (mz_lo = mz1; mz_lo <= mz2; mz_lo++)
-				{
-					SLONG count = 0;
-
-					//
-					// Project onto nearby colvects...
-					//
-
-					v_list = PAP_2LO(mx_lo,mz_lo).ColVectHead;
-
-					if (v_list)
-					{
-						exit = FALSE;
-
-						while(!exit)
-						{
-							i_vect = facet_links[v_list];
-
-							if(i_vect<0)
-							{
-								i_vect = -i_vect;
-
-								exit = TRUE;
-							}
-
-							df = &dfacets[i_vect];
-
-							if (df->FacetType == STOREY_TYPE_NORMAL)
-							{
-								for (i = 0; i < done_upto; i++)
-								{
-									if (done[i] == i_vect)
-									{
-										//
-										// Dont do this facet again
-										//
-
-										goto ignore_this_facet;
-									}
-								}
-
-								if (1 /* Fast facet shadows */)
-								{
-									float facet_height = float((df->BlockHeight << 4) * (df->Height >> 2));
-
-									poly[0].X = float(df->x[1] << 8);
-									poly[0].Y = float(df->Y[1]     );
-									poly[0].Z = float(df->z[1] << 8);
-
-									poly[1].X = float(df->x[1] << 8);
-									poly[1].Y = float(df->Y[1]     ) + facet_height;
-									poly[1].Z = float(df->z[1] << 8);
-
-									poly[2].X = float(df->x[0] << 8);
-									poly[2].Y = float(df->Y[0]     ) + facet_height;
-									poly[2].Z = float(df->z[0] << 8);
-
-									poly[3].X = float(df->x[0] << 8);
-									poly[3].Y = float(df->Y[0]     );
-									poly[3].Z = float(df->z[0] << 8);
-
-									if (df->FHeight)
-									{
-										//
-										// Foundations go down deep into the ground...
-										//
-
-										poly[0].Y -= 512.0F;
-										poly[3].Y -= 512.0F;
-									}
-
-									projected = SMAP_project_onto_poly(poly, 4);
-
-									if (projected)
-									{
-										AENG_add_projected_fadeout_shadow_poly(projected);
-									}
-								}
-								else
-								{
-									//
-									// Slow crinkled-shadows!
-									//
-
-									FACET_project_crinkled_shadow(i_vect);
-								}
-
-								//
-								// Remember We've already done this facet.
-								//
-
-								if (done_upto < AENG_MAX_DONE)
-								{
-									done[done_upto++] = i_vect;
-								}
-							}
-
-						  ignore_this_facet:;
-
-							v_list++;
-						}
-					}
-
-					//if (darci->OnFace) Always do this.
-					{
-						//
-						// Cast shadow on walkable faces.
-						//
-
-						w_face = PAP_2LO(mx_lo,mz_lo).Walkable;
-
-						while(w_face)
-						{
-							if (w_face > 0)
-							{
-								p_f4        = &prim_faces4[w_face];
-								face_height =  prim_points[p_f4->Points[0]].Y;
-
-								if (face_height > ((darci->WorldPos.Y + 0x11000) >> 8))
-								{
-									//
-									// This face is above Darci, so don't put her shadow
-									// on it.
-									//
-								}
-								else
-								{
-									for (i = 0; i < 4; i++)
-									{
-										pp = &prim_points[p_f4->Points[face_order[i]]];
-
-										poly[i].X = float(pp->X);
-										poly[i].Y = float(pp->Y);
-										poly[i].Z = float(pp->Z);
-									}
-
-									projected = SMAP_project_onto_poly(poly, 4);
-
-									if (projected)
-									{
-										AENG_add_projected_fadeout_shadow_poly(projected);
-									}
-								}
-
-								w_face = p_f4->Col2;
-							}
-							else
-							{
-								struct		RoofFace4	*rf;
-								rf        = &roof_faces4[-w_face];
-								face_height =  rf->Y;
-
-								if (face_height > ((darci->WorldPos.Y + 0x11000) >> 8))
-								{
-									//
-									// This face is above Darci, so don't put her shadow
-									// on it.
-									//
-								}
-								else
-								{
-									SLONG	mx,mz;
-									mx=(rf->RX&127)<<8;
-									mz=(rf->RZ&127)<<8;
-
-									poly[0].X=(float)(mx);
-									poly[0].Y=(float)(rf->Y);
-									poly[0].Z=(float)(mz);
-
-									poly[1].X=(float)(mx+256);
-									poly[1].Y=(float)(rf->Y+(rf->DY[0]<<ROOF_SHIFT));
-									poly[1].Z=(float)(mz);
-
-									poly[2].X=(float)(mx+256);
-									poly[2].Y=(float)(rf->Y+(rf->DY[1]<<ROOF_SHIFT));
-									poly[2].Z=(float)(mz+256);
-
-									poly[3].X=(float)(mx);
-									poly[3].Y=(float)(rf->Y+(rf->DY[2]<<ROOF_SHIFT));
-									poly[3].Z=(float)(mz+256);
-
-
-									projected = SMAP_project_onto_poly(poly, 4);
-
-									if (projected)
-									{
-										AENG_add_projected_fadeout_shadow_poly(projected);
-									}
-								}
-
-								w_face = rf->Next;
-
-							}
-						}
-					}
-				}
-			}
-
-			TEXTURE_shadow_update();
-		}
-	}
+	DrawShadows();
 
 	BreakTime("Done shadows");
 
@@ -8287,7 +9637,7 @@ extern	UBYTE	player_visited[16][128];
 
 	LOG_ENTER ( AENG_Moon )
 
-	struct
+	/*struct
 	{
 		SLONG x1;
 		SLONG y1;
@@ -8295,48 +9645,11 @@ extern	UBYTE	player_visited[16][128];
 		SLONG y2;
 		SLONG water_box;
 
-	}     bbox[AENG_MAX_BBOXES];
+	}    */
+	bboxStruct bbox[AENG_MAX_BBOXES];
 	SLONG bbox_upto = 0;
 
-	if (AENG_detail_moon_reflection && !(NIGHT_flag & NIGHT_FLAG_DAYTIME) && !(GAME_FLAGS & GF_NO_FLOOR))
-	{
-		//
-		// The moon upside down...
-		//
-
-		float moon_x1;
-		float moon_y1;
-		float moon_x2;
-		float moon_y2;
-
-		if (SKY_draw_moon_reflection(
-				AENG_cam_x,
-				AENG_cam_y,
-				AENG_cam_z,
-				AENG_DRAW_DIST * 256.0F,
-			   &moon_x1,
-			   &moon_y1,
-			   &moon_x2,
-			   &moon_y2))
-		{
-			/*
-
-			//
-			// The moon is wibbled with polys now.
-			//
-
-			bbox[0].x1 = MAX((SLONG)moon_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
-			bbox[0].y1 = MAX((SLONG)moon_y1, 0);
-			bbox[0].x2 = MIN((SLONG)moon_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth  - AENG_BBOX_PUSH_IN);
-			bbox[0].y2 = MIN((SLONG)moon_y2, DisplayHeight);
-
-			bbox[0].water_box = FALSE;
-
-			bbox_upto = 1;
-
-			*/
-		}
-	}
+	DrawMoon();
 
 	LOG_EXIT ( AENG_Moon )
 
@@ -8346,157 +9659,9 @@ extern	UBYTE	player_visited[16][128];
 	// Draw the reflections of people.
 	//
 
-	LOG_ENTER ( AENG_People_Reflection )
+	LOG_ENTER(AENG_People_Reflection)
 
-	if (AENG_detail_people_reflection)
-	for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
-	{
-		for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++)
-		{
-			t_index = PAP_2LO(x,z).MapWho;
-
-			while(t_index)
-			{
-				p_thing = TO_THING(t_index);
-
-				if (p_thing->Class == CLASS_PERSON && (p_thing->Flags & FLAGS_IN_VIEW))
-				{
-					//
-					// This is a person... Is she standing near a puddle or some water?
-					//
-
-					mx = p_thing->WorldPos.X >> 16;
-					mz = p_thing->WorldPos.Z >> 16;
-
-					if (!PAP_on_map_hi(mx,mz))
-					{
-						//
-						// Off the map.
-						//
-					}
-					else
-					{
-						ph = &PAP_2HI(mx,mz);
-
-						if (ph->Flags & (PAP_FLAG_REFLECTIVE|PAP_FLAG_WATER))
-						{
-							//
-							// Not too far away?
-							//
-
-							dx = abs(p_thing->WorldPos.X - FC_cam[AENG_cur_fc_cam].x >> 8);
-							dz = abs(p_thing->WorldPos.Z - FC_cam[AENG_cur_fc_cam].z >> 8);
-
-							if (dx + dz < 0x600)
-							{
-								SLONG reflect_height;
-
-								//
-								// Puddles are always on the floor nowadays...
-								//
-
-								if (ph->Flags & PAP_FLAG_REFLECTIVE)
-								{
-									reflect_height = PAP_calc_height_at(p_thing->WorldPos.X >> 8, p_thing->WorldPos.Z >> 8);
-								}
-								else
-								{
-									//
-									// The height of the water is given by the lo-res mapsquare corresponding
-									// to the hi-res mapsquare that Darci is standing on.
-									// 
-
-									pl = &PAP_2LO(
-											p_thing->WorldPos.X >> (8 + PAP_SHIFT_LO),
-											p_thing->WorldPos.Z >> (8 + PAP_SHIFT_LO));
-
-									reflect_height = pl->water << ALT_SHIFT;
-								}
-
-								//
-								// Draw the reflection!
-								//
-
-								FIGURE_draw_reflection(p_thing, reflect_height);
-
-								if (WITHIN(bbox_upto, 0, AENG_MAX_BBOXES - 1))
-								{
-									//
-									// Create a new bounding box 
-									//
-
-									bbox[bbox_upto].x1 = MAX(FIGURE_reflect_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
-									bbox[bbox_upto].y1 = MAX(FIGURE_reflect_y1, 0);
-									bbox[bbox_upto].x2 = MIN(FIGURE_reflect_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth  - AENG_BBOX_PUSH_IN);
-									bbox[bbox_upto].y2 = MIN(FIGURE_reflect_y2, DisplayHeight);
-
-									bbox[bbox_upto].water_box = ph->Flags & PAP_FLAG_WATER;
-
-									bbox_upto += 1;
-								}
-							}
-						}
-					}
-				}
-
-				t_index = p_thing->Child;
-			}
-		}
-	}
-
-	/*
-
-	//
-	// Draw the reflections of the OBs.
-	//
-
-	if(DETAIL_LEVEL&DETAIL_REFLECTIONS)
-	for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
-	{
-		for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++)
-		{
-			for (oi = OB_find(x,z); oi->prim; oi += 1)
-			{
-				//
-				// On map?
-				// 
-
-				mx = oi->x >> 8;
-				mz = oi->z >> 8;
-
-				if (WITHIN(mx, 0, PAP_SIZE_HI - 1) &&
-					WITHIN(mz, 0, PAP_SIZE_HI - 1))
-				{
-					//
-					// On a reflective square?
-					// 
-
-					if (PAP_2HI(mx,mz).Flags & (PAP_FLAG_WATER|PAP_FLAG_REFLECTIVE))
-					{
-						//
-						// Not too far away?
-						//
-
-						dx = abs(oi->x - (FC_cam[AENG_cur_fc_cam].x >> 8));
-						dz = abs(oi->z - (FC_cam[AENG_cur_fc_cam].z >> 8));
-
-						if (dx + dz < 0x00)
-						{
-							MESH_draw_reflection(
-								oi->prim,
-								oi->x,
-								oi->y,
-								oi->z,
-								oi->yaw,
-								NULL);
-						}
-					}
-				}
-			}
-		}
-	}
-
-	*/
+	DrawPeopleReflection(bbox_upto, bbox);
 
 	BreakTime("Drawn reflections");
 
@@ -8530,219 +9695,10 @@ extern	UBYTE	player_visited[16][128];
 	// Draw the puddles.
 	//
 
-	LOG_ENTER ( AENG_Puddles )
+	LOG_ENTER(AENG_Puddles)
 
-	if (AENG_detail_puddles && !(GAME_FLAGS & GF_NO_FLOOR))
-	{
-		SLONG i;
+	//DrawPuddles(bbox_upto, bbox);
 
-		PUDDLE_Info *pi;
-	
-		float px1;
-		float pz1;
-		float px2;
-		float pz2;
-
-		float world_x;
-		float world_y;
-		float world_z;
-
-		static struct
-		{
-			float u;
-			float v;
-
-		} texture_coords[4] =
-		{
-			{0.0F,0.0F},
-			{1.0F,0.0F},
-			{1.0F,1.0F},
-			{0.0F,1.0F}
-		};
-
-		POLY_Point  pp  [4];
-		POLY_Point *quad[4];
-
-		quad[0] = &pp[0];
-		quad[1] = &pp[1];
-		quad[2] = &pp[2];
-		quad[3] = &pp[3];
-
-		for (z = NGAMUT_zmin; z <= NGAMUT_zmax; z++)
-		{
-			PUDDLE_get_start(z, NGAMUT_gamut[z].xmin, NGAMUT_gamut[z].xmax);
-
-			while(pi = PUDDLE_get_next())
-			{
-				px1 = float(pi->x1);
-				pz1 = float(pi->z1);
-				px2 = float(pi->x2);
-				pz2 = float(pi->z2);
-
-				world_y = float(pi->y);
-
-				for (i = 0; i < 4; i++)
-				{
-					world_x = (i & 0x1) ? px1 : px2;
-					world_z = (i & 0x2) ? pz1 : pz2;
-
-					POLY_transform(
-						 world_x,
-						 world_y,
-						 world_z,
-						&pp[i]);
-
-					if (pp[i].MaybeValid())
-					{
-						pp[i].u        = ((i & 0x1) ? float(pi->u1) : float(pi->u2)) * (1.0F / 256.0F);
-						pp[i].v        = ((i & 0x2) ? float(pi->v1) : float(pi->v2)) * (1.0F / 256.0F);
-						pp[i].colour   = 0xffffffff;
-
-						if (ControlFlag) {pp[i].colour = 0x44ffffff;}
-						if (ShiftFlag)   {pp[i].colour = 0x88ffffff;}
-
-						pp[i].specular = 0xff000000;
-					}
-					else
-					{
-						goto ignore_this_puddle;
-					}
-				}
-
-				if (POLY_valid_quad(quad))
-				{
-					if ((GAME_FLAGS & GF_RAINING) && (rand() & 0x100))
-					{
-						float drip_along_x;
-						float drip_along_z;
-
-						//
-						// Choose somewhere in the puddle to put a drip.
-						//
-		
-						drip_along_x = float(rand() & 0xff) * (1.0F / 256.0F);
-						drip_along_z = float(rand() & 0xff) * (1.0F / 256.0F);
-
-						world_x = px1 + (px2 - px1) * drip_along_x;
-						world_z = pz1 + (pz2 - pz1) * drip_along_z;
-
-						DRIP_create(
-							UWORD(world_x),
-							SWORD(world_y),
-							UWORD(world_z),
-							1);
-
-						if (rand() & 0x11)
-						{
-							//
-							// Don't splash.
-							//
-						}
-						else
-						{
-							//
-							// Splash the puddle.
-							//
-
-							PUDDLE_splash(
-								SLONG(world_x),
-								SLONG(world_y),
-								SLONG(world_z));
-						}
-					}
-
-					if (pi->rotate_uvs)
-					{
-						SWAP_FL(pp[0].u, pp[1].u);
-						SWAP_FL(pp[1].u, pp[3].u);
-						SWAP_FL(pp[3].u, pp[2].u);
-
-						SWAP_FL(pp[0].v, pp[1].v);
-						SWAP_FL(pp[1].v, pp[3].v);
-						SWAP_FL(pp[3].v, pp[2].v);
-					}
-
-					POLY_add_quad(quad, POLY_PAGE_PUDDLE, FALSE);
-
-					if (pi->puddle_s1 | pi->puddle_s2)
-					{
-						//
-						// Find the bounding box of this puddle quad on screen.
-						//
-
-						SLONG px;
-						SLONG py;
-						SLONG px1 = +INFINITY;
-						SLONG py1 = +INFINITY;
-						SLONG px2 = -INFINITY;
-						SLONG py2 = -INFINITY;
-
-						for (i = 0; i < 4; i++)
-						{
-							px = SLONG(pp[i].X);
-							py = SLONG(pp[i].Y);
-
-							if (px < px1) {px1 = px;}
-							if (py < py1) {py1 = py;}
-							if (px > px2) {px2 = px;}
-							if (py > py2) {py2 = py;}
-						}
-
-						//
-						// Wibble the intersection of this bounding box with the bounding
-						// box of each reflection we have drawn.
-						//
-
-						SLONG ix1;
-						SLONG iy1;
-						SLONG ix2;
-						SLONG iy2;
-
-						for (i = 0; i < bbox_upto; i++)
-						{
-							if (bbox[i].water_box)
-							{
-								//
-								// This box always gets wibbled anyway.
-								// 
-
-								continue;
-							}
-
-							ix1 = MAX(px1, bbox[i].x1);
-							iy1 = MAX(py1, bbox[i].y1);
-							ix2 = MIN(px2, bbox[i].x2);
-							iy2 = MIN(py2, bbox[i].y2);
-
-							if (ix1 < ix2 && iy1 < iy2)
-							{
-								if (the_display.screen_lock())
-								{
-									//
-									// Wibble away!
-									//
-
-									WIBBLE_simple(
-										ix1, iy1,
-										ix2, iy2,
-										pi->puddle_y1,
-										pi->puddle_y2,
-										pi->puddle_g1,
-										pi->puddle_g2,
-										pi->puddle_s1,
-										pi->puddle_s2);
-
-									the_display.screen_unlock();
-								}
-							}
-						}
-					}
-				}
-
-			  ignore_this_puddle:;
-			}
-		}
-	}
 
 	BreakTime("Drawn puddles");
 
@@ -9129,7 +10085,6 @@ extern	void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,floa
 //#endif
 
 	LOG_EXIT ( AENG_Draw_Skyline )
-
 
 
 
@@ -9703,6 +10658,9 @@ extern	void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,floa
 
 	LOG_EXIT ( AENG_Draw_Floors )
 
+
+
+
 	ANNOYINGSCRIBBLECHECK;
 
 
@@ -10000,609 +10958,15 @@ extern HWND GEDIT_edit_wnd;
 		ANNOYINGSCRIBBLECHECK;
 
 
-		LOG_ENTER ( AENG_Draw_Other_Things )
+		LOG_ENTER(AENG_Draw_Other_Things)
 
-		for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
-		{
-			for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++)
-			{
-				//
-				// The cached lighting for this low-res mapsquare.
-				//
+		
 
-				ASSERT(WITHIN(x, 0, PAP_SIZE_LO - 1));
-				ASSERT(WITHIN(z, 0, PAP_SIZE_LO - 1));
 
+	DrawPZI();
 
-				t_index = PAP_2LO(x,z).MapWho;
 
-				while(t_index)
-				{
-					p_thing = TO_THING(t_index);
-
-					if (p_thing->Flags & FLAGS_IN_VIEW)
-					{
-//						p_thing->Flags &=~FLAGS_IN_VIEW;
-						switch(p_thing->DrawType)
-						{
-							case DT_NONE:
-								break;
-
-							case DT_BUILDING:
-								break;
-
-							case DT_PRIM:
-								break;
-							case DT_ANIM_PRIM:
-								extern	void ANIM_obj_draw(Thing *p_thing,DrawTween *dt);
-								ANIM_obj_draw(p_thing,p_thing->Draw.Tweened);
-
-								if (p_thing->Class == CLASS_BAT &&
-									p_thing->Genus.Bat->type == BAT_TYPE_BANE)
-								{
-									DRAWXTRA_final_glow(
-										p_thing->WorldPos.X          >> 8,
-										p_thing->WorldPos.Y + 0x8000 >> 8,
-										p_thing->WorldPos.Z          >> 8,
-									    p_thing->Genus.Bat->glow >> 8);
-								}
-								break;
-
-							case DT_ROT_MULTI:
-								LOG_ENTER ( AENG_Draw_DT_ROT_MULTI )
-
-								/*
-								if (ControlFlag)
-								if (p_thing->Genus.Person->PlayerID)
-								{
-									//
-									// Draw some wheels above Darci's head!
-									// 
-
-									AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_BIKE_BWHEEL);
-
-									MESH_draw_poly(
-											PRIM_OBJ_BIKE_BWHEEL,
-											p_thing->WorldPos.X          >> 8,
-											p_thing->WorldPos.Y + 0xa000 >> 8,
-											p_thing->WorldPos.Z          >> 8,
-											p_thing->Draw.Tweened->Angle,
-											0,0,
-											NULL,0);
-
-									AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_VAN_WHEEL);
-
-									MESH_draw_poly(
-											PRIM_OBJ_VAN_WHEEL,
-											p_thing->WorldPos.X           >> 8,
-											p_thing->WorldPos.Y + 0x10000 >> 8,
-											p_thing->WorldPos.Z           >> 8,
-											p_thing->Draw.Tweened->Angle,
-											0,0,
-											NULL,0);
-
-									AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_CAR_WHEEL);
-
-									MESH_draw_poly(
-											PRIM_OBJ_CAR_WHEEL,
-											p_thing->WorldPos.X           >> 8,
-											p_thing->WorldPos.Y + 0x16000 >> 8,
-											p_thing->WorldPos.Z           >> 8,
-											p_thing->Draw.Tweened->Angle,
-											0,0,
-											NULL,0);
-								}
-								*/
-
-								{
-									ASSERT(p_thing->Class == CLASS_PERSON);
-
-#ifdef BIKE
-//#error Better not be doing this.
-									//
-									// If this person is riding the bike...
-									//
-
-									if (p_thing->SubState == SUB_STATE_RIDING_BIKE)
-									{
-										Thing *p_bike = TO_THING(p_thing->Genus.Person->InCar);
-
-										ASSERT(p_thing->Genus.Person->Flags & FLAG_PERSON_BIKING);
-										ASSERT(p_thing->Genus.Person->InCar);
-
-										BIKE_Drawinfo bdi = BIKE_get_drawinfo(p_bike);
-
-										//
-										// Move to the same position above the bike.
-										//
-
-										GameCoord newpos = p_bike->WorldPos;
-
-										p_thing->Draw.Tweened->Angle = bdi.yaw;
-										p_thing->Draw.Tweened->Tilt  = bdi.pitch;
-										p_thing->Draw.Tweened->Roll  = bdi.roll;
-
-										/*
-										{
-											SLONG roll = bdi.roll;
-
-											if (roll > 1024)
-											{
-												roll -= 2048;
-											}
-
-											roll /= 2;
-											roll &= 2047;
-
-											p_thing->Draw.Tweened->Roll = roll;
-										}
-										*/
-
-										{
-											BIKE_Control bc;
-											DrawTween   *dt = p_thing->Draw.Tweened;
-											SLONG	steer;
-
-											bc = BIKE_control_get(p_bike);
-											steer=bc.steer>>1;
-
-											if(steer>32)
-												steer=32;
-											else
-												if(steer<-32)
-													steer=-32;
-
-											if(abs(steer)>21)
-											{
-												SLONG	tween;
-												if(steer<0)
-												{
-													dt->CurrentFrame    =  global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT];
-													dt->NextFrame    =  global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT_FOOT];
-													tween    = ((-steer)-21) << 5;
-
-
-												}
-												else
-												{
-													dt->CurrentFrame    =  global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT];
-													dt->NextFrame    =  global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT_FOOT];
-													tween    = ((steer)-21) << 5;
-												}
-												if(tween<0)
-													tween=0;
-												if(tween>255)
-													tween=255;
-
-												dt->AnimTween=tween;
-											}
-											else
-											if (bc.steer == 0)
-											{
-												//dt->CurrentFrame = dt->TheChunk->AnimList[248];
-												//dt->NextFrame    = dt->TheChunk->AnimList[248];
-												dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
-												dt->NextFrame    = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
-											}
-											else
-											if (bc.steer < 0)
-											{
-
-												//dt->CurrentFrame =  dt->TheChunk->AnimList[248];
-												//dt->NextFrame    =  dt->TheChunk->AnimList[250];
-												dt->CurrentFrame =  global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
-												dt->NextFrame    =  global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT];
-												dt->AnimTween    = -steer << 3;
-											}
-											else
-											{
-												//dt->CurrentFrame = dt->TheChunk->AnimList[248];
-												//dt->NextFrame    = dt->TheChunk->AnimList[252];
-												dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
-												dt->NextFrame    = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT];
-												dt->AnimTween    = steer << 3;
-											}
-										}
-
-										{
-											GameCoord oldpos = p_thing->WorldPos;
-																	
-
-											p_thing->WorldPos = newpos;
-											FIGURE_draw(p_thing);
-
-											p_thing->WorldPos = oldpos;
-										}
-							
-										/*
-
-
-									//	p_person->Draw.Tweened->Roll = bdi.roll;//BIKE_get_roll(TO_THING(p_person->Genus.Person->InCar));
-									//	p_person->Draw.Tweened->Tilt = bdi.pitch;
-
-									//	if (p_person->Draw.Tweened.Roll > 1024)
-
-										*/
-									}
-									else
-#endif
-									{
-										if (p_thing->Genus.Person->PlayerID)
-										{
-											if (FirstPersonMode)
-											{
-												FirstPersonAlpha -= (TICK_RATIO * 16) >> TICK_SHIFT;
-												if (FirstPersonAlpha < MAX_FPM_ALPHA)	FirstPersonAlpha = MAX_FPM_ALPHA;
-											}
-											else
-											{
-												FirstPersonAlpha += (TICK_RATIO * 16) >> TICK_SHIFT;
-												if (FirstPersonAlpha > 255)				FirstPersonAlpha = 255;
-											}
-
-											//FIGURE_alpha = FirstPersonAlpha;
-											FIGURE_draw(p_thing);
-											//FIGURE_alpha = 255;
-										}
-										else
-										{
-											SLONG	dx,dy,dz,dist;
-
-											dx=fabs((p_thing->WorldPos.X >> 8)-AENG_cam_x);
-											dy=fabs((p_thing->WorldPos.Y >> 8)-AENG_cam_y);
-											dz=fabs((p_thing->WorldPos.Z >> 8)-AENG_cam_z);
-
-											dist=QDIST3(dx,dy,dz);
-
-											if(dist<AENG_DRAW_PEOPLE_DIST)
-											{
-											
-												FIGURE_draw(p_thing);
-											}
-										}
-									}
-
-									p_thing->Draw.Tweened->Drawn=(UBYTE)SUPERMAP_counter;
-
-									if (ControlFlag&&allow_debug_keys)
-									{
-										AENG_world_text(
-											(p_thing->WorldPos.X >> 8),
-											(p_thing->WorldPos.Y >> 8) + 0x60,
-											(p_thing->WorldPos.Z >> 8),
-											200,
-											180,
-											50,
-											TRUE,
-											PCOM_person_state_debug(p_thing));
-									}
-
-									#if DRAW_THIS_DEBUG_STUFF
-
-									AENG_world_line(
-										(p_thing->WorldPos.X >> 8),
-										(p_thing->WorldPos.Y >> 8) + 0x60,
-										(p_thing->WorldPos.Z >> 8),
-										32,
-										0x00ffffff,
-										(x << PAP_SHIFT_LO) + (1 << (PAP_SHIFT_LO - 1)),
-										(p_thing->WorldPos.Y >> 8),
-										(z << PAP_SHIFT_LO) + (1 << (PAP_SHIFT_LO - 1)),
-										0,
-										0x0000ff00,
-										FALSE);
-
-									#endif
-								}
-
-#ifndef TARGET_DC
-								#if NO_MORE_BALLOONS
-
-								if (p_thing->Genus.Person->Balloon)
-								{
-									SLONG balloon;
-									BALLOON_Balloon *bb;
-
-									//
-									// Draw this person's balloon.
-									//
-
-									for (balloon = p_thing->Genus.Person->Balloon; balloon; balloon = BALLOON_balloon[balloon].next)
-									{
-										SHAPE_draw_balloon(balloon);
-									}
-								}
-
-								#endif
-#endif
-
-								if (p_thing->State == STATE_DEAD)
-								{
-									if (p_thing->Genus.Person->Timer1 > 10)
-									{
-										if (p_thing->Genus.Person->PersonType == PERSON_MIB1 ||
-											p_thing->Genus.Person->PersonType == PERSON_MIB2 ||
-											p_thing->Genus.Person->PersonType == PERSON_MIB3)
-										{
-											//
-											// Dead MIB self destruct!
-											//
-											DRAWXTRA_MIB_destruct(p_thing);
-/*
-											SLONG px;
-											SLONG py;
-											SLONG pz;
-
-											calc_sub_objects_position(
-												p_thing,
-												p_thing->Draw.Tweened->AnimTween,
-												SUB_OBJECT_PELVIS,
-											   &px,
-											   &py,
-											   &pz);
-
-											px += p_thing->WorldPos.X >> 8;
-											py += p_thing->WorldPos.Y >> 8;
-											pz += p_thing->WorldPos.Z >> 8;
-											
-											//
-											// Ripped from the DRAWXTRA_special!
-											//
-											
-											// (So why didn't you put it there?!)
-
-											{
-												SLONG c0;
-												SLONG dx;
-												SLONG dz;
-
-											  c0=3+(THING_NUMBER(p_thing)&7);
-											  c0=(((GAME_TURN*c0)+(THING_NUMBER(p_thing)*9))<<4)&2047;
-											  dx=SIN(c0)>>8;
-											  dz=COS(c0)>>8;
-											  BLOOM_draw(
-												px, py+15, pz,
-												dx,0,dz,0x9F2040,0);
-											}*/
-										}
-									}
-								}
-
-								if (p_thing->Genus.Person->pcom_ai == PCOM_AI_BANE)
-								{
-									DRAWXTRA_final_glow(
-										p_thing->WorldPos.X          >> 8,
-										p_thing->WorldPos.Y + 0x8000 >> 8,
-										p_thing->WorldPos.Z          >> 8,
-									   -p_thing->Draw.Tweened->Tilt);
-								}
-
-								LOG_EXIT ( AENG_Draw_DT_ROT_MULTI )
-
-								break;
-
-							case DT_EFFECT:
-								break;
-
-							case DT_MESH:
-
-								{
-									// Weapons & other powerups.
-									if (p_thing->Class == CLASS_SPECIAL) DRAWXTRA_Special(p_thing);
-
-									MESH_draw_poly(
-											p_thing->Draw.Mesh->ObjectId,
-											p_thing->WorldPos.X >> 8,
-											p_thing->WorldPos.Y >> 8,
-											p_thing->WorldPos.Z >> 8,
-											p_thing->Draw.Mesh->Angle,
-											p_thing->Draw.Mesh->Tilt,
-											p_thing->Draw.Mesh->Roll,
-											NULL,0xff,0);
-								}
-
-								break;
-
-							#ifdef BIKE
-
-
-//#error A bike! Are you mad?
-
-							case DT_BIKE:
-
-								ASSERT(p_thing->Class == CLASS_BIKE);
-								{	
-									//
-									// Nasty eh! But I can't be arsed to create a new drawtype.
-									// 
-									
-									BIKE_Drawinfo bdi = BIKE_get_drawinfo(p_thing);
-
-									//
-									// Draw the frame of the bike.
-									//
-
-									ANIM_obj_draw(p_thing, p_thing->Draw.Tweened);
-
-									//
-									// If the bike is parked or being mounted then the wheels are
-									// included in the animating object.
-									//
-
-									if (p_thing->Genus.Bike->mode == BIKE_MODE_DRIVING)
-									{
-										AENG_set_bike_wheel_rotation(bdi.front_rot, PRIM_OBJ_BIKE_BWHEEL);
-
-										MESH_draw_poly(
-												PRIM_OBJ_BIKE_BWHEEL,
-												bdi.front_x,
-												bdi.front_y,
-												bdi.front_z,
-												bdi.steer,
-												bdi.pitch,
-												bdi.roll,
-												NULL,0xff,0);
-
-										AENG_set_bike_wheel_rotation(bdi.back_rot, PRIM_OBJ_BIKE_BWHEEL);
-
-										MESH_draw_poly(
-												PRIM_OBJ_BIKE_BWHEEL,
-												bdi.back_x,
-												bdi.back_y,
-												bdi.back_z,
-												bdi.yaw,
-												0,
-												bdi.roll,
-												NULL,0xff,0);
-									}
-
-									// Now some bike fx... first the exhaust
-									PARTICLE_Exhaust2(p_thing, 5, 16);
-
-									if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME))
-									{
-										SLONG matrix[9], vector[3], dx,dy,dz;
-//										FMATRIX_calc(matrix, 1024-bdi.steer, bdi.pitch, bdi.roll);
-										FMATRIX_calc(matrix, bdi.steer, bdi.pitch, bdi.roll);
-										FMATRIX_TRANSPOSE(matrix);
-										vector[2]=-255; vector[1]=0; vector[0]=0; 
-										FMATRIX_MUL(matrix,vector[0],vector[1],vector[2]);
-										dx=vector[0]; dy=vector[1]; dz=vector[2];
-										vector[2]=25; vector[1]=80; vector[0]=0; 
-										FMATRIX_MUL(matrix,vector[0],vector[1],vector[2]);
-										BLOOM_draw(bdi.front_x+vector[0],bdi.front_y+vector[1],bdi.front_z+vector[2],dx,dy,dz,0x606040,BLOOM_LENSFLARE|BLOOM_BEAM);
-
-										FMATRIX_calc(matrix, bdi.yaw, bdi.pitch, bdi.roll);
-										FMATRIX_TRANSPOSE(matrix);
-										vector[2]=255; vector[1]=0; vector[0]=0;
-										FMATRIX_MUL(matrix,vector[0],vector[1],vector[2]);
-										dx=vector[0]; dy=vector[1]; dz=vector[2];
-										vector[2]=70; vector[1]=75; vector[0]=0;
-										FMATRIX_MUL(matrix,vector[0],vector[1],vector[2]);
-
-										BLOOM_draw(
-											(p_thing->WorldPos.X >> 8)+vector[0],
-											(p_thing->WorldPos.Y >> 8)+vector[1],
-											(p_thing->WorldPos.Z >> 8)+vector[2],
-											dx,dy,dz,0x800000,0);
-
-									}
-								}
-
-								break;
-
-							#endif
-
-							case DT_VEHICLE:
-
-								if(p_thing->Class==CLASS_VEHICLE)
-								{
-									if(p_thing->Genus.Vehicle->Driver)
-									{
-										TO_THING(p_thing->Genus.Vehicle->Driver)->Flags|=FLAGS_IN_VIEW;
-
-									}
-								}
-								//
-								// Set the tinted colour of this van.
-								//
-
-								{
-#if 1
-									ULONG car_colours[6] = 
-									{
-										0xffffff00,
-										0xffff00ff,
-										0xff00ffff,
-										0xffff0000,
-										0xff00ff00,
-										0xf00000ff
-									};
-
-									MESH_colour_and = car_colours[THING_NUMBER(p_thing) % 6];
-#else
-
-#define	DEFCOL(R,G,B)	(0xFF000000 | R | (G << 8) | (B << 16))
-
-									static DWORD colours[7] =
-									{
-										DEFCOL(18,192,120),
-										DEFCOL(255,14,90),
-										DEFCOL(112,122,216),
-										DEFCOL(176,158,54),
-										DEFCOL(0,149,186),
-										DEFCOL(194,162,34),
-										DEFCOL(255,255,255),
-									};
-
-									int	col = THING_NUMBER(p_thing) % 7;
-									MESH_colour_and = colours[col];
-#endif
-								}
-
-								extern void draw_car(Thing *p_car);
-
-								draw_car(p_thing);
-
-#ifndef TARGET_DC
-								if (ControlFlag && allow_debug_keys)
-								{
-									//
-									// Draw a line towards where you have to be
-									// to get into the van.
-									//
-
-									SLONG dx = -SIN(p_thing->Genus.Vehicle->Draw.Angle);
-									SLONG dz = -COS(p_thing->Genus.Vehicle->Draw.Angle);
-
-									SLONG ix = p_thing->WorldPos.X >> 8;
-									SLONG iz = p_thing->WorldPos.Z >> 8;
-
-									ix += dx >> 9;
-									iz += dz >> 9;
-
-									ix -= dz >> 9;
-									iz += dx >> 9;
-
-									AENG_world_line(
-										p_thing->WorldPos.X >> 8, p_thing->WorldPos.Y >> 8, p_thing->WorldPos.Z >> 8, 64, 0x00ffffff,
-										ix, p_thing->WorldPos.Y >> 8, iz, 0, 0x0000ff00, TRUE);
-								}
-#endif
-
-								break;
-
-							case DT_CHOPPER:
-								CHOPPER_draw_chopper(p_thing);
-								break;
-
-							case DT_PYRO:
-								PYRO_draw_pyro(p_thing);
-								break;
-							case DT_ANIMAL_PRIM:
-#if 0
-extern	void	ANIMAL_draw(Thing *p_thing);
-								ANIMAL_draw(p_thing);
-#endif
-								break;
-
-							case DT_TRACK:
-							if(!INDOORS_INDEX)
-								TRACKS_DrawTrack(p_thing);
-								break;
-
-
-							default:
-								ASSERT(0);
-								break;
-						}
-					}
-					t_index = p_thing->Child;
-				}
-
-			}
-		}
-		LOG_EXIT ( AENG_Draw_Other_Things )
+	LOG_EXIT ( AENG_Draw_Other_Things )
 	}
 
 	BreakTime("Drawn things");
@@ -10720,13 +11084,39 @@ extern	void	ANIMAL_draw(Thing *p_thing);
 	LOG_EXIT ( AENG_Draw_Oval_Shadows )
 
 
+
+		ANNOYINGSCRIBBLECHECK;
+
+	//
+	// The dirt.
+	// 
+
+	LOG_ENTER(AENG_Draw_Dirt)
+
+		if (!INDOORS_INDEX || outside)
+			if (AENG_detail_dirt)
+				AENG_draw_dirt();
+
+	LOG_EXIT(AENG_Draw_Dirt)
+
+
+		// Cope with some wacky internals.
+		POLY_set_local_rotation_none();
+	POLY_flush_local_rot();
+
+
+
 	ANNOYINGSCRIBBLECHECK;
 
 
 	// Grenades should be drawn here.
 	DrawGrenades();
 
+
+
 	ANNOYINGSCRIBBLECHECK;
+
+
 
 
 	LOG_ENTER ( AENG_Draw_Ballons )
@@ -11136,6 +11526,8 @@ extern	void	ANIMAL_draw(Thing *p_thing);
 	AENG_draw_hook();
 #endif
 
+
+
 	//
 	// Draw the sphere-matter.
 	//
@@ -11231,6 +11623,7 @@ extern	void	ANIMAL_draw(Thing *p_thing);
 	AENG_draw_people_messages();
 
 
+
 //	MSG_add(" draw insides %d and %d \n",INDOORS_INDEX,INDOORS_INDEX_NEXT);
 
 	/*
@@ -11261,6 +11654,8 @@ extern	void	ANIMAL_draw(Thing *p_thing);
 
 	LOG_ENTER ( AENG_Poly_Flush )
 
+
+
 #ifndef TARGET_DC
 	POLY_frame_draw(TRUE,TRUE);
 #endif
@@ -11271,29 +11666,10 @@ extern	void	ANIMAL_draw(Thing *p_thing);
 
 	ANNOYINGSCRIBBLECHECK;
 
-	//
-	// The dirt.
-	// 
-
-	LOG_ENTER(AENG_Draw_Dirt)
-
-		if (!INDOORS_INDEX || outside)
-			if (AENG_detail_dirt)
-				AENG_draw_dirt();
-
-	LOG_EXIT(AENG_Draw_Dirt)
-
-
-	// Cope with some wacky internals.
-	POLY_set_local_rotation_none();
-	POLY_flush_local_rot();
-
-
-	ANNOYINGSCRIBBLECHECK;
-
 
 	// Tell the pyros we've done a frame.
 	Pyros_EndOfFrameMarker();
+
 
 
 //	ANEG_draw_messages();
@@ -11321,6 +11697,7 @@ extern	void	ANIMAL_draw(Thing *p_thing);
 	//LOG_EXIT ( AENG_Draw_City )
 
 	LOG_EVENT ( AENG_Draw_End )
+
 
 
 	//TRACE ( "AengOut" );
@@ -11692,13 +12069,6 @@ void AENG_draw_warehouse()
 
 		#define AENG_NUM_SHADOWS 4
 
-		struct
-		{
-			Thing *p_person;
-			SLONG  dist;
-
-		}      shadow_person[AENG_NUM_SHADOWS];
-		SLONG  shadow_person_upto = 0;
 		SLONG  shadow_person_worst_dist = -INFINITY;
 		SLONG  shadow_person_worst_person;
 

@@ -22,7 +22,7 @@
 #ifdef TARGET_DC
 #define USE_TOMS_ENGINE_PLEASE_BOB 1
 #else
-#define USE_TOMS_ENGINE_PLEASE_BOB 1
+#define USE_TOMS_ENGINE_PLEASE_BOB 0
 #endif
 
 

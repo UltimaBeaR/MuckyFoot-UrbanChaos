@@ -252,6 +252,7 @@ void Gowno::KeyFrameListStuff(GameKeyFrameChunk* game_chunk, struct	KeyFrameChun
 			animList[i].SetAnimName(cstr);
 
 			KeyFrame* kf = new KeyFrame;
+			KeyFrame* currentKf = kf;
 
 			kf->ChunkID = 0;
 			kf->Flags = 0;
@@ -309,6 +310,7 @@ void Gowno::KeyFrameListStuff(GameKeyFrameChunk* game_chunk, struct	KeyFrameChun
 					animList[i].SetFrameCount(frameCountPerAnim);
 					animList[i].SetAnimFlags(0);
 					animList[i].SetTweakSpeed(32);
+
 					break;
 					/* v contains x */
 				}
@@ -320,16 +322,16 @@ void Gowno::KeyFrameListStuff(GameKeyFrameChunk* game_chunk, struct	KeyFrameChun
 
 
 
-					KeyFrame* next_kf = new KeyFrame;
 
-					if (next)
+					if (next && next != po)
 					{
+						KeyFrame* next_kf = new KeyFrame;
 						GameKeyFrameElement* next_gkfe = next->FirstElement;
 
 						next_kf->ChunkID = 0;
 						next_kf->Flags = 0;
 
-						next_kf->FrameID = gameKeyFrameElementToId[next_gkfe];
+						next_kf->FrameID = gameKeyFrameElementToId[next_gkfe]/15;
 
 						next_kf->TweenStep = 4;
 						next_kf->ElementCount = 15;
@@ -342,11 +344,26 @@ void Gowno::KeyFrameListStuff(GameKeyFrameChunk* game_chunk, struct	KeyFrameChun
 
 						next_kf->PrevFrame = kf;
 						next_kf->NextFrame = nullptr;
+						//if (animList[i].GetFrameListStart() != next_kf)
+						{
+							animList[i].SetFrameListEnd(next_kf);
+						}
+
+						currentKf->NextFrame = next_kf;
+						currentKf = next_kf;
 					}
-					kf->NextFrame = next_kf;
 
 					++usedKeyFramesCount;
 					++frameCountPerAnim;
+
+					if (!next)
+					{
+						animList[i].SetFrameCount(frameCountPerAnim);
+						animList[i].SetAnimFlags(0);
+						animList[i].SetTweakSpeed(32);
+
+						break;
+					}
 					/* v does not contain x */
 				}
 			}

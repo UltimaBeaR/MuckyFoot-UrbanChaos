@@ -1489,6 +1489,130 @@ void	normalise_max_matrix(float fe_matrix[3][3],float *x,float *y,float *z)
 #ifndef PSX
 #ifndef TARGET_DC
 
+
+//#define	CMAT0_MASK	(0x3ff00000)
+//#define	CMAT1_MASK	(0x000ffc00)
+//#define	CMAT2_MASK	(0x000003ff)
+//
+//void	uncompress_matrix3(CMatrix33* cm, Matrix33* m)
+//{
+//	SLONG v;
+//
+//	v = ((cm->M[0] & CMAT0_MASK) << 2) >> 22;
+//	m->M[0][0] = (v << 6);
+//
+//	v = ((cm->M[0] & CMAT1_MASK) << 12) >> 22;
+//	m->M[0][1] = (v << 6);
+//
+//	v = ((cm->M[0] & CMAT2_MASK) << 22) >> 22;
+//	m->M[0][2] = (v << 6);
+//
+//	v = ((cm->M[1] & CMAT0_MASK) << 2) >> 22;
+//	m->M[1][0] = (v << 6);
+//
+//	v = ((cm->M[1] & CMAT1_MASK) << 12) >> 22;
+//	m->M[1][1] = (v << 6);
+//
+//	v = ((cm->M[1] & CMAT2_MASK) << 22) >> 22;
+//	m->M[1][2] = (v << 6);
+//
+//	v = ((cm->M[2] & CMAT0_MASK) << 2) >> 22;
+//	m->M[2][0] = (v << 6);
+//
+//	v = ((cm->M[2] & CMAT1_MASK) << 12) >> 22;
+//	m->M[2][1] = (v << 6);
+//
+//	v = ((cm->M[2] & CMAT2_MASK) << 22) >> 22;
+//	m->M[2][2] = (v << 6);
+//}
+
+#include "../Headers/AllToAnmConverter.h"
+void	load_keyframes_from_all(struct	KeyFrameChunk* the_chunk, Anim*& AnimList)
+{
+	UWORD frame_id[4501]; //more than 3000 frames, I don't think so.
+	//struct KeyFrame* the_key_frame;
+
+	load_frame_numbers(the_chunk->VUEName, frame_id, 4500);
+
+	load_anim_system(&game_chunk[0], "darci1.all");
+
+	TRACE("So far so good?\n");
+
+	set_default_people_types(the_chunk);
+
+	//KeyFrameElement* firstElement = new KeyFrameElement[game_chunk[0].MaxElements];
+
+	//GameKeyFrameElement gameChunkElement2 = game_chunk[0].TheElements[0];
+	//Matrix33 uncompressedMatrix;
+	//uncompress_matrix3(&gameChunkElement2.CMatrix, &uncompressedMatrix);
+
+	//for (int i = 0; i < game_chunk[0].MaxElements; ++i)
+	//{
+	//	GameKeyFrameElement gameChunkElement = game_chunk[0].TheElements[i];
+	//	//Matrix33 uncompressedMatrix;
+	//	//uncompress_matrix3(&gameChunkElement.CMatrix, &uncompressedMatrix);
+
+	//	//uncompressedMatrix.M[0][0] = 32767;
+	//	//uncompressedMatrix.M[0][1] = 0;
+	//	//uncompressedMatrix.M[0][2] = 0;
+	//	//uncompressedMatrix.M[1][0] = 0;
+	//	//uncompressedMatrix.M[1][1] = 32767;
+	//	//uncompressedMatrix.M[1][0] = 0;
+	//	//uncompressedMatrix.M[2][0] = 0;
+	//	//uncompressedMatrix.M[2][0] = 0;
+	//	//uncompressedMatrix.M[2][2] = 32767;
+
+	//	//for (int dx = 0; dx < 3; dx++)
+	//	//{
+	//	//	for (int dy = 0; dy < 3; dy++)
+	//	//	{
+	//	//		SATURATE(uncompressedMatrix.M[dx][dy], -32767, 32767);
+	//	//	}
+	//	//}
+	//	//TRACE("YAY");
+
+	//	firstElement[i].CMatrix = gameChunkElement.CMatrix;
+	//	firstElement[i].OffsetX = gameChunkElement.OffsetX;
+	//	firstElement[i].OffsetY = gameChunkElement.OffsetY;
+	//	firstElement[i].OffsetZ = gameChunkElement.OffsetZ;
+	//	firstElement[i].Matrix = uncompressedMatrix;
+	//	firstElement[i].Parent = 0;
+	//	firstElement[i].Next = 0;
+	//}
+	////for (int frame = 0; frame < game_chunk[0].MaxKeyFrames; ++frame)
+	//for (int frame = 0; frame < game_chunk[0].MaxElements/15; ++frame)
+	//{
+
+	//	the_key_frame = &the_chunk->KeyFrames[frame];
+	//	the_key_frame->ChunkID = 0;
+	//	the_key_frame->FrameID = frame;
+	//	the_key_frame->TweenStep = 4;
+	//	the_key_frame->ElementCount = the_chunk->ElementCount;
+	//	the_key_frame->FirstElement = &firstElement[frame*15];
+	//}
+
+	//the_chunk->KeyFrameCount = game_chunk[0].MaxElements / 15;
+	//the_chunk->FirstElement = firstElement;
+	//the_chunk->LastElement = firstElement + game_chunk[0].MaxElements - 1;
+
+	Gowno::KeyFrameListStuff(game_chunk, the_chunk, AnimList);
+	
+	//for (int i = 1; i < game_chunk[0].MaxAnimFrames; ++i)
+	//{
+	//	try
+	//	{
+	//		GameKeyFrame* po = game_chunk[0].AnimList[i];
+	//		GameKeyFrame* next = po->NextFrame;
+
+	//		std::vector< GameKeyFrame*> pls;
+	//	}
+	//	catch (...)
+	//	{
+	//		TRACE("i=%d is fked\n", i);
+	//	}
+	//}
+}
+
 void	load_multi_vue(struct	KeyFrameChunk *the_chunk,float shrink_me)
 {
 	CBYTE					temp_string[512],
@@ -1738,7 +1862,7 @@ extern	SLONG read_multi_asc(CBYTE *asc_name,UBYTE flag,float scale);
 
 }
 
-void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE *vue_name,float scale)
+void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE *vue_name,float scale, Anim*& AnimList)
 {
 	SLONG		c0;
 	SLONG		ele_count=0;
@@ -1823,7 +1947,8 @@ struct PrimObject	*p_obj;
 			}
 		}				
 
-		load_multi_vue(the_chunk,scale);
+		load_keyframes_from_all(the_chunk, AnimList);
+		//load_multi_vue(the_chunk,scale);
 #ifdef	EDITOR
 extern	void	load_chunk_texture_info(KeyFrameChunk *the_chunk);
 		load_chunk_texture_info(the_chunk);

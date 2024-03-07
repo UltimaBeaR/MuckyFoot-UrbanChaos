@@ -1143,6 +1143,8 @@ void	game(void)
 		{
 			//	ANIM_init();
 			//global_load();
+
+			 //SetDisplay(640, 480, 32);
 			gedit();
 			//if(editor_loop())
 			//	GAME_STATE	=	0;

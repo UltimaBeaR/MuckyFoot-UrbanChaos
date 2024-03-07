@@ -51,7 +51,7 @@ extern	void	load_game_map(CBYTE     *name);
 extern	SLONG	load_all_prims(CBYTE	*name);
 extern	SLONG	load_a_multi_prim(CBYTE *name);
 extern  void	load_palette(CBYTE *palette);
-extern	void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE *vue_name,float shrink=1.0);
+extern	void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE *vue_name,float shrink, Anim*& AnimList);
 extern	SLONG	save_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name);
 
 

@@ -632,9 +632,11 @@ void InitBrowser(HWND hWnd) {
 
 	browser->Add("Animations",0,0,-1,IM_SCENE_FOLDER);
 	darcianim=browser->Add("Darci's",0,1,-1,IM_SCENE_FOLDER);
-	LoadAllAnimNames("data\\darci1.anm",browser,0);
+	LoadAllAnimNames("C:\\dev\\workspaces\\repo clones\\Clean-UrbanChaos\\MuckyFoot-UrbanChaos\\fallen\\Release\\roper.anm",browser,0);
 	roperanim=browser->Add("Roper's",0,1,-1,IM_SCENE_FOLDER);
-	LoadAllAnimNames("data\\roper.anm",browser,1024);
+	TCHAR buffer[MAX_PATH] = { 0 };
+	GetModuleFileName(NULL, buffer, MAX_PATH);
+	LoadAllAnimNames("C:\\dev\\workspaces\\repo clones\\Clean-UrbanChaos\\MuckyFoot-UrbanChaos\\fallen\\Release\\roper.anm",browser,1024);
 //	browser->Add("Tasks",0,0,-1,IM_SCENE_FOLDER);
 //	browser->Add("Go Here",0,1,8,IM_SCENE_ACTION);
 	browser->Add("Tools",0,0,-1,IM_SCENE_FOLDER);
@@ -643,7 +645,7 @@ void InitBrowser(HWND hWnd) {
 	browser->Add("Subtitles",0,1,11,IM_SCENE_BUBBLE);
 	soundbase=browser->Add("Sound FX",0,0,-1,IM_SCENE_FOLDER);
 //	browser->AddDir("data\\sfx\\1622\\*.wav",true,0,1,2048,IM_SCENE_WAVE,IM_SCENE_FOLDER);
-	ScanWavs(browser,"data\\sfx\\1622\\*.wav",true,0,1,2048,IM_SCENE_WAVE,IM_SCENE_FOLDER,"");
+	//ScanWavs(browser,"data\\sfx\\1622\\*.wav",true,0,1,2048,IM_SCENE_WAVE,IM_SCENE_FOLDER,"");
 }
 
 /*
@@ -754,6 +756,24 @@ SLONG	LoadAllAnimNames(CBYTE *fname, TreeBrowser *browser, SLONG base_ctr)
 
 
 	file_handle	=	FileOpen(fname);
+
+	DWORD error_code = GetLastError();
+	switch (error_code)
+	{
+		case ERROR_FILE_NOT_FOUND:
+			TRACE("dupa");
+			break;
+		case ERROR_ACCESS_DENIED:
+			TRACE("dupa");
+			break;
+		case ERROR_SHARING_VIOLATION:
+			TRACE("dupa");
+			break;
+		default:
+			TRACE("dupa");
+			break;
+	}
+
 	if(file_handle!=FILE_OPEN_ERROR)
 	{
 		FileRead(file_handle,&anim_count,sizeof(anim_count));
@@ -2057,13 +2077,20 @@ void	do_cutscene_setup(EventPoint *the_ep)
 	CEDIT_accel = LoadAccelerators(GEDIT_hinstance, MAKEINTRESOURCE(IDR_CEDIT_ACCELERATORS));
 
 	// the animations aren't normally loaded in the editor
-/*	ANIM_init();
-	setup_anim_stuff();
-	load_anim_system(&game_chunk[0],"darci1.all");
-	load_anim_system(&game_chunk[2],"roper.all");
-	load_anim_system(&game_chunk[3],"rthug.all");
-	load_anim_system(&game_chunk[4],"roper2.all");
-	setup_global_anim_array();*/
+	//ANIM_init();
+	//setup_anim_stuff();
+	//load_anim_system(&game_chunk[0],"darci1.all");
+	//load_anim_system(&game_chunk[2],"roper.all");
+	//load_anim_system(&game_chunk[3],"rthug.all");
+	//load_anim_system(&game_chunk[4],"roper2.all");
+	//setup_global_anim_array();
+
+	//clear_prims();
+	//init_draw_tweens();
+	//setup_people_anims();
+	//setup_extra_anims();
+	//setup_global_anim_array();
+	//record_prim_status();
 
 
 

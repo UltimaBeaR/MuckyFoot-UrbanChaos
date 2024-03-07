@@ -1092,7 +1092,7 @@ void	convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,Game
 
 	for(c0=0;c0<count;c0++)
 	{
-		if(((SLONG)p[c0].FirstElement)<0)
+ 		if(((SLONG)p[c0].FirstElement)<0)
 			p[c0].FirstElement=NULL;
 		else
 			p[c0].FirstElement=&p_ele[(SLONG)p[c0].FirstElement];

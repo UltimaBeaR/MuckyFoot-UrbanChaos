@@ -67,6 +67,7 @@
 #include	"night.h"
 #include	"grenade.h"
 #include	"demo.h"
+#include	"DebugVars.h"
 
 #ifndef		PSX
 #include	<DDLib.h>
@@ -171,7 +172,7 @@ UBYTE InkeyToAsciiShift[]=
 
 #ifndef PSX
 
-CBYTE *cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","viol", "boo", NULL};
+CBYTE *cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","viol", "boo", "mib", "anim", "type", "ta", "inflate", "grapple", "poweroverwhelming", "kuchiyosenojutsu", "bodyguard", NULL};
 
 EWAY_Way* eway_find(SLONG id)
 {
@@ -463,7 +464,123 @@ extern int AENG_detail_crinkles;
 			case 25:
 				PYRO_create(darci->WorldPos, PYRO_GAMEOVER);
 				break;
-				
+
+			case 26: // mib
+				if (allow_debug_keys)
+				{
+					darci->Genus.Person->PersonType = PERSON_MIB1;
+					darci->Genus.Person->AnimType = ANIM_TYPE_CIV;
+					darci->Draw.Tweened->TheChunk = &game_chunk[ANIM_TYPE_CIV];
+					darci->Draw.Tweened->MeshID = 5;
+					darci->Draw.Tweened->PersonID = 0;
+					set_person_idle(darci);
+				}
+				break;
+			case 27: // anim
+				if (allow_debug_keys)
+				{
+					int anim_type = atoi(ptr);
+					darci->Genus.Person->AnimType = anim_type;
+				}
+				break;
+
+			case 28: // ptype
+				if (allow_debug_keys)
+				{
+					int person_type = atoi(ptr);
+					darci->Genus.Person->PersonType = person_type;
+					set_person_idle(darci);
+				}
+				break;
+
+			case 29: // ta
+				if (allow_debug_keys)
+				{
+					int anim_id = atoi(ptr);
+					//darci->Genus.Person->PersonType = person_type;
+					//set_person_idle(darci);
+
+					set_person_do_a_simple_anim(darci, anim_id);
+
+					darci->Genus.Person->Flags |= FLAG_PERSON_NO_RETURN_TO_NORMAL;
+					darci->Genus.Person->Action = ACTION_SIT_BENCH;
+				}
+				break;
+			case 30: // inflate
+				if (allow_debug_keys)
+				{
+					DebugVars::getInstance().SetInflate();
+					if (DebugVars::getInstance().GetInflate())
+					{
+						CONSOLE_text("Inflate on");
+					}
+					else
+					{
+						CONSOLE_text("Inflate off");
+					}
+				}
+				break;
+			case 31: // grapple
+				if (allow_debug_keys)
+				{
+					DebugVars::getInstance().SetRandomGrapple();
+					if (DebugVars::getInstance().GetRandomGrapple())
+					{
+						CONSOLE_text("Random grapples on");
+					}
+					else
+					{
+						CONSOLE_text("Random grapples off");
+					}
+				}
+				break;
+
+			case 32: // poweroverwhelming
+				if (allow_debug_keys)
+				{
+					//darci->Genus.Player->Strength = 240;
+					the_game.net_players[0]->Genus.Player->Strength = 240;
+				}
+				break;
+			case 33: //kuchiyosenojutsu
+				if (allow_debug_keys)
+				{
+					SLONG  world_x = darci->WorldPos.X >> 8;
+					SLONG  world_y = darci->WorldPos.Y >> 8;
+					SLONG  world_z = darci->WorldPos.Z >> 8;
+
+					THING_INDEX p_index = BAT_create(
+						BAT_TYPE_BALROG,
+						world_x,
+						world_z,
+						8000);
+				}
+				break;
+			case 34: //bodyguard
+				if (allow_debug_keys)
+				{
+
+					SLONG waypoint = EWAY_find_or_create_waypoint_that_created_person(darci);
+
+					PCOM_create_person(
+						PERSON_MIB1,
+						0,
+						0,
+						PCOM_AI_BODYGUARD,
+						waypoint,
+						Random() % 16,
+						PCOM_MOVE_FOLLOW,
+						waypoint,
+						0,
+						1,
+						0,
+						0,
+						darci->WorldPos.X + 0x4000,
+						darci->WorldPos.Y,
+						darci->WorldPos.Z,
+						0,
+						0, 0, 0);
+				}
 		  }
 		  return;
 	  }
@@ -533,7 +650,7 @@ void	tga_dump(void)
 
   found_file:;
 
-	//
+ 	//
 	// Save out the raw.
 	//
 

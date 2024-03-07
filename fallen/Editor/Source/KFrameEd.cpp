@@ -2508,7 +2508,7 @@ extern	SLONG	save_psx;
 						shrink=4.0;
 					}
 
-					load_key_frame_chunks(test_chunk,fr->FileName,shrink);
+					load_key_frame_chunks(test_chunk,fr->FileName,shrink, AnimList[0]);
 					load_recenter_flags(test_chunk->ANMName);
 				}
 
@@ -2516,7 +2516,7 @@ extern	SLONG	save_psx;
 				RequestUpdate();
 
 				((CHSlider*)WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0,test_chunk->KeyFrameCount-2);
-				LoadAllAnims(test_chunk);
+				//LoadAllAnims(test_chunk);
 				LogText(" keyframe edit load \n");
 				LoadChunkTextureInfo(test_chunk);
 				if(the_key_list[0])
@@ -2549,25 +2549,28 @@ extern	SLONG	save_psx;
 					while(current_anim)
 					{
 						current_frame=current_anim->GetFrameListStart();
-						switch(re_center_flags[index])
+						if (current_frame)
 						{
-							case	RE_CENTER_NONE:
-								break;
-							case	RE_CENTER_ALL:
-								re_center_anim(current_frame,1,1);
-								break;
+							switch (re_center_flags[index])
+							{
+								case	RE_CENTER_NONE:
+									break;
+								case	RE_CENTER_ALL:
+									re_center_anim(current_frame, 1, 1);
+									break;
 
-							case	RE_CENTER_START:
-								re_center_anim(current_frame,1,0);
-								break;
-							case	RE_CENTER_END:
-								break;
-							case	RE_CENTER_XZ:
-								re_center_anim(current_frame,0,1);
-								break;
-							case	RE_CENTER_XZ_START:
-								re_center_anim(current_frame,0,0);
-								break;
+								case	RE_CENTER_START:
+									re_center_anim(current_frame, 1, 0);
+									break;
+								case	RE_CENTER_END:
+									break;
+								case	RE_CENTER_XZ:
+									re_center_anim(current_frame, 0, 1);
+									break;
+								case	RE_CENTER_XZ_START:
+									re_center_anim(current_frame, 0, 0);
+									break;
+							}
 						}
 
 

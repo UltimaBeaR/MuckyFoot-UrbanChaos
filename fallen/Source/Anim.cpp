@@ -88,6 +88,9 @@ SAVE INGAME
 //#include	"prim_draw.h"
 #include	"memory.h"
 
+#include "../Headers/AllToAnmConverter.h"
+
+
 //poostruct GameKeyFrameElement	gamekeyframeelements[MAX_NUMBER_OF_ELEMENTS];
 #ifdef EDITOR
 extern	struct KeyFrameChunk 	edit_chunk1,edit_chunk2;
@@ -1776,6 +1779,69 @@ void	convert_elements(KeyFrameChunk *the_chunk,GameKeyFrameChunk *game_chunk,UWO
 #ifdef EDITOR
 extern	UBYTE	unused_flags[];
 
+//#include <unordered_map>
+
+
+void	convert_all_to_anm(Anim* key_list, GameKeyFrameChunk* p_chunk, KeyFrameChunk* the_chunk)
+{
+	// I need to fill this array (pointer) Anim* key_list
+
+	//CBYTE			AnimName[ANIM_NAME_SIZE];
+	//ULONG			AnimFlags;
+	//SLONG			FrameCount;
+	//Anim* LastAnim,
+	//	* NextAnim;
+	//KeyFrame* CurrentFrame,
+	//	* FrameListEnd,
+	//	* FrameListStart;
+	//UBYTE			TweakSpeed;
+
+	// Figure out how many elements in the array 
+	Gowno::DoStuff(key_list, p_chunk, the_chunk);
+
+	signed short animCount = p_chunk->MaxAnimFrames; // -1 ?
+	signed short framesCount = p_chunk->MaxKeyFrames; // -1 ?
+	signed long elementsCount = p_chunk->MaxElements; // bodyPart * framesCount = 15 * 10 ? 
+	//std::unordered_map<int, int> dupa;
+
+	//std::vector<int> framesCountPerAnimNo;
+
+	///framesCountPerAnimNo.push_back(0);
+
+
+
+	//for (int i = 1; i < animCount; ++i)
+	//{
+	//	//TRACE("Frames count in anim %d = %d\n", i, p_chunk->AnimList[i]);
+	//	TRACE("First frame id in anim %d = %d\n", i, p_chunk->AnimList[i]);
+	//	if (i != animCount-1)
+	//	{
+
+	//		//framesCountPerAnimNo.push_back((int)p_chunk->AnimList[i + 1] - (int)p_chunk->AnimList[i]);
+	//		//animNoToFramesCountMap[i] = (int)p_chunk->AnimList[i + 1] - (int)p_chunk->AnimList[i];
+	//		TRACE("Frames count in anim %d = %d \n", i, framesCountPerAnimNo[i]);
+	//	}
+	//	else
+	//	{
+	//		//framesCountPerAnimNo.push_back((int)p_chunk->AnimList[i + 1] - (int)p_chunk->AnimList[i]);
+	//		TRACE("Frames count in anim %d = %d \n", i, framesCount - animNoToFramesCountMap[i]);
+	//	}
+	//}
+
+	// Frames sequence
+	//for( )
+	//for (signed short i = 1; i < animCount; ++i)
+	//{
+	//	//int framesInAnimNo = animNoToFramesCountMap[i];
+	//	for (int j = 0; j++; j < framesInAnimNo)
+	//	{
+	//		int prevFrameId = (int) & p_chunk->AnimKeyFrames[j].PrevFrame;
+	//		int nextFrameId = (int) & p_chunk->AnimKeyFrames[j].NextFrame;
+	//		TRACE("%d -> x -> %d \n", prevFrameId, nextFrameId);
+	//	}
+	//}
+}
+
 void	convert_anim(Anim *key_list,GameKeyFrameChunk *p_chunk,KeyFrameChunk *the_chunk)
 {
 
@@ -1801,8 +1867,8 @@ void	convert_anim(Anim *key_list,GameKeyFrameChunk *p_chunk,KeyFrameChunk *the_c
 	if(p_chunk->PeopleTypes==0)
 	{
 		p_chunk->PeopleTypes=(struct BodyDef*)MemAlloc(MAX_PEOPLE_TYPES*sizeof(struct BodyDef));
-		p_chunk->AnimKeyFrames=(struct GameKeyFrame*)MemAlloc(MAX_NUMBER_OF_FRAMES*sizeof(struct GameKeyFrame));
-		p_chunk->AnimList=(struct GameKeyFrame**)MemAlloc(400*sizeof(struct GameKeyFrame*));
+		p_chunk->AnimKeyFrames=(struct GameKeyFrame*)MemAlloc(MAX_NUMBER_OF_FRAMES*sizeof(struct GameKeyFrame)); // 5000 * 20 = 100 000 zaalokowanie pamieci na maksymalnie 5000 key framesow?
+		p_chunk->AnimList=(struct GameKeyFrame**)MemAlloc(400*sizeof(struct GameKeyFrame*)); // 1600 zaalokowanie pamieci na 400 wskaznikow
 		p_chunk->TheElements=(struct GameKeyFrameElement*)MemAlloc(MAX_NUMBER_OF_ELEMENTS*sizeof(struct GameKeyFrameElement));
 		p_chunk->FightCols=(struct GameFightCol*)MemAlloc(200*sizeof(struct GameFightCol));
 //		p_chunk->TweakSpeeds=(struct GameFightCol*)MemAlloc(200);
@@ -1814,15 +1880,15 @@ void	convert_anim(Anim *key_list,GameKeyFrameChunk *p_chunk,KeyFrameChunk *the_c
 	}
 
 	key_list=key_list->GetNextAnim();
-	while(key_list)
+	while(key_list) // Next anim exists
 	{
 		SLONG	tweak_speed;
-		if(!unused_flags[anim_count])
+		if(!unused_flags[anim_count]) // check if it is not flagged as unused
 		{
 
-			keyframe=key_list->GetFrameList();
-			firstframe=&p_chunk->AnimKeyFrames[count_frame];
-			p_chunk->AnimList[anim_count]=&p_chunk->AnimKeyFrames[count_frame];
+			keyframe=key_list->GetFrameList();  // grab keyframe data pointer
+			firstframe=&p_chunk->AnimKeyFrames[count_frame]; // grab an address for a firstframe in chunk struct
+			p_chunk->AnimList[anim_count]=&p_chunk->AnimKeyFrames[count_frame]; // oh neptune
 			tweak_speed=key_list->GetTweakSpeed();
 
 			DebugText("set AnimList[%d]= addr %x count_frame %d\n",anim_count,&p_chunk->AnimKeyFrames[count_frame],count_frame);
@@ -1976,6 +2042,8 @@ void	convert_fightcol_to_index(GameFightCol *p,GameFightCol *p_fight,SLONG count
 
 
 
+
+	convert_all_to_anm(key_list, p_chunk, the_chunk);
 }
 
 #endif

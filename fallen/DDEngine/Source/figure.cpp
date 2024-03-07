@@ -2508,7 +2508,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 						int iNumEdges = 0;
 						WORD *pSrcIndex = pFirstListIndex;
 						WORD wI1, wI2, wI3, wI4;
-						for ( i = pMaterial->wNumListIndices / 3; i > 0; i-- )
+						for ( int i = pMaterial->wNumListIndices / 3; i > 0; i-- )
 						{
 							wI1 = pSrcIndex[0];
 							wI2 = pSrcIndex[1];
@@ -2549,7 +2549,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 
 						// Now scan the edges, creating the midpoints.
 						EdgeList *pEdgeCur = pEdgeList;
-						for ( i = 0; i < iNumEdges; i++ )
+						for (int  i = 0; i < iNumEdges; i++ )
 						{
 							D3DVERTEX *pvertMid, *pvert1, *pvert2;
 
@@ -2705,7 +2705,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 						pSrcIndex = pFirstListIndex + pMaterial->wNumListIndices;
 						WORD *pDstIndex = pFirstListIndex + iNewMatNumListIndices;
 						WORD wMid[3];
-						for ( i = pMaterial->wNumListIndices / 3; i > 0; i-- )
+						for ( int i = pMaterial->wNumListIndices / 3; i > 0; i-- )
 						{
 							pSrcIndex -= 3;
 							pDstIndex -= 3 * 4;
@@ -2716,8 +2716,9 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 							wI4 = pSrcIndex[0];
 							for ( int j = 0; j < 3; j++ )
 							{
+								int k = 0;
 								// Look for edge wI1, wI2.
-								for ( int k = 0; k < iNumEdges; k++ )
+								for ( k = 0; k < iNumEdges; k++ )
 								{
 									if ( ( ( pEdgeList[k].wPt1 == wI1 ) && ( pEdgeList[k].wPt2 == wI2 ) ) ||
 										 ( ( pEdgeList[k].wPt1 == wI2 ) && ( pEdgeList[k].wPt2 == wI1 ) ) )
@@ -3383,6 +3384,7 @@ no_muzzle_calcs:
 
 
 
+//#if USE_TOMS_ENGINE_PLEASE_BOB
 #if 0
 
 	if ( !MM_bLightTableAlreadySetUp )
@@ -3535,8 +3537,8 @@ no_muzzle_calcs:
 	else
 	{
 
-
-
+ 
+//#if USE_TOMS_ENGINE_PLEASE_BOB
 #if 0
 
 		if ( !MM_bLightTableAlreadySetUp )
@@ -3769,6 +3771,7 @@ extern DWORD g_dw3DStuffY;
 
 
 
+//#if USE_TOMS_ENGINE_PLEASE_BOB
 #if 0
 
 
@@ -4429,6 +4432,8 @@ extern DIJOYSTATE the_state;
 					page+=FACE_PAGE_OFFSET;
 
 				PolyPage *pa = &(POLY_Page[page]);
+
+//#if USE_TOMS_ENGINE_PLEASE_BOB
 #if 0
 				if ( !pa->RS.NeedsSorting() && ( FIGURE_alpha == 255 ) )
 				{
@@ -4736,6 +4741,7 @@ extern DIJOYSTATE the_state;
 
 				PolyPage *pa = &(POLY_Page[page]);
 
+//#if USE_TOMS_ENGINE_PLEASE_BOB
 #if 0
 				if ( !pa->RS.NeedsSorting() && ( FIGURE_alpha == 255 ) )
 				{
@@ -4954,6 +4960,8 @@ extern DIJOYSTATE the_state;
 #endif //#else //#if USE_TOMS_ENGINE_PLEASE_BOB
 
 
+
+//#if USE_TOMS_ENGINE_PLEASE_BOB
 #if 0
 	// Not done yet.
 #else //#if USE_TOMS_ENGINE_PLEASE_BOB
@@ -5096,6 +5104,7 @@ extern DIJOYSTATE the_state;
 #endif //#else //#if USE_TOMS_ENGINE_PLEASE_BOB
 
 
+//#if USE_TOMS_ENGINE_PLEASE_BOB
 #if 0
 	if ( !MM_bLightTableAlreadySetUp )
 	{

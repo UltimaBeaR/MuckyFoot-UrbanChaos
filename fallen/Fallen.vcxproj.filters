@@ -889,6 +889,8 @@
       <Filter>Editor\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sedit\Source\sedit.cpp" />
+    <ClCompile Include="Source\DebugVars.cpp" />
+    <ClCompile Include="Source\AllToAnmConverter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\america.h">
@@ -1747,6 +1749,8 @@
       <Filter>outro\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sedit\Headers\es.h" />
+    <ClInclude Include="Source\DebugVars.h" />
+    <ClInclude Include="Headers\AllToAnmConverter.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="DDLibrary\bitmap1.bmp">

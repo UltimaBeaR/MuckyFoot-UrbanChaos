@@ -12,6 +12,7 @@
 #include	"psystem.h"
 #include	"poly.h"
 #include	"dirt.h"
+#include "DebugVars.h"
 
 #ifdef TARGET_DC
 #include "DIManager.h"
@@ -811,10 +812,15 @@ SLONG	find_best_grapple(Thing *p_person)
 					return FALSE;
 				}
 			}
-
-			int aDaj = rand() % 5;
-			set_grapple(p_person,best_target,grapples[aDaj].Anim, aDaj);
-			//set_grapple(p_person,best_target,grapples[best].Anim,best);
+			if (DebugVars::getInstance().GetRandomGrapple())
+			{
+				int aDaj = rand() % 5;
+				set_grapple(p_person, best_target, grapples[aDaj].Anim, aDaj);
+			}
+			else
+			{
+				set_grapple(p_person,best_target,grapples[best].Anim,best);
+			}
 			return(1);
 		}
 		return(0); //grapple[best]);

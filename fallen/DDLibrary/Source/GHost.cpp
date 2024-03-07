@@ -409,7 +409,7 @@ BOOL	LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine)
 			break;
 	}
 
- 	the_display.fromGDI();
+   	the_display.fromGDI();
 #else
 	result = TRUE;
 #endif

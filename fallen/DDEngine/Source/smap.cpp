@@ -913,7 +913,7 @@ void SMAP_person(
 
 	for (i = 0; i < ele_count; i++)
 	{
-		ASSERT(WITHIN(i, 0, SMAP_MAX_PARTS - 1));
+		//ASSERT(WITHIN(i, 0, SMAP_MAX_PARTS - 1));
 
 		object_offset = dt->TheChunk->PeopleTypes[dt->PersonID&0x1f].BodyPart[i];
 
@@ -999,7 +999,7 @@ void SMAP_person(
 
 	for (i = 0; i < ele_count; i++)
 	{
-		ASSERT(WITHIN(i, 0, SMAP_MAX_PARTS - 1));
+		//ASSERT(WITHIN(i, 0, SMAP_MAX_PARTS - 1));
 
 
 		object_offset = dt->TheChunk->PeopleTypes[dt->PersonID&0x1f].BodyPart[i];

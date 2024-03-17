@@ -69,6 +69,8 @@
 #include	"demo.h"
 #include	"DebugVars.h"
 
+#include "NGamut.h"
+
 #ifndef		PSX
 #include	<DDLib.h>
 #include	"vertexbuffer.h"
@@ -172,7 +174,7 @@ UBYTE InkeyToAsciiShift[]=
 
 #ifndef PSX
 
-CBYTE *cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","viol", "boo", "mib", "anim", "type", "ta", "inflate", "grapple", "poweroverwhelming", "kuchiyosenojutsu", "bodyguard", NULL};
+CBYTE *cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","viol", "boo", "mib", "anim", "ptype", "ta", "inflate", "grapple", "poweroverwhelming", "kuchiyosenojutsu", "bodyguard", "michaelbay", "xfiles", "johnwick", "nanana", "headless", "madworld", "turndownforwhat", "", NULL};
 
 EWAY_Way* eway_find(SLONG id)
 {
@@ -581,6 +583,108 @@ extern int AENG_detail_crinkles;
 						0,
 						0, 0, 0);
 				}
+				break;
+			case 35: //michaelbay
+				if (allow_debug_keys)
+				{
+					DebugVars::getInstance().SetCorpseExplosion();
+
+					if (DebugVars::getInstance().GetCorpseExplosion())
+					{
+						CONSOLE_text("Corpse explosion on");
+					}
+					else
+					{
+						CONSOLE_text("Corpse explosion off");
+					}
+				}
+				break;
+			case 36: //xfiles
+				if (allow_debug_keys)
+				{
+					DebugVars::getInstance().SetMIBExplosions();
+
+					if (DebugVars::getInstance().GetMIBExplosions())
+					{
+						CONSOLE_text("Enlighten on");
+					}
+					else
+					{
+						CONSOLE_text("Enlighten off");
+					}
+				}
+				break;
+			case 37: // johnwick
+				if (allow_debug_keys)
+				{
+					//darci->Genus.Player->Strength = 240;
+					the_game.net_players[0]->Genus.Player->Skill = 240;
+				}
+				break; 
+			case 38: //nanana
+				if (allow_debug_keys)
+				{
+					i = atoi(ptr);
+					SLONG  world_x = darci->WorldPos.X >> 8;
+					SLONG  world_y = darci->WorldPos.Y >> 8;
+					SLONG  world_z = darci->WorldPos.Z >> 8;
+
+					for (int j = 0; j < i; ++j)
+					{
+						THING_INDEX p_index = BAT_create(
+							BAT_TYPE_BAT,
+							world_x,
+							world_z,
+							8000);
+					}
+				}
+				break;
+			case 39: //headless
+				if (allow_debug_keys)
+				{
+					DIRT_behead_person(darci, NULL);
+				}
+				break;
+			case 40: //madworld
+				if (allow_debug_keys)
+				{
+					DebugVars::getInstance().SetRandomCharacters();
+
+					if (DebugVars::getInstance().GetRandomCharacters())
+					{
+						CONSOLE_text("Mad world");
+					}
+					else
+					{
+						CONSOLE_text("All around me are familiar faces");
+					}
+				}
+				break;
+			case 41: // turndownforwhat
+				if (allow_debug_keys)
+				{
+					for (SLONG z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
+					{
+						for (SLONG x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++)
+						{
+							UWORD t_index = PAP_2LO(x, z).MapWho;
+
+							while (t_index)
+							{
+								Thing* p_thing = TO_THING(t_index);
+
+								if (p_thing->Class == CLASS_PERSON && (p_thing->Flags & FLAGS_IN_VIEW))
+								{
+									//p_thing->WorldPos.Y = p_thing->WorldPos.Y >> 12;
+									p_thing->WorldPos.Y = 600000;
+								}
+
+								t_index = p_thing->Child;
+							}
+						}
+					}
+				}
+				break;
 		  }
 		  return;
 	  }
@@ -4866,6 +4970,9 @@ extern	SLONG	FC_cam_height;
 				teleport.X = world_x << 8;
 				teleport.Y = world_y << 8;
 				teleport.Z = world_z << 8;
+
+
+				//CreateGrenadeExplosion(teleport.X, teleport.Y, teleport.Z, darci);
 
 				set_person_idle(darci);
 				move_thing_on_map(darci, &teleport);

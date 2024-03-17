@@ -104,6 +104,7 @@ class	KeyFrameEditor	:	public	EditorModule
 		void			AppendAnim(void);
 		void			InsertAnim(Anim *insert_here);
 		void			DestroyAnim(Anim *the_anim);
+		void			LoadAllAnimsFromAllFile(KeyFrameChunk* the_chunk, int animCount);
 		void			LoadAllAnims(KeyFrameChunk *the_chunk);
 		void			SaveAllAnims(KeyFrameChunk *the_chunk,SLONG save_all);
 		void			LoadAnim(MFFileHandle file_handle,Anim *the_anim);

@@ -2247,6 +2247,8 @@ void	KeyFrameEditor::HandleControl(ULONG control_id)
 	SLONG	ele_count;
 	SLONG	max_range;
 
+	int animCount = 0;
+
 
 	switch(control_id)
 	{
@@ -2508,7 +2510,7 @@ extern	SLONG	save_psx;
 						shrink=4.0;
 					}
 
-					load_key_frame_chunks(test_chunk,fr->FileName,shrink, AnimList[0]);
+					load_key_frame_chunks(test_chunk,fr->FileName,shrink, AnimList[0], animCount);
 					load_recenter_flags(test_chunk->ANMName);
 				}
 
@@ -2516,6 +2518,7 @@ extern	SLONG	save_psx;
 				RequestUpdate();
 
 				((CHSlider*)WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0,test_chunk->KeyFrameCount-2);
+				LoadAllAnimsFromAllFile(test_chunk, animCount);
 				//LoadAllAnims(test_chunk);
 				LogText(" keyframe edit load \n");
 				LoadChunkTextureInfo(test_chunk);
@@ -5787,6 +5790,21 @@ void	KeyFrameEditor::DestroyAnim(Anim *the_anim)
 }
 
 //---------------------------------------------------------------
+
+void	KeyFrameEditor::LoadAllAnimsFromAllFile(KeyFrameChunk* the_chunk, int animCount)
+{
+	AnimCount[Bank] = animCount;
+
+	AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_DESELECTED);
+	SLONG max_range = AnimCount[Bank] - 22;
+	if (max_range < 0)
+	{
+		max_range = 0;
+	}
+	((CVSlider*)AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetValueRange(0, max_range);
+	((CVSlider*)AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetCurrentValue(max_range);
+}
+
 
 void	KeyFrameEditor::LoadAllAnims(KeyFrameChunk *the_chunk)
 {

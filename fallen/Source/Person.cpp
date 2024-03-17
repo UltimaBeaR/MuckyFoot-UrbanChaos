@@ -48,6 +48,7 @@
 #include	"xlat_str.h"
 #include	"pow.h"
 #include	"frontend.h"
+#include "DebugVars.h"
 #ifdef		PSX 
 #include "c:\fallen\psxeng\headers\psxeng.h"
 #include "c:\fallen\psxeng\headers\panel.h"
@@ -553,7 +554,11 @@ Thing	*alloc_person(UBYTE type, UBYTE random_number)
 	Person			*new_person;
 	Thing			*person_thing	=	NULL;
 	int randomType = rand() % PERSON_NUM_TYPES;
-	//type = randomType;
+	
+	if (DebugVars::getInstance().GetRandomCharacters())
+	{
+		type = randomType;
+	}
 
 //	if(type==1)
 //		type=4;
@@ -1100,6 +1105,8 @@ void find_nice_place_near_person(
 //	SUB_STATE_DYING_KNOCK_DOWN	- means they play a get up animation after their current animation is over and don't die.
 //
 
+#include "grenade.h"
+
 void set_person_dying(Thing *p_person, UBYTE substate)
 {
 	//
@@ -1144,6 +1151,12 @@ void set_person_dying(Thing *p_person, UBYTE substate)
 	{
 //				MFX_play_ambient(0,S_THUNDER_START+(Random()&1),0);
 		MFX_play_thing(THING_NUMBER(p_person),S_MIB_LEVITATE,MFX_LOOPED,p_person);
+	}
+	//CreateGrenadeExplosion(p_person->WorldPos.X >> 8, p_person->WorldPos.Y >> 8, p_person->WorldPos.Z >> 8, p_person);
+
+	if (DebugVars::getInstance().GetCorpseExplosion())
+	{
+		CreateGrenadeExplosion(p_person->WorldPos.X, p_person->WorldPos.Y, p_person->WorldPos.Z, p_person);
 	}
 
 }
@@ -17514,8 +17527,8 @@ extern	SLONG	PCOM_do_regen(Thing *p_person);
 			break;
 	}
 
-
-	if (PersonIsMIB(p_person))
+	
+	if (DebugVars::getInstance().GetMIBExplosions() || PersonIsMIB(p_person))
 	{
 		if (p_person->Genus.Person->Timer1 >= 20 * 20 * 5)		// Was 32 * 20 * 5 for the PC, less time for the DC...
 		{

@@ -7761,7 +7761,7 @@ void	process_hardware_level_input_for_player(Thing *p_player)
 #ifndef	PSX
 
 
-#ifdef TARGET_DC
+#ifndef TARGET_DC
 	// Saner system.
 	static bool bChangeCameraModePressedLastTime = FALSE;
 	if ( pl->Pressed&INPUT_MASK_CAMERA )

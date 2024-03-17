@@ -2907,7 +2907,7 @@ void DIRT_behead_person(Thing *p_person, Thing *p_attacker)
 	// This person doesn't have a head anymore.
 	//
 
-	p_person->Genus.Person->Flags |= FLAG_PERSON_BEHEADED;
+	//p_person->Genus.Person->Flags |= FLAG_PERSON_BEHEADED;
 
 	#endif
 }

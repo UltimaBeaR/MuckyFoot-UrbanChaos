@@ -1527,7 +1527,7 @@ void	normalise_max_matrix(float fe_matrix[3][3],float *x,float *y,float *z)
 //}
 
 #include "../Headers/AllToAnmConverter.h"
-void	load_keyframes_from_all(struct	KeyFrameChunk* the_chunk, Anim*& AnimList)
+void	load_keyframes_from_all(struct	KeyFrameChunk* the_chunk, Anim*& AnimList, int& animCount)
 {
 	UWORD frame_id[4501]; //more than 3000 frames, I don't think so.
 	//struct KeyFrame* the_key_frame;
@@ -1595,7 +1595,7 @@ void	load_keyframes_from_all(struct	KeyFrameChunk* the_chunk, Anim*& AnimList)
 	//the_chunk->FirstElement = firstElement;
 	//the_chunk->LastElement = firstElement + game_chunk[0].MaxElements - 1;
 
-	Gowno::KeyFrameListStuff(game_chunk, the_chunk, AnimList);
+	Gowno::KeyFrameListStuff(game_chunk, the_chunk, AnimList, animCount);
 	
 	//for (int i = 1; i < game_chunk[0].MaxAnimFrames; ++i)
 	//{
@@ -1862,7 +1862,7 @@ extern	SLONG read_multi_asc(CBYTE *asc_name,UBYTE flag,float scale);
 
 }
 
-void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE *vue_name,float scale, Anim*& AnimList)
+void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE *vue_name,float scale, Anim*& AnimList, int& animCount)
 {
 	SLONG		c0;
 	SLONG		ele_count=0;
@@ -1947,7 +1947,7 @@ struct PrimObject	*p_obj;
 			}
 		}				
 
-		load_keyframes_from_all(the_chunk, AnimList);
+		load_keyframes_from_all(the_chunk, AnimList, animCount);
 		//load_multi_vue(the_chunk,scale);
 #ifdef	EDITOR
 extern	void	load_chunk_texture_info(KeyFrameChunk *the_chunk);
@@ -2742,8 +2742,8 @@ SLONG	load_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name,SLONG type)
 
 	CBYTE	fname[100];
 
-	//sprintf(fname,"%sdata\\%s",DATA_DIR,name);
-	sprintf(fname,"%s",name);
+	sprintf(fname,"%sdata\\%s",DATA_DIR,name);
+	//sprintf(fname,"%s",name);
 
 extern	void	free_game_chunk(GameKeyFrameChunk *the_chunk);
 	free_game_chunk(p_chunk);

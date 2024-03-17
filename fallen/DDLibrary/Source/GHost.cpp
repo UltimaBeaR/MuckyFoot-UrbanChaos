@@ -55,7 +55,7 @@ DWORD	DDLibThread(LPVOID param)
 											"Urban Chaos",
 								            "Urban Chaos",
 											#ifndef NDEBUG
-											WS_OVERLAPPEDWINDOW,
+		WS_POPUP,
 											#else
 											WS_POPUP,
 											#endif

@@ -162,7 +162,7 @@ void	uncompress_matrix3(CMatrix33* cm, Matrix33* m)
 	v = ((cm->M[2] & CMAT2_MASK) << 22) >> 22;
 	m->M[2][2] = (v << 6);
 }
-void Gowno::KeyFrameListStuff(GameKeyFrameChunk* game_chunk, struct	KeyFrameChunk* the_chunk, Anim*& OutputAnimList)
+void Gowno::KeyFrameListStuff(GameKeyFrameChunk* game_chunk, struct	KeyFrameChunk* the_chunk, Anim*& OutputAnimList, int& animCount)
 {
 
 	GameKeyFrameElement gameChunkElement2 = game_chunk[0].TheElements[0];
@@ -257,9 +257,9 @@ void Gowno::KeyFrameListStuff(GameKeyFrameChunk* game_chunk, struct	KeyFrameChun
 			kf->ChunkID = 0;
 			kf->Flags = 0;
 			
-			kf->FrameID = gameKeyFrameElementToId[gkfe];
+			kf->FrameID = gameKeyFrameElementToId[gkfe] / 15;
 			
-			kf->TweenStep = 4;
+			kf->TweenStep = 4; 
 			kf->ElementCount = 15;
 			kf->Dx = 0;
 			kf->Dy = 0;
@@ -267,8 +267,8 @@ void Gowno::KeyFrameListStuff(GameKeyFrameChunk* game_chunk, struct	KeyFrameChun
 			kf->Fixed = true;
 			kf->Fight = nullptr;
 			kf->FirstElement = gameKeyElementToKeyFrameElement[gkfe];
-			kf->NextFrame = nullptr;
-			kf->PrevFrame = nullptr;
+			kf->NextFrame = kf;
+			kf->PrevFrame = kf;
 
 			animList[i].SetFrameList(kf);
 			animList[i].SetFrameListEnd(kf);
@@ -311,6 +311,9 @@ void Gowno::KeyFrameListStuff(GameKeyFrameChunk* game_chunk, struct	KeyFrameChun
 					animList[i].SetAnimFlags(0);
 					animList[i].SetTweakSpeed(32);
 
+					kf->PrevFrame = currentKf;
+					currentKf->NextFrame = kf;
+
 					break;
 					/* v contains x */
 				}
@@ -318,7 +321,6 @@ void Gowno::KeyFrameListStuff(GameKeyFrameChunk* game_chunk, struct	KeyFrameChun
 				{
 
 					v_p.push_back(next);
-					next = next->NextFrame;
 
 
 
@@ -364,6 +366,8 @@ void Gowno::KeyFrameListStuff(GameKeyFrameChunk* game_chunk, struct	KeyFrameChun
 
 						break;
 					}
+
+					next = next->NextFrame;
 					/* v does not contain x */
 				}
 			}
@@ -375,5 +379,7 @@ void Gowno::KeyFrameListStuff(GameKeyFrameChunk* game_chunk, struct	KeyFrameChun
 	}
 	TRACE("usedKeyFramesCount=%d\n", usedKeyFramesCount);
 	OutputAnimList = animList;
+
+	animCount = game_chunk[0].MaxAnimFrames;
 
 }

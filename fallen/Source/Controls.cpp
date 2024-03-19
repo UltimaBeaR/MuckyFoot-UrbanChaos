@@ -648,6 +648,7 @@ extern int AENG_detail_crinkles;
 			case 40: //madworld
 				if (allow_debug_keys)
 				{
+					/* initialize random seed: */
 					DebugVars::getInstance().SetRandomCharacters();
 
 					if (DebugVars::getInstance().GetRandomCharacters())

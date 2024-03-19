@@ -87,6 +87,7 @@ SAVE INGAME
 #include	"io.h"
 //#include	"prim_draw.h"
 #include	"memory.h"
+#include "DebugVars.h"
 
 #include "../Headers/AllToAnmConverter.h"
 
@@ -934,7 +935,11 @@ void	setup_people_anims(void)
 
 	setup_anim_stuff();
 	//load_anim_system(&game_chunk[ANIM_TYPE_DARCI],"C:\\stuff\\DARCI1.all",1);
+
 	load_anim_system(&game_chunk[ANIM_TYPE_DARCI],"darci1.all",1);
+	//load_anim_system(&game_chunk[ANIM_TYPE_DARCI],"darci1.all",1);
+	//append_anim_system(&game_chunk[ANIM_TYPE_DARCI], "darci1beta.all", 1, 0);
+
 //	load_anim_system(&game_chunk[1],"police1.all");
 //	if(!build_psx)		  
 
@@ -1003,11 +1008,15 @@ extern	SLONG	playing_level(const CBYTE *name);
 		semtex=0;
 	}
 
+	if (DebugVars::getInstance().GetRandomCharacters() || playing_level("estate2.ucm") || playing_level("Album1.ucm"))
+	{
+		game_chunk[ANIM_TYPE_CIV].MultiObject[6] = next_prim_multi_object;
+		append_anim_system(&game_chunk[ANIM_TYPE_ROPER], "banesuit.all", 240, 1);
+	}
+
 	if(playing_level("estate2.ucm") || playing_level("Album1.ucm"))
 	{
 		// bodge bodge bodge
-		game_chunk[ANIM_TYPE_CIV].MultiObject[6]=next_prim_multi_object;
-		append_anim_system(&game_chunk[ANIM_TYPE_ROPER],"banesuit.all",240,1);
 		estate=1;
 
 

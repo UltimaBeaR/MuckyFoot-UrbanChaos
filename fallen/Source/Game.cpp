@@ -585,7 +585,7 @@ BOOL	game_init(void)
 
 
 	SetSeed(0);
-	srand(1234567);
+	srand(time(NULL));
 
 
 

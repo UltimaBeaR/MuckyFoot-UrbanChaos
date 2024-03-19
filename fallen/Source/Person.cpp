@@ -425,9 +425,9 @@ UBYTE anim_type[PERSON_NUM_TYPES] =
 	ANIM_TYPE_DARCI,
 	ANIM_TYPE_CIV, //10
 	ANIM_TYPE_CIV, //11 tramp
-	ANIM_TYPE_CIV, //11  mib
-	ANIM_TYPE_CIV, //12 
-	ANIM_TYPE_CIV //13 
+	ANIM_TYPE_CIV, //12  mib
+	ANIM_TYPE_CIV, //13 
+	ANIM_TYPE_CIV //14 
 };
 
 UBYTE mesh_type[PERSON_NUM_TYPES] = 
@@ -553,10 +553,11 @@ Thing	*alloc_person(UBYTE type, UBYTE random_number)
 	SLONG			c0;
 	Person			*new_person;
 	Thing			*person_thing	=	NULL;
-	int randomType = rand() % PERSON_NUM_TYPES;
 	
 	if (DebugVars::getInstance().GetRandomCharacters())
 	{
+		int randomType = rand() % PERSON_NUM_TYPES;
+
 		type = randomType;
 	}
 
@@ -582,7 +583,7 @@ Thing	*alloc_person(UBYTE type, UBYTE random_number)
 				new_person->SpecialUse      =   0;
 				new_person->Stamina			=	128;
 				person_thing->Genus.Person	=	new_person;
-				person_thing->Draw.Tweened	=	alloc_draw_tween(DT_ROT_MULTI);
+				person_thing->Draw.Tweened	=	alloc_draw_tween(DT_ROT_MULTI); 
 
 				person_thing->OnFace        =	NULL;
 
@@ -4446,7 +4447,7 @@ void	general_process_person(Thing *p_person)
 #ifndef PSX	// save Eidos/Sony the trouble of instructing us to remove this
 	if (p_person->Genus.Person->Flags & FLAG_PERSON_PEEING)
 	{
-		if (p_person->Flags /*& FLAGS_IN_VIEW*/)
+		if (p_person->Flags & FLAGS_IN_VIEW)
 		{
 			SLONG penis_x;
 			SLONG penis_y;

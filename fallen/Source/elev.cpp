@@ -1272,7 +1272,6 @@ extern	SWORD	people_types[50];
 							ed.type      = EWAY_DO_CHANGE_ENEMY;
 							ed.arg1      = event_point.Data[6];	// ID of waypoint that creates the person to adjust
 							ee.pcom_ai   = event_point.Data[5];
-							ee.pcom_ai   = PCOM_AI_KILL_COLOUR;
 							ee.pcom_bent = event_point.Data[4];
 							ee.pcom_move = event_point.Data[3] + 1;
 							ee.ai_other  = event_point.Data[7];	// For PCOM_AI_BODYGUARD/PCOM_AI_ASSASIN, the ID of the waypoint that creates the person you guard.

@@ -762,7 +762,7 @@ SLONG	find_best_grapple(Thing *p_person)
 	if(best>=0)
 	{
 //		if(best_target)
-		if(best_target&&(best_target->Genus.Person->AnimType!=ANIM_TYPE_ROPER)) // junior doesn't want darci grappling roper.
+		if(best_target && (DebugVars::getInstance().GetRandomCharacters() ||  (best_target->Genus.Person->AnimType!=ANIM_TYPE_ROPER))) // junior doesn't want darci grappling roper.
 		{
 			if (best_target->Genus.Person->PersonType == PERSON_MIB1 ||
 				best_target->Genus.Person->PersonType == PERSON_MIB2 ||
@@ -2666,12 +2666,17 @@ extern	UBYTE	semtex;
 
 SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor)
 {
+
+	if (DebugVars::getInstance().GetRandomCharacters())
+	{
+		return 1;
+	}
+
 	ULONG	will_hit=0xffffffff;
 
 	if(p_agressor->Genus.Person->PlayerID==0)
 	if(p_agressor->Genus.Person->Target&&p_agressor->Genus.Person->Target==THING_NUMBER(p_victim))
 	{
-
 
 		if(p_agressor->Genus.Person->PersonType==PERSON_COP)
 			ASSERT(p_victim->Genus.Person->PersonType!=PERSON_COP);  //cop deliberatly hitting other cop

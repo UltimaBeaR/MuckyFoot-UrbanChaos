@@ -73,4 +73,9 @@ void BAT_apply_hit(
 		SLONG  damage);
 
 
+
+void BAT_set_anim(Thing* p_thing, SLONG anim);
+
+void BAT_set_anim_test(Thing* p_thing, SLONG anim);
+void BAT_set_anim_and_type(Thing* p_thing, SLONG anim, UBYTE type);
 #endif

@@ -313,6 +313,84 @@ void BAT_set_anim(Thing *p_thing, SLONG anim)
 	p_thing->Genus.Bat->flag&=~(BAT_FLAG_SYNC_FX|BAT_FLAG_SYNC_FX2);
 }
 
+void BAT_set_anim_test(Thing *p_thing, SLONG anim)
+{
+	if (anim < 0)
+	{
+		static UBYTE generic_bat_anim[2][2] =
+		{
+			{BAT_ANIM_BAT_FLY,      BAT_ANIM_BAT_FLY},
+			{BAT_ANIM_GARGOYLE_FLY, BAT_ANIM_GARGOYLE_TAKE_HIT}
+		};
+
+		ASSERT(WITHIN(p_thing->Genus.Bat->type - 1, 0, 1));
+		ASSERT(WITHIN(-anim - 1, 0, 1));
+
+		anim = generic_bat_anim[p_thing->Genus.Bat->type - 1][-anim - 1];
+	}
+
+	DrawTween *dt = p_thing->Draw.Tweened;
+
+	if (dt->CurrentAnim == anim)
+	{
+		return;
+	}
+
+	dt->AnimTween	 =	0;
+	dt->QueuedFrame	 =	NULL;
+	//dt->TheChunk	 = &anim_chunk[BAT_TYPE_BANE];
+	dt->CurrentFrame =  anim_chunk[BAT_TYPE_BANE].AnimList[anim];
+	dt->NextFrame	 =  dt->CurrentFrame->NextFrame;
+	dt->CurrentAnim	 =  anim;
+	dt->FrameIndex	 =  0;
+
+	if (dt->NextFrame == NULL)
+	{
+		dt->NextFrame = dt->CurrentFrame->NextFrame;
+	}
+
+	p_thing->Genus.Bat->flag&=~(BAT_FLAG_SYNC_FX|BAT_FLAG_SYNC_FX2);
+}
+
+void BAT_set_anim_and_type(Thing *p_thing, SLONG anim, UBYTE type)
+{
+	if (anim < 0)
+	{
+		static UBYTE generic_bat_anim[2][2] =
+		{
+			{BAT_ANIM_BAT_FLY,      BAT_ANIM_BAT_FLY},
+			{BAT_ANIM_GARGOYLE_FLY, BAT_ANIM_GARGOYLE_TAKE_HIT}
+		};
+
+		ASSERT(WITHIN(p_thing->Genus.Bat->type - 1, 0, 1));
+		ASSERT(WITHIN(-anim - 1, 0, 1));
+
+		anim = generic_bat_anim[p_thing->Genus.Bat->type - 1][-anim - 1];
+	}
+
+	DrawTween *dt = p_thing->Draw.Tweened;
+
+	if (dt->CurrentAnim == anim)
+	{
+		return;
+	}
+
+	dt->AnimTween	 =	0;
+	dt->QueuedFrame	 =	NULL;
+	dt->TheChunk	 = &anim_chunk[type];
+	dt->CurrentFrame =  anim_chunk[type].AnimList[anim];
+	dt->NextFrame	 =  dt->CurrentFrame->NextFrame;
+	dt->CurrentAnim	 =  anim;
+	dt->FrameIndex	 =  0;
+
+	if (dt->NextFrame == NULL)
+	{
+		dt->NextFrame = dt->CurrentFrame->NextFrame;
+	}
+
+	p_thing->Genus.Bat->flag&=~(BAT_FLAG_SYNC_FX|BAT_FLAG_SYNC_FX2);
+}
+
 
 
 //

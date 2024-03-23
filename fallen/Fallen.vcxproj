@@ -68,7 +68,7 @@
       <WarningLevel>Level3</WarningLevel>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <AdditionalIncludeDirectories>Headers;..\fallen\ledit\headers;..\fallen\sedit\headers;..\fallen\DDLibrary\Headers;..\fallen\gedit\headers;..\fallen\ddengine\headers;C:\dev\workspaces\repo clones\MuckyFoot-UrbanChaos\jordandavidson-fork\MuckyFoot-UrbanChaos\fallen\Editor\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SEWERS;EDITOR;_RELEASE;WIN32;_WINDOWS;VERSION_D3D;TEX_EMBED;FINAL;_CRT_SECURE_NO_WARNINGS;BIKE;HIGH_REZ_PEOPLE_PLEASE_BOB;NO_MORE_BALLOONS;NO_MORE_BALLOONS_NOW;NDEBUG;BEHEAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SEWERS;EDITOR;_RELEASE;WIN32;_WINDOWS;VERSION_D3D;TEX_EMBED;FINAL;_CRT_SECURE_NO_WARNINGS;HIGH_REZ_PEOPLE_PLEASE_BOB;NO_MORE_BALLOONS;NO_MORE_BALLOONS_NOW;NDEBUG;BEHEAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
       <BrowseInformation>true</BrowseInformation>
       <PrecompiledHeaderOutputFile>.\Release\Fallen.pch</PrecompiledHeaderOutputFile>

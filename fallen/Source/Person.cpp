@@ -6072,7 +6072,83 @@ SLONG shoot_get_ammo_sound_anim_time(Thing *p_person,SLONG *sound,SLONG *anim,SL
 			case SPECIAL_SHOTGUN:
 				*anim = ANIM_SHOTGUN_FIRE;
 				*time = 400;
+
+				//create_shockwave(
+				//	p_person->WorldPos.X >> 8,
+				//	p_person->WorldPos.Y >> 8,
+				//	p_person->WorldPos.Z >> 8,
+				//	0x300,
+				//	150,
+				//	p_special);
 #ifndef BUILD_PSX
+			/*	PYRO_create(p_person->WorldPos, PYRO_DUSTWAVE);
+
+				{
+					Thing* darci = NET_PERSON(0);
+
+					extern SLONG is_person_dead(Thing * p_person);
+
+					if (!is_person_dead(darci))
+					{
+						if (THING_dist_between(p_special, NET_PERSON(0)) < 0x600)
+						{
+							if (there_is_a_los(
+								p_special->WorldPos.X >> 8,
+								p_special->WorldPos.Y + 0xc000 >> 8,
+								p_special->WorldPos.Z >> 8,
+								darci->WorldPos.X >> 8,
+								darci->WorldPos.Y + 0x6000 >> 8,
+								darci->WorldPos.Z >> 8,
+								0))
+							{
+								SPARK_Pinfo p1;
+								SPARK_Pinfo p2;
+
+								p1.type = SPARK_TYPE_LIMB;
+								p1.flag = 0;
+								p1.person = THING_NUMBER(p_special);
+								p1.limb = 0;
+
+								p2.type = SPARK_TYPE_LIMB;
+								p2.flag = 0;
+								p2.person = THING_NUMBER(darci);
+								p2.limb = SUB_OBJECT_HEAD;
+
+								SPARK_create(
+									&p1,
+									&p2,
+									50);
+
+								if (darci->State != STATE_DANGLING &&
+									darci->State != STATE_JUMPING)
+								{
+									set_face_thing(
+										darci,
+										p_special);
+								}
+
+								darci->Genus.Person->Health -= 50;
+
+								if (darci->Genus.Person->Health <= 0)
+								{
+									set_person_dead(
+										darci,
+										NULL,
+										PERSON_DEATH_TYPE_OTHER,
+										FALSE,
+										0);
+								}
+								else
+								{
+									set_person_recoil(
+										darci,
+										ANIM_HIT_FRONT_MID,
+										0);
+								}
+							}
+						}
+					}
+				}*/
 				DIRT_new_sparks(p_person->Genus.Person->GunMuzzle.X>>8,p_person->Genus.Person->GunMuzzle.Y>>8,p_person->Genus.Person->GunMuzzle.Z>>8,2|32);
 #endif
 				break;

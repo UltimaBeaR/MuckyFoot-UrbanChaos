@@ -28,6 +28,7 @@
 #include "panel.h"
 #endif
 
+#include "DebugVars.h"
 #include "memory.h"
 extern UBYTE stealth_debug;
 #ifndef PSX
@@ -13515,6 +13516,10 @@ void PCOM_youre_being_grappled(
 
 SLONG	on_same_side(Thing *p_victim,Thing *p_attacker)
 {
+	if (DebugVars::getInstance().GetRandomCharacters())
+	{
+		return 0;
+	}
 	if(p_victim->Genus.Person->PersonType==PERSON_ROPER||p_victim->Genus.Person->PersonType==PERSON_DARCI||p_victim->Genus.Person->PersonType==PERSON_COP)
 	{
 		if(p_attacker->Genus.Person->PersonType==PERSON_ROPER||p_attacker->Genus.Person->PersonType==PERSON_DARCI||p_attacker->Genus.Person->PersonType==PERSON_COP)

@@ -174,7 +174,7 @@ UBYTE InkeyToAsciiShift[]=
 
 #ifndef PSX
 
-CBYTE *cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","viol", "boo", "mib", "anim", "ptype", "ta", "inflate", "grapple", "poweroverwhelming", "kuchiyosenojutsu", "bodyguard", "michaelbay", "xfiles", "johnwick", "nanana", "headless", "madworld", "turndownforwhat", "", NULL};
+CBYTE *cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","viol", "boo", "mib", "anim", "ptype", "ta", "inflate", "grapple", "poweroverwhelming", "kuchiyosenojutsu", "bodyguard", "michaelbay", "xfiles", "johnwick", "nanana", "headless", "madworld", "turndownforwhat", "quasimodo", "drip", "morphingtime", "", NULL};
 
 EWAY_Way* eway_find(SLONG id)
 {
@@ -684,6 +684,39 @@ extern int AENG_detail_crinkles;
 							}
 						}
 					}
+				}
+				break;
+			case 42: // quasimodo
+				if (allow_debug_keys)
+				{
+					darci->Genus.Person->PersonType = PERSON_DARCI;
+					darci->Genus.Person->AnimType = ANIM_TYPE_DARCI;
+					darci->Draw.Tweened->TheChunk = &anim_chunk[3];
+					darci->Draw.Tweened->MeshID = 0;
+					darci->Draw.Tweened->PersonID = 0;
+					set_person_idle(darci);
+				}
+				break;
+			case 43: // drip
+				if (allow_debug_keys)
+				{
+					darci->Genus.Person->PersonType = PERSON_ROPER;
+					darci->Genus.Person->AnimType = ANIM_TYPE_ROPER;
+					darci->Draw.Tweened->TheChunk = &anim_chunk[4];
+					darci->Draw.Tweened->MeshID = 0;
+					darci->Draw.Tweened->PersonID = 0;
+					set_person_idle(darci);
+				}
+				break;
+			case 44: // morphingtime
+				if (allow_debug_keys)
+				{
+					int anim_id = atoi(ptr);
+
+					BAT_set_anim_and_type(darci, anim_id, 3);
+
+				/*	darci->Genus.Person->Flags |= FLAG_PERSON_NO_RETURN_TO_NORMAL;
+					darci->Genus.Person->Action = ACTION_SIT_BENCH;*/
 				}
 				break;
 		  }

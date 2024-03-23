@@ -2846,7 +2846,7 @@ extern	void	free_game_chunk(GameKeyFrameChunk *the_chunk);
 			p_chunk->MultiObject[1]=0;
 			DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMSYSTEM partb %d \n",next_prim_point,next_prim_face3,next_prim_face4,0);
 		}
-		load_insert_game_chunk(handle,p_chunk);
+ 		load_insert_game_chunk(handle,p_chunk);
 
 		FileClose(handle);
 		return(1);

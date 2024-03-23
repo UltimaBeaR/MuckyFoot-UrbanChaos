@@ -23,6 +23,7 @@
 #define INPUT_SELECT		15
 #define	INPUT_STEP_LEFT		16
 #define	INPUT_STEP_RIGHT	17
+#define	INPUT_TEST	18
 
 #define	INPUT_MASK_FORWARDS		(1 << INPUT_FORWARDS)
 #define	INPUT_MASK_BACKWARDS	(1 << INPUT_BACKWARDS)
@@ -46,6 +47,7 @@
 #define INPUT_MASK_SELECT		(1 << INPUT_SELECT)
 #define	INPUT_MASK_STEP_LEFT	(1 << INPUT_STEP_LEFT)
 #define	INPUT_MASK_STEP_RIGHT	(1 << INPUT_STEP_RIGHT)
+#define	INPUT_MASK_TEST			(1 << INPUT_TEST)
 // This is hardwired - the analog values go in the top 14 bits.
 #define INPUT_MASK_ALL_BUTTONS	(0x3ffff)
 
@@ -195,7 +197,7 @@ void INTERFAC_SetUpJoyPadButtons ( int iMode );
 
 extern UBYTE	joypad_button_use[16];
 #ifndef TARGET_DC
-extern UBYTE	keybrd_button_use[16];
+extern UBYTE	keybrd_button_use[17];
 #endif
 
 #define	JOYPAD_BUTTON_KICK       0
@@ -214,6 +216,8 @@ extern UBYTE	keybrd_button_use[16];
 #define KEYBRD_BUTTON_RIGHT		12
 #define KEYBRD_BUTTON_FORWARDS	13
 #define KEYBRD_BUTTON_BACK		14
+
+#define KEYBRD_BUTTON_TEST		15
 
 
 

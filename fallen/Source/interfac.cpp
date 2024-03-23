@@ -32,6 +32,7 @@
 #include	"env.h"
 #include	"ddlib.h"
 #include	"poly.h"
+#include "bat.h"
 #endif
 
 
@@ -176,7 +177,7 @@ void	player_apply_move_analgue(Thing *p_thing,ULONG input);
 #ifndef PSX
 UBYTE	joypad_button_use[16];
 #ifndef TARGET_DC
-UBYTE	keybrd_button_use[16];
+UBYTE	keybrd_button_use[17];
 #endif
 
 
@@ -353,6 +354,8 @@ void	init_joypad_config(void)
 	keybrd_button_use[JOYPAD_BUTTON_CAM_LEFT]	= ENV_get_value_number("keyboard_cam_left",	211, "Keyboard");
 	keybrd_button_use[JOYPAD_BUTTON_CAM_RIGHT]	= ENV_get_value_number("keyboard_cam_right",209, "Keyboard");
 	keybrd_button_use[JOYPAD_BUTTON_1STPERSON]	= ENV_get_value_number("keyboard_1stperson", 30, "Keyboard");
+	// ADDED BY PZI
+	keybrd_button_use[KEYBRD_BUTTON_TEST]	= ENV_get_value_number("keyboard_test", 25, "Keyboard");
 #endif
 
 }
@@ -1208,6 +1211,13 @@ SLONG person_get_in_car(Thing *p_thing, SLONG *door)
 //#ifdef	FINAL
 //#define	PANEL_new_text(a,b,c)
 //#endif
+ULONG do_the_thing(Thing* p_thing, ULONG input)
+{
+	//set_anim(p_thing, 140);
+	BAT_set_anim_test(p_thing, 3);
+	return INPUT_MASK_TEST;
+}
+
 ULONG do_an_action(Thing *p_thing, ULONG input)
 {
 	ULONG	     closest;
@@ -1764,7 +1774,7 @@ extern	SLONG	person_on_floor(Thing *p_person);
 
 						if (OB_ob[ob_index].prim == PRIM_OBJ_SWITCH_OFF)
 						{
-							OB_ob[ob_index].prim = PRIM_OBJ_CHOPPER;
+							OB_ob[ob_index].prim = PRIM_OBJ_SWITCH_ON;
 						}
 
 						//PANEL_new_text(NULL,4000,"ACTION do switch");
@@ -4321,6 +4331,12 @@ ULONG	apply_button_input(struct Thing *p_player,struct Thing *p_person,ULONG inp
 		processed |= INPUT_MASK_MODE_CHANGE;
 	}
 */
+
+	if (input & INPUT_MASK_TEST)
+	{
+		processed |= do_the_thing(p_person, input);
+		input &= ~processed;
+	}
 
 	if (input & INPUT_MASK_ACTION)
 	{
@@ -7334,6 +7350,11 @@ extern SLONG Wadmenu_MuckyTime;
 		if(Keys[keybrd_button_use[JOYPAD_BUTTON_ACTION]])
 		{
 			input|=INPUT_MASK_ACTION;
+		}
+
+		if(Keys[keybrd_button_use[KEYBRD_BUTTON_TEST]])
+		{
+			input|= INPUT_MASK_TEST;
 		}
 
 		/*

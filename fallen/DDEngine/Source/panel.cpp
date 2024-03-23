@@ -3747,6 +3747,7 @@ PANEL_Lsprite PANEL_lsprite[PANEL_LSPRITE_NUMBER] =
 
 	PLS(POLY_PAGE_LASTPANEL_ALPHA,   0,  90, 212, 256),			// display
 	PLS(POLY_PAGE_LASTPANEL_ALPHA,  70,  52, 141,  89),			// AK
+	//PLS(POLY_PAGE_LASTPANEL_ALPHA,  212,  52, 256,  89),			// AK
 	PLS(POLY_PAGE_LASTPANEL_ALPHA,   0,  52,  69,  88),			// Shotgun
 	PLS(POLY_PAGE_LASTPANEL_ALPHA, 175,   0, 246,  50),			// LoGear
 	PLS(POLY_PAGE_LASTPANEL_ALPHA, 104,   0, 174,  50),			// HiGear
@@ -4895,7 +4896,11 @@ extern	ULONG	strip_stats[];
 		// What fraction of health does Darci have?
 		//
 
-		fraction = is_in_car ? float(the_car->Genus.Vehicle->Health) * (1.0F / 300.0F) : float(darci->Genus.Person->Health) * ((darci->Genus.Person->PersonType == PERSON_ROPER) ? (1.0F / 400.0F) : (1.0F / 200.0F));
+
+		//fraction = is_in_car ? float(the_car->Genus.Vehicle->Health) * (1.0F / 300.0F) : float(darci->Genus.Person->Health) * ((darci->Genus.Person->PersonType == PERSON_ROPER) ? (1.0F / 400.0F) : (1.0F / 200.0F));
+
+		float smallestGaudgeFraction = 1.0f / health[darci->Genus.Person->PersonType];
+		fraction = is_in_car ? float(the_car->Genus.Vehicle->Health) * (1.0F / 300.0F) : float(darci->Genus.Person->Health) * smallestGaudgeFraction;
 
 		SATURATE(fraction, 0.0F, 1.0F);
 

@@ -1,5 +1,7 @@
 most likely - should delete folders in fallen starting with psx
 
+found other psx stuff - some defines usages with psx (part of symbol name) in it.
+
 
 delete all editor related?
     There is EDITOR define and EDITOR folder in fallen
@@ -40,5 +42,12 @@ solved issues
 
         solution: --no-transients fixes that
 
-commnds to try
-    coan source -UTARGET_DC -UPSX --no-transients --filter cpp,h --recurse fallen
+actions to try
+    remove dreamcast/ps1 code
+
+        coan source -UTARGET_DC -UPSX --no-transients --filter cpp,h --recurse fallen
+        
+        then maby remove fallen/psx*** folders
+
+    report unique preprocessor directives that are using in project
+        coan symbols --ifs --once-only --gag error --filter cpp,h --recurse fallen

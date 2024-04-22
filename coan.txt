@@ -1,0 +1,17 @@
+https://coan2.sourceforge.net/index.php?page=about
+
+commands to clean source code from old unused ifdef-s
+
+command:
+    coan source *** --filter cpp,h --recurse fallen
+    where *** is options string
+
+defines:
+    TARGET_DC - undefined. only for dc
+        -UTARGET_DC
+
+issues:
+    optimizes EDITOR ifdefs inlining it. I should turn this feature off somehow
+
+commnds to try
+    coan source -UTARGET_DC --filter cpp,h --recurse fallen

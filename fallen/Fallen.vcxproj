@@ -124,6 +124,7 @@
       <StructMemberAlignment>1Byte</StructMemberAlignment>
       <AdditionalIncludeDirectories>Headers;..\fallen\ledit\headers;..\fallen\sedit\headers;..\fallen\DDLibrary\Headers;..\fallen\gedit\headers;..\fallen\ddengine\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>

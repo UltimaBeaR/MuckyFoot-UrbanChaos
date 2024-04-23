@@ -1683,9 +1683,6 @@
     <Text Include="text\lang_english.txt">
       <Filter>Res</Filter>
     </Text>
-    <Text Include="notes.txt">
-      <Filter>Res</Filter>
-    </Text>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="DDLibrary\arrowcop.cur">

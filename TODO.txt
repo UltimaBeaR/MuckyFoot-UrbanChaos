@@ -10,8 +10,6 @@ found other psx stuff - some defines usages with psx (part of symbol name) in it
 delete all editor related?
     There is EDITOR define and EDITOR folder in fallen
 
-fallen/server folder. As far as i know network has not been finished so maby delete that
-
 
 
 

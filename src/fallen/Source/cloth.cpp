@@ -2,7 +2,6 @@
 // Draped cloth and flags.
 //
 #include "game.h"
-#ifndef PSX
 #include <MFStdLib.h>
 #include <math.h>
 #include "cloth.h"
@@ -725,4 +724,3 @@ CLOTH_Info* CLOTH_get_info(UBYTE cloth)
     return &CLOTH_info;
 }
 
-#endif

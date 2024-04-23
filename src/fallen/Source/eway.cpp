@@ -13,28 +13,19 @@
 #include "thing.h"
 #include "pow.h"
 #include "..\headers\music.h"
-#ifndef PSX
 #include "font2d.h"
 #include "..\DDEngine\Headers\console.h"
 #include "..\DDEngine\Headers\map.h"
-#endif
 #include "chopper.h"
 #include "animal.h"
-#ifndef PSX
 #include "drive.h"
-#endif
 #include "pcom.h"
 #include "supermap.h"
 #include "sound.h"
 #include "statedef.h"
 #include "wmove.h"
-#ifdef PSX
-#include "c:\fallen\psxeng\headers\psxeng.h"
-#include "c:\fallen\psxeng\headers\panel.h"
-#else
 #include "aeng.h"
 #include "panel.h"
-#endif
 #include "memory.h"
 #include "dirt.h"
 #include "cnet.h"
@@ -52,9 +43,6 @@
 #include "gamemenu.h"
 #include "..\headers\env.h"
 
-#ifdef TARGET_DC
-#include "target.h"
-#endif
 
 extern SLONG person_ok_for_conversation(Thing* p_person);
 extern ULONG timer_bored; // I don't care I'm making the game better not the code!
@@ -92,12 +80,6 @@ static void ScribbleCheck ( void )
 // The waypoints.
 //
 
-#ifdef PSX
-// #define	ASSERT(x)
-extern char* PANEL_wide_cont;
-extern char PANEL_wide_text[];
-
-#endif
 
 SLONG EWAY_way_upto;
 
@@ -239,7 +221,6 @@ SLONG EWAY_conv_skip; // How long until the user is allowed to skip the conversa
 SLONG EWAY_conv_ambient; // TRUE => Don't control the camera or go into widescreen mode.
 SLONG EWAY_conv_talk = 0;
 
-#ifndef PSX
 extern CBYTE ELEV_fname_level[_MAX_PATH];
 
 void get_level_word(CBYTE* str)
@@ -295,9 +276,6 @@ SLONG playing_level(const CBYTE* name)
 //	return 0;
 #endif
 
-#ifdef PSX
-    return (0);
-#endif
 
     //	if(save_psx)
     //		return(0);
@@ -353,19 +331,6 @@ SLONG playing_real_mission(void)
     }
     return (1);
 }
-#else
-SLONG playing_combat_tutorial(void)
-{
-    return (wad_level == 1);
-}
-
-UBYTE PSX_real[] = { 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 };
-
-SLONG playing_real_mission(void)
-{
-    return PSX_real[wad_level - 1];
-}
-#endif
 Thing* talk_thing;
 
 //
@@ -376,7 +341,6 @@ void EWAY_talk(ULONG waypoint)
 
     ANNOYINGSCRIBBLECHECK;
 
-#ifndef PSX
     if (save_psx)
         return;
     CBYTE str[100];
@@ -387,12 +351,7 @@ void EWAY_talk(ULONG waypoint)
     //
 
     get_level_word(level);
-#ifdef TARGET_DC
-    extern char* pcSpeechLanguageDir;
-    sprintf(str, "%s%s%s.ucm%d.wav", GetSpeechPath(), pcSpeechLanguageDir, level, waypoint);
-#else
     sprintf(str, "%stalk2\\%s.ucm%d.wav", GetSpeechPath(), level, waypoint);
-#endif
     /*
             if(!FileExists(str))
             {
@@ -407,12 +366,6 @@ void EWAY_talk(ULONG waypoint)
 
     MFX_QUICK_play(str);
     EWAY_conv_talk = 0;
-#else
-    MFX_Conv_wait();
-    MFX_Conv_play(waypoint, 0, 0);
-    EWAY_conv_talk = 0;
-
-#endif
 
     ANNOYINGSCRIBBLECHECK;
 }
@@ -438,7 +391,6 @@ void EWAY_talk_conv(ULONG waypoint, SLONG conversation)
 
     ANNOYINGSCRIBBLECHECK;
 
-#ifndef PSX
     if (save_psx)
         return;
     CBYTE str[100];
@@ -449,12 +401,7 @@ void EWAY_talk_conv(ULONG waypoint, SLONG conversation)
     //
     talk_thing = NULL;
     get_level_word(level);
-#ifdef TARGET_DC
-    extern char* pcSpeechLanguageDir;
-    sprintf(str, "%s%s%s.ucm%d%c.wav", GetSpeechPath(), pcSpeechLanguageDir, level, waypoint, 65 + conversation);
-#else
     sprintf(str, "%stalk2\\%s.ucm%d%c.wav", GetSpeechPath(), level, waypoint, 65 + conversation);
-#endif
     /*
             if(!FileExists(str))
             {
@@ -471,10 +418,6 @@ void EWAY_talk_conv(ULONG waypoint, SLONG conversation)
 
     Thing* speaker = TO_THING(EWAY_conv_person_a);
     EWAY_conv_talk = MFX_QUICK_play(str, speaker->WorldPos.X >> 8, speaker->WorldPos.Y >> 8, speaker->WorldPos.Z >> 8);
-#else
-    MFX_Conv_wait();
-    EWAY_conv_talk = MFX_Conv_play(waypoint, 1, conversation);
-#endif
 
     ANNOYINGSCRIBBLECHECK;
 }
@@ -490,8 +433,6 @@ CBYTE* EWAY_get_mess(SLONG index)
     ASSERT(index >= 0);
     return (EWAY_mess[index]);
 }
-#ifndef PSX
-#ifndef TARGET_DC
 void EWAY_init()
 {
 
@@ -552,8 +493,6 @@ void EWAY_init()
 
     ANNOYINGSCRIBBLECHECK;
 }
-#endif
-#endif
 
 //
 // Create a player.
@@ -745,7 +684,6 @@ UWORD EWAY_create_animal(
 
     switch (subtype) {
     case EWAY_SUBTYPE_ANIMAL_BAT:
-#ifndef PSX
 #ifdef UNUSED
         if (!save_psx) {
             p_index = BAT_create(
@@ -754,7 +692,6 @@ UWORD EWAY_create_animal(
                 world_z,
                 yaw << 3);
         }
-#endif
 #endif
         break;
 
@@ -921,12 +858,10 @@ UWORD EWAY_create_vehicle(
     case EWAY_SUBTYPE_VEHICLE_BIKE:
 
 #ifdef BIKE
-#ifndef PSX
         p_index = BIKE_create(
             world_x,
             world_z,
             yaw);
-#endif
 #endif
         break;
 
@@ -940,10 +875,8 @@ UWORD EWAY_create_vehicle(
             VEH_TYPE_CAR,
             key,
             Random());
-#ifndef PSX
         if (!save_psx)
             WMOVE_create(TO_THING(p_index));
-#endif
         break;
 
     case EWAY_SUBTYPE_VEHICLE_TAXI:
@@ -956,10 +889,8 @@ UWORD EWAY_create_vehicle(
             VEH_TYPE_TAXI,
             key,
             Random());
-#ifndef PSX
         if (!save_psx)
             WMOVE_create(TO_THING(p_index));
-#endif
         break;
 
     case EWAY_SUBTYPE_VEHICLE_POLICE:
@@ -972,10 +903,8 @@ UWORD EWAY_create_vehicle(
             VEH_TYPE_POLICE,
             key,
             Random());
-#ifndef PSX
         if (!save_psx)
             WMOVE_create(TO_THING(p_index));
-#endif
         break;
 
     case EWAY_SUBTYPE_VEHICLE_AMBULANCE:
@@ -1004,10 +933,8 @@ UWORD EWAY_create_vehicle(
             VEH_TYPE_JEEP,
             key,
             Random());
-#ifndef PSX
         if (!save_psx)
             WMOVE_create(TO_THING(p_index));
-#endif
         break;
 
     case EWAY_SUBTYPE_VEHICLE_MEATWAGON:
@@ -1020,10 +947,8 @@ UWORD EWAY_create_vehicle(
             VEH_TYPE_MEATWAGON,
             key,
             Random());
-#ifndef PSX
         if (!save_psx)
             WMOVE_create(TO_THING(p_index));
-#endif
         break;
 
     case EWAY_SUBTYPE_VEHICLE_SEDAN:
@@ -1041,10 +966,8 @@ UWORD EWAY_create_vehicle(
 
         ANNOYINGSCRIBBLECHECK;
 
-#ifndef PSX
         if (!save_psx)
             WMOVE_create(TO_THING(p_index));
-#endif
 
         ANNOYINGSCRIBBLECHECK;
 
@@ -1078,8 +1001,6 @@ UWORD EWAY_create_vehicle(
     return p_index;
 }
 
-#ifndef PSX
-#ifndef TARGET_DC
 
 //
 // Converts a condition definition into a EWAY_Cond.
@@ -1325,11 +1246,7 @@ EWAY_Cond EWAY_create_cond(
     return ans;
 }
 
-#endif
-#endif
 
-#ifndef PSX
-#ifndef TARGET_DC
 void EWAY_create(
     SLONG identifier, // A unique number that names the waypoint- same as arg for DEPENDENT conditions.
     SLONG colour,
@@ -1464,13 +1381,9 @@ void EWAY_create(
             0xffff);
 
         if (ew->ed.arg1 == NULL) {
-#ifndef PSX
             sprintf(EWAY_message, "Waypoint %d could not find an anim-prim to activate", ew->id);
 
             CONSOLE_text(EWAY_message, 8000);
-#else
-            printf("Waypoint %d could not find an anim-prim to activate", ew->id);
-#endif
         }
     }
 
@@ -1527,11 +1440,7 @@ void EWAY_create(
 
     return;
 }
-#endif
-#endif
 
-#ifndef PSX
-#ifndef TARGET_DC
 SLONG EWAY_set_message(
     UBYTE number,
     CBYTE* message)
@@ -1556,9 +1465,7 @@ SLONG EWAY_set_message(
     if (message[len - 1] != '\000') {
         message[len - 1] = '\000';
 #ifndef FINAL
-#ifndef PSX
         PANEL_new_text(NULL, 5000, "Message was not terminated: \"%s\"", message);
-#endif
 #endif
     }
 
@@ -1581,11 +1488,7 @@ SLONG EWAY_set_message(
     EWAY_mess_buffer_upto += len;
     return (1);
 }
-#endif
-#endif
 
-#ifndef PSX
-#ifndef TARGET_DC
 
 //
 // Returns the index of the waypoint with the given identifier.
@@ -1607,11 +1510,7 @@ SLONG EWAY_find_id(SLONG id)
 
     return NULL;
 }
-#endif
-#endif
 
-#ifndef PSX
-#ifndef TARGET_DC
 
 void EWAY_fix_cond(EWAY_Cond* ec)
 {
@@ -1651,11 +1550,7 @@ void EWAY_fix_cond(EWAY_Cond* ec)
         ec->arg2 = EWAY_find_id(ec->arg2);
     }
 }
-#endif
-#endif
 
-#ifndef PSX
-#ifndef TARGET_DC
 void EWAY_fix_do(EWAY_Do* ed, EWAY_Way* ew)
 {
     SLONG id;
@@ -1710,11 +1605,7 @@ void EWAY_fix_edef(EWAY_Edef* ee)
         ee->follow = EWAY_find_id(ee->follow);
     }
 }
-#endif
-#endif
 
-#ifndef PSX
-#ifndef TARGET_DC
 SLONG EWAY_load_message_file(CBYTE* fname, UWORD* index, UWORD* number)
 {
     FILE* handle = MF_Fopen(fname, "rb");
@@ -1771,7 +1662,6 @@ SLONG EWAY_load_message_file(CBYTE* fname, UWORD* index, UWORD* number)
 
 void EWAY_load_fake_wander_text(CBYTE* fname)
 {
-#ifndef PSX
     CBYTE name_buffer[_MAX_PATH];
     CBYTE str[100];
 
@@ -1873,24 +1763,14 @@ void EWAY_load_fake_wander_text(CBYTE* fname)
 
     // If this trips, you don't have c:\fallen\text\citsez.txt (or the foreign equivalent).
     ASSERT(EWAY_fake_wander_text_normal_number > 0);
-#endif
     return;
 }
-#endif
-#endif
 
 CBYTE* EWAY_get_fake_wander_message(SLONG type)
 {
-#ifdef TARGET_DC
-    // We only have normal text on DC (not sure why not).
-    UWORD index = EWAY_fake_wander_text_normal_index;
-    UWORD number = EWAY_fake_wander_text_normal_number;
-
-#else // #ifdef TARGET_DC
 
     UWORD index;
     UWORD number;
-#ifndef PSX
     static SBYTE this_is_english = -1;
 
     if (this_is_english < 0) {
@@ -1899,12 +1779,6 @@ CBYTE* EWAY_get_fake_wander_message(SLONG type)
 
     if (!this_is_english)
         type = EWAY_FAKE_MESSAGE_NORMAL;
-#else
-    extern UBYTE IsEnglish;
-
-    if (!IsEnglish)
-        type = EWAY_FAKE_MESSAGE_NORMAL;
-#endif
     switch (type) {
     case EWAY_FAKE_MESSAGE_NORMAL:
         index = EWAY_fake_wander_text_normal_index;
@@ -1925,7 +1799,6 @@ CBYTE* EWAY_get_fake_wander_message(SLONG type)
         ASSERT(0);
         break;
     }
-#endif // #else //#ifdef TARGET_DC
 
     ASSERT(index + number <= EWAY_mess_upto);
 
@@ -1947,8 +1820,6 @@ CBYTE* EWAY_get_fake_wander_message(SLONG type)
     }
 }
 
-#ifndef PSX
-#ifndef TARGET_DC
 void EWAY_created_last_waypoint()
 {
     SLONG i;
@@ -2023,13 +1894,11 @@ void EWAY_created_last_waypoint()
                     break;
                 }
             }
-#ifndef PSX
             if (best_way == NULL) {
                 sprintf(EWAY_message, "Camera target %d couldn't attach", i);
 
                 CONSOLE_text(EWAY_message, 8000);
             }
-#endif
             ew->ed.arg1 = best_way;
         } else if (ew->ed.type == EWAY_DO_OBJECTIVE) {
             points = ew->ed.arg2;
@@ -2173,8 +2042,6 @@ void EWAY_created_last_waypoint()
 
 #endif
 }
-#endif
-#endif
 
 /*
 SLONG	global_write=0;
@@ -2252,11 +2119,9 @@ SLONG EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, SLONG EWAY_sub_condit
     case EWAY_COND_DEPENDENT:
 
         if (ec->arg1 == NULL) {
-#ifndef PSX
             sprintf(EWAY_message, "Waypoint %d has a NULL dependency", ew->id);
 
             CONSOLE_text(EWAY_message, 8000);
-#endif
             ans = FALSE;
 
             //
@@ -2312,7 +2177,6 @@ SLONG EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, SLONG EWAY_sub_condit
                 //
                 // Tick down the timer.
                 //
-#ifndef PSX
                 if (ec->arg2 <= EWAY_tick) {
                     ec->arg2 = 0;
                     ans = TRUE;
@@ -2320,15 +2184,6 @@ SLONG EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, SLONG EWAY_sub_condit
                     ec->arg2 -= EWAY_tick;
                     ans = FALSE;
                 }
-#else
-                if (ec->arg2 <= EWAY_tick * 2) {
-                    ec->arg2 = 0;
-                    ans = TRUE;
-                } else {
-                    ec->arg2 -= EWAY_tick * 2;
-                    ans = FALSE;
-                }
-#endif
             }
 
             if (ec->type == EWAY_COND_COUNTDOWN_SEE) {
@@ -2374,13 +2229,11 @@ SLONG EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, SLONG EWAY_sub_condit
             waypoint = ec->arg1;
 
             if (waypoint == 0) {
-#ifndef PSX
                 CBYTE mess[128];
 
                 sprintf(mess, "Waypoint %d: cond person dead has NULL dependency", ew->id);
 
                 CONSOLE_text(mess, 8000);
-#endif
                 ew->flag |= EWAY_FLAG_DEAD;
             } else {
                 ew_dead = &EWAY_way[waypoint];
@@ -2439,13 +2292,11 @@ SLONG EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, SLONG EWAY_sub_condit
                 break;
 
                 default: {
-#ifndef PSX
                     CBYTE mess[128];
 
                     sprintf(mess, "Waypoint %d: cond person dead dependent on odd waypoint", ew->id);
 
                     CONSOLE_text(mess, 8000);
-#endif
                     ew->flag |= EWAY_FLAG_DEAD;
                 }
 
@@ -2768,11 +2619,7 @@ SLONG EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, SLONG EWAY_sub_condit
             // Hmm... person waypoint not set.
             //
 #ifndef FINAL
-#ifndef PSX
-#ifndef TARGET_DC
             PANEL_new_text(NULL, 4000, "Waypoint %d (arrest) is invalid", ew->id);
-#endif
-#endif
 #endif
 
             ew->flag |= EWAY_FLAG_DEAD;
@@ -2795,17 +2642,11 @@ SLONG EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, SLONG EWAY_sub_condit
         break;
 
     case EWAY_COND_PLAYER_CUBOID:
-#ifdef PSX
-        if ((ew - EWAY_way) == 124 && wad_level == 25) // miked remove wetback part
-            ans = FALSE;
-        else
-#else
         extern UBYTE is_semtex;
         if ((ew - EWAY_way) == 124 && is_semtex) // miked remove wetback part for PC/Dreamcast
             ans = FALSE;
         else
 
-#endif
         {
             SLONG x1;
             SLONG z1;
@@ -2850,13 +2691,11 @@ SLONG EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, SLONG EWAY_sub_condit
             waypoint = ec->arg1;
 
             if (waypoint == 0) {
-#ifndef PSX
                 CBYTE mess[128];
 
                 sprintf(mess, "Waypoint %d: cond person dead has NULL dependency", ew->id);
 
                 CONSOLE_text(mess, 8000);
-#endif
                 ew->flag |= EWAY_FLAG_DEAD;
             } else {
                 ew_dead = &EWAY_way[waypoint];
@@ -2888,13 +2727,11 @@ SLONG EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, SLONG EWAY_sub_condit
                 default:
 
                 {
-#ifndef PSX
                     CBYTE mess[128];
 
                     sprintf(mess, "Waypoint %d: killed not arrested dependent on odd waypoint", ew->id);
 
                     CONSOLE_text(mess, 8000);
-#endif
 
                     ew->flag |= EWAY_FLAG_DEAD;
                 }
@@ -2977,11 +2814,7 @@ SLONG EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, SLONG EWAY_sub_condit
 
             if (thing == NULL) {
 #ifndef FINAL
-#ifndef TARGET_DC
-#ifndef PSX
                 PANEL_new_text(NULL, 10000, "Waypoint %d (in radius direction) bad", ew->id);
-#endif
-#endif
 #endif
             } else {
                 Thing* p_thing = TO_THING(thing);
@@ -3012,13 +2845,11 @@ SLONG EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, SLONG EWAY_sub_condit
                         angle = p_thing->Genus.Vehicle->Angle;
                         speed = p_thing->Velocity;
                         break;
-#ifndef PSX
 #ifdef BIKE
                     case CLASS_BIKE:
                         angle = p_thing->Genus.Bike->yaw;
                         speed = BIKE_get_speed(p_thing) >> 4;
                         break;
-#endif
 #endif
                     default:
                         ASSERT(0);
@@ -3367,10 +3198,8 @@ SLONG EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, SLONG EWAY_sub_condit
     }
 
     if (ans) {
-#ifndef TARGET_DC
         // Bloody annoying on DC, and slows everything to a crawl.
 //		TRACE("EVAL TRUE type %d way %d \n",ec->type,ew-EWAY_way);
-#endif
     }
 
     ANNOYINGSCRIBBLECHECK;
@@ -3664,17 +3493,7 @@ void EWAY_process_camera(void)
             if (!EWAY_cam_cant_interrupt && EWAY_cam_skip <= 0) {
                 if (!EWAY_conv_ambient)
                     if (NET_PLAYER(0)->Genus.Player->Pressed & (INPUT_MASK_JUMP | INPUT_MASK_KICK | INPUT_MASK_ACTION | INPUT_MASK_PUNCH)) {
-#ifndef PSX
                         MFX_QUICK_stop();
-#else
-                        if (PANEL_wide_cont) {
-                            strcpy(PANEL_wide_text, PANEL_wide_cont);
-                            PANEL_wide_cont = 0;
-                            goto skip_camera;
-                        } else {
-                            MFX_QUICK_stop();
-                        }
-#endif
                         //
                         // Mark all waypoints that this camera _would_ go to as arrived at.
                         //
@@ -3728,9 +3547,6 @@ void EWAY_process_camera(void)
                     }
             }
         }
-#ifdef PSX
-    skip_camera:;
-#endif
         //
         // How far to our next waypoint?
         //
@@ -4078,31 +3894,11 @@ void EWAY_process_conversation(void)
                 //
                 // cut off the voice-overs
                 //
-#ifndef PSX
                 MFX_QUICK_stop();
 
                 EWAY_conv_timer = 0;
-#else
-                if (PANEL_wide_cont) {
-                    strcpy(PANEL_wide_text, PANEL_wide_cont);
-                    PANEL_wide_cont = 0;
-                } else {
-                    MFX_QUICK_stop();
-                    EWAY_conv_timer = 0;
-                }
-#endif
             }
         }
-#ifdef PSX
-        else {
-            if (NET_PLAYER(0)->Genus.Player->Pressed & (INPUT_MASK_JUMP | INPUT_MASK_KICK | INPUT_MASK_ACTION | INPUT_MASK_PUNCH)) {
-                if (PANEL_wide_cont) {
-                    strcpy(PANEL_wide_text, PANEL_wide_cont);
-                    PANEL_wide_cont = 0;
-                }
-            }
-        }
-#endif
     } else {
         //		if(0)
         if (!EWAY_conv_ambient)
@@ -4580,9 +4376,7 @@ void EWAY_set_active(EWAY_Way* ew)
                         MFX_stop(THING_NUMBER(NET_PERSON(0)), S_SEARCH_END);
                         MFX_stop(THING_NUMBER(NET_PERSON(0)), S_SLIDE_START);
 
-#ifndef PSX
                         LastKey = 0;
-#endif
                     } else {
                         Thing* who_says = NULL;
 
@@ -4620,82 +4414,6 @@ void EWAY_set_active(EWAY_Way* ew)
 
 #endif
 
-#ifdef TARGET_DC
-                            extern int g_iLevelNumber;
-                            if (g_iLevelNumber == 4) {
-                                // Spot them driving the wrong way round Driving Bronze
-                                // These magic numbers are the messages for "1/2/3 laps complete".
-
-                                SLONG yaw_car;
-                                if (NET_PERSON(0)->Genus.Person->Flags & FLAG_PERSON_DRIVING) {
-                                    Thing* p_vehicle = TO_THING(NET_PERSON(0)->Genus.Person->InCar);
-                                    ASSERT(p_vehicle != NULL);
-                                    yaw_car = p_vehicle->Genus.Vehicle->Angle;
-                                    // 2048 in a ful circle. and the car normally crosses at 1024,
-                                    // so we want the range around 0.
-                                    bool bCarGoingBackwards = FALSE;
-                                    if ((yaw_car > (1024 + 512)) || (yaw_car < 512)) {
-                                        bCarGoingBackwards = TRUE;
-                                    }
-
-                                    // Stores the info between laps.
-                                    static m_bBackwardsCarCheat = FALSE;
-
-                                    if (who_says == 0) {
-                                        switch (ew->ed.arg1) {
-                                        case 6:
-                                            // 1 LAP COMPLETE
-                                            m_bBackwardsCarCheat = bCarGoingBackwards;
-                                            TRACE("1: Car yaw: %i\n", yaw_car);
-                                            TRACE("Cheating: %i\n", (int)m_bBackwardsCarCheat);
-                                            if (bCarGoingBackwards) {
-                                                if (0 == ENV_get_value_number("lang_num", 0, "")) {
-                                                    CONSOLE_text("D'arci, stop muckin' around!", 8000);
-                                                } else {
-                                                    CONSOLE_text("D'arci arrête de jouer !", 8000);
-                                                }
-                                            }
-                                            break;
-                                        case 5:
-                                            // 2 LAPS COMPLETE
-                                            if (!bCarGoingBackwards) {
-                                                m_bBackwardsCarCheat = FALSE;
-                                            } else {
-                                                if (0 == ENV_get_value_number("lang_num", 0, "")) {
-                                                    CONSOLE_text("That's not good for the gearbox!", 8000);
-                                                } else {
-                                                    CONSOLE_text("La boîte de vitesse D'arci !", 8000);
-                                                }
-                                            }
-                                            TRACE("2: Car yaw: %i\n", yaw_car);
-                                            TRACE("Cheating: %i\n", (int)m_bBackwardsCarCheat);
-                                            break;
-                                        case 4:
-                                            // 3 LAPS COMPLETE
-                                            if (!bCarGoingBackwards) {
-                                                m_bBackwardsCarCheat = FALSE;
-                                            }
-                                            TRACE("3: Car yaw: %i\n", yaw_car);
-                                            TRACE("Cheating: %i\n", (int)m_bBackwardsCarCheat);
-                                            if (m_bBackwardsCarCheat) {
-                                                // Did all three laps going backwards - activate the cheat.
-                                                TRACE("Cheat activated!\n");
-                                                ENV_set_value_number("cheat_driving_bronze", 1, "");
-                                                if (0 == ENV_get_value_number("lang_num", 0, "")) {
-                                                    CONSOLE_text("Well done D'arci - that car's going to need a full servicing now.", 8000);
-                                                } else {
-                                                    CONSOLE_text("Bien joué D'arci. La bagnole est bonne pour la casse maintenant !", 8000);
-                                                }
-                                            }
-                                            break;
-                                        default:
-                                            // Do nothing.
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-#endif
 
                             if (who_says && who_says != NET_PERSON(0)) {
                                 if (person_ok_for_conversation(who_says)) {
@@ -4710,7 +4428,6 @@ void EWAY_set_active(EWAY_Way* ew)
                         }
                     }
                 }
-#ifndef PSX
                 if (ew->flag & EWAY_FLAG_WHY_LOST) {
                     //
                     // This is a message that comes up when you've lost the level.
@@ -4718,7 +4435,6 @@ void EWAY_set_active(EWAY_Way* ew)
 
                     GAMEMENU_set_level_lost_reason(EWAY_mess[ew->ed.arg1]);
                 }
-#endif
             }
         }
 
@@ -4839,9 +4555,7 @@ void EWAY_set_active(EWAY_Way* ew)
                 PANEL_new_text(NULL, 5000, "Adjust enemy waypoint %d: No enemy to change", ew->id);
 #endif
 #ifndef NDEBUG
-#ifndef PSX
                 PANEL_new_text(NULL, 5000, "Adjust enemy waypoint %d: No enemy to change", ew->id);
-#endif
 #endif
             } else {
                 Thing* p_change = TO_THING(change);
@@ -4870,9 +4584,7 @@ void EWAY_set_active(EWAY_Way* ew)
             PANEL_new_text(NULL, 5000, "Adjust enemy flags waypoint %d: No enemy to change", ew->id);
 #endif
 #ifndef NDEBUG
-#ifndef PSX
             PANEL_new_text(NULL, 5000, "Adjust enemy flags waypoint %d: No enemy to change", ew->id);
-#endif
 #endif
         } else {
             Thing* p_change = TO_THING(change);
@@ -4909,11 +4621,9 @@ void EWAY_set_active(EWAY_Way* ew)
         if (ew->ed.arg1) {
             if (ew->ed.subtype == 0) {
 #ifndef NDEBUG
-#ifndef PSX
                 sprintf(EWAY_message, "Waypoint %d has null anim-prim anim", ew->id);
 
                 CONSOLE_text(EWAY_message, 8000);
-#endif
 #endif
                 ew->ed.subtype = 1;
             }
@@ -4936,9 +4646,7 @@ void EWAY_set_active(EWAY_Way* ew)
 
         if (!(WITHIN(ew->ed.arg1, 1, EWAY_way_upto - 1))) {
 #ifndef NDEBUG
-#ifndef PSX
             PANEL_new_text(NULL, 10000, "Waypoint %d (kill waypoint) refers to bad waypoint", ew->id);
-#endif
 #endif
         } else {
             EWAY_Way* ewk = &EWAY_way[ew->ed.arg1];
@@ -5225,9 +4933,7 @@ void EWAY_set_active(EWAY_Way* ew)
 
         if (i_player == NULL) {
 #ifndef FINAL
-#ifndef PSX
             // PANEL_new_text(NULL, 8000, "Waypoint %d: Transfer player didn't have person.", ew->id);
-#endif
 #endif
         } else {
             Thing* p_person = TO_THING(i_player);
@@ -5325,9 +5031,7 @@ extern	SLONG	SAVE_ingame(CBYTE *fname);
 
         if (!WITHIN(ew->ed.arg1, 1, EWAY_way_upto - 1)) {
 #ifndef FINAL
-#ifndef PSX
             // PANEL_new_text(NULL, 10000, "Lock vehicle waypoint %d points nowhere", ew->id);
-#endif
 #endif
         } else {
             EWAY_Way* ewv = &EWAY_way[ew->ed.arg1];
@@ -5337,9 +5041,7 @@ extern	SLONG	SAVE_ingame(CBYTE *fname);
 
                 if (p_vehicle->Class != CLASS_VEHICLE) {
 #ifndef FINAL
-#ifndef PSX
                     // PANEL_new_text(NULL, 10000, "Lock vehicle waypoint %d trying to unlock non-vehicle", ew->id);
-#endif
 #endif
                 } else {
                     switch (ew->ed.subtype) {
@@ -5363,9 +5065,7 @@ extern	SLONG	SAVE_ingame(CBYTE *fname);
     break;
 
     case EWAY_DO_CUTSCENE:
-#ifndef PSX
         PLAYCUTS_Play(PLAYCUTS_cutscenes + ew->ed.arg1);
-#endif
         break;
 
     case EWAY_DO_GROUP_RESET:
@@ -5431,7 +5131,6 @@ extern	SLONG	SAVE_ingame(CBYTE *fname);
         break;
 
     case EWAY_DO_CREATE_MIST:
-#ifndef PSX
     {
         static SLONG last_detail = 17;
         static SLONG last_height = 84;
@@ -5451,7 +5150,6 @@ extern	SLONG	SAVE_ingame(CBYTE *fname);
 
         last_height += (last_height & 0x1) ? -11 : +11;
     }
-#endif
     break;
 
     case EWAY_DO_STALL_CAR:
@@ -5773,8 +5471,6 @@ void EWAY_process_penalties()
     }
 }
 
-#ifndef PSX
-#ifndef TARGET_DC
 extern SWORD people_types[50];
 
 void count_people_types(void)
@@ -5791,8 +5487,6 @@ void count_people_types(void)
         }
     }
 }
-#endif
-#endif
 
 void EWAY_process()
 {
@@ -5806,36 +5500,11 @@ void EWAY_process()
     SLONG offset, step; //,start,end;
     SLONG eway_max = EWAY_way_upto;
 
-#ifdef PSX
-
-    if (GAME_TURN == 0) {
-        step = 1;
-        offset = 0;
-        //		start=1;
-        //		end=eway_max;
-    } else {
-        step = 2;
-        offset = GAME_TURN & 1;
-        /*
-                        if(GAME_TURN&1)
-                        {
-                                start=1;
-                                end=eway_max>>1;
-                        }
-                        else
-                        {
-                                start=eway_max>>1;
-                                end=eway_max;
-                        }
-        */
-    }
-#else
     step = 1;
     offset = 0;
 
 //		start=1;
 //		end=eway_max;
-#endif
 
     //		step=1;
     //		offset=0;
@@ -5887,11 +5556,7 @@ void EWAY_process()
                     EWAY_process_emit_steam(ew);
                 } else if (ew->ed.type == EWAY_DO_SHAKE_CAMERA) {
                     if (FC_cam[0].shake < 100) {
-#if PSX
-                        FC_cam[0].shake += 6;
-#else
                         FC_cam[0].shake += 3;
-#endif
                     }
                 } else if (ew->ed.type == EWAY_DO_VISIBLE_COUNT_UP) {
                     //
@@ -6240,11 +5905,7 @@ SLONG EWAY_grab_camera(
 
         extern SLONG analogue;
 
-#ifndef PSX
         if (analogue && !EWAY_stop_player_moving())
-#else
-        if (!EWAY_stop_player_moving())
-#endif
         {
             return FALSE;
         } else {
@@ -6400,8 +6061,6 @@ UBYTE EWAY_get_warehouse(SLONG waypoint)
     return ans;
 }
 
-#ifndef PSX
-#ifndef TARGET_DC
 void EWAY_work_out_which_ones_are_in_warehouses()
 {
     SLONG i;
@@ -6461,8 +6120,6 @@ void EWAY_cam_get_position_for_angle(
     *vz += dz >> 7;
     *vy += 0x140;
 }
-#endif
-#endif
 
 void EWAY_cam_converse(Thing* p_thing, Thing* p_listener)
 {
@@ -6906,8 +6563,6 @@ void EWAY_cam_converse(Thing* p_thing, Thing* p_listener, UBYTE cam_flags)
 }
 
 #endif
-#ifndef PSX
-#ifndef TARGET_DC
 void EWAY_cam_look_at(Thing* p_thing)
 {
     SLONG i;
@@ -7057,8 +6712,6 @@ void EWAY_cam_look_at(Thing* p_thing)
     EWAY_cam_y <<= 8;
     EWAY_cam_z <<= 8;
 }
-#endif
-#endif
 
 void EWAY_cam_relinquish()
 {
@@ -7211,9 +6864,7 @@ void flag_undeletable_people(void)
                 // Hmm... person waypoint not set.
                 //
 #ifndef FINAL
-#ifndef PSX
                 // PANEL_new_text(NULL, 4000, "Waypoint %d (arrest) is invalid", ew->id);
-#endif
 #endif
 
                 ew->flag |= EWAY_FLAG_DEAD;
@@ -7243,13 +6894,11 @@ void flag_undeletable_people(void)
             waypoint = ec->arg1;
 
             if (waypoint == 0) {
-#ifndef PSX
                 CBYTE mess[128];
 
                 sprintf(mess, "Waypoint %d: cond person dead has NULL dependency", ew->id);
 
                 CONSOLE_text(mess, 8000);
-#endif
                 ew->flag |= EWAY_FLAG_DEAD;
             } else {
                 ew_dead = &EWAY_way[waypoint];
@@ -7281,13 +6930,11 @@ void flag_undeletable_people(void)
                 default:
 
                 {
-#ifndef PSX
                     CBYTE mess[128];
 
                     sprintf(mess, "Waypoint %d: killed not arrested dependent on odd waypoint", ew->id);
 
                     CONSOLE_text(mess, 8000);
-#endif
 
                     ew->flag |= EWAY_FLAG_DEAD;
                 }
@@ -7301,26 +6948,3 @@ void flag_undeletable_people(void)
 }
 #endif
 
-#ifdef TARGET_DC
-
-// Goes through the waypoints that set up stuff at start of day,
-// that will already have been activated, but the state they set up wasn't
-// saved in the DAD file.
-void EWAY_reactivate_waypoints_that_arent_in_the_dad_file(void)
-{
-    for (int i = 0; i < EWAY_way_upto; i++) {
-        EWAY_Way* ew = &EWAY_way[i];
-
-        switch (ew->ed.type) {
-        case EWAY_DO_CREATE_MIST:
-            EWAY_set_active(ew);
-            break;
-
-        default:
-            // Nothing to do.
-            break;
-        }
-    }
-}
-
-#endif

@@ -89,14 +89,10 @@
 #include "polypage.h"
 #include "DCLowLevel.h"
 
-#ifdef TARGET_DC
-#include <shsgintr.h>
-#else
 #define POLY_set_local_rotation_none() \
     {                                  \
     }
 
-#endif
 
 #define AENG_MAX_BBOXES 8
 #define AENG_BBOX_PUSH_IN 16
@@ -122,7 +118,6 @@ static void ScribbleCheck ( void )
 #define ANNOYINGSCRIBBLECHECK
 #endif
 
-#ifndef TARGET_DC
 
 #define LOG_ENTER(x) \
     {                \
@@ -134,7 +129,6 @@ static void ScribbleCheck ( void )
     {                \
     }
 
-#endif
 
 void AENG_draw_far_facets(void);
 void AENG_draw_box_around_recessed_door(DFacet* df, SLONG inside_out);
@@ -145,10 +139,8 @@ UBYTE aeng_draw_cloud_flag = 1;
 UWORD light_inside = 0;
 UWORD fade_black = 1;
 
-#ifndef TARGET_DC
 UBYTE cloud_data[32][32];
 SLONG cloud_x, cloud_z;
-#endif
 
 extern SLONG FirstPersonMode;
 SLONG FirstPersonAlpha = 255;
@@ -168,13 +160,10 @@ int AENG_detail_skyline = 1;
 int AENG_detail_filter = 1;
 int AENG_detail_perspective = 1;
 int AENG_detail_crinkles = 1;
-#ifndef TARGET_DC
 int AENG_estimate_detail_levels = 1;
-#endif
 
 SLONG AENG_cur_fc_cam;
 
-#ifndef TARGET_DC
 // Clouds?!?!?!?!?!?!? Madness.
 
 void move_clouds(void)
@@ -379,7 +368,6 @@ void init_clouds(void)
     }
 }
 
-#endif // #ifndef TARGET_DC
 
 // GetShadowPixelMapping
 //
@@ -558,11 +546,7 @@ SLONG AENG_sewer_page[SEWER_PAGE_NUMBER] = {
 //
 // ========================================================
 
-#ifdef TARGET_DC
-#define AENG_MAX_MOVIE_DATA (128 * 1024)
-#else
 #define AENG_MAX_MOVIE_DATA (512 * 1024)
-#endif
 
 UBYTE AENG_movie_data[AENG_MAX_MOVIE_DATA];
 UBYTE* AENG_movie_upto;
@@ -728,9 +712,7 @@ void AENG_init(void)
 {
     MESH_init();
 //	FONT2D_init();
-#ifndef TARGET_DC
     init_clouds();
-#endif
     SKY_init("stars\\poo");
     POLY_init();
     AENG_movie_init();
@@ -875,10 +857,6 @@ void AENG_world_line(
 {
 
 #ifdef DEBUG
-#ifdef TARGET_DC
-    ASSERT(FALSE);
-    return;
-#endif
 #else
 
     POLY_Point p1;
@@ -928,11 +906,6 @@ void AENG_world_line_infinite(
     SLONG sort_to_front)
 {
 
-#ifdef TARGET_DC
-    ASSERT(FALSE);
-    return;
-
-#else
 
     float x1 = float(ix1);
     float y1 = float(iy1);
@@ -1005,7 +978,6 @@ void AENG_world_line_infinite(
         g += dg;
         b += db;
     }
-#endif
 }
 
 struct
@@ -1915,10 +1887,6 @@ void AENG_add_projected_shadow_poly(SMAP_Link* sl)
             pp->colour = 0xffffffff;
             pp->specular = 0xff000000;
 
-#ifdef TARGET_DC
-            // Stop Z fighting
-            pp->Z += SHADOW_Z_BIAS_BODGE;
-#endif
         } else {
             //
             // Abandon the whole shadow polygon.
@@ -2001,10 +1969,6 @@ void AENG_add_projected_fadeout_shadow_poly(SMAP_Link* sl)
             pp->colour = alpha;
             pp->specular = 0xff000000;
 
-#ifdef TARGET_DC
-            // Stop Z fighting
-            pp->Z += SHADOW_Z_BIAS_BODGE;
-#endif
         } else {
             //
             // Abandon the whole shadow polygon.
@@ -2085,25 +2049,14 @@ void AENG_add_projected_lit_shadow_poly(SMAP_Link* sl)
 
                 alpha |= alpha << 8;
                 alpha |= alpha << 16;
-#ifdef TARGET_DC
-                alpha |= 0xff000000;
-#endif
 
                 pp->colour = alpha;
                 pp->specular = 0xff000000;
             } else {
-#ifdef TARGET_DC
-                pp->colour = 0xff000000;
-#else
                 pp->colour = 0x00000000;
-#endif
                 pp->specular = 0xff000000;
             }
 
-#ifdef TARGET_DC
-            // Stop Z fighting
-            pp->Z += SHADOW_Z_BIAS_BODGE;
-#endif
 
         } else {
             //
@@ -2465,19 +2418,11 @@ void AENG_draw_bangs()
             float dy = AENG_cam_y - float(bi->y);
             float dz = AENG_cam_z - float(bi->z);
 
-#ifdef TARGET_DC
-            float len = 256.0f * _InvSqrtA(dx * dx + dy * dy + dz * dz);
-
-            dx = dx * len;
-            dy = dy * len;
-            dz = dz * len;
-#else
             float len = sqrt(dx * dx + dy * dy + dz * dz);
 
             dx = dx * (256.0F / len);
             dy = dy * (256.0F / len);
             dz = dz * (256.0F / len);
-#endif
 
 #endif
 
@@ -2680,9 +2625,6 @@ void AENG_draw_sparks()
 
 void AENG_draw_hook(void)
 {
-#ifdef TARGET_DC
-    ASSERT(FALSE);
-#else // #ifdef TARGET_DC
     SLONG i;
 
     SLONG x;
@@ -2759,7 +2701,6 @@ void AENG_draw_hook(void)
             x2, y2, z2, 0x6, colour2,
             FALSE);
     }
-#endif // #else //#ifdef TARGET_DC
 }
 
 ULONG AENG_colour_mult(ULONG c1, ULONG c2)
@@ -2857,21 +2798,6 @@ void AENG_draw_dirt()
     D3DLVERTEX* lv;
     ULONG rubbish_colour;
 
-#ifdef TARGET_DC
-    ULONG leaf_colour_choice_rgb[4] = {
-        0xff332d1d,
-        0xff243224,
-        0xff123320,
-        0xff332f07
-    };
-
-    ULONG leaf_colour_choice_grey[4] = {
-        0xff333333,
-        0xff444444,
-        0xff222222,
-        0xff383838
-    };
-#else
     ULONG leaf_colour_choice_rgb[4] = {
         0x332d1d,
         0x243224,
@@ -2885,7 +2811,6 @@ void AENG_draw_dirt()
         0x222222,
         0x383838
     };
-#endif
 
     if (AENG_dirt_uvlookup_valid && AENG_dirt_uvlookup_world_type == world_type) {
         //
@@ -2902,16 +2827,10 @@ void AENG_draw_dirt()
             float cangle;
             float sangle;
 
-#ifdef TARGET_DC
-
-            _SinCosA(&sangle, &cangle, angle);
-
-#else
 
             sangle = sinf(angle);
             cangle = cosf(angle);
 
-#endif
 
             //
             // Fix the uv's for texture paging.
@@ -3067,18 +2986,6 @@ void AENG_draw_dirt()
                 float cy, cp, cr;
                 float sy, sp, sr;
 
-#ifdef TARGET_DC
-
-                // Use the fast intrinsics.
-                // Error is 2e-21 at most.
-
-                sy = 0.0F; // sin(0)
-                cy = 1.0F; // cos(0)
-
-                _SinCosA(&sr, &cr, froll);
-                _SinCosA(&sp, &cp, fpitch);
-
-#else
 
                 sy = 0.0F; // sin(0)
                 cy = 1.0F; // cos(0)
@@ -3089,7 +2996,6 @@ void AENG_draw_dirt()
                 cp = cos(fpitch);
                 cr = cos(froll);
 
-#endif
 
                 //
                 // (matrix[3],matrix[4],matrix[5]) remains undefined...
@@ -3255,18 +3161,6 @@ void AENG_draw_dirt()
                     float cy, cp, cr;
                     float sy, sp, sr;
 
-#ifdef TARGET_DC
-
-                    // Use the fast intrinsics.
-                    // Error is 2e-21 at most.
-
-                    sy = 0.0F; // sin(0)
-                    cy = 1.0F; // cos(0)
-
-                    _SinCosA(&sr, &cr, froll);
-                    _SinCosA(&sp, &cp, fpitch);
-
-#else
 
                     sy = 0.0F; // sin(0)
                     cy = 1.0F; // cos(0)
@@ -3277,7 +3171,6 @@ void AENG_draw_dirt()
                     cp = cos(fpitch);
                     cr = cos(froll);
 
-#endif
 
                     //
                     // (matrix[3],matrix[4],matrix[5]) remains undefined...
@@ -3409,11 +3302,7 @@ void AENG_draw_dirt()
                 dd->yaw,
                 dd->pitch,
                 dd->roll,
-#ifdef TARGET_DC
-                NULL, 0xff, 0);
-#else
                 NULL, 0, 0);
-#endif
 
             break;
 
@@ -3431,11 +3320,7 @@ void AENG_draw_dirt()
                 dd->yaw,
                 dd->pitch,
                 dd->roll,
-#ifdef TARGET_DC
-                NULL, 0xff, 0);
-#else
                 NULL, 0, 0);
-#endif
 
             kludge_shrink = FALSE;
 
@@ -4143,7 +4028,6 @@ void AENG_draw_pows(void)
     }
 }
 
-#ifndef TARGET_DC
 void AENG_draw_released_balloons(void)
 {
     SLONG i;
@@ -4162,7 +4046,6 @@ void AENG_draw_released_balloons(void)
         }
     }
 }
-#endif
 
 //
 // AA test.
@@ -4175,21 +4058,9 @@ void AENG_draw_released_balloons(void)
 
 UBYTE AENG_aa_buffer[AENG_AA_BUF_SIZE][AENG_AA_BUF_SIZE];
 
-#ifdef TARGET_DC
-// Try to misalign the map rows to try to stop the cache thrashing.
-// DC's cache is 32k and 1-way asssociative!
-// #define MAP_SIZE_TWEAK 4
-// Actually, it seemed to make very little difference.
 #define MAP_SIZE_TWEAK 0
-#else
-#define MAP_SIZE_TWEAK 0
-#endif
 
-#ifdef TARGET_DC
-#define NEW_FLOOR defined
-#else
 // #define	NEW_FLOOR defined
-#endif
 
 #ifndef NEW_FLOOR
 POLY_Point AENG_upper[MAP_WIDTH / 2 + MAP_SIZE_TWEAK][MAP_HEIGHT / 2 + MAP_SIZE_TWEAK];
@@ -4852,17 +4723,6 @@ void AENG_draw_warehouse_floor_near_door(DFacet *df)
 
 // store new detail levels
 
-#ifdef TARGET_DC
-// Fewer things to set.
-void AENG_set_detail_levels( // int stars,
-    int shadows,
-    int puddles,
-    int dirt,
-    int mist,
-    int rain,
-    int skyline,
-    int crinkles)
-#else
 void AENG_set_detail_levels(int stars,
     int shadows,
     int moon_reflection,
@@ -4875,7 +4735,6 @@ void AENG_set_detail_levels(int stars,
     int filter,
     int perspective,
     int crinkles)
-#endif
 {
     // ENV_set_value_number("detail_stars", stars, "Render");
     ENV_set_value_number("detail_shadows", shadows, "Render");
@@ -4894,7 +4753,6 @@ void AENG_set_detail_levels(int stars,
     AENG_read_detail_levels();
 }
 
-#ifndef TARGET_DC
 // draw some polys
 
 float AENG_draw_some_polys(bool large, bool blend)
@@ -5063,19 +4921,7 @@ void AENG_guess_detail_levels()
     AENG_set_detail_levels(stars, shadows, moon_reflection, people_reflection, puddles, dirt, mist, rain, skyline, filter, perspective, crinkles);
 }
 
-#endif
 
-#ifdef TARGET_DC
-// Fewer things to set.
-void AENG_get_detail_levels( // int* stars,
-    int* shadows,
-    int* puddles,
-    int* dirt,
-    int* mist,
-    int* rain,
-    int* skyline,
-    int* crinkles)
-#else
 void AENG_get_detail_levels(int* stars,
     int* shadows,
     int* moon_reflection,
@@ -5088,7 +4934,6 @@ void AENG_get_detail_levels(int* stars,
     int* filter,
     int* perspective,
     int* crinkles)
-#endif
 {
     //*stars = AENG_detail_stars;
     *shadows = AENG_detail_shadows;
@@ -5841,12 +5686,7 @@ inline void general_steam(SLONG x, SLONG z, UWORD texture, SLONG mode)
     if (count_steam >= MAX_STEAM)
         return;
 
-#ifdef TARGET_DC
-    // Key off the "mist" detail setting instead
-    if (AENG_detail_mist)
-#else
     if (AENG_detail_shadows)
-#endif
     //		if(page==4*64+53) function only called if page is correct
     {
         SLONG dx, dz, dist, sx, sy, sz;
@@ -6356,24 +6196,6 @@ void draw_quick_floor(SLONG warehouse)
 #endif
 
 #ifdef DEBUG
-#ifdef TARGET_DC
-                // Colour the vertices.
-#define BUTTON_IS_PRESSED(value) ((value & 0x80) != 0)
-                extern DIJOYSTATE the_state;
-                if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER]) && BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER])) {
-                    DWORD dwTemp = group[current_set].iDebugCount;
-                    dwTemp = (dwTemp) + (dwTemp << 8) + (dwTemp << 17) + (dwTemp << 26);
-                    dwTemp &= 0x7f7f7f7f;
-                    pv[0].dcColor = dwTemp;
-                    pv[1].dcColor = dwTemp;
-                    pv[2].dcColor = dwTemp;
-                    pv[3].dcColor = dwTemp;
-                    pv[0].dcSpecular = dwTemp;
-                    pv[1].dcSpecular = dwTemp;
-                    pv[2].dcSpecular = dwTemp;
-                    pv[3].dcSpecular = dwTemp;
-                }
-#endif
 #endif
 
                 if ((p1->Flags & (PAP_FLAG_ROOF_EXISTS)) && warehouse == 0) {
@@ -6601,89 +6423,6 @@ void draw_quick_floor(SLONG warehouse)
     END_SCENE;
 }
 
-#ifdef TARGET_DC
-
-#ifdef DEBUG
-int m_iDCFramerateMin = 15;
-int m_iDCFramerateMax = 17;
-#else
-int m_iDCFramerateMin = 15;
-int m_iDCFramerateMax = 18;
-#endif
-
-bool m_bTweakFramerates = FALSE;
-
-void fiddle_draw_distance_DC(void)
-{
-
-    // #ifdef DEBUG
-
-#define BUTTON_IS_PRESSED(value) ((value & 0x80) != 0)
-
-    extern DIJOYSTATE the_state;
-
-    if (m_bTweakFramerates && (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER])) && (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER]))) {
-
-        static iNotTooFastCounter = 0;
-
-        iNotTooFastCounter++;
-
-        if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_X])) {
-            // Change DrawDistance
-            CurDrawDistance += (the_state.lX - 128);
-            TRACE("Draw dist: 0x%x\n", CurDrawDistance);
-            SATURATE(CurDrawDistance, (10 << 8) + 128, (22 << 8) + 128);
-        }
-        if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_A])) {
-            // Change min frame rate
-            if ((iNotTooFastCounter & 0x3) == 0) {
-                if (the_state.lX < 64) {
-                    m_iDCFramerateMin--;
-                } else if (the_state.lX > 192) {
-                    m_iDCFramerateMin++;
-                }
-            }
-            TRACE("Min framerate: %i\n", m_iDCFramerateMin);
-        }
-        if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_Y])) {
-            // Change min frame rate
-            if ((iNotTooFastCounter & 0x3) == 0) {
-                if (the_state.lX < 64) {
-                    m_iDCFramerateMax--;
-                } else if (the_state.lX > 192) {
-                    m_iDCFramerateMax++;
-                }
-            }
-            TRACE("Max framerate: %i\n", m_iDCFramerateMax);
-        }
-        if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_B])) {
-            // Kill the auto throttle system.
-            m_iDCFramerateMin = -1;
-            m_iDCFramerateMax = 60;
-        }
-    } else
-    // #endif
-    {
-
-        extern SLONG tick_tock_unclipped;
-        if (tick_tock_unclipped) {
-            int iFramerate = 1000 / tick_tock_unclipped;
-
-            // If in a cutscene, or in "first-person" mode, move the fog plane to the distance,
-            // because it looks nicer, and the framerate hit is not nearly as noticeable.
-            if (FirstPersonMode || EWAY_stop_player_moving()) {
-                CurDrawDistance += 64;
-            } else if (iFramerate < m_iDCFramerateMin) {
-                CurDrawDistance -= 64;
-                // remove_dead_people=1;
-            } else if (iFramerate > m_iDCFramerateMax) {
-                CurDrawDistance += 64;
-            }
-            SATURATE(CurDrawDistance, (10 << 8) + 128, (22 << 8) + 128);
-        }
-    }
-}
-#endif
 
 UBYTE index_lookup[] = { 0, 1, 3, 2 };
 
@@ -6722,9 +6461,7 @@ void AENG_draw_city()
 
     POLY_Point* pp;
     POLY_Point* ppl;
-#ifndef TARGET_DC
     MapElement* me;
-#endif
 
     PAP_Lo* pl;
     PAP_Hi* ph;
@@ -6773,12 +6510,6 @@ void AENG_draw_city()
     sea_offset += (tick_tock_unclipped);
 
 #if 0
-#ifdef TARGET_DC
-	// For some reason the PC version decides not to call this.
-	// I think they have some mad scheme of calling it in the previous
-	// frame, but it really screws things up. STOP IT!
-	POLY_frame_init(TRUE,TRUE);
-#endif
 #endif
 
     LOG_ENTER(AENG_Check_Visible);
@@ -6852,20 +6583,16 @@ void AENG_draw_city()
     }
 
     if (INDOORS_INDEX) {
-#ifndef TARGET_DC
         POLY_frame_draw(TRUE, TRUE);
         POLY_frame_init(TRUE, TRUE);
-#endif
         if (INDOORS_INDEX_NEXT)
             AENG_draw_inside_floor(INDOORS_INDEX_NEXT, INDOORS_ROOM_NEXT, 0);
 
         //		POLY_frame_draw(TRUE,TRUE);
         if (INDOORS_INDEX)
             AENG_draw_inside_floor(INDOORS_INDEX, INDOORS_ROOM, INDOORS_INDEX_FADE);
-#ifndef TARGET_DC
         POLY_frame_draw(TRUE, TRUE);
         POLY_frame_init(TRUE, TRUE);
-#endif
         //		return;
     }
 
@@ -6884,10 +6611,6 @@ void AENG_draw_city()
     colour = 0x00888888;
     specular = 0xff000000;
 
-#ifdef TARGET_DC
-    // DC internals fixup.
-    POLY_flush_local_rot();
-#endif
 
     if (!INDOORS_INDEX || outside)
         for (z = NGAMUT_point_zmin; z <= NGAMUT_point_zmax; z++) {
@@ -6928,13 +6651,8 @@ void AENG_draw_city()
                                                    &pp->colour,
                                                    &pp->specular);
 */
-#ifdef TARGET_DC
-                            pp->colour = 0xff808080; // 202020;
-                            pp->specular = 0xff000000;
-#else
                             pp->colour = 0x80808080; // 202020;
                             pp->specular = 0x80000000;
-#endif
                         } else {
                             px = x >> 2;
                             pz = z >> 2;
@@ -6958,9 +6676,7 @@ void AENG_draw_city()
                                 &pp->specular);
                         }
 
-#ifndef TARGET_DC
                         apply_cloud((SLONG)world_x, (SLONG)world_y, (SLONG)world_z, &pp->colour);
-#endif
 
                         POLY_fadeout_point(pp);
 
@@ -6995,10 +6711,6 @@ void AENG_draw_city()
 
                             ppl->colour = colour;
                             ppl->specular = specular;
-#ifdef TARGET_DC
-                            ppl->colour |= 0xff000000;
-                            ppl->specular |= 0xff000000;
-#endif
                         } else {
                             //
                             // Work out the colour of this point... what a palaver!
@@ -7013,10 +6725,6 @@ void AENG_draw_city()
                                 */
                                 ppl->colour = 0x202020;
                                 ppl->specular = 0xff000000;
-#ifdef TARGET_DC
-                                ppl->colour |= 0xff000000;
-                                ppl->specular |= 0xff000000;
-#endif
 
                             } else {
                                 px = x >> 2;
@@ -7043,9 +6751,7 @@ void AENG_draw_city()
 
                             POLY_fadeout_point(ppl);
                         }
-#ifndef TARGET_DC
                         apply_cloud((SLONG)world_x, (SLONG)world_y, (SLONG)world_z, &ppl->colour);
-#endif
                     }
                 }
             }
@@ -7061,7 +6767,6 @@ void AENG_draw_city()
     // No reflection and shadow stuff second time round during 3d mode.
     //
 
-#ifndef TARGET_DC
     LOG_ENTER(AENG_Draw_Stars);
 
     if (AENG_detail_stars && !(NIGHT_flag & NIGHT_FLAG_DAYTIME)) {
@@ -7086,7 +6791,6 @@ void AENG_draw_city()
     BreakTime("Done stars");
 
     LOG_EXIT(AENG_Draw_Stars);
-#endif
 
     ANNOYINGSCRIBBLECHECK;
 
@@ -7094,12 +6798,7 @@ void AENG_draw_city()
     // Shadows.
     //
 
-#ifdef TARGET_DC
-// Tweak my number of shadows PLEASE BOB
 #define AENG_NUM_SHADOWS 4
-#else
-#define AENG_NUM_SHADOWS 4
-#endif
 
     LOG_ENTER(AENG_Draw_Shadows)
 
@@ -7283,9 +6982,7 @@ void AENG_draw_city()
                 SLONG mx_lo;
                 SLONG mz_lo;
 
-#ifndef TARGET_DC
                 MapElement* me[4];
-#endif
                 PAP_Hi* ph[4];
 
                 SVector_F poly[4];
@@ -7326,12 +7023,10 @@ void AENG_draw_city()
                         mz = (darci->WorldPos.Z >> 16) + dz;
 
                         if (WITHIN(mx, 0, MAP_WIDTH - 2) && WITHIN(mz, 0, MAP_HEIGHT - 2)) {
-#ifndef TARGET_DC
                             me[0] = &MAP[MAP_INDEX(mx + 0, mz + 0)];
                             me[1] = &MAP[MAP_INDEX(mx + 1, mz + 0)];
                             me[2] = &MAP[MAP_INDEX(mx + 1, mz + 1)];
                             me[3] = &MAP[MAP_INDEX(mx + 0, mz + 1)];
-#endif
 
                             ph[0] = &PAP_2HI(mx + 0, mz + 0);
                             ph[1] = &PAP_2HI(mx + 1, mz + 0);
@@ -7594,7 +7289,6 @@ void AENG_draw_city()
 
     LOG_EXIT(AENG_Draw_Shadows)
 
-#ifndef TARGET_DC
     // No reflections on DC.
 
     ANNOYINGSCRIBBLECHECK;
@@ -7807,9 +7501,6 @@ void AENG_draw_city()
 
     ANNOYINGSCRIBBLECHECK;
 
-#ifdef TARGET_DC
-    if (AENG_detail_moon_reflection || AENG_detail_people_reflection)
-#endif
     {
         //
         // Drips inside puddles only...
@@ -7821,10 +7512,8 @@ void AENG_draw_city()
         // Draw the reflections and drips.  Clear the poly lists.
         //
 
-#ifndef TARGET_DC
         POLY_frame_draw(FALSE, FALSE);
         POLY_frame_init(TRUE, TRUE);
-#endif
         BreakTime("Done first poly flush");
     }
 
@@ -8055,9 +7744,7 @@ void AENG_draw_city()
 
         for (z = NGAMUT_zmin; z <= NGAMUT_zmax; z++) {
             for (x = NGAMUT_gamut[z].xmin; x <= NGAMUT_gamut[z].xmax; x++) {
-#ifndef TARGET_DC
                 me = &MAP[MAP_INDEX(x, z)];
-#endif
                 ph = &PAP_2HI(x, z);
 
                 if (ph->Flags & PAP_FLAG_HIDDEN) {
@@ -8095,9 +7782,6 @@ void AENG_draw_city()
 
                         quad[i]->colour >>= 1;
                         quad[i]->colour &= 0x007f7f7f;
-#ifdef TARGET_DC
-                        quad[i]->colour |= 0xff000000;
-#endif
                         quad[i]->specular = 0xff000000;
                     }
 
@@ -8305,7 +7989,6 @@ void AENG_draw_city()
     */
 
 // End of reflection stuff.
-#endif // #ifndef TARGET_DC
 
     //
     // The sky.
@@ -8315,14 +7998,8 @@ void AENG_draw_city()
 
     extern void SKY_draw_poly_sky_old(float world_camera_x, float world_camera_y, float world_camera_z, float world_camera_yaw, float max_dist, ULONG bot_colour, ULONG top_colour);
 
-#ifdef TARGET_DC
-    // Fade sky textures out a bit.
-    if (AENG_detail_skyline)
-        SKY_draw_poly_sky_old(AENG_cam_x, AENG_cam_y, AENG_cam_z, AENG_cam_yaw, AENG_DRAW_DIST * 256.0F, 0x80808080, 0x80808080);
-#else
     if (AENG_detail_skyline)
         SKY_draw_poly_sky_old(AENG_cam_x, AENG_cam_y, AENG_cam_z, AENG_cam_yaw, AENG_DRAW_DIST * 256.0F, 0xffffff, 0xffffff);
-#endif
     /*
             SKY_draw_poly_clouds(
                     AENG_cam_x,
@@ -8348,22 +8025,15 @@ void AENG_draw_city()
     // Draw the puddles and clear the poly lists.
     //
 
-#ifdef TARGET_DC
-    if (AENG_detail_people_reflection && AENG_detail_puddles)
-#endif
     {
-#ifndef TARGET_DC
         POLY_frame_draw_odd();
         POLY_frame_draw_puddles();
-#endif
 
 #ifdef DEBUG
         POLY_frame_draw_sewater();
 #endif
 
-#ifndef TARGET_DC
         POLY_frame_init(TRUE, TRUE);
-#endif
     }
     BreakTime("Done second polygon flush");
 
@@ -8572,12 +8242,7 @@ void AENG_draw_city()
                                     // page = 86;
                                 }
 
-#ifdef TARGET_DC
-                                // Key off the "mist" detail setting instead
-                                if (AENG_detail_mist)
-#else
                                 if (AENG_detail_shadows)
-#endif
                                     if (page == 4 * 64 + 53) {
                                         SLONG dx, dz, dist;
 
@@ -9456,7 +9121,6 @@ void AENG_draw_city()
 #endif
                             }
 
-#ifndef TARGET_DC
 #if NO_MORE_BALLOONS
 
                             if (p_thing->Genus.Person->Balloon) {
@@ -9472,7 +9136,6 @@ void AENG_draw_city()
                                 }
                             }
 
-#endif
 #endif
 
                             if (p_thing->State == STATE_DEAD) {
@@ -9701,7 +9364,6 @@ void AENG_draw_city()
 
                             draw_car(p_thing);
 
-#ifndef TARGET_DC
                             if (ControlFlag && allow_debug_keys) {
                                 //
                                 // Draw a line towards where you have to be
@@ -9724,7 +9386,6 @@ void AENG_draw_city()
                                     p_thing->WorldPos.X >> 8, p_thing->WorldPos.Y >> 8, p_thing->WorldPos.Z >> 8, 64, 0x00ffffff,
                                     ix, p_thing->WorldPos.Y >> 8, iz, 0, 0x0000ff00, TRUE);
                             }
-#endif
 
                             break;
 
@@ -9876,10 +9537,8 @@ extern	void	ANIMAL_draw(Thing *p_thing);
     // The balloons that nobody is holding.
     //
 
-#ifndef TARGET_DC
     if (!INDOORS_INDEX || outside)
         AENG_draw_released_balloons();
-#endif
 
     LOG_EXIT(AENG_Draw_Ballons)
 
@@ -10024,47 +9683,6 @@ extern	void	ANIMAL_draw(Thing *p_thing);
     }
 #endif
 
-#if defined(_DEBUG) && defined(FAST_EDDIE) && 0
-    POLY_Point tpt[4];
-    POLY_Point* tptp[4];
-
-    tpt[0].X = 0;
-    tpt[0].Y = 0;
-    tpt[0].Z = 1;
-    tpt[0].u = 0;
-    tpt[0].v = 0;
-    tpt[1].X = 64;
-    tpt[1].Y = 0;
-    tpt[1].Z = 1;
-    tpt[1].u = 1;
-    tpt[1].v = 0;
-    tpt[2].X = 0;
-    tpt[2].Y = 64;
-    tpt[2].Z = 1;
-    tpt[2].u = 0;
-    tpt[2].v = 1;
-    tpt[3].X = 64;
-    tpt[3].Y = 64;
-    tpt[3].Z = 1;
-    tpt[3].u = 1;
-    tpt[3].v = 1;
-
-    tpt[0].colour = 0xFFFFFFFF;
-    tpt[0].specular = 0xFF000000;
-    tpt[1].colour = 0xFFFFFFFF;
-    tpt[1].specular = 0xFF000000;
-    tpt[2].colour = 0xFFFFFFFF;
-    tpt[2].specular = 0xFF000000;
-    tpt[3].colour = 0xFFFFFFFF;
-    tpt[3].specular = 0xFF000000;
-
-    tptp[0] = &tpt[0];
-    tptp[1] = &tpt[1];
-    tptp[2] = &tpt[2];
-    tptp[3] = &tpt[3];
-
-    POLY_add_quad(tptp, POLY_PAGE_TEST_SHADOWMAP, FALSE, TRUE);
-#endif
 
     LOG_EXIT(AENG_Draw_Rain)
 
@@ -10131,10 +9749,6 @@ extern	void	ANIMAL_draw(Thing *p_thing);
     // Draw a torch out of darci...
     //
 
-#ifdef TARGET_DC
-    // No more torches.
-    ASSERT(!AENG_torch_on);
-#else
     if (AENG_torch_on) {
         Thing* darci = NET_PERSON(0);
 
@@ -10201,7 +9815,6 @@ extern	void	ANIMAL_draw(Thing *p_thing);
 
         //		CONE_draw();
     }
-#endif
 
     //
     // Draw the tripwires.
@@ -10264,10 +9877,8 @@ extern	void	ANIMAL_draw(Thing *p_thing);
     // Draw the hook.
     //
 
-#ifndef TARGET_DC
     if (!INDOORS_INDEX || outside)
         AENG_draw_hook();
-#endif
 
     //
     // Draw the sphere-matter.
@@ -10378,9 +9989,7 @@ extern	void	ANIMAL_draw(Thing *p_thing);
 
     LOG_ENTER(AENG_Poly_Flush)
 
-#ifndef TARGET_DC
     POLY_frame_draw(TRUE, TRUE);
-#endif
 
     LOG_EXIT(AENG_Poly_Flush)
 
@@ -10621,16 +10230,12 @@ void AENG_draw_warehouse()
     NIGHT_Dfcache* ndf;
     POLY_Point* pp;
     DFacet* df;
-#ifndef TARGET_DC
     // BALLOON_Balloon *bb;
-#endif
     POLY_Point* quad[4];
 
     // POLY_frame_init(FALSE,FALSE);
 
-#ifndef TARGET_DC
     POLY_frame_init(FALSE, FALSE);
-#endif
 
     //
     // Work out which things are in view.
@@ -10923,9 +10528,7 @@ void AENG_draw_warehouse()
                 SLONG mx_lo;
                 SLONG mz_lo;
 
-#ifndef TARGET_DC
                 MapElement* me[4];
-#endif
                 PAP_Hi* ph[4];
 
                 SVector_F poly[4];
@@ -10966,12 +10569,10 @@ void AENG_draw_warehouse()
                         mz = (darci->WorldPos.Z >> 16) + dz;
 
                         if (WITHIN(mx, 0, MAP_WIDTH - 2) && WITHIN(mz, 0, MAP_HEIGHT - 2)) {
-#ifndef TARGET_DC
                             me[0] = &MAP[MAP_INDEX(mx + 0, mz + 0)];
                             me[1] = &MAP[MAP_INDEX(mx + 1, mz + 0)];
                             me[2] = &MAP[MAP_INDEX(mx + 1, mz + 1)];
                             me[3] = &MAP[MAP_INDEX(mx + 0, mz + 1)];
-#endif
 
                             ph[0] = &PAP_2HI(mx + 0, mz + 0);
                             ph[1] = &PAP_2HI(mx + 1, mz + 0);
@@ -11566,9 +11167,7 @@ void AENG_draw_warehouse()
     // Now actually draw everything!
     //
 
-#ifndef TARGET_DC
     POLY_frame_draw(TRUE, TRUE);
-#endif
 
     //
     // Restore cloud to default value.
@@ -11693,9 +11292,7 @@ void AENG_draw_ns()
     // Start the frame.
     //
 
-#ifndef TARGET_DC
     POLY_frame_init(TRUE, TRUE);
-#endif
 
     //
     // Go through the cache squares and free any we don't need.
@@ -12109,10 +11706,8 @@ void AENG_draw_ns()
     // Clear the poly lists.
     //
 
-#ifndef TARGET_DC
     POLY_frame_draw(FALSE, FALSE);
     POLY_frame_init(TRUE, TRUE);
-#endif
 
     //
     // Draw the water in all the lo-res mapsquares. Create the ones
@@ -12304,9 +11899,7 @@ void AENG_draw_ns()
     #endif
     */
 
-#ifndef TARGET_DC
     POLY_frame_init(TRUE, TRUE);
-#endif
 
     //
     // Draw all the low res mapsquares.  None of the mapsquare
@@ -12432,17 +12025,10 @@ void AENG_draw_ns()
 
                 if (pp->MaybeValid()) {
                     pp->colour = (np->bright) | (np->bright << 8) | (np->bright << 16);
-#ifdef TARGET_DC
-                    pp->colour |= 0xff000000;
-#endif
                     pp->specular = 0xff000000;
 
                     if (bright) {
-#ifdef TARGET_DC
-                        pp->colour = 0xffffffff;
-#else
                         pp->colour = 0x00ffffff;
-#endif
                     }
 
                     POLY_fadeout_point(pp);
@@ -13082,20 +12668,6 @@ void AENG_draw_power(SLONG x, SLONG y, SLONG w, SLONG h, SLONG val, SLONG max)
 
 UBYTE record_video = 0;
 
-#if defined(TARGET_DC)
-
-// Chews memory - sod it.
-void AENG_screen_shot(void)
-{
-}
-
-// time.h doesn't seem to exist in the DC stuff - wierd.
-// Bin this function on the DC for now.
-void AENG_draw_FPS()
-{
-}
-
-#else // #if defined(TARGET_DC)
 
 void AENG_screen_shot(void)
 {
@@ -13176,7 +12748,6 @@ void AENG_draw_FPS()
     }
 }
 
-#endif // #else //#if defined(TARGET_DC)
 
 void AENG_draw_messages()
 {
@@ -13185,7 +12756,6 @@ void AENG_draw_messages()
     //
 
     static SLONG fps = 0;
-#if !defined(TARGET_DC)
     static SLONG last_game_turn = 0;
     static clock_t last_time = 0;
     clock_t this_time = 0;
@@ -13205,9 +12775,6 @@ void AENG_draw_messages()
         last_time = this_time;
         last_game_turn = GAME_TURN;
     }
-#else
-    fps = 0;
-#endif
 
 #if ARGH
 
@@ -13366,9 +12933,7 @@ void AENG_fade_out(UBYTE amount)
 #define AENG_LOGO_MID_Y (240.0F)
 #define AENG_LOGO_SIZE (128.0F)
 
-#ifndef TARGET_DC
     POLY_frame_init(FALSE, FALSE);
-#endif
 
     pp[0].X = AENG_LOGO_MID_X - AENG_LOGO_SIZE;
     pp[0].Y = AENG_LOGO_MID_Y - AENG_LOGO_SIZE;
@@ -13408,10 +12973,8 @@ void AENG_fade_out(UBYTE amount)
 
     POLY_add_quad(quad, POLY_PAGE_LOGO, FALSE, TRUE);
 
-#ifndef TARGET_DC
     POLY_frame_draw(TRUE, TRUE);
     POLY_frame_init(FALSE, FALSE);
-#endif
 
     pp[0].X = 0.0F;
     pp[0].Y = 0.0F;
@@ -13451,9 +13014,7 @@ void AENG_fade_out(UBYTE amount)
 
     POLY_add_quad(quad, POLY_PAGE_ALPHA, FALSE, TRUE);
 
-#ifndef TARGET_DC
     POLY_frame_draw(TRUE, TRUE);
-#endif
 }
 
 void AENG_fade_in(UBYTE amount)
@@ -13482,9 +13043,7 @@ void AENG_fade_in(UBYTE amount)
     quad[2] = &pp[2];
     quad[3] = &pp[3];
 
-#ifndef TARGET_DC
     POLY_frame_init(TRUE, TRUE);
-#endif
 
     pp[0].X = AENG_LOGO_MID_X - AENG_LOGO_SIZE;
     pp[0].Y = AENG_LOGO_MID_Y - AENG_LOGO_SIZE;
@@ -13524,9 +13083,7 @@ void AENG_fade_in(UBYTE amount)
 
     POLY_add_quad(quad, POLY_PAGE_LOGO, FALSE, TRUE);
 
-#ifndef TARGET_DC
     POLY_frame_draw(TRUE, TRUE);
-#endif
 
     pp[0].X = 0.0F;
     pp[0].Y = 0.0F;
@@ -13566,30 +13123,13 @@ void AENG_fade_in(UBYTE amount)
 
     POLY_add_quad(quad, POLY_PAGE_ALPHA, FALSE, TRUE);
 
-#ifndef TARGET_DC
     POLY_frame_draw(TRUE, TRUE);
     POLY_frame_init(FALSE, FALSE);
-#endif
 }
 
 void AENG_clear_screen()
 {
-#ifdef TARGET_DC
-    static int iBlah = 0;
-    iBlah++;
-    iBlah = 0;
-    if ((iBlah & 0x3) == 0) {
-        SET_BLACK_BACKGROUND;
-    } else if ((iBlah & 0x3) == 1) {
-        SET_WHITE_BACKGROUND;
-    } else if ((iBlah & 0x3) == 2) {
-        SET_BLACK_BACKGROUND;
-    } else if ((iBlah & 0x3) == 3) {
-        SET_WHITE_BACKGROUND;
-    }
-#else
     SET_BLACK_BACKGROUND;
-#endif
     CLEAR_VIEWPORT;
     TheVPool->ReclaimBuffers();
 }
@@ -13614,7 +13154,6 @@ void AENG_blit()
     the_display.blit_back_buffer();
 }
 
-#ifndef TARGET_DC
 void AENG_e_draw_3d_line(SLONG x1, SLONG y1, SLONG z1, SLONG x2, SLONG y2, SLONG z2)
 {
     AENG_world_line(
@@ -13680,7 +13219,6 @@ void AENG_e_draw_3d_mapwho_y(SLONG x1, SLONG y1, SLONG z1)
     e_draw_3d_line(x1 + 256, y1, z1 + 256, x1, y1, z1 + 256);
     e_draw_3d_line(x1, y1, z1 + 256, x1, y1, z1);
 }
-#endif // #ifndef TARGET_DC
 
 //---------------------------------------------------------------
 
@@ -13716,7 +13254,6 @@ void AENG_demo_attract(SLONG x, SLONG y, CBYTE* text)
 
 //---------------------------------------------------------------
 
-#ifndef TARGET_DC
 // ========================================================
 //
 // EDITOR SUPPORT FUNCTIONS.
@@ -13879,9 +13416,7 @@ ULONG AENG_light_draw(
     SLONG h1 = PAP_calc_map_height_at(lx, lz);
     SLONG h2 = ly;
 
-#ifndef TARGET_DC
     POLY_frame_init(FALSE, FALSE);
-#endif
 
     //
     // Draw a couple of sphere connected by a line.
@@ -13907,9 +13442,7 @@ ULONG AENG_light_draw(
         lx, h2, lz, 0, colour,
         FALSE);
 
-#ifndef TARGET_DC
     POLY_frame_draw(FALSE, FALSE);
-#endif
 
     //
     // Was either over the mouse?
@@ -14311,7 +13844,6 @@ void AENG_draw_sewer_editor(
 
 #endif
 
-#endif // #ifndef TARGET_DC
 
 //
 // Draws text at the given point.
@@ -14364,7 +13896,6 @@ void AENG_world_text(
     }
 }
 
-#ifndef TARGET_DC
 //---------------------------------------------------------------
 //	GUY.
 //---------------------------------------------------------------
@@ -14560,7 +14091,6 @@ void AENG_groundsquare_draw(
         POLY_frame_draw(FALSE, FALSE);
 }
 
-#endif // #ifndef TARGET_DC
 
 //---------------------------------------------------------------
 
@@ -14599,16 +14129,6 @@ void AENG_clear_viewport()
         the_display.SetUserBackground();
         the_display.ClearViewport();
 
-#if 0 && USE_TOMS_ENGINE_PLEASE_BOB
-		// Haha! Nasty kludge!
-		the_display.lp_D3D_Viewport->Clear2(
-								1,
-								&(the_display.ViewportRect),
-								D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-								0xff806040,
-								1.0f,
-								0);
-#endif
     }
 
     BreakTime("Cleared Viewport");
@@ -14656,9 +14176,6 @@ void AENG_draw(SLONG draw_3d)
 	CurDrawDistance = FC_cam[1].focus ? 16 : NormalDrawDistance;
 #endif
 
-#ifdef TARGET_DC
-    fiddle_draw_distance_DC();
-#endif
 
     /*
             if (Keys[KB_RBRACE])
@@ -14676,9 +14193,7 @@ void AENG_draw(SLONG draw_3d)
     //
 
 // d	AENG_movie_update();
-#ifndef TARGET_DC
     move_clouds();
-#endif
     POLY_set_wibble(62, 137, 17, 178, 20, 25);
 
     AENG_clear_viewport();
@@ -14976,9 +14491,7 @@ void AENG_draw(SLONG draw_3d)
     //  Do it here so that AENG_world_line works during the game.
     //
 
-#ifndef TARGET_DC
     POLY_frame_init(FALSE, FALSE);
-#endif
     // #endif
 }
 
@@ -14986,38 +14499,6 @@ void AENG_draw(SLONG draw_3d)
 
 void AENG_read_detail_levels()
 {
-#ifdef TARGET_DC
-    // Most things turned on, apart from the things that won't work.
-    // AENG_estimate_detail_levels = ENV_get_value_number("estimate_detail_levels", 0, "Render");
-
-    AENG_detail_stars = ENV_get_value_number("detail_stars", 1, "Render");
-    AENG_detail_shadows = ENV_get_value_number("detail_shadows", 0, "Render");
-    AENG_detail_moon_reflection = ENV_get_value_number("detail_moon_reflection", 0, "Render");
-    AENG_detail_people_reflection = ENV_get_value_number("detail_people_reflection", 0, "Render");
-    AENG_detail_puddles = ENV_get_value_number("detail_puddles", 0, "Render");
-    AENG_detail_dirt = ENV_get_value_number("detail_dirt", 1, "Render");
-    AENG_detail_mist = ENV_get_value_number("detail_mist", 1, "Render");
-    AENG_detail_rain = ENV_get_value_number("detail_rain", 1, "Render");
-    AENG_detail_skyline = ENV_get_value_number("detail_skyline", 1, "Render");
-    AENG_detail_filter = ENV_get_value_number("detail_filter", 1, "Render");
-    AENG_detail_perspective = ENV_get_value_number("detail_perspective", 1, "Render");
-    AENG_detail_crinkles = ENV_get_value_number("detail_crinkles", 0, "Render");
-#ifndef DEBUG
-    // Release build - doesn't include the things that don't work yet!
-    AENG_detail_stars = ENV_get_value_number("detail_stars", 1, "Render");
-    AENG_detail_shadows = ENV_get_value_number("detail_shadows", 0, "Render");
-    AENG_detail_moon_reflection = ENV_get_value_number("detail_moon_reflection", 0, "Render");
-    AENG_detail_people_reflection = ENV_get_value_number("detail_people_reflection", 0, "Render");
-    AENG_detail_puddles = ENV_get_value_number("detail_puddles", 1, "Render");
-    AENG_detail_dirt = ENV_get_value_number("detail_dirt", 1, "Render");
-    AENG_detail_mist = ENV_get_value_number("detail_mist", 1, "Render");
-    AENG_detail_rain = ENV_get_value_number("detail_rain", 1, "Render");
-    AENG_detail_skyline = ENV_get_value_number("detail_skyline", 1, "Render");
-    AENG_detail_filter = ENV_get_value_number("detail_filter", 1, "Render");
-    AENG_detail_perspective = ENV_get_value_number("detail_perspective", 1, "Render");
-    AENG_detail_crinkles = ENV_get_value_number("detail_crinkles", 0, "Render");
-#endif
-#else
     AENG_estimate_detail_levels = ENV_get_value_number("estimate_detail_levels", 1, "Render");
 
     AENG_detail_stars = ENV_get_value_number("detail_stars", 1, "Render");
@@ -15032,7 +14513,6 @@ void AENG_read_detail_levels()
     AENG_detail_filter = ENV_get_value_number("detail_filter", 1, "Render");
     AENG_detail_perspective = ENV_get_value_number("detail_perspective", 1, "Render");
     AENG_detail_crinkles = ENV_get_value_number("detail_crinkles", 1, "Render");
-#endif
 }
 
 //
@@ -15061,9 +14541,6 @@ void AENG_draw_box_around_recessed_door(DFacet* df, SLONG inside_out)
     SLONG col_page;
     SLONG specular;
 
-#ifdef TARGET_DC
-    POLY_flush_local_rot();
-#endif
 
     NIGHT_get_d3d_colour(
         NIGHT_sky_colour,
@@ -15353,9 +14830,7 @@ void AENG_draw_inside_floor(UWORD inside_index, UWORD inside_room, UBYTE fade)
     float world_z;
 
     POLY_Point pp[4];
-#ifndef TARGET_DC
     MapElement* me;
-#endif
 
     PAP_Lo* pl;
     PAP_Hi* ph;
@@ -15427,9 +14902,7 @@ void AENG_draw_inside_floor(UWORD inside_index, UWORD inside_room, UBYTE fade)
             ASSERT(WITHIN(x, 0, MAP_WIDTH - 1));
             ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
-#ifndef TARGET_DC
             me = &MAP[MAP_INDEX(x, z)];
-#endif
             ph = &PAP_2HI(x, z);
 
             if ((PAP_2HI(x, z).Flags & (PAP_FLAG_HIDDEN))) {

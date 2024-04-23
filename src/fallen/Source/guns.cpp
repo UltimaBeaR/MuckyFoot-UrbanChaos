@@ -614,7 +614,6 @@ extern	void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG w
     }
 }
 
-#ifndef PSX
 SLONG calc_snipe_target_score(Thing* p_person, Thing* p_target)
 {
     SLONG dx, dy, dz, dist;
@@ -678,4 +677,3 @@ THING_INDEX find_snipe_target(Thing* p_person)
     }
     return (best);
 }
-#endif

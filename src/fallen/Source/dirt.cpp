@@ -26,10 +26,8 @@
 #include "pow.h"
 #include "mav.h"
 
-#ifndef PSX
 #include "..\DDLibrary\headers\D3DTexture.h"
 #include "..\DDLibrary\headers\GDisplay.h"
-#endif
 
 #define TICK_SHIFT_LOWRES (TICK_SHIFT - 2)
 
@@ -67,11 +65,7 @@ static UWORD DIRT_check = 0;
 // The number of leaves per tree.
 //
 
-#ifdef PSX
-#define DIRT_LEAVES_PER_TREE 16
-#else
 #define DIRT_LEAVES_PER_TREE 200
-#endif
 
 //
 // The probabilites of each type of dirt cropping up.
@@ -539,9 +533,6 @@ void DIRT_set_focus(
 
             mx = cx >> PAP_SHIFT_HI;
             mz = cz >> PAP_SHIFT_HI;
-#ifdef PSX
-            if (PAP_on_map_hi(mx, mz) && !(PAP_2HI(mx, mz).Flags & PAP_FLAG_HIDDEN) && !(PAP_2HI(mx, mz).Texture & (1 << 14)))
-#else
 
             if (PAP_on_map_hi(mx, mz) && ((world_type == WORLD_TYPE_SNOW) || !(PAP_2HI(mx, mz).Flags & PAP_FLAG_HIDDEN)) && !(MAV_SPARE(mx, mz) & MAV_SPARE_FLAG_WATER) && !(MAV_SPARE(mx + 1, mz) & MAV_SPARE_FLAG_WATER) && !(MAV_SPARE(mx - 1, mz) & MAV_SPARE_FLAG_WATER) && !(MAV_SPARE(mx, mz + 1) & MAV_SPARE_FLAG_WATER) && !(MAV_SPARE(mx, mz - 1) & MAV_SPARE_FLAG_WATER))
 
@@ -553,7 +544,6 @@ void DIRT_set_focus(
 			if ( !((MAV_nav[((mx) * MAV_nav_pitch) + (mz+1)] >> 14) & MAV_SPARE_FLAG_WATER) )
 			if ( !((MAV_nav[((mx-1) * MAV_nav_pitch) + (mz)] >> 14) & MAV_SPARE_FLAG_WATER) )
 			if ( !((MAV_nav[((mx+1) * MAV_nav_pitch) + (mz)] >> 14) & MAV_SPARE_FLAG_WATER))
-#endif
 #endif
             {
                 //				DebugText(" dirt valid cx %d cz %d \n",cx,cz);
@@ -571,9 +561,6 @@ void DIRT_set_focus(
 
                 case DIRT_TYPE_SNOW:
                 case DIRT_TYPE_LEAF:
-#ifdef PSX
-                    dd->UU.Leaf.col = floor_psx_col[mx][mz];
-#endif
                     dd->type = type;
                     dd->owner = 255;
                     dd->flag = DIRT_FLAG_STILL;
@@ -618,7 +605,6 @@ void DIRT_set_focus(
                     break;
 
                 case DIRT_TYPE_PIGEON:
-#ifndef PSX
                     dd->type = DIRT_TYPE_PIGEON;
                     dd->flag = 0;
                     dd->x = cx;
@@ -638,7 +624,6 @@ void DIRT_set_focus(
                     dd->dyaw = 0;
                     dd->dpitch = 0;
                     dd->droll = 0;
-#endif
                     break;
 
                 default:
@@ -660,7 +645,6 @@ void DIRT_set_focus(
     }
 }
 
-#ifndef PSX
 //
 // Pigeon state initialisation functions.
 //
@@ -1141,7 +1125,6 @@ void DIRT_pigeon_process(DIRT_Dirt* dd)
         break;
     }
 }
-#endif
 
 void DIRT_new_water(
     SLONG x,
@@ -1382,9 +1365,6 @@ void DIRT_process(void)
                     dd->z = oldz;
                     dd->dz = -dd->dz;
                 } else {
-#ifdef PSX
-                    dd->UU.Leaf.col = floor_psx_col[dd->x >> 8][dd->z >> 8];
-#endif
                 }
             }
             //
@@ -1537,9 +1517,7 @@ void DIRT_process(void)
             break;
 
         case DIRT_TYPE_PIGEON:
-#if !defined(PSX) && !defined(TARGET_DC)
             DIRT_pigeon_process(dd);
-#endif
             break;
 
         case DIRT_TYPE_SPARKS:
@@ -1630,11 +1608,9 @@ void DIRT_process(void)
                 }
             }
 
-#if !defined(PSX) && !defined(TARGET_DC)
             if (GAME_FLAGS & GF_SEWERS) {
                 floor = NS_calc_splash_height_at(dd->x, dd->z);
             } else
-#endif
             {
                 floor = PAP_calc_map_height_at(dd->x, dd->z);
             }
@@ -1648,7 +1624,6 @@ void DIRT_process(void)
                     //
                     // Create a drip.
                     //
-#ifndef PSX
                     if (dd->type != DIRT_TYPE_BLOOD) {
                         if (dd->type != DIRT_TYPE_SPARKS) {
                             if (tick++ & 1)
@@ -1656,7 +1631,6 @@ void DIRT_process(void)
                         } else
                             DIRT_spark_shower(dd);
                     }
-#endif
                     //
                     // Kill it. This is the second time it's hit
                     // the floor.
@@ -1674,7 +1648,6 @@ void DIRT_process(void)
                     //
                     // Create a drip.
                     //
-#ifndef PSX
                     if (dd->type != DIRT_TYPE_BLOOD) {
                         if (dd->type != DIRT_TYPE_SPARKS) {
                             if (tick++ & 1)
@@ -1683,7 +1656,6 @@ void DIRT_process(void)
                             DIRT_spark_shower(dd);
                     }
 
-#endif
                 }
             }
 
@@ -2057,9 +2029,7 @@ void DIRT_gust(
                 //
                 // Scare the pigeon?
                 //
-#ifndef PSX
                 DIRT_pigeon_init_flee(dd, x1, z1);
-#endif
                 break;
 
             case DIRT_TYPE_WATER:
@@ -2324,7 +2294,6 @@ SLONG DIRT_get_info(SLONG which, DIRT_Info* ans)
     }
 
     case DIRT_TYPE_PIGEON:
-#ifndef PSX
         ans->type = DIRT_INFO_TYPE_MORPH;
         ans->prim = PRIM_OBJ_ITEM_KEY;
         ans->morph1 = dd->UU.Pidgeon.morph1;
@@ -2344,7 +2313,6 @@ SLONG DIRT_get_info(SLONG which, DIRT_Info* ans)
 
             ans->tween = 256;
         }
-#endif
         break;
 
     case DIRT_TYPE_HEAD:
@@ -2614,10 +2582,8 @@ SLONG DIRT_shoot(Thing* p_person)
             if (Random() & 0x2) {
                 dd->yaw = -dd->yaw;
             }
-#ifndef PSX
             // apply a hitspang to the can
             PYRO_hitspang(p_person, dd->x << 8, dd->y << 8, dd->z << 8);
-#endif
             MFX_play_xyz(best_dirt, S_KICK_CAN, MFX_REPLACE, dd->x << 8, dd->y << 8, dd->z << 8);
             /*				play_quick_wave_xyz(
                                                     dd->x << 8,
@@ -2724,7 +2690,6 @@ void DIRT_behead_person(Thing* p_person, Thing* p_attacker)
 #endif
 }
 
-#ifndef PSX
 UWORD DIRT_create_mine(Thing* p_person)
 {
     SLONG dx;
@@ -2797,7 +2762,6 @@ void DIRT_destroy_mine(UWORD dirt_mine)
 
     DIRT_dirt[dirt_mine].type = DIRT_TYPE_UNUSED;
 }
-#endif
 
 void DIRT_create_papers(
     SLONG x,
@@ -2896,7 +2860,6 @@ void DIRT_create_cans(
     }
 }
 
-#ifndef PSX
 void DIRT_create_brass(
     SLONG x,
     SLONG y,
@@ -2949,4 +2912,3 @@ void DIRT_create_brass(
     }
 }
 
-#endif

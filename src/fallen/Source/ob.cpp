@@ -15,10 +15,8 @@
 #include "sound.h"
 #include "mav.h"
 
-#ifndef PSX
 #include "..\ddengine\headers\poly.h"
 #include "..\ddengine\headers\texture.h"
-#endif
 
 OB_Ob* OB_ob; //[OB_MAX_OBS];
 OB_workaround* OB_mapwho; //[OB_SIZE][OB_SIZE];
@@ -53,7 +51,6 @@ typedef struct
 OB_Hydrant OB_hydrant[OB_MAX_HYDRANTS];
 UBYTE OB_hydrant_last;
 
-#ifndef PSX
 void OB_init()
 {
     TRACE("sizeof(OB_Mapwho) = %d\n", sizeof(OB_Mapwho));
@@ -64,16 +61,7 @@ void OB_init()
     memset((UBYTE*)OB_mapwho, 0, sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
     memset((UBYTE*)OB_hydrant, 0, sizeof(OB_Hydrant) * OB_MAX_HYDRANTS);
 }
-#else
-void OB_init()
-{
-    memset((UBYTE*)OB_hydrant, 0, sizeof(OB_Hydrant) * OB_MAX_HYDRANTS);
-}
 
-#endif
-
-#ifndef PSX
-#ifndef TARGET_DC
 void OB_compress()
 {
     SLONG x;
@@ -110,10 +98,6 @@ void OB_compress()
         MemFree(comp);
     }
 }
-#endif
-#endif
-#ifndef PSX
-#ifndef TARGET_DC
 void OB_create(
     SLONG x,
     SLONG y,
@@ -210,8 +194,6 @@ void OB_create(
     om->num += 1;
     OB_ob_upto += 1;
 }
-#endif
-#endif
 
 void OB_process()
 {
@@ -372,7 +354,6 @@ OB_Info* OB_find(SLONG x, SLONG z)
 
     return OB_found;
 }
-#ifndef PSX
 OB_Info* OB_find_inside(SLONG x, SLONG z, SLONG indoors)
 {
     OB_Info* of;
@@ -427,7 +408,6 @@ OB_Info* OB_find_inside(SLONG x, SLONG z, SLONG indoors)
 
     return OB_found;
 }
-#endif
 SLONG OB_avoid(
     SLONG ob_x,
     SLONG ob_y,
@@ -561,8 +541,6 @@ SLONG OB_avoid(
     }
 }
 
-#ifndef PSX
-#ifndef TARGET_DC
 
 #ifdef EDITOR
 extern BOOL is_in_mission_editor;
@@ -800,7 +778,6 @@ void OB_load_needed_prims()
     load_prim_object(PRIM_OBJ_BIN);
 }
 
-#endif // #ifndef TARGET_DC
 
 void envmap_specials(void)
 {
@@ -916,7 +893,6 @@ void envmap_specials(void)
     }
 }
 
-#ifndef TARGET_DC
 
 SLONG ob_allowed_to_be_walkable(SLONG prim)
 {
@@ -1100,8 +1076,6 @@ void OB_add_walkable_faces()
         }
     }
 }
-#endif
-#endif
 
 void OB_remove(OB_Info* oi)
 {
@@ -1486,15 +1460,7 @@ void OB_damage(
                     256);
 
             */
-#ifdef PSX
-            POW_create(
-                POW_CREATE_LARGE_SEMI,
-                pos.X,
-                pos.Y,
-                pos.Z, 0, 0, 0);
-#else
             PYRO_create(pos, PYRO_FIREBOMB);
-#endif
             MFX_play_xyz(0, SOUND_Range(S_EXPLODE_MEDIUM, S_EXPLODE_BIG), 0, pos.X, pos.Y, pos.Z);
 
             //
@@ -1502,13 +1468,11 @@ void OB_damage(
             //
 
             oo->flags |= OB_FLAG_DAMAGED;
-#ifndef PSX
             create_shockwave(
                 x, oo->y, z,
                 0x300,
                 150,
                 p_aggressor);
-#endif
         }
 
         //
@@ -1519,8 +1483,6 @@ void OB_damage(
     }
 }
 
-#ifndef PSX
-#ifndef TARGET_DC
 void OB_convert_dustbins_to_barrels(void)
 {
     SLONG mx;
@@ -1554,8 +1516,6 @@ void OB_convert_dustbins_to_barrels(void)
         }
 }
 
-#endif
-#endif
 SLONG OB_inside_prim(SLONG x, SLONG y, SLONG z)
 {
     SLONG mx;
@@ -1595,8 +1555,6 @@ SLONG OB_inside_prim(SLONG x, SLONG y, SLONG z)
     return FALSE;
 }
 
-#ifndef PSX
-#ifndef TARGET_DC
 
 void OB_make_all_the_switches_be_at_the_proper_height()
 {
@@ -1696,5 +1654,3 @@ void OB_make_all_the_switches_be_at_the_proper_height()
             }
         }
 }
-#endif
-#endif

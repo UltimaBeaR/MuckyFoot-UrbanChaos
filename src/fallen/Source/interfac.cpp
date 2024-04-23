@@ -9,10 +9,6 @@
 #include "cam.h"
 #include "hook.h"
 #include "dirt.h"
-#ifdef PSX
-#include "c:\fallen\ddengine\headers\console.h"
-#include "c:\fallen\psxeng\headers\psxeng.h"
-#endif
 #include "combat.h"
 #include "eway.h"
 #include "interfac.h"
@@ -27,18 +23,11 @@
 #include "memory.h"
 #include "america.h"
 #include "wmove.h"
-#ifndef PSX
 #include "panel.h"
 #include "env.h"
 #include "ddlib.h"
 #include "poly.h"
-#endif
 
-#ifdef TARGET_DC
-#include <platutil.h>
-#include <ceddcdrm.h>
-#include <segagdrm.h>
-#endif
 
 UBYTE player_relative;
 
@@ -46,22 +35,15 @@ extern void add_damage_text(SWORD x, SWORD y, SWORD z, CBYTE* text);
 extern void person_normal_move(Thing* p_person);
 UBYTE cheat = 0;
 
-#ifndef PSX
 // set this to 0 if it all fucks up (it's about 5 in the morning so quite possibly i made
 // a complete pig's arse of it). it sets whether the front-end 'keyboard config' stuff actually
 // has any effect or not
 #define REMAP_KEYBOARD 1
 
-#endif
 
 #define GET_JOYX(input) (((input >> 17) & 0xfe) - 128)
 #define GET_JOYY(input) (((input >> 24) & 0xfe) - 128)
 
-#ifdef TARGET_DC
-// Allow DC cheats.
-#define DREAMCAST_CHEATS_PLEASE_BOB defined
-
-#endif
 
 bool g_bPunishMePleaseICheatedOnThisLevel = FALSE;
 // bool m_bDontMoveIfBothTriggersDown = FALSE;
@@ -73,11 +55,7 @@ float m_fFogTableDebugDensity = 0.0f;
 DWORD m_dwFogTableDebugFogTableMode = D3DFOG_NONE;
 #endif
 
-#ifndef PSX
 #define ANALOGUE_MIN_VELOCITY 8
-#else
-#define ANALOGUE_MIN_VELOCITY 32
-#endif
 
 #define INPUT_KEYS 0
 #define INPUT_JOYPAD 1
@@ -89,11 +67,7 @@ SLONG analogue = 0;
 bool g_bEngineVibrations = TRUE;
 
 // on PC controls_inventory_mode has no effect on your ability to move, its purely a graphical effect on top of screen while you cycle through weapons
-#ifdef PSX
-extern SWORD CONTROLS_inventory_mode;
-#else
 #define CONTROLS_inventory_mode 0
-#endif
 
 extern void set_person_hug_wall_leap_out(Thing* p_person, SLONG dir);
 SLONG player_turn_left_right_analogue(Thing* p_thing, SLONG input);
@@ -150,139 +124,19 @@ void FC_force_camera_behind(SLONG cam);
 
 */
 
-#ifdef PSX
-#include "LIBETC.h"
-#include "ctrller.h"
-#include "libpad.h"
-extern ControllerPacket PAD_Input1, PAD_Input2;
-int psx_pad_mask = 0;
-#endif
 
 extern Thing* net_players[20];
 
 void player_apply_move(Thing* p_thing, ULONG input);
 void player_apply_move_analgue(Thing* p_thing, ULONG input);
 
-#ifndef PSX
 UBYTE joypad_button_use[16];
-#ifndef TARGET_DC
 UBYTE keybrd_button_use[16];
-#endif
 
 bool m_bForceWalk = FALSE;
 
 int g_iCheatNumber = -1;
 
-#ifdef TARGET_DC
-
-bool g_bDreamcastABXYStartComboPressed = FALSE;
-bool m_bDreamcastABXYStartComboPressedLastTime = FALSE;
-bool g_bDreamcastABXYStartShouldGoToBootRomImmediately = TRUE;
-
-bool g_bShowDarcisPositionOnScreen = FALSE;
-char cCheatString[30] = "";
-#ifdef DEBUG
-// Can't be arsed typing in the cheat code all the time.
-bool g_bCheatsEnabled = TRUE;
-#else
-bool g_bCheatsEnabled = FALSE;
-#endif
-
-void INTERFAC_SetUpJoyPadButtons(int iMode)
-{
-    // Pre-set modes.
-    ASSERT(iMode <= NUM_OF_JOYPAD_MODES);
-
-    switch (iMode) {
-    case 0:
-        // Custom mode.
-        joypad_button_use[JOYPAD_BUTTON_KICK] = ENV_get_value_number("joypad_kick", DI_DC_BUTTON_LTRIGGER, "Joypad");
-        joypad_button_use[JOYPAD_BUTTON_PUNCH] = ENV_get_value_number("joypad_punch", DI_DC_BUTTON_RTRIGGER, "Joypad");
-        joypad_button_use[JOYPAD_BUTTON_JUMP] = ENV_get_value_number("joypad_jump", DI_DC_BUTTON_Y, "Joypad");
-        joypad_button_use[JOYPAD_BUTTON_ACTION] = ENV_get_value_number("joypad_action", DI_DC_BUTTON_A, "Joypad");
-        joypad_button_use[JOYPAD_BUTTON_MOVE] = ENV_get_value_number("joypad_move", DI_DC_BUTTON_UP, "Joypad");
-        joypad_button_use[JOYPAD_BUTTON_START] = ENV_get_value_number("joypad_start", DI_DC_BUTTON_START, "Joypad");
-        joypad_button_use[JOYPAD_BUTTON_SELECT] = ENV_get_value_number("joypad_select", DI_DC_BUTTON_B, "Joypad");
-        joypad_button_use[JOYPAD_BUTTON_CAMERA] = ENV_get_value_number("joypad_camera", DI_DC_BUTTON_DOWN, "Joypad");
-        joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = ENV_get_value_number("joypad_cam_left", DI_DC_BUTTON_LEFT, "Joypad");
-        joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = ENV_get_value_number("joypad_cam_right", DI_DC_BUTTON_RIGHT, "Joypad");
-        joypad_button_use[JOYPAD_BUTTON_1STPERSON] = ENV_get_value_number("joypad_1stperson", DI_DC_BUTTON_X, "Joypad");
-        break;
-    case 1:
-        // Tom's defaults.
-        joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_LTRIGGER;
-        joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_RTRIGGER;
-        joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_Y;
-        joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_A;
-        joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
-        joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
-        joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_B;
-        joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
-        joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
-        joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
-        joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_X;
-        break;
-    case 2:
-        // Swap jump & action to match PSX version.
-        joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_LTRIGGER;
-        joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_RTRIGGER;
-        joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_A;
-        joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_Y;
-        joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
-        joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
-        joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_B;
-        joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
-        joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
-        joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
-        joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_X;
-        break;
-    case 3:
-        // Kick & punch on buttons, jump & action on triggers.
-        joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_B;
-        joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_A;
-        joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_RTRIGGER;
-        joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_LTRIGGER;
-        joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
-        joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
-        joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_Y;
-        joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
-        joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
-        joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
-        joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_X;
-        break;
-    case 4:
-        // For 6-button pads - exciting things on ABXY, boring things on ZC.
-        joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_B;
-        joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_A;
-        joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_Y;
-        joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_X;
-        joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
-        joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
-        joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_LTRIGGER;
-        joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
-        joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
-        joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
-        joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_RTRIGGER;
-        break;
-    default:
-        ASSERT(FALSE);
-        // Not good. Set up something sensible anyway.
-        joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_LTRIGGER;
-        joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_RTRIGGER;
-        joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_Y;
-        joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_A;
-        joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
-        joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
-        joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_B;
-        joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
-        joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
-        joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
-        joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_X;
-        break;
-    }
-}
-
-#endif
 
 void init_joypad_config(void)
 {
@@ -302,7 +156,6 @@ void init_joypad_config(void)
             joypad_button_use[JOYPAD_BUTTON_1STPERSON]	= ENV_get_value_number("joypad_1stperson",	4, "Joypad");
     */
 
-#ifndef TARGET_DC
     joypad_button_use[JOYPAD_BUTTON_KICK] = ENV_get_value_number("joypad_kick", 4, "Joypad");
     joypad_button_use[JOYPAD_BUTTON_PUNCH] = ENV_get_value_number("joypad_punch", 3, "Joypad");
     joypad_button_use[JOYPAD_BUTTON_JUMP] = ENV_get_value_number("joypad_jump", 0, "Joypad");
@@ -314,14 +167,7 @@ void init_joypad_config(void)
     joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = ENV_get_value_number("joypad_cam_left", 9, "Joypad");
     joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = ENV_get_value_number("joypad_cam_right", 10, "Joypad");
     joypad_button_use[JOYPAD_BUTTON_1STPERSON] = ENV_get_value_number("joypad_1stperson", 5, "Joypad");
-#else // #ifndef TARGET_DC
 
-    // Actually set up the buttons in a cunning way.
-    INTERFAC_SetUpJoyPadButtons(ENV_get_value_number("joypad_mode", 0, "Joypad"));
-
-#endif // #else //#ifndef TARGET_DC
-
-#ifndef TARGET_DC
     keybrd_button_use[KEYBRD_BUTTON_LEFT] = ENV_get_value_number("keyboard_left", 203, "Keyboard");
     keybrd_button_use[KEYBRD_BUTTON_RIGHT] = ENV_get_value_number("keyboard_right", 205, "Keyboard");
     keybrd_button_use[KEYBRD_BUTTON_FORWARDS] = ENV_get_value_number("keyboard_forward", 200, "Keyboard");
@@ -338,10 +184,8 @@ void init_joypad_config(void)
     keybrd_button_use[JOYPAD_BUTTON_CAM_LEFT] = ENV_get_value_number("keyboard_cam_left", 211, "Keyboard");
     keybrd_button_use[JOYPAD_BUTTON_CAM_RIGHT] = ENV_get_value_number("keyboard_cam_right", 209, "Keyboard");
     keybrd_button_use[JOYPAD_BUTTON_1STPERSON] = ENV_get_value_number("keyboard_1stperson", 30, "Keyboard");
-#endif
 }
 
-#endif
 
 // #define	INPUT_	(1<<)
 
@@ -930,7 +774,6 @@ void get_car_enter_xz(Thing* p_vehicle, SLONG door, SLONG* cx, SLONG* cz)
     *cz = iz;
 
 #ifndef NDEBUG
-#ifndef PSX
     void SHAPE_semisphere(
         SLONG x,
         SLONG y,
@@ -945,7 +788,6 @@ void get_car_enter_xz(Thing* p_vehicle, SLONG door, SLONG* cx, SLONG* cz)
         UBYTE blue);
 
 //	SHAPE_semisphere(*cx,0,*cz,0,256,0,0xb0,POLY_PAGE_COLOUR_ALPHA,255,0,0);
-#endif
     /*
 
             AENG_world_line(
@@ -1243,8 +1085,6 @@ ULONG do_an_action(Thing* p_thing, ULONG input)
     }
 #endif
 
-#ifndef PSX
-#ifndef TARGET_DC
     if (p_thing->Genus.Person->Flags & FLAG_PERSON_GRAPPLING) {
         //
         // Release the grappling hook.
@@ -1255,8 +1095,6 @@ ULONG do_an_action(Thing* p_thing, ULONG input)
 
         return INPUT_MASK_ACTION;
     }
-#endif
-#endif
     if (p_thing->State != STATE_MOVEING) {
         if ((p_thing->State == STATE_IDLE || (p_thing->State == STATE_GUN && p_thing->SubState == SUB_STATE_AIM_GUN)) && p_thing->SubState != SUB_STATE_IDLE_CROUTCH && p_thing->SubState != SUB_STATE_IDLE_CROUTCHING) {
             //
@@ -1404,8 +1242,6 @@ ULONG do_an_action(Thing* p_thing, ULONG input)
         //
     }
 
-#ifndef PSX
-#ifndef TARGET_DC
     //
     // How far is Darci from the grappling hook?
     //
@@ -1445,8 +1281,6 @@ ULONG do_an_action(Thing* p_thing, ULONG input)
         }
     }
 
-#endif
-#endif
 
     if ((p_thing->State == STATE_IDLE || (p_thing->State == STATE_GUN && p_thing->SubState == SUB_STATE_AIM_GUN)) && p_thing->SubState != SUB_STATE_IDLE_CROUTCH && p_thing->SubState != SUB_STATE_IDLE_CROUTCHING) {
 #if 0 // We don't use anim_prim_switches any more
@@ -1725,15 +1559,9 @@ ULONG do_an_action(Thing* p_thing, ULONG input)
 
             extern UBYTE is_semtex;
 
-#ifdef PSX
-            if (wad_level == 25 && use == 193) // psx way of skipping it
-            {
-            } else
-#else
             if (is_semtex && (use == 193 || use == 195)) {
                 // skip the wetback line in stern revenge, (skymiss2)  PC && DREAMCAST
             } else
-#endif
                 if (use) {
                 Thing* p_person = TO_THING(use);
 
@@ -1813,7 +1641,6 @@ ULONG do_an_action(Thing* p_thing, ULONG input)
         }
     }
 
-#ifndef PSX
 #ifdef BIKE
 
     //
@@ -1829,7 +1656,6 @@ ULONG do_an_action(Thing* p_thing, ULONG input)
             return INPUT_MASK_ACTION;
         }
     }
-#endif
 #endif
     if (p_thing->State == STATE_IDLE || (p_thing->State == STATE_GUN && p_thing->SubState == SUB_STATE_AIM_GUN)) {
 
@@ -2309,25 +2135,7 @@ void player_interface_move(Thing* p_thing, ULONG input)
 void init_user_interface(void)
 {
     USER_INTERFACE = 0;
-#ifndef PSX
     PANEL_scanner_poo = ENV_get_value_number("scanner_follows", TRUE, "Game");
-#endif
-#ifdef TARGET_DC
-    analogue = ENV_get_value_number("analogue_pad_mode", TRUE, "Game");
-
-    extern bool g_bEngineVibrations;
-    if (ENV_get_value_number("vibration_mode", TRUE, "") == 0) {
-        SetVibrationEnable(FALSE);
-        g_bEngineVibrations = FALSE;
-    } else {
-        SetVibrationEnable(TRUE);
-        if (ENV_get_value_number("vibration_engine", TRUE, "") == 0) {
-            g_bEngineVibrations = FALSE;
-        } else {
-            g_bEngineVibrations = TRUE;
-        }
-    }
-#endif
 }
 
 //
@@ -2877,7 +2685,6 @@ SLONG player_turn_left_right(Thing* p_thing, SLONG input)
     SWORD wJoyX = GET_JOYX(input); // -128 -> +128
     SWORD wTurn;
     if ((input & INPUT_MASK_LEFT) || (input & INPUT_MASK_RIGHT)) {
-#ifndef TARGET_DC
         // For the PC, you may be using the keyboard, so do a cheesy cumulative thing.
         // This is detected by noticing that the top (analogue section) of input is 0, even though we're turning.
         if ((input & 0xfffc0000) == 0) {
@@ -2906,7 +2713,6 @@ SLONG player_turn_left_right(Thing* p_thing, SLONG input)
 
             SATURATE(wTurn, -wMaxTurn, +wMaxTurn);
         } else
-#endif
         {
             // Joystick present.
             wTurn = (wJoyX * wMaxTurn) >> 7;
@@ -3080,8 +2886,6 @@ SLONG player_turn_left_right(Thing* p_thing, SLONG input)
         return 1;
     }
 
-#ifndef PSX
-#ifndef TARGET_DC
 
     if (mouse_input) {
         da = (-MouseDX * TICK_RATIO) >> TICK_SHIFT;
@@ -3100,8 +2904,6 @@ SLONG player_turn_left_right(Thing* p_thing, SLONG input)
 
         p_thing->Draw.Tweened->Angle = (p_thing->Draw.Tweened->Angle + da) & 2047;
     } else
-#endif
-#endif
     {
         if (input & INPUT_MASK_LEFT) {
             if (p_thing->SubState == SUB_STATE_SIDLE) {
@@ -3110,11 +2912,7 @@ SLONG player_turn_left_right(Thing* p_thing, SLONG input)
 
             } else if (p_thing->State != STATE_SEARCH) {
                 if (p_thing->SubState == SUB_STATE_RUNNING) {
-#ifdef TARGET_DC
-                    SLONG max_da = 14 + ((p_thing->Velocity - 9) >> 1);
-#else
                     SLONG max_da = 14 + (abs(p_thing->Draw.Tweened->Roll) / 3);
-#endif
                     if (da > max_da) {
                         da = max_da;
                     }
@@ -3137,13 +2935,7 @@ SLONG player_turn_left_right(Thing* p_thing, SLONG input)
                 //						if(p_thing->Genus.Person->pcom_ai_counter<TURN_TIMER)
                 p_thing->Draw.Tweened->Angle = (p_thing->Draw.Tweened->Angle + da) & 2047;
                 if (p_thing->Velocity > 10 && p_thing->SubState == SUB_STATE_RUNNING) {
-#ifdef TARGET_DC
-                    // Nasty hack to keep Darci leaning the same amount as she's turning, otherwise it looks awful.
-                    p_thing->Draw.Tweened->Roll = -(((p_thing->Velocity - 9) * da) >> 3);
-                    p_thing->Draw.Tweened->DRoll = 0;
-#else
                     p_thing->Draw.Tweened->DRoll = (p_thing->Velocity - 9) >> 1;
-#endif
                 }
 
                 if (p_thing->State == STATE_IDLE && !is_person_crouching(p_thing)) {
@@ -3171,11 +2963,7 @@ SLONG player_turn_left_right(Thing* p_thing, SLONG input)
 
             } else if (p_thing->State != STATE_SEARCH) {
                 if (p_thing->SubState == SUB_STATE_RUNNING) {
-#ifdef TARGET_DC
-                    SLONG max_da = 14 + ((p_thing->Velocity - 9) >> 1);
-#else
                     SLONG max_da = 14 + (abs(p_thing->Draw.Tweened->Roll) / 3);
-#endif
                     if (da > max_da) {
                         da = max_da;
                     }
@@ -3199,13 +2987,7 @@ SLONG player_turn_left_right(Thing* p_thing, SLONG input)
 
                 // if(p_thing->Velocity>10)
                 if (p_thing->Velocity > 10 && p_thing->SubState == SUB_STATE_RUNNING) {
-#ifdef TARGET_DC
-                    // Nasty hack to keep Darci leaning the same amount as she's turning, otherwise it looks awful.
-                    p_thing->Draw.Tweened->Roll = (((p_thing->Velocity - 9) * da) >> 3);
-                    p_thing->Draw.Tweened->DRoll = 0;
-#else
                     p_thing->Draw.Tweened->DRoll = -((p_thing->Velocity - 9) >> 1);
-#endif
                 }
                 //						if(p_thing->State==STATE_IDLE)
                 if (p_thing->State == STATE_IDLE && !is_person_crouching(p_thing)) {
@@ -3765,8 +3547,6 @@ ULONG apply_button_input(struct Thing* p_player, struct Thing* p_person, ULONG i
     }
 
     */
-#ifndef PSX
-#ifndef TARGET_DC
 
     if (p_person->Genus.Person->Mode == PERSON_MODE_FIGHT) {
         //
@@ -3775,8 +3555,6 @@ ULONG apply_button_input(struct Thing* p_player, struct Thing* p_person, ULONG i
 
         CONSOLE_text_at(400, 400, 50, "Fight mode");
     }
-#endif
-#endif
     /*
             if(input&INPUT_MASK_MODE_CHANGE)
             {
@@ -3964,11 +3742,7 @@ ULONG apply_button_input(struct Thing* p_player, struct Thing* p_person, ULONG i
                             set_anim(p_person, ANIM_SLIDER_START);
                             p_person->SubState = SUB_STATE_RUNNING_SKID_STOP;
                             if (!(p_person->Genus.Person->Flags & FLAG_PERSON_SLIDING)) {
-#ifndef PSX
                                 MFX_play_thing(THING_NUMBER(p_person), S_SLIDE_START, MFX_LOOPED, p_person);
-#else
-                                MFX_play_thing(THING_NUMBER(p_person), S_SLIDE_START, MFX_LOOPED | MFX_FLAG_SLIDER, p_person);
-#endif
                                 p_person->Genus.Person->Flags |= FLAG_PERSON_SLIDING;
                             }
                         }
@@ -4097,11 +3871,7 @@ ULONG apply_button_input(struct Thing* p_player, struct Thing* p_person, ULONG i
         // if it does choose the best meaning and initiate it
         // else ignore it.
     }
-#ifndef PSX
     if ((input & INPUT_MOVEMENT_MASK) || (mouse_input && MouseDX))
-#else
-    if ((input & INPUT_MOVEMENT_MASK))
-#endif
     {
         //		LogText(" apply button input %d  state %d\n",input,p_person->State);
         if (!(p_person->Genus.Person->Flags & FLAG_PERSON_NON_INT_M)) {
@@ -4267,25 +4037,6 @@ ULONG apply_button_input_fight(Thing* p_player, Thing* p_person, ULONG input)
             return (INPUT_MASK_PUNCH);
         }
 
-#ifdef PSX
-    //		if (p_player->Genus.Player->Pressed & INPUT_MASK_MOVE &&
-    //		   !(p_player->Genus.Player->Pressed & INPUT_MASK_FORWARDS))
-    if (!is_person_ko(p_person)) {
-        if (p_player->Genus.Player->Pressed & INPUT_MASK_STEP_RIGHT) {
-
-            person_pick_best_target(p_person, 1);
-            GAME_FLAGS |= GF_SIDE_ON_COMBAT;
-            pl->DoneSomething = TRUE;
-            return INPUT_MASK_ACTION;
-        } else if (p_player->Genus.Player->Pressed & INPUT_MASK_STEP_LEFT) {
-
-            person_pick_best_target(p_person, -1);
-            GAME_FLAGS |= GF_SIDE_ON_COMBAT;
-            pl->DoneSomething = TRUE;
-            return INPUT_MASK_ACTION;
-        }
-    }
-#endif
     //
     // move button gets us out of combat mode (for fleeing or something)
     //
@@ -5088,9 +4839,7 @@ ULONG apply_button_input_car(Thing* p_furn, ULONG input)
     // get analogue / digital steering inputs
 
     // DC is always analogue
-#ifndef TARGET_DC
     if (analogue)
-#endif
     {
         /*
                         SLONG	dx,vx;
@@ -5140,7 +4889,6 @@ ULONG apply_button_input_car(Thing* p_furn, ULONG input)
         veh->IsAnalog = 1;
 
     }
-#ifndef TARGET_DC
     else {
         veh->IsAnalog = 0;
         veh->Steering = 0;
@@ -5150,7 +4898,6 @@ ULONG apply_button_input_car(Thing* p_furn, ULONG input)
         if (input & INPUT_MASK_RIGHT)
             veh->Steering++;
     }
-#endif
 
     // decode controls
     veh->DControl = 0;
@@ -5170,7 +4917,6 @@ ULONG apply_button_input_car(Thing* p_furn, ULONG input)
 //
 // Driving a bike.
 //
-#ifndef PSX
 #ifdef BIKE
 ULONG apply_button_input_bike(Thing* p_bike, ULONG input)
 {
@@ -5237,7 +4983,6 @@ ULONG apply_button_input_bike(Thing* p_bike, ULONG input)
     return 0;
 }
 #endif
-#endif
 
 SLONG last_camera_dx;
 SLONG last_camera_dy;
@@ -5285,73 +5030,20 @@ ULONG get_hardware_input(UWORD type)
     //	Temporary joystick stuff.
     //
 
-#ifdef TARGET_DC
-// Deal with analogue buttons as well as
-// digital ones. This works fine for the analogue triggers
-// of the DC.
-#define BUTTON_IS_PRESSED(value) ((value & 0x80) != 0)
-#else
 // Don't know what happens on the PC, so I'll assume that
 // whatever was originally there works.
 #define BUTTON_IS_PRESSED(value) (value)
-#endif
 
-#ifdef TARGET_DC
-#define AXIS_CENTRE 128
-// In-game deadzone size.
-// #define	NOISE_TOLERANCE			8
-// If there's no walking, we need to grow this a bit so you can turn on the spot easier.
-#define NOISE_TOLERANCE 24
-
-// Menu deadzone size.
-#define NOISE_TOLERANCE_REMAP 64
-// This should be more than 32, because that is the value when the controller goes into the
-// corner "klunk", and it's really annoying to have Darci walking just at that point.
-// #define RUN_WALK_LEVEL			42
-// Sod it - ditch walking by this method altogether - it's too much of a pain.
-// If you want to walk, press the walk button.
-#define RUN_WALK_LEVEL 128
-
-#define AXIS_MIN (AXIS_CENTRE - NOISE_TOLERANCE)
-#define AXIS_MAX (AXIS_CENTRE + NOISE_TOLERANCE)
-#define AXIS_MIN_REMAP (AXIS_CENTRE - NOISE_TOLERANCE_REMAP)
-#define AXIS_MAX_REMAP (AXIS_CENTRE + NOISE_TOLERANCE_REMAP)
-
-#else
 #define AXIS_CENTRE 32768
 #define NOISE_TOLERANCE 8192
 #define AXIS_MIN (AXIS_CENTRE - NOISE_TOLERANCE)
 #define AXIS_MAX (AXIS_CENTRE + NOISE_TOLERANCE)
-#endif
 
-#ifndef PSX
     extern DIJOYSTATE the_state;
 
-#ifdef TARGET_DC
-
-    DWORD dwCurrentTime = timeGetTime();
-    if (g_dwLastInputChangeTime == 0) {
-        // Almost certainly start of day!
-        g_dwLastInputChangeTime = dwCurrentTime;
-    }
-    // Do this now, rather than later (coz there are some returns dotted around).
-    // Even if a key is pressed this time, that's no problem - screensaver will be
-    // disabled next frame.
-    // I don't think we need to worry about wraparound much - this only does so every 49 days.
-    // The Sega spec says 300 seconds, so we shall make it 300 seconds.
-    if ((unsigned)(dwCurrentTime - g_dwLastInputChangeTime) > 1000 * 300) {
-        // Enable the screensaver.
-        PANEL_enable_screensaver();
-    } else {
-        // Nope - turn it off.
-        PANEL_disable_screensaver();
-    }
-
-#else
 
     DWORD dwCurrentTime = 0;
 
-#endif
 
     if (type & INPUT_TYPE_JOY) {
         if (ReadInputDevice()) {
@@ -5360,12 +5052,6 @@ ULONG get_hardware_input(UWORD type)
             {
                 ULONG ulAxisMax = AXIS_MAX;
                 ULONG ulAxisMin = AXIS_MIN;
-#ifdef TARGET_DC
-                if (type & INPUT_TYPE_REMAP_DPAD) {
-                    ulAxisMax = AXIS_MAX_REMAP;
-                    ulAxisMin = AXIS_MIN_REMAP;
-                }
-#endif
 
                 if (the_state.lX > ulAxisMax) {
                     g_dwLastInputChangeTime = dwCurrentTime;
@@ -5379,35 +5065,6 @@ ULONG get_hardware_input(UWORD type)
                     g_dwLastInputChangeTime = dwCurrentTime;
                     input |= INPUT_MASK_BACKWARDS;
                 } else if (the_state.lY < ulAxisMin) {
-#ifdef TARGET_DC
-                    input |= INPUT_MASK_FORWARDS;
-
-                    // MIKE! Roper doesn't exist in the frontend - you're confusing the poor thing.
-                    if (BUTTON_IS_PRESSED(the_state.rgbButtons[joypad_button_use[JOYPAD_BUTTON_MOVE]]) && (NETPERSON != NULL) && (NET_PERSON(PLAYER_ID) != NULL) && (NET_PERSON(PLAYER_ID)->Genus.Person != NULL) && (NET_PERSON(PLAYER_ID)->Genus.Person->PersonType != PERSON_ROPER)) {
-                        // Forces a walk - no running. (Except roper can't force Walk)
-                    } else {
-#if 0
-						//
-						// run if its roper, MikeD
-						//
-						if ( ( the_state.lY < RUN_WALK_LEVEL ) ||
-							 ( ( NETPERSON != NULL ) &&
-							   ( NET_PERSON(PLAYER_ID) != NULL ) &&
-							   ( NET_PERSON(PLAYER_ID)->Genus.Person != NULL ) &&
-							   ( NET_PERSON(PLAYER_ID)->Genus.Person->PersonType==PERSON_ROPER ) ) )
-						{
-							// More than half forwards, so activate "run" as well.
-							input|=INPUT_MASK_MOVE;
-						}
-#else
-                        // Everyone always runs now.
-                        {
-                            ASSERT(RUN_WALK_LEVEL == 128);
-                            input |= INPUT_MASK_MOVE;
-                        }
-#endif
-                    }
-#else
                     input |= INPUT_MASK_FORWARDS;
 
                     // roper can't run on PC analogue now
@@ -5420,7 +5077,6 @@ ULONG get_hardware_input(UWORD type)
 #ifdef AMERICA
                     input |= INPUT_MASK_MOVE;
 #endif
-#endif
                     g_dwLastInputChangeTime = dwCurrentTime;
                 }
 
@@ -5431,38 +5087,6 @@ ULONG get_hardware_input(UWORD type)
                     m_bForceWalk = FALSE;
                 }
 
-#ifdef TARGET_DC
-                // This is set to the right value by the "analogue" env var at start of game.
-                // analogue = 1;
-#if 0
-				// Linear
-				input|=((the_state.lX>>1)+0)<<18;
-				input|=((the_state.lY>>1)+0)<<25;    //on PC -128 is up!
-#else
-                // Squared - seems to work much better - less sensitive in the middle.
-                int iXaxis = the_state.lX - AXIS_CENTRE;
-                int iYaxis = the_state.lY - AXIS_CENTRE;
-                if (iXaxis < 0) {
-                    iXaxis *= -iXaxis;
-                } else {
-                    iXaxis *= iXaxis;
-                }
-                if (iYaxis < 0) {
-                    iYaxis *= -iYaxis;
-                } else {
-                    iYaxis *= iYaxis;
-                }
-                iXaxis >>= 7;
-                iYaxis >>= 7;
-                iXaxis = (iXaxis + AXIS_CENTRE) >> 1;
-                iYaxis = (iYaxis + AXIS_CENTRE) >> 1;
-                ASSERT((iXaxis >= 0) && (iXaxis <= 0x7f));
-                ASSERT((iYaxis >= 0) && (iYaxis <= 0x7f));
-                input |= iXaxis << 18;
-                input |= iYaxis << 25; // on PC -128 is up!
-#endif
-
-#else
                 if (analogue) {
                     //
                     // -64 to +63    7 bits per axis
@@ -5488,7 +5112,6 @@ ULONG get_hardware_input(UWORD type)
                                                 }
                 */
 
-#endif
 
                 /*
                                                 if (Keys[KB_I])
@@ -5509,323 +5132,6 @@ ULONG get_hardware_input(UWORD type)
                                                 }
                 */
 
-#ifdef TARGET_DC
-
-                // Detect ABXY+Start behaviour. The first press must return you
-                // immediately (i.e. no confirmation) to the front-end menu, and
-                // from there another press must return to the boot menu.
-                if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_A]) && BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_B]) && BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_X]) && BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_Y]) && BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_START])) {
-                    if (!m_bDreamcastABXYStartComboPressedLastTime) {
-                        // Yes. Set the flag.
-                        g_bDreamcastABXYStartComboPressed = TRUE;
-                        m_bDreamcastABXYStartComboPressedLastTime = TRUE;
-
-                        if (g_bDreamcastABXYStartShouldGoToBootRomImmediately) {
-                            // We haven't go to the Main menu yet, so just toast the machine, back to the boot ROM.
-                            ASSERT(FALSE);
-                            ResetToFirmware();
-                        }
-                    }
-                } else {
-                    m_bDreamcastABXYStartComboPressedLastTime = FALSE;
-                }
-
-#ifdef DREAMCAST_CHEATS_PLEASE_BOB
-                {
-                    // Register "button strings" and spot cheat strings.
-
-                    static DWORD dwLastTimeAButtonWasAdded = 0;
-
-                    if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER]) && BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER])) {
-                        // Add the current button (if any) to the string.
-                        char cAdd = ' ';
-#define ADD_CHEAT_BUTTON(name, character)                             \
-    if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_##name])) \
-    cAdd = character
-                        // Can't use the start button for cheats!
-                        ADD_CHEAT_BUTTON(A, 'A');
-                        ADD_CHEAT_BUTTON(B, 'B');
-                        ADD_CHEAT_BUTTON(X, 'X');
-                        ADD_CHEAT_BUTTON(Y, 'Y');
-                        ADD_CHEAT_BUTTON(UP, 'U');
-                        ADD_CHEAT_BUTTON(DOWN, 'D');
-                        ADD_CHEAT_BUTTON(LEFT, 'L');
-                        ADD_CHEAT_BUTTON(RIGHT, 'R');
-
-                        if (cCheatString[0] != cAdd) {
-                            for (int i = sizeof(cCheatString) - 1; i > 0; i--) {
-                                cCheatString[i] = cCheatString[i - 1];
-                            }
-                            cCheatString[0] = cAdd;
-                            dwLastTimeAButtonWasAdded = GAME_TURN;
-                        }
-
-                        // Now look for strings. Remember, these are _backwards_.
-#define IS_STRING(string) (strncmp(string, cCheatString, strlen(string)) == 0)
-                        if (IS_STRING("Y R R A B Y R R A B")) {
-                            // BARRY BARRY
-                            // Enable the fast-key cheats.
-                            CONSOLE_text("OK, fast cheats enabled, D'arci.");
-                            g_bCheatsEnabled = TRUE;
-                        } else if (IS_STRING("Y X B A")) {
-                            // Hehe.
-                            CONSOLE_text("That's not a cheat code, D'arci!");
-                            cCheatString[0] = '\0';
-                        } else if (IS_STRING("A R A L A R A L")) {
-                            // LARALARA (yes, as in croft).
-                            // Unlock all missions.
-                            g_iCheatNumber = 0x1a1a0001;
-                        } else if (IS_STRING("B A X R D L")) {
-                            // LDR XAB. Two "V" shapes.
-                            // Shows version number.
-                            g_iCheatNumber = 0x1a1a0002;
-                        } else if (IS_STRING("R U D D A L B")) {
-                            // "BLADDUR" = "Bladder" - like a pigskin - inflate it!
-                            // Yeah, tenuous I know. Like I give a monkeys.
-                            // Toggle inflation!
-                            g_iCheatNumber = 0x10f1a7e;
-                        } else if (IS_STRING("A B B A D A B B A Y")) {
-                            // YABBADABBA (doo)
-                            // Finish this level immediately.
-                            // 0xd01e7e1 = "do level" sort of.
-                            g_bPunishMePleaseICheatedOnThisLevel = TRUE;
-                            cheat = 1;
-                            g_iCheatNumber = 0xd01e7e1;
-                        } else if (IS_STRING("L L U D Y B A B")) {
-                            // BABYDULL. Ha ha.
-                            // Toggle whether you can move when both triggers are down (for debugging stuff).
-                            extern bool m_bTweakFramerates;
-                            m_bTweakFramerates = !m_bTweakFramerates;
-                            // And stop it triggering again.
-                            cCheatString[0] = '*';
-                        }
-                    } else {
-                        // Both triggers not held - end current cheat.
-                        cCheatString[0] = '\0';
-                        g_iCheatNumber = 0;
-                    }
-
-#undef IS_STRING
-#undef ADD_CHEAT_BUTTON
-                }
-#endif
-
-#if 0
-#if defined(DEBUG) && defined(TARGET_DC)
-				static float fFogStart = 0.0f;
-				static float fFogEnd = 100.0f;
-				static float fFogDensity = 1.0f;
-				static DWORD dwFogTableMode = D3DFOG_LINEAR;
-
-				if ( 
-					 ( BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER] ) ) &&
-					 ( BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER] ) ) )
-				{
-					if ( BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_X] ) )
-					{
-						// Change FogStart
-						//fFogStart += ( (float)the_state.lX - AXIS_CENTRE ) / 1270.0f;
-						fFogStart = (float)the_state.lX / 256.0f;
-					}
-					if ( BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_B] ) )
-					{
-						// Change FogEnd
-						//fFogEnd += ( (float)the_state.lX - AXIS_CENTRE ) / 1270.0f;
-						fFogEnd = (float)the_state.lX;
-					}
-					if ( BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_A] ) )
-					{
-						// Change FogEnd
-						//fFogEnd += ( (float)the_state.lX - AXIS_CENTRE ) / 1270.0f;
-						fFogDensity = (float)the_state.lX / 256.0f;
-					}
-					if ( BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_Y] ) )
-					{
-						switch ( dwFogTableMode )
-						{
-						case D3DFOG_LINEAR:
-							dwFogTableMode = D3DFOG_EXP;
-							break;
-						case D3DFOG_EXP:
-							dwFogTableMode = D3DFOG_EXP2;
-							break;
-						case D3DFOG_EXP2:
-							dwFogTableMode = D3DFOG_NONE;
-							break;
-						case D3DFOG_NONE:
-							dwFogTableMode = D3DFOG_LINEAR;
-							break;
-						default:
-							dwFogTableMode = D3DFOG_NONE;
-							break;
-						}
-					}
-
-					m_fFogTableDebugStart = fFogStart;
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGTABLESTART, (*((DWORD *)(&fFogStart))) );
-					m_fFogTableDebugEnd = fFogEnd;
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGTABLEEND, (*((DWORD *)(&fFogEnd))) );
-					m_fFogTableDebugDensity = fFogDensity;
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGTABLEDENSITY, (*((DWORD *)(&fFogDensity))) );
-					m_dwFogTableDebugFogTableMode = dwFogTableMode;
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGTABLEMODE, dwFogTableMode);
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGCOLOR, 0x00ff00ff);
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, TRUE);
-
-					memset ( the_state.rgbButtons, 0, 32 );
-					input = ( 0x3f << 18 ) | ( 0x3f << 25 );
-				}
-				else
-				{
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, FALSE);
-				}
-#endif
-#endif
-
-                if (((type & INPUT_TYPE_REMAP_DPAD) != 0) || ((type & INPUT_TYPE_REMAP_BUTTONS) != 0)) {
-
-                    // Take a copy of the state.
-                    my_copy_of_the_state = the_state;
-                    if ((type & INPUT_TYPE_REMAP_DPAD) != 0) {
-                        // Remap the D-pad.
-                        if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_UP])) {
-                            // D-pad up.
-                            input |= INPUT_MASK_FORWARDS;
-                            the_state.rgbButtons[DI_DC_BUTTON_UP] = 0;
-                            g_dwLastInputChangeTime = dwCurrentTime;
-                        }
-                        if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_DOWN])) {
-                            // D-pad down.
-                            input |= INPUT_MASK_BACKWARDS;
-                            the_state.rgbButtons[DI_DC_BUTTON_DOWN] = 0;
-                            g_dwLastInputChangeTime = dwCurrentTime;
-                        }
-                        if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_LEFT])) {
-                            // D-pad left.
-                            input |= INPUT_MASK_LEFT;
-                            the_state.rgbButtons[DI_DC_BUTTON_LEFT] = 0;
-                            g_dwLastInputChangeTime = dwCurrentTime;
-                        }
-                        if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_RIGHT])) {
-                            // D-pad right.
-                            input |= INPUT_MASK_RIGHT;
-                            the_state.rgbButtons[DI_DC_BUTTON_RIGHT] = 0;
-                            g_dwLastInputChangeTime = dwCurrentTime;
-                        }
-                    }
-
-                    extern bool bWriteVMInsteadOfVMU;
-                    if (!bWriteVMInsteadOfVMU) {
-                        // This is a Yank build - they like all buttons to do things.
-                        if ((type & INPUT_TYPE_REMAP_BUTTONS) != 0) {
-                            // Remap the buttons as well.
-                            // A,Y,C,LTRIG are DOMENU, B,X,Z,RTRIG are CANCEL
-                            if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER])) {
-                                input |= INPUT_MASK_DOMENU;
-                                the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER] = 0;
-                                g_dwLastInputChangeTime = dwCurrentTime;
-                            }
-                            if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_A])) {
-                                input |= INPUT_MASK_DOMENU;
-                                the_state.rgbButtons[DI_DC_BUTTON_A] = 0;
-                                g_dwLastInputChangeTime = dwCurrentTime;
-                            }
-                            if ((type & INPUT_TYPE_REMAP_NOT_X_Y) == 0) {
-                                if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_Y])) {
-                                    input |= INPUT_MASK_DOMENU;
-                                    the_state.rgbButtons[DI_DC_BUTTON_Y] = 0;
-                                    g_dwLastInputChangeTime = dwCurrentTime;
-                                }
-                            }
-                            if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_C])) {
-                                input |= INPUT_MASK_DOMENU;
-                                the_state.rgbButtons[DI_DC_BUTTON_C] = 0;
-                                g_dwLastInputChangeTime = dwCurrentTime;
-                            }
-                            if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_B])) {
-                                input |= INPUT_MASK_CANCEL;
-                                the_state.rgbButtons[DI_DC_BUTTON_B] = 0;
-                                g_dwLastInputChangeTime = dwCurrentTime;
-                            }
-                            if ((type & INPUT_TYPE_REMAP_NOT_X_Y) == 0) {
-                                if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_X])) {
-                                    input |= INPUT_MASK_CANCEL;
-                                    the_state.rgbButtons[DI_DC_BUTTON_X] = 0;
-                                    g_dwLastInputChangeTime = dwCurrentTime;
-                                }
-                            }
-                            if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_Z])) {
-                                input |= INPUT_MASK_CANCEL;
-                                the_state.rgbButtons[DI_DC_BUTTON_Z] = 0;
-                                g_dwLastInputChangeTime = dwCurrentTime;
-                            }
-                            if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER])) {
-                                input |= INPUT_MASK_CANCEL;
-                                the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER] = 0;
-                                g_dwLastInputChangeTime = dwCurrentTime;
-                            }
-                        }
-                    } else {
-                        // This is a European build - they like only A and B to work, and the rest to do nothing..
-                        if ((type & INPUT_TYPE_REMAP_BUTTONS) != 0) {
-                            // Remap the buttons as well.
-                            // A,Y,C,LTRIG are DOMENU, B,X,Z,RTRIG are CANCEL
-                            if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER])) {
-                                // input |= INPUT_MASK_DOMENU;
-                                the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER] = 0;
-                                g_dwLastInputChangeTime = dwCurrentTime;
-                            }
-                            if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_A])) {
-                                input |= INPUT_MASK_DOMENU;
-                                the_state.rgbButtons[DI_DC_BUTTON_A] = 0;
-                                g_dwLastInputChangeTime = dwCurrentTime;
-                            }
-                            if ((type & INPUT_TYPE_REMAP_NOT_X_Y) == 0) {
-                                if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_Y])) {
-                                    // input |= INPUT_MASK_DOMENU;
-                                    the_state.rgbButtons[DI_DC_BUTTON_Y] = 0;
-                                    g_dwLastInputChangeTime = dwCurrentTime;
-                                }
-                            }
-                            if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_C])) {
-                                // input |= INPUT_MASK_DOMENU;
-                                the_state.rgbButtons[DI_DC_BUTTON_C] = 0;
-                                g_dwLastInputChangeTime = dwCurrentTime;
-                            }
-                            if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_B])) {
-                                input |= INPUT_MASK_CANCEL;
-                                the_state.rgbButtons[DI_DC_BUTTON_B] = 0;
-                                g_dwLastInputChangeTime = dwCurrentTime;
-                            }
-                            if ((type & INPUT_TYPE_REMAP_NOT_X_Y) == 0) {
-                                if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_X])) {
-                                    // input |= INPUT_MASK_CANCEL;
-                                    the_state.rgbButtons[DI_DC_BUTTON_X] = 0;
-                                    g_dwLastInputChangeTime = dwCurrentTime;
-                                }
-                            }
-                            if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_Z])) {
-                                // input |= INPUT_MASK_CANCEL;
-                                the_state.rgbButtons[DI_DC_BUTTON_Z] = 0;
-                                g_dwLastInputChangeTime = dwCurrentTime;
-                            }
-                            if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER])) {
-                                // input |= INPUT_MASK_CANCEL;
-                                the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER] = 0;
-                                g_dwLastInputChangeTime = dwCurrentTime;
-                            }
-                        }
-                    }
-
-                    if ((type & INPUT_TYPE_REMAP_START_BUTTON) != 0) {
-                        if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_START])) {
-                            input |= INPUT_MASK_DOMENU;
-                            the_state.rgbButtons[DI_DC_BUTTON_START] = 0;
-                            g_dwLastInputChangeTime = dwCurrentTime;
-                        }
-                    }
-                }
-#endif // #ifdef TARGET_DC
 
                 /*
 
@@ -5949,23 +5255,9 @@ ULONG get_hardware_input(UWORD type)
                 }
 #endif
 
-#ifdef TARGET_DC
-                extern bool m_bTweakFramerates;
-                if (m_bTweakFramerates && (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER])) && (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER]))) {
-                    // Both triggers down - bin any input.
-                    // Otherwise stuff gets impossible to check.
-                    input = (AXIS_CENTRE << 17) | (AXIS_CENTRE << 24);
-                }
-#endif
             }
 
             if (input) {
-#ifdef TARGET_DC
-                if (((type & INPUT_TYPE_REMAP_DPAD) != 0) || ((type & INPUT_TYPE_REMAP_BUTTONS) != 0)) {
-                    // Restore the copy.
-                    the_state = my_copy_of_the_state;
-                }
-#endif
                 input_mode = INPUT_JOYPAD;
                 m_CurrentInput = input;
 
@@ -5988,134 +5280,6 @@ ULONG get_hardware_input(UWORD type)
             bLastInputWasntAnInputCozThereWasNoController = TRUE;
         }
     }
-#endif
-#ifdef PSX
-    extern UBYTE PAD_Type;
-
-    PAD_Type = PadInfoMode(0, InfoModeCurID, 0);
-    switch (PAD_Type) {
-    case 0:
-        GAME_FLAGS |= GF_PAUSED;
-        break;
-    case 4:
-    case 7:
-        for (c0 = 0; c0 < 14; c0++) {
-            if (PadKeyIsPressed(&PAD_Input1, PAD_Current->data[c0].pad_button)) {
-                if (PAD_Current->data[c0].input_mask > 0) {
-                    if (PAD_Current->data[c0].pad_flags & PAD_FLAG_DEBOUNCE) {
-                        if (!(psx_pad_mask & (1 << c0))) {
-                            input |= PAD_Current->data[c0].input_mask;
-                            psx_pad_mask |= (1 << c0);
-                        }
-                    } else
-                        input |= PAD_Current->data[c0].input_mask;
-                } else {
-                    if (PAD_Current->data[c0].pad_flags & PAD_FLAG_DEBOUNCE) {
-                        if (!(psx_pad_mask & (1 << c0))) {
-                            psx_pad_mask |= (1 << c0);
-                            Keys[-PAD_Current->data[c0].input_mask] = 1;
-                        }
-                    } else
-                        Keys[-PAD_Current->data[c0].input_mask] = 1;
-                }
-            } else
-                psx_pad_mask &= ~(1 << c0);
-        }
-        if (PAD_Type == 7) {
-            UBYTE joyx, joyy;
-
-            analogue = 1;
-            //		input|=INPUT_MASK_MOVE;
-            //		printf("%d,%d\n",JoystickLeftX(&PAD_Input1),JoystickLeftY(&PAD_Input1));
-
-            /*
-                                    {
-                                            SLONG	in_dx,in_dz;
-                                            SLONG	dx,dz;
-                                            SLONG	angle;
-
-                                            in_dx=JoystickLeftX(&PAD_Input1)-128;
-                                            in_dz=JoystickLeftY(&PAD_Input1)-128;
-
-                                            get_analogue_dxdz(in_dx,in_dz,&dx,&dz);
-                                            angle=Arctan(-dx,dz);
-                                            if(QDIST2(abs(dx),abs(dz))>32)
-                                            {
-                                                    if(angle<256 || angle>2048-256)
-                                                    {
-                                                            input|=INPUT_MASK_FORWARDS;
-                                                    }
-                                                    if(angle>512-256 && angle<512+256)
-                                                            input|=INPUT_MASK_LEFT;
-
-                                                    if(angle>1024-256 && angle<1024+256)
-                                                            input|=INPUT_MASK_BACKWARDS;
-                                                    if(angle>1024+512-256 && angle<1024+512+256)
-                                                            input|=INPUT_MASK_RIGHT;
-
-                                            }
-
-                                            joyx=dx+128;
-                                            joyy=dz+128;
-
-
-
-                                    }
-                                    input|=((joyx)>>1)<<18;
-                                    input|=((joyy)>>1)<<25;    //on PC -128 is up!
-            */
-
-            input |= ((joyx = JoystickLeftX(&PAD_Input1)) >> 1) << 18;
-            input |= ((joyy = JoystickLeftY(&PAD_Input1)) >> 1) << 25; // on PC -128 is up!
-
-            if (joyx < 96 - 32)
-                input |= INPUT_MASK_LEFT;
-            if (joyx > 160 + 32)
-                input |= INPUT_MASK_RIGHT;
-            if (joyy < 96 - 32) {
-                input |= INPUT_MASK_MOVE;
-                input |= INPUT_MASK_FORWARDS;
-            }
-            if (joyy > 160 + 32)
-                input |= INPUT_MASK_BACKWARDS;
-
-        } else
-            analogue = 0;
-#ifndef VERSION_DEMO
-#ifdef CHEAT_LOCATION_KEYS
-        if (input == (INPUT_MASK_PUNCH | INPUT_MASK_KICK | INPUT_MASK_ACTION | INPUT_MASK_JUMP | INPUT_MASK_LEFT))
-            cheat = 2;
-#endif
-        //		if(input==(INPUT_MASK_PUNCH|INPUT_MASK_KICK|INPUT_MASK_ACTION|INPUT_MASK_JUMP|INPUT_MASK_RUN))
-        //			PYRO_create(NET_PERSON(0)->WorldPos, PYRO_GAMEOVER);
-
-        if (input == (INPUT_MASK_PUNCH | INPUT_MASK_KICK | INPUT_MASK_ACTION | INPUT_MASK_JUMP | INPUT_MASK_RIGHT)) {
-            if (NET_PERSON(0)->Genus.Person->Health != 1000) {
-                NET_PERSON(0)->Genus.Person->Health = 1000;
-
-                NET_PERSON(0)->Genus.Person->ammo_packs_pistol = 240;
-                NET_PERSON(0)->Genus.Person->ammo_packs_shotgun = 240;
-                NET_PERSON(0)->Genus.Person->ammo_packs_ak47 = 240;
-
-                alloc_special(SPECIAL_AK47, SPECIAL_SUBSTATE_NONE, (NET_PERSON(0)->WorldPos.X >> 8) + 128, NET_PERSON(0)->WorldPos.Y >> 8, NET_PERSON(0)->WorldPos.Z >> 8, 0);
-                alloc_special(SPECIAL_SHOTGUN, SPECIAL_SUBSTATE_NONE, (NET_PERSON(0)->WorldPos.X >> 8) - 128, NET_PERSON(0)->WorldPos.Y >> 8, NET_PERSON(0)->WorldPos.Z >> 8, 0);
-                //				alloc_special(SPECIAL_EXPLOSIVES, SPECIAL_SUBSTATE_NONE,(NET_PERSON(0)->WorldPos.X>>8)-128 ,NET_PERSON(0)->WorldPos.Y>>8 ,(NET_PERSON(0)->WorldPos.Z>>8)+128 , 0);
-                alloc_special(SPECIAL_GRENADE, SPECIAL_SUBSTATE_NONE, (NET_PERSON(0)->WorldPos.X >> 8) + 128, NET_PERSON(0)->WorldPos.Y >> 8, (NET_PERSON(0)->WorldPos.Z >> 8) - 128, 0);
-
-                extern SLONG Wadmenu_MuckyTime;
-
-                Wadmenu_MuckyTime = 0;
-                cheat = 1;
-            }
-        }
-#endif
-        debug_input = input;
-        break;
-    default:
-        GAME_FLAGS |= GF_PAUSED;
-        break;
-    }
-#endif // #ifdef	PSX
 
 #ifndef REMAP_KEYBOARD
 
@@ -6259,7 +5423,6 @@ ULONG get_hardware_input(UWORD type)
         if (Keys[KB_Z]) {
             input |= INPUT_MASK_PUNCH;
         }
-#ifndef PSX
 /*
                 if(LeftButton)
                 {
@@ -6271,7 +5434,6 @@ ULONG get_hardware_input(UWORD type)
                         input|=INPUT_MASK_KICK;
                 }
 */
-#endif
         if (Keys[KB_X]) {
             MSG_add(" HARDWARE KICK");
             input |= INPUT_MASK_KICK;
@@ -6280,12 +5442,10 @@ ULONG get_hardware_input(UWORD type)
         if (Keys[KB_C]) {
             input |= INPUT_MASK_ACTION;
         }
-#ifndef PSX
         if (mouse_input) {
             // if(Keys[KB_P0])
             //	input|=INPUT_MASK_ACTION;
         }
-#endif
 
         /*
                         if(Keys[KB_V])
@@ -6307,9 +5467,6 @@ ULONG get_hardware_input(UWORD type)
 
     if (type & INPUT_TYPE_KEY) {
 
-#ifdef TARGET_DC
-        ASSERT(FALSE);
-#else // #ifdef TARGET_DC
 
         if (Keys[keybrd_button_use[KEYBRD_BUTTON_FORWARDS]]) {
             input |= INPUT_MASK_FORWARDS;
@@ -6407,7 +5564,6 @@ ULONG get_hardware_input(UWORD type)
             //			input |= INPUT_MASK_FORWARD;
             input |= INPUT_MASK_MOVE;
         }
-#endif // #else //#ifdef TARGET_DC
     }
 
 #endif // remap_keyboard
@@ -6426,7 +5582,6 @@ ULONG get_hardware_input(UWORD type)
 
     */
 
-#ifndef PSX
 /*
         if (SNIPE_on)
         {
@@ -6453,7 +5608,6 @@ ULONG get_hardware_input(UWORD type)
 
         }
 */
-#endif
 
     if (input) {
         input_mode = INPUT_KEYS;
@@ -6512,29 +5666,16 @@ ULONG apply_button_input_first_person(Thing* p_player, Thing* p_person, ULONG in
     // Should we be in first person mode?
     //
 
-#ifndef PSX
     extern DIJOYSTATE the_state;
 
 #ifdef REMAP_KEYBOARD
-#ifdef TARGET_DC
-    if (the_state.rgbButtons[joypad_button_use[JOYPAD_BUTTON_1STPERSON]])
-#else // #ifdef TARGET_DC
     if ((Keys[keybrd_button_use[JOYPAD_BUTTON_1STPERSON]]) || the_state.rgbButtons[joypad_button_use[JOYPAD_BUTTON_1STPERSON]])
-#endif // #else //#ifdef TARGET_DC
 #else
     if ((Keys[KB_A] && !ShiftFlag) || the_state.rgbButtons[joypad_button_use[JOYPAD_BUTTON_1STPERSON]])
 #endif
     {
         fpm = TRUE;
     }
-#else
-
-    if (input & INPUT_MASK_CAMERA) {
-        // #ifndef	PSX
-        fpm = TRUE;
-        // #endif
-    }
-#endif
 
     if (p_person->State != STATE_IDLE && p_person->State != STATE_GUN && p_person->State != STATE_NORMAL && p_person->State != STATE_HIT_RECOIL) {
         fpm = FALSE;
@@ -6596,12 +5737,8 @@ ULONG apply_button_input_first_person(Thing* p_player, Thing* p_person, ULONG in
 
             look_pitch >>= 4;
             look_pitch &= 2047;
-#ifdef PSX
-            look_pitch = 0;
-#endif
         }
 
-#ifndef PSX
         if (mouse_input) {
             if (MouseDY) {
                 look_pitch -= MouseDY;
@@ -6610,7 +5747,6 @@ ULONG apply_button_input_first_person(Thing* p_player, Thing* p_person, ULONG in
                 p_person->Draw.Tweened->Angle = (p_person->Draw.Tweened->Angle - MouseDX) & 2047;
             }
         }
-#endif
 
         if (input & INPUT_MASK_FORWARDS) {
             look_pitch += 13;
@@ -6634,21 +5770,12 @@ ULONG apply_button_input_first_person(Thing* p_player, Thing* p_person, ULONG in
             set_person_running(p_person);
         }
 
-#ifdef PSX
-        if (look_pitch > 128 && look_pitch <= 1024) {
-            look_pitch = 128;
-        }
-        if (look_pitch < 1900 && look_pitch >= 1024) {
-            look_pitch = 1900;
-        }
-#else
         if (look_pitch > 256 && look_pitch <= 1024) {
             look_pitch = 256;
         }
         if (look_pitch < 1850 && look_pitch >= 1024) {
             look_pitch = 1850;
         }
-#endif
 
         look_pitch &= 2047;
 
@@ -6771,43 +5898,7 @@ void process_hardware_level_input_for_player(Thing* p_player)
     //
 
 //	if (p_person->Genus.Person->Mode != PERSON_MODE_FIGHT)
-#ifndef PSX
 
-#ifdef TARGET_DC
-    // Saner system.
-    static bool bChangeCameraModePressedLastTime = FALSE;
-    if (pl->Pressed & INPUT_MASK_CAMERA) {
-        if (!bChangeCameraModePressedLastTime) {
-            bChangeCameraModePressedLastTime = TRUE;
-
-            // Cycle through the modes. There are four, apparently.
-            g_iPlayerCameraMode++;
-            if (g_iPlayerCameraMode >= 4) {
-                g_iPlayerCameraMode = 0;
-            }
-
-#if 0
-			if(CNET_network_game)
-			{
-				if(p_person->Genus.Person->PlayerID-1==PLAYER_ID)
-				{
-					FC_change_camera_type(0,g_iPlayerCameraMode);
-					FC_force_camera_behind(0);
-				}
-			}
-			else
-#else
-            ASSERT(!CNET_network_game);
-#endif
-            {
-                FC_change_camera_type(p_person->Genus.Person->PlayerID - 1, g_iPlayerCameraMode);
-                FC_force_camera_behind(p_person->Genus.Person->PlayerID - 1);
-            }
-        }
-    } else {
-        bChangeCameraModePressedLastTime = FALSE;
-    }
-#else
     // Blimey! Mad system!
     if (pl->Pressed & INPUT_MASK_CAMERA) {
         g_iPlayerCameraMode = input & INPUT_MASKM_CAM_TYPE;
@@ -6824,8 +5915,6 @@ void process_hardware_level_input_for_player(Thing* p_player)
             FC_force_camera_behind(p_person->Genus.Person->PlayerID - 1);
         }
     }
-#endif
-#endif
 
     if (input & INPUT_MASK_CAM_BEHIND) {
 
@@ -7096,30 +6185,10 @@ void process_hardware_level_input_for_player(Thing* p_player)
 				SATURATE(vel,40,255);
 				PSX_SetShock(0,vel);
 #endif
-#ifdef TARGET_DC
-                if (g_bEngineVibrations) // user preference setting.
-                {
-                    Thing* p_thing = TO_THING(p_person->Genus.Person->InCar);
-                    SLONG vel = QDIST2(abs(p_thing->Genus.Vehicle->VelX), abs(p_thing->Genus.Vehicle->VelZ));
-                    vel >>= 8;
-#if 0
-					Vibrate ( (float)( vel + 24 ) * 0.15, (float)( vel + 80 ) * 0.002f, 1.0f );
-#else
-                    // Gears!
-                    // Vel goes from 0 to about 180,
-                    // so have three gears. 0->63, 64->127, 128->up
-                    int iGear = vel >> 6;
-                    Vibrate((float)(vel & 0x3f) * 0.3f + 4.0f + 2.0f * (float)iGear, (float)(vel + 80) * 0.002f, 1.0f);
-                    // TRACE ( "Engine: gear %i, revs %i\n", iGear, (vel & 0x3f) );
-
-#endif
-                }
-#endif
 
                 processed = apply_button_input_car(TO_THING(p_person->Genus.Person->InCar), input);
                 processed |= apply_button_input(p_player, p_person, 0); // input & INPUT_MASK_ACTION);
             }
-#ifndef PSX
 #ifdef BIKE
             else if (p_person->Genus.Person->Flags & FLAG_PERSON_BIKING) {
                 ASSERT(p_person->Genus.Person->InCar);
@@ -7127,7 +6196,6 @@ void process_hardware_level_input_for_player(Thing* p_player)
                 processed = apply_button_input_bike(TO_THING(p_person->Genus.Person->InCar), input);
                 processed |= apply_button_input(p_player, p_person, input & INPUT_MASK_ACTION);
             } else
-#endif
 #endif
             {
                 if (p_person->Genus.Person->Mode == PERSON_MODE_FIGHT) {
@@ -7147,7 +6215,6 @@ void process_hardware_level_input_for_player(Thing* p_player)
     // Nice friendly bit of debug code...
     //
 #ifndef FINAL
-#ifndef TARGET_DC
     if (Keys[KB_0]) {
         Keys[KB_0] = 0;
 
@@ -7161,7 +6228,6 @@ void process_hardware_level_input_for_player(Thing* p_player)
             }
         }
     }
-#endif
 #endif
 }
 

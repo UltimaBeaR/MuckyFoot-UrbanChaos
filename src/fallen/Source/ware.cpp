@@ -72,7 +72,6 @@ SLONG WARE_calc_height_at(UBYTE ware, SLONG x, SLONG z)
     return 0; // Maybe this should assert...
 }
 
-#ifndef PSX
 
 //
 // Returns the bounding box of the given building. The bounding box is exclusive.
@@ -667,7 +666,6 @@ void WARE_init()
 #endif
 }
 
-#endif
 
 /*
 
@@ -814,8 +812,6 @@ MAV_Action WARE_mav_enter(Thing* p_person, UBYTE ware, UBYTE caps)
             ww->door[best_door].out_x,
             ww->door[best_door].out_z,
             caps);
-#ifndef PSX
-#ifndef TARGET_DC
 #ifdef DEBUG
         AENG_world_line(
             p_person->WorldPos.X >> 8,
@@ -829,8 +825,6 @@ MAV_Action WARE_mav_enter(Thing* p_person, UBYTE ware, UBYTE caps)
             0,
             0x00ff00,
             TRUE);
-#endif
-#endif
 #endif
     }
 
@@ -1046,8 +1040,6 @@ SLONG WARE_in_floorplan(UBYTE ware, UBYTE x, UBYTE z)
     return FALSE;
 }
 
-#ifndef PSX
-#ifndef TARGET_DC
 void WARE_debug(void)
 {
     SLONG i;
@@ -1208,8 +1200,6 @@ void WARE_debug(void)
         }
     }
 }
-#endif
-#endif
 
 SLONG WARE_inside(UBYTE ware, SLONG x, SLONG y, SLONG z)
 {

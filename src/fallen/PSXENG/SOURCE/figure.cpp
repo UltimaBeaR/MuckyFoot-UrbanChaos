@@ -77,7 +77,6 @@ void build_peep_rot_matrix(SLONG yaw, SLONG roll, MATRIX* m)
 
 void draw_steam(SLONG x, SLONG y, SLONG z, SLONG lod)
 {
-#ifndef PSX
     SLONG c0;
     SLONG u, v;
     SLONG trans;
@@ -142,7 +141,6 @@ void draw_steam(SLONG x, SLONG y, SLONG z, SLONG lod)
                 1);
         }
     }
-#endif
 }
 
 void calc_floor_col(SLONG x, SLONG z, SLONG* r, SLONG* g, SLONG* b)
@@ -1672,9 +1670,7 @@ void ANIM_obj_draw(Thing* p_thing, DrawTween* dt)
     // calls LIGHT_get_point(). LIGHT_get_point returns the light on the given
     // point in this context.
     //
-#ifndef PSX
     LIGHT_get_context(THING_NUMBER(p_thing));
-#endif
 
     //
     // The offset to keep the locked limb in the same place.
@@ -2312,7 +2308,6 @@ void DoFigureDraw(void)
     }
 }
 
-#ifndef PSX
 void FIGURE_draw_reflection(Thing* p_thing, SLONG height)
 {
     SLONG dx;
@@ -2344,9 +2339,7 @@ void FIGURE_draw_reflection(Thing* p_thing, SLONG height)
     // calls LIGHT_get_point(). LIGHT_get_point returns the light on the given
     // point in this context.
     //
-#ifndef PSX
     LIGHT_get_context(THING_NUMBER(p_thing));
-#endif
 
     //
     // The offset to keep the locked limb in the same place.
@@ -2445,4 +2438,3 @@ void FIGURE_draw_reflection(Thing* p_thing, SLONG height)
             TRUE);
     }
 }
-#endif

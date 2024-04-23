@@ -4,9 +4,7 @@
 
 #include "game.h"
 #include "mav.h"
-#ifndef PSX
 #include "..\ddengine\headers\aeng.h"
-#endif
 #include "pap.h"
 #include "supermap.h"
 #include "walkable.h"
@@ -94,7 +92,6 @@ static void StoreMavOpts(SLONG x, SLONG z, UBYTE* opt)
 //
 // Calculates the MAV_height array.
 //
-#ifndef PSX
 void MAV_calc_height_array(SLONG ignore_warehouses)
 {
     SLONG i;
@@ -282,13 +279,11 @@ void MAV_calc_height_array(SLONG ignore_warehouses)
 
     */
 }
-#endif
 
 //
 // Makes sure that nobody mavigates into the given square by walking
 // into it.
 //
-#ifndef PSX
 void MAV_turn_off_square(
     SLONG x,
     SLONG z)
@@ -334,8 +329,6 @@ void MAV_turn_off_square(
         }
     }
 }
-#endif
-#ifndef PSX
 
 //
 // Makes sure nobody can go into this square in any way.
@@ -478,7 +471,6 @@ void MAV_remove_facet_car(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
     }
 }
 
-#endif
 
 //
 // Turns off movement in the given direction from the square.
@@ -522,8 +514,6 @@ void MAV_turn_movement_on(UBYTE mx, UBYTE mz, UBYTE dir)
     StoreMavOpts(mx, mz, mo.opt);
 }
 
-#ifndef PSX
-#ifndef TARGET_DC
 void MAV_precalculate()
 {
     SLONG i;
@@ -1418,8 +1408,6 @@ void MAV_draw(
 
     TRACE("MAV_opts_upto = %d\n", MAV_opt_upto);
 }
-#endif
-#endif
 
 //
 // Returns TRUE if you can walk from a to b. If it returns FALSE, then
@@ -2404,7 +2392,6 @@ SLONG MAV_find_building_entrance(
 }
 #endif
 
-#ifndef PSX
 void MAV_precalculate_warehouse_nav(UBYTE ware)
 {
     SLONG i;
@@ -2940,7 +2927,6 @@ void MAV_precalculate_warehouse_nav(UBYTE ware)
     MAV_nav = old_mav_nav;
     MAV_nav_pitch = old_mav_nav_pitch;
 }
-#endif
 
 UBYTE MAV_get_caps(
     UBYTE x,

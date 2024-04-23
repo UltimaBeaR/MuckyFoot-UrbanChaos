@@ -212,10 +212,6 @@ BOOL LibShellMessage(const char* pMessage, const char* pFile, ULONG dwLine);
 #define KEYBOARD 0 // DIDEVTYPE_KEYBOARD
 #define JOYSTICK 1 // DIDEVTYPE_JOYSTICK
 
-#ifdef PSX
-BOOL GetInputDevice(UBYTE type, UBYTE sub_type);
-BOOL ReadInputDevice(void);
-#endif
 
 //---------------------------------------------------------------
 //---------------------------------------------------------------

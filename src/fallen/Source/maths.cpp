@@ -60,7 +60,6 @@ void rotate_obj(SWORD xangle, SWORD yangle, SWORD zangle, Matrix33* r3)
     r3->M[2][2] = (cxsy) >> 15;
 }
 
-#ifndef PSX
 SLONG MATHS_seg_intersect(
     SLONG vx1, SLONG vz1, SLONG vx2, SLONG vz2,
     SLONG wx1, SLONG wz1, SLONG wx2, SLONG wz2)
@@ -216,4 +215,3 @@ SLONG MATHS_seg_intersect(
     // What about if dcrossb and/or acrossb are zero?
     //
 }
-#endif

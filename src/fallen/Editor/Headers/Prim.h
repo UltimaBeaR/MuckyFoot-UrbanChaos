@@ -7,11 +7,7 @@
 // 0 enables the old engine again.
 // NOTE! There are other versions of this define dotted around in other header
 // files! Make sure they all agree or you'll have grief.
-#ifdef TARGET_DC
 #define USE_TOMS_ENGINE_PLEASE_BOB 1
-#else
-#define USE_TOMS_ENGINE_PLEASE_BOB 1
-#endif
 
 //
 // face savetype for primpoint size change
@@ -309,30 +305,6 @@ struct RoofFace4 {
     SWORD Next; // link list of walkables off floor
 };
 
-#ifdef PSX
-#define WALKABLE TexturePage
-
-struct PrimFace4 {
-    SWORD TexturePage;
-    UBYTE AltPal;
-    UBYTE DrawFlags;
-    UWORD Points[4];
-    UBYTE UV[4][2];
-    SWORD ThingIndex;
-    UWORD FaceFlags;
-};
-
-struct PrimFace3 {
-    SWORD TexturePage;
-    UBYTE AltPal;
-    UBYTE DrawFlags;
-    UWORD Points[3];
-    UBYTE UV[3][2];
-    SWORD ThingIndex;
-    UWORD FaceFlags;
-};
-
-#else
 #define WALKABLE Col2
 struct PrimFace3 {
     UBYTE TexturePage;
@@ -371,7 +343,6 @@ struct PrimFace4 {
     UBYTE Type; // move after bright
     SBYTE ID;
 };
-#endif
 
 struct PrimFace4PSX {
     SWORD TexturePage;

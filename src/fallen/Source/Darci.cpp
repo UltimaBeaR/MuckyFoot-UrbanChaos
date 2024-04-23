@@ -19,9 +19,6 @@
 #include "sound.h"
 #include "mav.h"
 
-#ifdef TARGET_DC
-#include "DIManager.h"
-#endif
 
 //---------------------------------------------------------------
 // This is all temporary editor reliant stuff.
@@ -161,11 +158,9 @@ SLONG do_floor_collide(Thing* p_thing, SWORD pelvis, SLONG* new_y, SLONG* foot_y
     x += (p_thing->WorldPos.X) >> 8;
     y += (p_thing->WorldPos.Y) >> 8;
     z += (p_thing->WorldPos.Z) >> 8;
-#if !defined(PSX) && !defined(TARGET_DC)
     if (p_thing->Flags & FLAGS_IN_SEWERS) {
         floor_y = NS_calc_height_at(x, z);
     } else
-#endif
     {
         floor_y = PAP_calc_height_at_thing(p_thing, x, z);
     }
@@ -453,16 +448,6 @@ SLONG damage_person_on_land(Thing* p_thing)
         }
 
         p_thing->Genus.Person->Health -= damage;
-#ifdef PSX
-        if (p_thing->Genus.Person->PlayerID) {
-            PSX_SetShock(0, damage + 48);
-        }
-#endif
-#ifdef TARGET_DC
-        if (p_thing->Genus.Person->PlayerID) {
-            Vibrate(5, (float)(damage + 48) * 0.01f, 0.0f);
-        }
-#endif
 
         //		add_damage_value_thing(p_thing,damage>>1);
 
@@ -567,7 +552,6 @@ SLONG projectile_move_thing(Thing* p_thing, SLONG flag)
                 if (x2 < 0 || (x2 >> 16) > 127 || z2 < 0 || (z2 >> 16) > 127)
                     return (0);
 
-#if !defined(PSX) && !defined(TARGET_DC)
                 if (p_thing->Flags & FLAGS_IN_SEWERS) {
                     //
                     // Slide along the walls of the sewer as you jump.
@@ -582,7 +566,6 @@ SLONG projectile_move_thing(Thing* p_thing, SLONG flag)
                     col = 0; // This means we can't do any funcky kicks or anything
                              // in the sewers :o(
                 } else
-#endif
                 {
                     if (!(flag & 8)) {
                         //
@@ -617,7 +600,6 @@ SLONG projectile_move_thing(Thing* p_thing, SLONG flag)
                     //
                     // Collision with walls.
                     //
-#ifndef PSX
                     if (p_thing->Genus.Person->InsideIndex) {
                         person_slide_inside(
                             p_thing->Genus.Person->InsideIndex,
@@ -626,7 +608,6 @@ SLONG projectile_move_thing(Thing* p_thing, SLONG flag)
                             &y2,
                             &z2);
                     } else
-#endif
                     {
                         SLONG extra_wall_height = 0;
 
@@ -771,7 +752,6 @@ SLONG projectile_move_thing(Thing* p_thing, SLONG flag)
             // ASSERT(face>0);
 
             {
-#ifndef PSX
                 if (!(GAME_FLAGS & GF_INDOORS))
                     if (face > 0 && prim_faces4[face].Type == FACE_TYPE_SKYLIGHT) {
                         ASSERT(0);
@@ -782,7 +762,6 @@ SLONG projectile_move_thing(Thing* p_thing, SLONG flag)
                         set_person_in_building_through_roof(p_thing, face);
                         return (0);
                     }
-#endif
             }
             if (flag & 4) // falling with pelvis as lowest point
                 return (1);
@@ -831,11 +810,9 @@ SLONG projectile_move_thing(Thing* p_thing, SLONG flag)
 
             ret = 1;
 
-#if !defined(PSX) && !defined(TARGET_DC)
             if (p_thing->Flags & FLAGS_IN_SEWERS) {
                 p_thing->WorldPos.Y = NS_calc_height_at(new_position.X >> 8, new_position.Z >> 8) << 8;
             } else
-#endif
             {
                 if ((flag & 4) == 0) {
                     //

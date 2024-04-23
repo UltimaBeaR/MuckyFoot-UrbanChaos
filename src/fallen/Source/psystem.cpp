@@ -67,7 +67,6 @@ void PARTICLE_Run()
     // I'm sure this shouldn't SLONG
     // SLONG local_ratio, local_shift;
     ULONG local_ratio, local_shift;
-#ifndef PSX
     SLONG cur_tick, tick_diff;
 
     cur_tick = GetTickCount();
@@ -86,10 +85,6 @@ void PARTICLE_Run()
     } else
         prev_tick = cur_tick;
 
-#else
-    local_ratio = TICK_RATIO;
-    local_shift = TICK_SHIFT;
-#endif
 
     if (!particle_count)
         return;
@@ -173,7 +168,6 @@ void PARTICLE_Run()
                         p->life = 1; // killlll
                 }
             }
-#ifndef PSX
             if (p->flags & PFLAG_FIRE) {
                 trans = (p->colour & 0xFF000000) >> 24;
                 palptr = (trans * 3) + fire_pal;
@@ -181,7 +175,6 @@ void PARTICLE_Run()
                 trans <<= 24;
                 p->colour = trans + (fire_pal[palndx] << 16) + (fire_pal[palndx + 1] << 8) + fire_pal[palndx + 2];
             }
-#endif
 
             if (p->flags & PFLAG_BOUNCE) {
                 SLONG tmpy = PAP_calc_map_height_at(tx >> 8, tz >> 8) << 8;
@@ -385,16 +378,9 @@ void PARTICLE_Run()
 
         // ending too soon is preferable to ending too late
         // ending too late is Real Bad
-#ifdef PSX
-        //			if ((local_ratio>>local_shift))
-        //				p->life-=local_ratio>>local_shift;
-        //			else
-        p->life -= 2;
-#else
         SLONG temp = local_ratio >> local_shift;
         //			TRACE("old life: %d   subtracting: %d\n",p->life,temp);
         p->life -= local_ratio >> local_shift;
-#endif
         if (p->life <= 0) {
             SWORD idx = p - particles, temp = p->prev;
             p->priority = 0;
@@ -512,7 +498,6 @@ UWORD PARTICLE_Add(SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, UWOR
 // -------------------------------------------------------------------------------------
 // Shortcuts to some of the more commonly-used effects:
 //
-#ifndef PSX
 UWORD PARTICLE_Exhaust(SLONG x, SLONG y, SLONG z, UBYTE density, UBYTE disperse)
 {
     UBYTE i;
@@ -740,4 +725,3 @@ UWORD PARTICLE_SGrenade(Thing* object, UBYTE time)
     return res;
 }
 
-#endif

@@ -36,16 +36,9 @@ enum HeightType {
 
 //---------------------------------------------------------------
 // Maps textures to soundfx
-#ifndef PSX
 UBYTE* SOUND_FXMapping; //[1024];
 // UWORD *SOUND_FXGroups;//[128][2]; // "128 groups should be enough for anybody"(TM)
 SOUNDFXG* SOUND_FXGroups; //[128][2]; // because its a 2d array we need to fudge the system into thingink its 2d still using typedef
-#else
-/*
-UBYTE SOUND_FXMapping[512];
-UWORD SOUND_FXGroups[8][2];	// "8 should be more than enough for the PSX"
-*/
-#endif
 
 //---------------------------------------------------------------
 /*
@@ -70,7 +63,6 @@ static SLONG wind_id = 0, tick_tock = 0;
 
 static SLONG indoors_id = 0, outdoors_id = 0, rain_id = 0, rain_id2 = 0, thunder_id = 0, indoors_vol = 0, outdoors_vol = 255, weather_vol = 255, music_vol = 255, next_music = 0;
 
-#ifndef PSX
 void init_ambient(void)
 {
     indoors_id = 0, outdoors_id = 0, rain_id = 0, rain_id2 = 0, thunder_id = 0, indoors_vol = 0, outdoors_vol = 255, weather_vol = 255, music_vol = 255, next_music = 0;
@@ -148,7 +140,6 @@ void SND_BeginAmbient()
 
 void new_outdoors_effects()
 {
-#ifndef PSX
     SLONG c0, dx, dy, dz, wave_id;
 
     // make "siren" effects
@@ -215,9 +206,7 @@ void new_outdoors_effects()
             else if (wtype == Snow)
                 wave_id = snow_sounds[Random() & 3];
 
-#ifndef TARGET_DC
             TRACE("playing amb sound: %d\n", wave_id);
-#endif
 
             //			PlayAmbient3D(AMBIENT_EFFECT_REF, wave_id, (wtype == Snow) ? MFX_QUEUED : 0, InAir);
             PlayAmbient3D(AMBIENT_EFFECT_REF, wave_id, MFX_QUEUED, InAir);
@@ -246,7 +235,6 @@ void new_outdoors_effects()
             MFX_set_gain(AMBIENT_EFFECT_REF, S_FOGHORN, volume);
         }
     }
-#endif
 }
 
 void process_ambient_effects(void)
@@ -276,9 +264,6 @@ void process_ambient_effects(void)
 
 void process_weather(void)
 {
-#ifdef PSX
-    return;
-#else
 
     SLONG x = NET_PERSON(PLAYER_ID)->WorldPos.X,
           y = NET_PERSON(PLAYER_ID)->WorldPos.Y,
@@ -377,7 +362,6 @@ void process_weather(void)
             // This must be done by the music system for the DC!
             //
 
-#ifndef TARGET_DC
 
             amb = WARE_ware[p_player->Genus.Person->Ware].ambience;
             if (amb == 4) {
@@ -389,10 +373,8 @@ void process_weather(void)
             } else if (amb)
                 MFX_play_ambient(WEATHER_REF, indoors_waves[amb - 1], MFX_LOOPED);
 
-#endif
         }
     }
-#endif // PSX
 }
 
 void SOUND_reset(void)
@@ -413,7 +395,6 @@ void SOUND_reset(void)
     next_music = 0;
     music_vol = 255;
 }
-#endif
 
 //---------------------------------------------------------------
 //						Version independent
@@ -638,8 +619,6 @@ void StopScreamFallSound(Thing* p_thing)
 
 void SOUND_InitFXGroups(CBYTE* fn)
 {
-#ifndef PSX
-#ifndef TARGET_DC
     CBYTE* buff = new char[32768];
     CBYTE *pt, *split;
     CBYTE name[128], value[128];
@@ -673,8 +652,6 @@ void SOUND_InitFXGroups(CBYTE* fn)
     }
 
     delete[] buff;
-#endif
-#endif
 }
 
 /*
@@ -683,7 +660,6 @@ SLONG	play_quick_wave_old(WaveParams *wave,SLONG sample,SLONG id,SLONG mode)
         return play_quick_wave_xyz(wave->Mode.Cartesian.X,wave->Mode.Cartesian.Y,wave->Mode.Cartesian.Z,sample,id,mode);
 }
 */
-#ifndef PSX
 SLONG play_ambient_wave(SLONG sample, SLONG id, SLONG mode, SLONG range, UBYTE flags)
 {
     SLONG x, y, z, dx, dy, dz, ang;
@@ -714,7 +690,6 @@ SLONG play_ambient_wave(SLONG sample, SLONG id, SLONG mode, SLONG range, UBYTE f
     return id;
     //	return play_quick_wave_xyz(x+dx,y,z+dz,sample,id,mode);
 }
-#endif
 
 void play_glue_wave(UWORD type, UWORD id, SLONG x, SLONG y, SLONG z)
 {
@@ -782,7 +757,6 @@ void	NewLoadWaveList(CBYTE *names[]) {
 }
 */
 
-#if !defined(PSX) && !defined(TARGET_DC)
 
 // THE SEWERS ARE DEAD, LONG LIVE THE SEWERS
 
@@ -884,4 +858,3 @@ void SewerSoundProcess()
             }*/
 }
 
-#endif

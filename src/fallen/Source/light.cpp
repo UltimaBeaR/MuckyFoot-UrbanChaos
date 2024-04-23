@@ -4,7 +4,6 @@
 
 #include "game.h"
 
-#ifndef PSX
 
 #include "light.h"
 #include "fmatrix.h"
@@ -83,11 +82,7 @@ typedef struct
 
 } LIGHT_Slot;
 
-#ifdef PSX
-#define LIGHT_MAX_SLOTS 128
-#else
 #define LIGHT_MAX_SLOTS 1280
-#endif
 
 LIGHT_Slot LIGHT_slot[LIGHT_MAX_SLOTS];
 UWORD LIGHT_slot_free;
@@ -105,11 +100,7 @@ typedef struct
 
 } LIGHT_Cache;
 
-#ifdef PSX
-#define LIGHT_MAX_CACHES 128
-#else
 #define LIGHT_MAX_CACHES 1280
-#endif
 
 LIGHT_Cache LIGHT_cache[LIGHT_MAX_CACHES];
 UBYTE LIGHT_cache_free;
@@ -636,10 +627,6 @@ void LIGHT_building_down(LIGHT_Index l_index, THING_INDEX t_index)
 
 void LIGHT_hf_light_up(LIGHT_Index l_index)
 {
-#ifdef TARGET_DC
-    // Shouldn't be using this, apparently.
-    ASSERT(FALSE);
-#endif
     SLONG x;
     SLONG y;
     SLONG z;
@@ -765,10 +752,6 @@ void LIGHT_hf_light_up(LIGHT_Index l_index)
 
 void LIGHT_hf_light_down(LIGHT_Index l_index)
 {
-#ifdef TARGET_DC
-    // Shouldn't be using this, apparently.
-    ASSERT(FALSE);
-#endif
     SLONG x;
     SLONG y;
     SLONG z;
@@ -1946,4 +1929,3 @@ void apply_global_amb_to_map(void)
     apply_ambient_to_floor();
 #endif
 }
-#endif

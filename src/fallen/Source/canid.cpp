@@ -5,7 +5,6 @@
 //           sort of thing.
 //
 
-#ifndef TARGET_DC
 
 #include "game.h"
 #include "canid.h"
@@ -1433,4 +1432,3 @@ void CANID_init_land(Thing *canid)
 }
 */
 
-#endif // #ifndef TARGET_DC

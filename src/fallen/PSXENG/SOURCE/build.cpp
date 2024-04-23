@@ -84,7 +84,6 @@ SLONG check_vect_with_gamut(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
     }
     return (0);
 }
-#ifndef PSX
 SLONG check_col_vect(SLONG vect)
 {
     CollisionVect* p_vect;
@@ -710,4 +709,3 @@ void BUILD_draw_inside()
 #endif
 }
 
-#endif

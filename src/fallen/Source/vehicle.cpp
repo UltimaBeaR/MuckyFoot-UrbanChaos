@@ -12,30 +12,20 @@
 
 #define DUMP_COORDS 0
 
-#ifndef PSX
 #include <math.h>
-#endif
 
 #include "game.h"
-#ifndef PSX
 #include "..\ddengine\headers\matrix.h"
 #include "..\ddengine\headers\poly.h"
 #include "..\ddengine\headers\oval.h"
 #include "..\ddlibrary\headers\ddlib.h"
-#else
-#include "c:\fallen\psxeng\headers\poly.h"
-#endif
 #include "pap.h"
 #include "fmatrix.h"
 #include "statedef.h"
 #include "pcom.h"
 
-#ifndef PSX
 #include "..\ddengine\headers\aeng.h"
 #include "..\ddengine\headers\mesh.h"
-#else
-#include "c:\fallen\psxeng\headers\mesh.h"
-#endif
 
 #include "pow.h"
 
@@ -57,9 +47,7 @@
 #include "memory.h"
 #include "road.h"
 
-#ifndef PSX
 #include "font2d.h"
-#endif
 
 #if 0
 #define ANNOYINGSCRIBBLECHECK ScribbleCheck()
@@ -102,9 +90,7 @@ extern SLONG is_person_ko(Thing* p_person);
 
 #define CAR_VEL_SHIFT 4
 
-#ifndef PSX
 extern BOOL allow_debug_keys;
-#endif
 
 static void siren(Vehicle* veh, UBYTE play);
 static inline void GetCarPoints(Thing* p_car, SLONG* x, SLONG* y, SLONG* z, SLONG step);
@@ -179,7 +165,6 @@ struct VehInfo veh_info[VEH_TYPE_NUMBER] = {
 };
 
 // debug stuff
-#if !defined(PSX) && !defined(TARGET_DC)
 #ifndef NDEBUG
 
 Thing* SelectedThing = NULL;
@@ -217,7 +202,6 @@ void LookForSelectedThing()
     }
 }
 
-#endif
 #endif
 
 //
@@ -401,8 +385,6 @@ SLONG VEH_find_runover_things(Thing* p_vehicle, UWORD thing_index[], SLONG max_n
     //
     // Draw a line to where we are checking for people.
     //
-#ifndef PSX
-#ifndef TARGET_DC
     if (ControlFlag && allow_debug_keys) {
         AENG_world_line(
             p_vehicle->WorldPos.X >> 8,
@@ -417,8 +399,6 @@ SLONG VEH_find_runover_things(Thing* p_vehicle, UWORD thing_index[], SLONG max_n
             0xff0000,
             TRUE);
     }
-#endif
-#endif
     //
     // Look for things at this position.
     //
@@ -657,7 +637,6 @@ void VEH_bounce(Vehicle* vp, UBYTE area, SLONG amount)
 
 // init the vehicle array
 
-#ifndef PSX
 void init_vehicles(void)
 {
     SLONG i;
@@ -666,7 +645,6 @@ void init_vehicles(void)
         TO_VEHICLE(i)->Spring[0].Compression = VEH_NULL;
     }
 }
-#endif
 
 // VEH_init_vehinfo
 //
@@ -683,24 +661,12 @@ void VEH_init_vehinfo()
 
     init_arctans();
 
-#ifndef PSX
 
-#ifdef TARGET_DC
-    // Just allocate these once.
-    static bool bAllocatedVertexAssignments = FALSE;
-    if (!bAllocatedVertexAssignments) {
-        for (ii = 0; ii < VEH_TYPE_NUMBER; ii++) {
-            veh_info[ii].VertexAssignments = NULL;
-        }
-    }
-
-#else
     for (ii = 0; ii < VEH_TYPE_NUMBER; ii++) {
         if (veh_info[ii].VertexAssignments) {
             MemFree(veh_info[ii].VertexAssignments);
         }
     }
-#endif
 
     for (ii = 0; ii < VEH_TYPE_NUMBER; ii++) {
         PrimObject* obj = &prim_objects[veh_info[ii].BodyPrim];
@@ -723,16 +689,7 @@ void VEH_init_vehinfo()
 
         veh_info[ii].NumVertices = obj->EndPoint - obj->StartPoint;
 
-#ifdef TARGET_DC
-        if (!bAllocatedVertexAssignments) {
-            ASSERT(veh_info[ii].VertexAssignments == NULL);
-            veh_info[ii].VertexAssignments = (UBYTE*)MemAlloc(obj->EndPoint - obj->StartPoint);
-        } else {
-            ASSERT(veh_info[ii].VertexAssignments != NULL);
-        }
-#else
         veh_info[ii].VertexAssignments = (UBYTE*)MemAlloc(obj->EndPoint - obj->StartPoint);
-#endif
 
         // assign each vertex to the nearest crumple point
         for (int jj = obj->StartPoint; jj < obj->EndPoint; jj++) {
@@ -757,11 +714,7 @@ void VEH_init_vehinfo()
         }
     }
 
-#ifdef TARGET_DC
-    bAllocatedVertexAssignments = TRUE;
-#endif
 
-#endif
 }
 
 // find a free vehicle slot
@@ -845,42 +798,6 @@ THING_INDEX VEH_create(
     yaw += 1024;
     yaw &= 2047;
 
-#if defined(FAST_EDDIE) && 0
-
-    //
-    // OK, now we'll ask the road system about our position
-    //
-
-    SLONG rn1, rn2;
-
-    ROAD_find(x >> 8, z >> 8, &rn1, &rn2);
-
-    SLONG rd = ROAD_signed_dist(rn1, rn2, x >> 8, z >> 8);
-
-    if (rd < 0) {
-        SLONG tmp = rn1;
-        rn1 = rn2;
-        rn2 = tmp;
-    }
-
-    SLONG x1, z1;
-    SLONG x2, z2;
-
-    ANNOYINGSCRIBBLECHECK;
-
-    ROAD_node_pos(rn1, &x1, &z1);
-    ROAD_node_pos(rn2, &x2, &z2);
-
-    ANNOYINGSCRIBBLECHECK;
-
-    SLONG dx = -SIN(yaw);
-    SLONG dz = -COS(yaw);
-
-    if (dx * (x2 - x1) + dz * (z2 - z1) < 0) {
-        // facing the wrong way
-        yaw ^= 1024;
-    }
-#endif
 
     //
     // Get a DrawMesh for this thing.
@@ -1079,21 +996,6 @@ void draw_car(Thing* p_car)
     info = &veh_info[p_car->Genus.Vehicle->Type];
 
     make_car_matrix(p_car->Genus.Vehicle);
-#ifdef PSX
-/*
-        {
-                CBYTE	str[30];
-extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
-
-                sprintf(str,"S%d W%d A%d d %d",p_car->Genus.Vehicle->Steering,p_car->Genus.Vehicle->Wheel,p_car->Genus.Vehicle->IsAnalog,(p_car->Genus.Vehicle->Flags & FLAG_FURN_DRIVING));
-
-                FONT2D_DrawString_3d(str,p_car->WorldPos.X>>8,p_car->WorldPos.Y>>8,p_car->WorldPos.Z>>8,0xffffff,512,0);
-//			CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
-
-        }
-*/
-#endif
-#if !defined(PSX) && !defined(TARGET_DC)
     if (0) {
         //
         // Draw the car as an animating prim.
@@ -1111,23 +1013,16 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 
         p_car->WorldPos.Y += info->BodyOffset;
     } else
-#endif
     {
         //
         // Draw the car as a normal prim.
         //
-#ifndef PSX
         // set crumples
         MESH_set_crumple(info->VertexAssignments, p_car->Genus.Vehicle->damage);
-#endif
 
         if (MESH_draw_poly(
 
-#ifdef PSX
-                info->BodyPrim | (1 << 16), // The van,
-#else
                 info->BodyPrim, // The van,
-#endif
 
                 //			info->BodyPrim,	// The van,
                 p_car->WorldPos.X >> 8,
@@ -1137,21 +1032,15 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
                 p_car->Genus.Vehicle->Tilt,
                 p_car->Genus.Vehicle->Roll,
                 NULL,
-#ifndef PSX
                 0xff,
                 -1)
             == NULL) // means use MESH_set_crumple parameters
-#else
-                0)
-            == NULL)
-#endif
         {
             //
             // nowt, one day skip drawing wheels if body fails to be drawn
             //
         }
 
-#ifndef PSX
 
         //
         // Draw the car shadow...
@@ -1165,7 +1054,6 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
             float(p_car->Genus.Vehicle->Angle) * (2.0F * PI / 2048.0F),
             OVAL_TYPE_SQUARE);
 
-#endif
 
         // #ifndef PSX
         //  transpose matrix for some reason
@@ -1173,7 +1061,6 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
         // #endif
         if (p_car->Genus.Vehicle->Flags & FLAG_FURN_DRIVING) {
             // headlights
-#ifndef PSX
             if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME)) {
                 static SLONG xyz[5][3] = { -255, 0, 0, -254, 12, 16, -251, 24, 32, -247, 36, 48, -243, 48, 60 };
 
@@ -1199,7 +1086,6 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
                 FMATRIX_MUL(car_matrix, vector[0], vector[1], vector[2]);
                 BLOOM_draw((p_car->WorldPos.X >> 8) + vector[0], (p_car->WorldPos.Y >> 8) + vector[1], (p_car->WorldPos.Z >> 8) + vector[2], dx, dy, dz, 0x606040, BLOOM_FLENSFLARE | BLOOM_BEAM);
             }
-#endif
             // flashing lights
             if (info->FLZ && (vp->Siren == 1)) {
                 SLONG rx, rz;
@@ -1338,10 +1224,8 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
     // Leave it! This is needed.
     AENG_set_bike_wheel_rotation(tilt, info->WheelPrim);
 
-#if !defined(PSX) && !defined(TARGET_DC)
 #ifndef NDEBUG
     if (p_car != SelectedThing) // don't draw wheels when selected
-#endif
 #endif
         for (c0 = 0; c0 < 4; c0++) {
             SLONG wx, wy, wz;
@@ -1360,7 +1244,6 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
                 angle = p_car->Genus.Vehicle->Angle;
             }
 
-#ifndef TARGET_DC
             MESH_draw_poly(
                 info->WheelPrim,
                 (p_car->WorldPos.X >> 8) + wx,
@@ -1371,18 +1254,6 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
                 p_car->Genus.Vehicle->Roll,
                 NULL,
                 0);
-#else
-        MESH_draw_poly(
-            info->WheelPrim,
-            (p_car->WorldPos.X >> 8) + wx,
-            (p_car->WorldPos.Y >> 8) + wy,
-            (p_car->WorldPos.Z >> 8) + wz,
-            angle,
-            0,
-            p_car->Genus.Vehicle->Roll,
-            NULL,
-            0xff);
-#endif
         }
 
     if (vp->Smokin) {
@@ -1419,9 +1290,6 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 
             //			TRACE("speed: %d\n",speed);
             if ((speed > 200) && (vp->Skid == SKID_START)) {
-#ifdef PSX
-                MFX_play_thing(THING_NUMBER(p_car), S_SKID_START, MFX_MOVING, p_car);
-#else
                 if (speed > 300000)
                     MFX_play_thing(THING_NUMBER(p_car), S_SKID_START, MFX_MOVING, p_car);
                 else if (speed > 100000)
@@ -1429,11 +1297,9 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
                 else
                     MFX_play_thing(THING_NUMBER(p_car), S_SKID_END, MFX_MOVING, p_car);
 
-#endif
             }
 
             if ((speed > 200) && (GAME_TURN & 1)) {
-#ifndef PSX
                 SLONG dx, dz;
                 if (vp->oldX[c0] && vp->oldZ[c0]) {
                     dx = (vp->oldX[c0] - wx) >> 8;
@@ -1442,16 +1308,11 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
                 }
                 vp->oldX[c0] = wx;
                 vp->oldZ[c0] = wz;
-#else
-                TRACKS_Add(wx, (PAP_calc_map_height_at(wx >> 8, wz >> 8) + 5) << 8, wz, -vp->VelX >> 7, 0, -vp->VelZ >> 7, TRACK_TYPE_TYRE_SKID, 0);
-#endif
             }
         }
     } else {
-#ifndef PSX
         vp->oldX[0] = vp->oldX[1] = vp->oldX[2] = vp->oldX[3] = 0;
         vp->oldZ[0] = vp->oldZ[1] = vp->oldZ[2] = vp->oldZ[3] = 0;
-#endif
     }
 }
 
@@ -2212,9 +2073,7 @@ static SLONG CollideCar(Thing* p_car, SLONG step)
                     //								TRUE);
 
                     // shake fence
-#ifndef PSX
                 VEH_shake_fences(last_mav_square_x, last_mav_square_z);
-#endif
             }
         }
         nudge_car(p_car, flags, x, z, 0);
@@ -2249,9 +2108,7 @@ static SLONG CollideCar(Thing* p_car, SLONG step)
             px /= div;
             pz /= div;
 
-#ifndef PSX
             DIRT_new_sparks(px, y[0], pz, 2);
-#endif
 
             /*			AENG_world_line(px, y[0], pz, 32, 0xFFFFFF,
                                                                     (x[0] + x[1] + x[2] + x[3])/4, y[0], (z[0] + z[1] + z[2] + z[3])/4, 0, 0xFFFFFF,
@@ -2804,13 +2661,6 @@ void VEH_driving(Thing* p_thing)
             // Blow up!
             //
 
-#ifdef PSX
-            POW_create(
-                POW_CREATE_LARGE_SEMI,
-                p_thing->WorldPos.X,
-                p_thing->WorldPos.Y,
-                p_thing->WorldPos.Z, 0, 0, 0);
-#else
             {
                 Thing* pyro;
                 SLONG wave;
@@ -2822,7 +2672,6 @@ void VEH_driving(Thing* p_thing)
                     wave++; // 25% chance of a bigger bang than usual
                 MFX_play_xyz(THING_NUMBER(p_thing), wave, 0, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
             }
-#endif
             VEH_bounce(veh, 0, 4000);
 
             veh->damage[0] = 4;
@@ -3147,13 +2996,11 @@ void VEH_driving(Thing* p_thing)
     //
     // Swirl the mist.
     //
-#ifndef PSX
     MIST_gust(
         p_thing->WorldPos.X >> 8,
         p_thing->WorldPos.Z >> 8,
         new_pos.X >> 8,
         new_pos.Z >> 8);
-#endif
     //
     // Knock down barrels.
     //
@@ -3671,18 +3518,6 @@ static void do_car_input(Thing* p_thing)
         // smokin!
         veh->Smokin = 1;
 
-#ifdef PSX
-        if (is_driven_by_player(p_thing)) {
-            SLONG shock = p_thing->Velocity >> 1;
-            SATURATE(shock, 64, 192);
-            PSX_SetShock((shock > 128) ? 1 : 0, shock);
-        }
-#endif
-#ifdef TARGET_DC
-        if (is_driven_by_player(p_thing)) {
-            Vibrate(30.0f, (float)(p_thing->Velocity) * 0.01f, 2.0f);
-        }
-#endif
     }
 
     //
@@ -3884,22 +3719,12 @@ static void do_car_input(Thing* p_thing)
                 MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_IDLE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
                 break;
             case VEH_REV_ACCEL:
-#ifdef PSX
-                MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_START, MFX_MOVING | MFX_EARLY_OUT);
-                MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_CRUISE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
-#else
                 MFX_play_ambient(THING_NUMBER(p_thing), S_CAR_REVERSE_START, MFX_MOVING | MFX_EARLY_OUT);
                 MFX_play_ambient(THING_NUMBER(p_thing), S_CAR_REVERSE_LOOP, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
-#endif
                 break;
             case VEH_REV_DECEL:
-#ifdef PSX
-                MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_DECEL, MFX_MOVING | MFX_EARLY_OUT);
-                MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_IDLE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
-#else
                 MFX_play_ambient(THING_NUMBER(p_thing), S_CAR_REVERSE_END, MFX_MOVING | MFX_EARLY_OUT);
                 MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_IDLE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
-#endif
                 break;
             }
         }
@@ -4085,14 +3910,12 @@ static void process_car(Thing* p_car)
             if (ROAD_is_road(papx >> 8, papz >> 8))
                 on_road |= (1 << wheel);
 #ifndef FINAL
-#ifndef TARGET_DC
             if (Keys[KB_Q] && is_driven_by_player(p_car)) {
                 if (wheel < 2)
                     height += 0x4000;
                 else
                     height += 0x8000;
             }
-#endif
 #endif
 
             //
@@ -4151,10 +3974,8 @@ static void process_car(Thing* p_car)
             if (y_pos - height > 1024)
                 in_air++;
         }
-#ifndef PSX
         if (squeaky > 1600)
             MFX_play_thing(THING_NUMBER(p_car), SOUND_Range(S_CAR_SUSPENSION_START, S_CAR_SUSPENSION_END), MFX_MOVING, p_car);
-#endif
         if (crunchy < -4000)
             MFX_play_thing(THING_NUMBER(p_car), S_CAR_SMASH_START + 1, MFX_MOVING, p_car);
         //	TRACE("crunchy: %d\n",crunchy);
@@ -4285,7 +4106,6 @@ static void do_car_fall_and_tilt(Thing* car, SLONG* wx, SLONG* wy, SLONG* wz, SL
 //
 // perform a proper fast squareroot
 
-#ifndef PSX
 static inline SLONG fast_root(SLONG num)
 {
 #if 0
@@ -4325,7 +4145,6 @@ static inline SLONG fast_root(SLONG num)
     return (SLONG)sqrt((double)num);
 #endif
 }
-#endif
 
 // normalise_val256
 //
@@ -4337,11 +4156,7 @@ static inline void normalise_val256(SLONG* vx, SLONG* vy, SLONG* vz)
 
     len = *vx * *vx + *vy * *vy + *vz * *vz;
 
-#ifndef PSX
     len = fast_root(len);
-#else
-    len = Root(len);
-#endif
 
     if (len)
         len = 65536 / len;

@@ -48,24 +48,12 @@
 #include "xlat_str.h"
 #include "pow.h"
 #include "frontend.h"
-#ifdef PSX
-#include "c:\fallen\psxeng\headers\psxeng.h"
-#include "c:\fallen\psxeng\headers\panel.h"
-#else
 #include "aeng.h"
 #include "panel.h"
-#endif
 
-#ifndef PSX
 UBYTE player_visited[16][128];
 extern SLONG save_psx;
-#else
-#define save_psx (1)
-#endif
 
-#ifdef TARGET_DC
-#include "DIManager.h"
-#endif
 
 #define MAX_COL_WITH 16
 
@@ -173,9 +161,7 @@ MF_sfx_stop_all();
 //   While out on the piss
 //	 Now she's a real sexy groover
 
-#ifndef PSX
 extern BOOL allow_debug_keys;
-#endif
 
 extern SLONG person_holding_2handed(Thing* p_person);
 extern SLONG continue_dir(Thing* p_person, SLONG dir);
@@ -281,9 +267,7 @@ void set_anim_running(Thing* p_person);
 
 extern void move_thing_on_map_dxdydz(Thing* t_thing, SLONG dx, SLONG dy, SLONG dz);
 
-#if !defined(PSX) && !defined(TARGET_DC)
 SLONG person_is_on_sewer(Thing* p_person);
-#endif
 
 GenusFunctions people_functions[] = {
     { PERSON_DARCI, darci_states },
@@ -446,7 +430,6 @@ SWORD health[PERSON_NUM_TYPES] = {
     700
 };
 
-#ifndef PSX
 void set_player_visited(UBYTE x, UBYTE z)
 {
     UWORD bit;
@@ -456,7 +439,6 @@ void set_player_visited(UBYTE x, UBYTE z)
     x = x >> 3;
     player_visited[x][z] |= 1 << bit;
 }
-#endif
 
 inline BOOL MagicFrameCheck(Thing* p_person, UBYTE frameindex)
 {
@@ -486,11 +468,7 @@ void SlideSoundCheck(Thing* p_person, BOOL force = 0)
         }
     } else {
         if (p_person->SubState == SUB_STATE_RUNNING_SKID_STOP) {
-#ifndef PSX
             MFX_play_thing(THING_NUMBER(p_person), S_SLIDE_START, MFX_LOOPED, p_person);
-#else
-            MFX_play_thing(THING_NUMBER(p_person), S_SLIDE_START, MFX_LOOPED | MFX_FLAG_SLIDER, p_person);
-#endif
             p_person->Genus.Person->Flags |= FLAG_PERSON_SLIDING;
         }
     }
@@ -498,7 +476,6 @@ void SlideSoundCheck(Thing* p_person, BOOL force = 0)
 
 //---------------------------------------------------------------
 
-#ifndef PSX
 void init_persons(void)
 {
     SLONG c0;
@@ -508,7 +485,6 @@ void init_persons(void)
     }
     PERSON_COUNT = 0;
 }
-#endif
 
 //---------------------------------------------------------------
 
@@ -561,9 +537,6 @@ Thing* alloc_person(UBYTE type, UBYTE random_number)
                 */
 
                 person_thing->Draw.Tweened->MeshID = mesh_type[type];
-#ifdef PSX
-//				ASSERT(person_thing->Draw.Tweened->MeshID||type==4);
-#endif
                 /*
                 // aint true no more
                                                 if(save_psx)
@@ -690,13 +663,9 @@ THING_INDEX create_person(
     global_person++;
 
     if (p_person) {
-#ifndef PSX
-#ifndef TARGET_DC
 
         extern SWORD people_types[50];
         people_types[type]++;
-#endif
-#endif
         //		ASSERT(THING_NUMBER(p_person)!=195);
         p_person->WorldPos.X = x;
         p_person->WorldPos.Y = y;
@@ -908,11 +877,7 @@ SLONG set_person_search_corpse(Thing* p_person, Thing* p_dead)
 
     p_person->Genus.Person->Action = ACTION_NONE;
     p_person->Genus.Person->Target = THING_NUMBER(p_dead);
-#ifndef PSX
     MFX_play_ambient(THING_NUMBER(p_person), S_SEARCH_END, MFX_LOOPED);
-#else
-    MFX_play_ambient(THING_NUMBER(p_person), S_SEARCH_END, MFX_LOOPED | MFX_FLAG_SEARCHER);
-#endif
     p_person->Genus.Person->Flags |= FLAG_PERSON_SLIDING; // cunning lie.
     return (1);
 }
@@ -1033,11 +998,9 @@ void set_person_dying(Thing* p_person, UBYTE substate)
     // Let go of any balloon you may have.
     //
 
-#if !defined(PSX) && !defined(TARGET_DC)
     if (p_person->Genus.Person->Balloon) {
         BALLOON_release(p_person->Genus.Person->Balloon);
     }
-#endif
 
     set_generic_person_state_function(p_person, STATE_DYING);
 
@@ -1120,11 +1083,7 @@ SLONG footstep_wave(Thing* p_person)
 
     if (p_person->Genus.Person->Ware) {
         // in a warehouse. generic texture.
-#ifndef PSX
         return SOUND_Range(S_SOFT_STEP_START, S_SOFT_STEP_END);
-#else
-        return S_FOOTS_ROAD_START;
-#endif
     }
 
     switch (num = person_is_on(p_person)) {
@@ -1134,7 +1093,6 @@ SLONG footstep_wave(Thing* p_person)
         start = S_FOOTS_ROAD_START;
         end = S_FOOTS_ROAD_END;
         break;
-#ifndef PSX
     case PERSON_ON_WATER:
         start = S_FOOTS_PUDDLE_START;
         end = S_FOOTS_PUDDLE_END;
@@ -1144,7 +1102,6 @@ SLONG footstep_wave(Thing* p_person)
         start = S_FOOTS_SEWER_START;
         end = S_FOOTS_SEWER_END;
         break;
-#endif
     case PERSON_ON_METAL:
         start = S_FOOTS_RUNG_START;
         end = S_FOOTS_RUNG_END;
@@ -1155,7 +1112,6 @@ SLONG footstep_wave(Thing* p_person)
                         end   = S_FOOTS_CAR_END;
                         break;
 */
-#ifndef PSX
     case PERSON_ON_GRAVEL:
         //		case PERSON_ON_PRIM:
         start = S_FOOTS_GRAVEL_START;
@@ -1171,10 +1127,8 @@ SLONG footstep_wave(Thing* p_person)
         start = S_FOOTS_GRASS_START;
         end = S_FOOTS_GRASS_END;
         break;
-#endif
 
     default:
-#ifndef PSX
         if (num == 0xff)
             num = 0;
         if (num <= 0) { // we have a specific index. woo
@@ -1184,17 +1138,9 @@ SLONG footstep_wave(Thing* p_person)
         } else {
             ASSERT(0);
         }
-#else
-        start = S_FOOTS_ROAD_START;
-        end = S_FOOTS_ROAD_END;
-#endif
         break;
     }
-#ifndef PSX
     return SOUND_Range(start, end);
-#else
-    return start;
-#endif
 
     /*	num = end - start + 1;
 
@@ -1276,7 +1222,6 @@ void person_splash(
     SLONG limb) // -1 => Splash at the centre of the person.
 {
 
-#ifndef PSX
 
     SLONG i, type;
 
@@ -1308,7 +1253,6 @@ void person_splash(
     foot_y = track_y + (p_person->WorldPos.Y >> 8);
     foot_z = track_z + (p_person->WorldPos.Z >> 8);
 
-#ifndef TARGET_DC
     for (i = 0; i < 1; i++) {
         splash_x = foot_x + (Random() & 0x1f) - 0xf;
         splash_y = foot_y;
@@ -1324,7 +1268,6 @@ void person_splash(
         foot_x,
         foot_y,
         foot_z);
-#endif
 
     /*
     if (GAME_FLAGS & GF_SEWERS) {
@@ -1413,7 +1356,6 @@ void person_splash(
                     p_person->Genus.Person->muckyfootprint = TRACKS_Add(track_x - (dx * 0x1ff), track_y - (dy * 0x1ff), track_z - (dz * 0x1ff), dx * 2, dy * 2, dz * 2, type, p_person->Genus.Person->muckyfootprint);
         }
     }
-#endif
 }
 
 //
@@ -1892,16 +1834,6 @@ void sweep_feet(Thing* p_person, Thing* p_aggressor, SLONG death_type)
     } else {
         if (!p_person->Genus.Person->PlayerID)
             p_person->Genus.Person->Health -= 49;
-#ifdef PSX
-        if (p_person->Genus.Person->PlayerID) {
-            PSX_SetShock(1, 128);
-        }
-#endif
-#ifdef TARGET_DC
-        if (p_person->Genus.Person->PlayerID) {
-            Vibrate(20.0f, 1.0f, 0.25f);
-        }
-#endif
         //		add_damage_value_thing(p_person,49>>1);
     }
 
@@ -2679,15 +2611,6 @@ void knock_person_down(
         //
 
         p_person->Genus.Person->Health -= hitpoints;
-#ifdef PSX
-        if (p_person->Genus.Person->PlayerID)
-            PSX_SetShock(1, hitpoints + 56);
-#endif
-#ifdef TARGET_DC
-        if (p_person->Genus.Person->PlayerID) {
-            Vibrate(4.0f, (float)(hitpoints + 56) * 0.003f, 0.25f);
-        }
-#endif
         //		add_damage_value_thing(p_person,hitpoints>>1);
     }
 
@@ -2801,7 +2724,6 @@ SLONG los_between_heads(
 
 extern THING_INDEX col_with[];
 
-#ifndef PSX
 void oscilate_tinpanum(SLONG x, SLONG y, SLONG z, Thing* p_thing, SLONG vol)
 {
     SLONG col_with_upto;
@@ -2860,7 +2782,6 @@ void oscilate_tinpanum(SLONG x, SLONG y, SLONG z, Thing* p_thing, SLONG vol)
         }
     }
 }
-#endif
 
 SLONG dist_to_target(Thing* p_person_a, Thing* p_person_b)
 {
@@ -3359,16 +3280,6 @@ void general_process_player(Thing* p_person)
         }
     }
 
-#if PSX
-
-    if (player_dlight == 0) {
-        player_dlight = NIGHT_dlight_create(p_person->WorldPos.X >> 8, (p_person->WorldPos.Y >> 8) + 128, p_person->WorldPos.Z >> 8, 200, 4, 4, 4);
-
-    } else {
-        NIGHT_dlight_move(player_dlight, p_person->WorldPos.X >> 8, (p_person->WorldPos.Y >> 8) + 64, p_person->WorldPos.Z >> 8);
-    }
-
-#endif
 
     if (p_person->Genus.Person->GangAttack) {
         extern void check_players_gang(Thing * p_target);
@@ -3730,7 +3641,6 @@ void general_process_person(Thing* p_person)
 	}
 #endif
 
-#ifndef PSX
 /*
         if(p_person->Genus.Person->PlayerID==0)
         {
@@ -3742,7 +3652,6 @@ void general_process_person(Thing* p_person)
                 }
         }
 */
-#endif
         /*
                 if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER)
                 {
@@ -4001,7 +3910,6 @@ void general_process_person(Thing* p_person)
         // If urinating... then pee!
         //
 
-#ifndef PSX // save Eidos/Sony the trouble of instructing us to remove this
     if (p_person->Genus.Person->Flags & FLAG_PERSON_PEEING) {
         if (p_person->Flags & FLAGS_IN_VIEW) {
             SLONG penis_x;
@@ -4036,7 +3944,6 @@ void general_process_person(Thing* p_person)
                 DIRT_TYPE_URINE);
         }
     }
-#endif
 
     // if dying, leave blood trails
     if (p_person->Genus.Person->Health < health[p_person->Genus.Person->PersonType] >> 2) {
@@ -4080,7 +3987,6 @@ void general_process_person(Thing* p_person)
     //
     // Does this person have the grappling hook?
     //
-#ifndef PSX
     if (p_person->Genus.Person->Flags & FLAG_PERSON_GRAPPLING) {
         SLONG percent;
         SLONG pitch;
@@ -4129,7 +4035,6 @@ void general_process_person(Thing* p_person)
             p_person->Draw.Tweened->Angle,
             -pitch);
     }
-#endif
     /*
 
     //if( (THING_NUMBER(p_person)&0x7) == (GAME_TURN&0x7) )
@@ -4448,13 +4353,11 @@ void person_normal_move_dxdz(Thing* p_person, SLONG dx, SLONG dz)
     dx = dx * ratio >> TICK_SHIFT;
     dz = dz * ratio >> TICK_SHIFT;
 
-#ifndef PSX
     if (allow_debug_keys)
         if (ShiftFlag && Keys[KB_Q]) {
             dx <<= 2;
             dz <<= 2;
         }
-#endif
     //
     // Work out our new y-position.
     //
@@ -4853,14 +4756,12 @@ SLONG person_normal_animate_speed(Thing* p_person, SLONG speed)
         if (draw_info->CurrentFrame->Fight) {
             //			PlaySample(THING_NUMBER(p_person),SAMPLE_HIT_MISS1,SAMPLE_VOL_MAX,SAMPLE_PAN_CENTER,SAMPLE_FREQ_ORIG+(GAME_TURN&0xfff),0);
             if (apply_violence(p_person) == 0) {
-#ifndef PSX
                 extern BOOL PLAYCUTS_playing;
 #ifdef EDITOR
                 extern HWND CUTSCENE_edit_wnd;
                 if (!(CUTSCENE_edit_wnd || PLAYCUTS_playing))
 #else
                 if (!PLAYCUTS_playing)
-#endif
 #endif
                     MFX_play_thing(THING_NUMBER(p_person), S_KNIFE_START + (Random() & 1), 0, p_person);
                 //
@@ -5623,29 +5524,6 @@ void actually_fire_gun(Thing* p_person)
         }
     }
 #else
-#ifdef PSX
-    if (p_person->Genus.Person->PlayerID)
-        PSX_SetShock(1, 0); // Just shock the fast one
-#endif
-#endif
-#ifdef TARGET_DC
-    if (p_person->Genus.Person->PlayerID) {
-
-        if (p_person->Genus.Person->SpecialUse) {
-            Thing* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
-            switch (p_special->Genus.Special->SpecialType) {
-            case SPECIAL_AK47:
-                Vibrate(4.0f, 1.0f, 0.0f);
-                break;
-            case SPECIAL_SHOTGUN:
-                Vibrate(6.5f, 1.0f, 0.0f);
-                break;
-            }
-        } else {
-            // It's a pistol.
-            Vibrate(8.0f, 1.0f, 0.0f);
-        }
-    }
 #endif
 
     if (p_person->Genus.Person->Target) {
@@ -5724,7 +5602,6 @@ void actually_fire_gun(Thing* p_person)
                                                 }
                 */
                 // do a lil bloodsplat
-#ifndef PSX
                 if (VIOLENCE) {
                     calc_sub_objects_position(
                         p_target,
@@ -5746,7 +5623,6 @@ void actually_fire_gun(Thing* p_person)
                         POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), 0x7FFF0000,
                         PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE, 10, 75, 1, 20, 5);
                 }
-#endif
                 apply_hit_to_person(
                     p_target,
                     0, // angle
@@ -5759,16 +5635,6 @@ void actually_fire_gun(Thing* p_person)
                     //
                     // Target someone else once you've killed someone.
                     //
-#ifdef PSX
-                    PSX_SetShock(1, damage + 32);
-#endif
-#ifdef TARGET_DC
-                    // Eh? Why should this vibrate? I've already vibrated from the gunshot -
-                    // just because you hit or missed the person, or did them more or less
-                    // damage, doesn't mean you should vibrate as well.
-                    // Madness.
-                    // Vibrate ( 5.0f, (float)(damage+32) * 0.01f, 0.0f );
-#endif
 
                     if (p_target->Genus.Person->Health <= 0) {
                         p_person->Genus.Person->Target = 0;
@@ -6276,7 +6142,6 @@ void set_person_shoot(Thing* p_person, UWORD shoot_target)
     }
 }
 
-#ifndef PSX
 void set_person_grapple_windup(Thing* p_person)
 {
     //
@@ -6322,7 +6187,6 @@ void set_person_grappling_hook_release(Thing* p_person)
 
     p_person->SubState = SUB_STATE_GRAPPLING_RELEASE;
 }
-#endif
 //
 // Returns SPECIAL_TYPE if the given person is holding a gun.
 //
@@ -6672,13 +6536,11 @@ void set_person_idle(Thing* p_person)
     p_person->Genus.Person->Flags &= ~FLAG_PERSON_HELPLESS;
     //	p_person->Genus.Person->Target =  NULL;
 
-#ifndef PSX
     if (p_person->Genus.Person->Flags & FLAG_PERSON_GRAPPLING) {
         set_person_grapple_windup(p_person);
 
         return;
     }
-#endif
     if (person_has_gun_out(p_person)) {
         set_person_aim(p_person);
 
@@ -6784,13 +6646,11 @@ void set_person_locked_idle_ready(Thing* p_person)
     }
 
     p_person->SubState = 0;
-#ifndef PSX
     if (p_person->Genus.Person->Flags & FLAG_PERSON_GRAPPLING) {
         set_person_grapple_windup(p_person);
 
         return;
     }
-#endif
 
     p_person->Genus.Person->Timer1 = (Random() & 0x1ff) + 400;
     if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT) {
@@ -7545,7 +7405,6 @@ try_again:;
 
     door_y = PAP_calc_map_height_at(door_x + dx, door_z + dz);
 
-#ifndef TARGET_DC
 #ifndef NDEBUG
 
     AENG_world_line(
@@ -7561,7 +7420,6 @@ try_again:;
         0x03f008,
         TRUE);
 
-#endif
 #endif
 
     if (abs(door_y - (p_person->WorldPos.Y >> 8)) > 150 || (PAP_2HI(mx, mz).Flags & PAP_FLAG_NOGO) || !there_is_a_los(p_vehicle->WorldPos.X >> 8, p_vehicle->WorldPos.Y + 0x6000 >> 8, p_vehicle->WorldPos.Z >> 8, door_x + dx, door_y + 0x60, door_z + dz, LOS_FLAG_IGNORE_SEETHROUGH_FENCE_FLAG | LOS_FLAG_IGNORE_PRIMS | LOS_FLAG_IGNORE_UNDERGROUND_CHECK)) {
@@ -7628,19 +7486,15 @@ try_again:;
         p_vehicle->Genus.Vehicle->Flags &= ~FLAG_FURN_DRIVING;
         p_vehicle->Genus.Vehicle->Driver = NULL;
 
-#ifndef PSX
         MFX_stop(THING_NUMBER(p_vehicle), S_CARX_START);
         MFX_stop(THING_NUMBER(p_vehicle), S_CARX_CRUISE);
         MFX_stop(THING_NUMBER(p_vehicle), S_CARX_IDLE);
-#endif
         if (p_vehicle->Genus.Vehicle->Flags & FLAG_VEH_FX_STATE) {
             //			MFX_play_thing(THING_NUMBER(p_vehicle),S_CARX_DECEL,MFX_MOVING|MFX_EARLY_OUT,p_vehicle);
             p_vehicle->Genus.Vehicle->Flags &= ~FLAG_VEH_FX_STATE;
         }
         MFX_stop(THING_NUMBER(p_vehicle), MFX_WAVE_ALL);
-#ifndef PSX
         MFX_play_thing(THING_NUMBER(p_vehicle), S_CARX_END, 0, p_vehicle);
-#endif
     }
 
     add_thing_to_map(p_person);
@@ -8369,11 +8223,7 @@ void set_person_arrest(Thing* p_person, SLONG s_index)
 
         switch (p_person->Genus.Person->PersonType) {
         case PERSON_DARCI:
-#ifndef PSX
             MFX_play_thing(THING_NUMBER(p_person), SOUND_Range(S_DARCI_ARREST_START, S_DARCI_ARREST_END), MFX_MOVING | MFX_OVERLAP, p_person);
-#else
-            MFX_play_thing(THING_NUMBER(p_person), S_DARCI_ARREST, MFX_MOVING | MFX_OVERLAP, p_person);
-#endif
             break;
 #ifdef ROPER_EVER_ARRESTS_AGAIN
         case PERSON_ROPER:
@@ -8381,11 +8231,7 @@ void set_person_arrest(Thing* p_person, SLONG s_index)
             break;
 #endif
         case PERSON_COP:
-#ifndef PSX
             MFX_play_thing(THING_NUMBER(p_person), SOUND_Range(S_COP_ARREST_START, S_COP_ARREST_END), MFX_MOVING | MFX_OVERLAP, p_person);
-#else
-//				MFX_play_thing(THING_NUMBER(p_person),S_COP_ARREST_START,MFX_MOVING|MFX_OVERLAP,p_person);
-#endif
             break;
         }
 
@@ -8920,7 +8766,6 @@ inline void play_jump_sound(Thing* p_person)
 {
     static SLONG jump_chan = 0;
     SLONG jump_snd = 0;
-#if !defined(PSX) && !defined(TARGET_DC)
     if (p_person->Flags & FLAGS_IN_SEWERS) {
         switch (person_is_on_sewer(p_person)) {
         case PERSON_ON_SEWATER:
@@ -8931,7 +8776,6 @@ inline void play_jump_sound(Thing* p_person)
             break;
         }
     }
-#endif
     //	if (jump_snd) jump_chan=play_quick_wave_xyz(p_person->WorldPos.X,p_person->WorldPos.Y,p_person->WorldPos.Z,jump_snd,jump_chan,WAVE_PLAY_NO_INTERRUPT);
     //	if (jump_snd) play_quick_wave_xyz(p_person->WorldPos.X,p_person->WorldPos.Y,p_person->WorldPos.Z,jump_snd,jump_chan,WAVE_PLAY_NO_INTERRUPT);
     if (jump_snd)
@@ -10777,7 +10621,6 @@ void fn_person_idle(Thing* p_person)
 
             } else {
 
-#ifndef PSX
                 if (p_person->Genus.Person->Timer1-- == 0) {
                     set_person_random_idle(p_person);
                     /*
@@ -10808,7 +10651,6 @@ void fn_person_idle(Thing* p_person)
                         }
                     }
                 }
-#endif
 
                 /*
 
@@ -11353,9 +11195,7 @@ SLONG grab_ledge(Thing* p_person)
         // While we're grabbing a ledge- try grabbing a balloon!
         //
 
-#if !defined(PSX) && !defined(TARGET_DC)
     BALLOON_find_grab(THING_NUMBER(p_person));
-#endif
     //
     // Dont grab a ledge whilst falling backwards...
     //
@@ -11393,7 +11233,6 @@ SLONG grab_ledge(Thing* p_person)
     //
     // We grab the sewer floor in the sewers.
     //
-#if !defined(PSX) && !defined(TARGET_DC)
     if (p_person->Flags & FLAGS_IN_SEWERS) {
         face = find_grab_face_in_sewers(
             x, y, z,
@@ -11404,7 +11243,6 @@ SLONG grab_ledge(Thing* p_person)
             &grab_z,
             &grab_angle);
     } else
-#endif
     {
         SLONG radius = 80;
         if (p_person->State == STATE_CLIMBING)
@@ -11691,11 +11529,9 @@ void set_tween_for_height(Thing* p_person)
     calc_sub_objects_position(p_person, p_person->Draw.Tweened->AnimTween, 3, &x, &y, &z);
     y += (p_person->WorldPos.Y) >> 8;
 
-#if !defined(PSX) && !defined(TARGET_DC)
     if (p_person->Flags & FLAGS_IN_SEWERS) {
         floor_y = NS_calc_height_at(x, z);
     } else
-#endif
     {
         floor_y = PAP_calc_height_at_thing(p_person, x, z);
     }
@@ -12717,7 +12553,6 @@ void fn_person_climbing(Thing* p_person)
                             SLONG px;
                             SLONG py;
                             SLONG pz;
-#ifndef PSX
                             SPARK_Pinfo p1;
                             SPARK_Pinfo p2;
 
@@ -12757,7 +12592,6 @@ void fn_person_climbing(Thing* p_person)
                                     &p2,
                                     20);
                             }
-#endif
 
                             {
                                 SLONG origin_x = p_person->WorldPos.X - SIN(p_person->Draw.Tweened->Angle) >> 8;
@@ -13496,12 +13330,10 @@ void fn_person_dangling(Thing* p_person)
             //
             // Find what face we are stood on now
             //
-#if !defined(PSX) && !defined(TARGET_DC)
             if (p_person->Flags & FLAGS_IN_SEWERS) {
                 p_person->OnFace = 0;
                 p_person->WorldPos.Y = NS_calc_height_at(p_person->WorldPos.X >> 8, p_person->WorldPos.Z >> 8) << 8;
             } else
-#endif
             {
                 face = find_face_for_this_pos(p_person->WorldPos.X >> 8, p_person->WorldPos.Y >> 8, p_person->WorldPos.Z >> 8, &new_y, ignore_building, 0);
 
@@ -14291,16 +14123,12 @@ void fn_person_moveing(Thing* p_person)
             fx = (fx << 8) + p_person->WorldPos.X;
             fy = (fy << 8) + p_person->WorldPos.Y;
             fz = (fz << 8) + p_person->WorldPos.Z;
-#ifdef PSX
-            rgb = 0x20505050;
-#else
             rgb = 0xFF - (p_person->Velocity << 2);
             if (rgb < 0)
                 rgb = 0;
             rgb = (rgb << 24) | 0xc9b7a3;
             j = (p_person->Velocity > 40) ? 7 : 3;
             for (i = 0; i < j; i++)
-#endif
             {
                 px = fx + (((Random() & 0x7ff) - 0x3ff) << 2);
                 pz = fz + (((Random() & 0x7ff) - 0x3ff) << 2);
@@ -14321,14 +14149,10 @@ void fn_person_moveing(Thing* p_person)
                 px = (px << 8) + p_person->WorldPos.X;
                 py = (py << 8) + p_person->WorldPos.Y;
                 pz = (pz << 8) + p_person->WorldPos.Z;
-#ifdef PSX
-                rgb = 0x20505050;
-#else
                 rgb = 0xFF - (p_person->Velocity << 2);
                 if (rgb < 0)
                     rgb = 0;
                 rgb = (rgb << 24) | 0xc9b7a3;
-#endif
                 PARTICLE_Add(px, py, pz, (Random() & 7) - 3, 20, (Random() & 7) - 3, POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), rgb, PFLAG_FADE | PFLAG_RESIZE | PFLAG_SPRITEANI | PFLAG_SPRITELOOP, 40, 25, 1, 10, 4);
             }
             change_velocity_to(p_person, 0);
@@ -15671,23 +15495,13 @@ void fn_person_dead(Thing* p_person)
     } else if (try_respawn) // MIB's dont respawn
     {
         SLONG vanish_time;
-#ifdef PSX
-#define TIMER_VANISH 0
-#else
 #define TIMER_VANISH 100
-#endif
 
         vanish_time = TIMER_VANISH;
 
         if (VIOLENCE == 0)
             vanish_time = 30;
 
-#ifdef PSX
-        extern UBYTE remove_dead_people;
-        if (remove_dead_people) {
-            goto remove_them;
-        }
-#endif
 
         if ((p_person->Flags & FLAGS_IN_VIEW) && (VIOLENCE != 0)) {
             // Person is still in view, and we're allowed violence,
@@ -15703,9 +15517,6 @@ void fn_person_dead(Thing* p_person)
             if (p_person->Genus.Person->InsideRoom > vanish_time) // TIMER_VANISH)
             // #endif
             {
-#ifdef PSX
-            remove_them:;
-#endif
                 if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER) {
                     drop_all_items(p_person, 0);
                     remove_thing_from_map(p_person);
@@ -15719,20 +15530,10 @@ void fn_person_dead(Thing* p_person)
 
                     //
                     // gone vanished kaput
-#ifdef PSX //
-                    drop_all_items(p_person, 0);
-                    remove_thing_from_map(p_person);
-
-                    p_person->SubState = SUB_STATE_STAND_CARRY_V; // do nowt from now on
-
-                    free_draw_tween(p_person->Draw.Tweened);
-                    p_person->Draw.Tweened = &dead_tween; //&DRAW_TWEENS[0]; // lets see if this crashes it
-#else
                     if (VIOLENCE == 0) {
                         drop_all_items(p_person, 0);
                         remove_thing_from_map(p_person);
                     }
-#endif
                 }
 
                 return;
@@ -16495,14 +16296,12 @@ SLONG person_new_combat_node(Thing* p_person)
                     //
                     p_person->Genus.Person->CombatNode = -p_person->Genus.Person->CombatNode;
                     p_person->Genus.Person->Flags &= ~(FLAG_PERSON_REQUEST_KICK | FLAG_PERSON_REQUEST_PUNCH);
-#ifndef PSX
 
                     {
                         //				CBYTE	str[100];
                         //				sprintf(str,"MISS TIMED COMBO %d GT %d",p_person->Genus.Person->pcom_ai_counter,COMBO_ACCURACY);
                         //				CONSOLE_text(str);
                     }
-#endif
                 }
 
                 p_person->Genus.Person->pcom_ai_counter = 0;
@@ -16994,15 +16793,6 @@ void fn_person_fighting(Thing* p_person)
                 //
             } else {
                 p_target->Genus.Person->Health -= 45 - GET_SKILL(p_target) >> 1;
-#ifdef PSX
-                if (p_target->Genus.Person->PlayerID)
-                    PSX_SetShock(0, 128);
-#endif
-#ifdef TARGET_DC
-                if (p_target->Genus.Person->PlayerID) {
-                    Vibrate(20.0f, 1.0f, 0.25f);
-                }
-#endif
                 //							add_damage_value_thing(p_person,20>>1);
             }
 
@@ -18091,7 +17881,6 @@ void set_person_grappling_hook_pickup(Thing* p_person)
 void fn_person_grapple(Thing* p_person)
 {
     SLONG end;
-#ifndef PSX
     switch (p_person->SubState) {
     case SUB_STATE_GRAPPLING_PICKUP:
 
@@ -18186,7 +17975,6 @@ void fn_person_grapple(Thing* p_person)
         ASSERT(0);
         break;
     }
-#endif
 }
 
 void set_person_mav_to_xz(Thing* p_person, SLONG x, SLONG z)
@@ -18199,7 +17987,6 @@ void set_person_mav_to_thing(Thing* p_person, Thing* p_target)
     ASSERT(0);
 }
 
-#if !defined(TARGET_DC) && !defined(PSX)
 SLONG person_is_on_sewer(Thing* p_person)
 {
     NS_Hi* ns;
@@ -18210,17 +17997,14 @@ SLONG person_is_on_sewer(Thing* p_person)
         return PERSON_ON_SEWATER;
     return PERSON_ON_WATER;
 }
-#endif
 
 SLONG person_is_on(Thing* p_person)
 {
-#if !defined(PSX) && !defined(TARGET_DC)
     if (GAME_FLAGS & GF_SEWERS) {
         if (p_person->Flags & FLAGS_IN_SEWERS) {
             return person_is_on_sewer(p_person);
         }
     }
-#endif
     if (p_person->OnFace) {
         //
         // Does this face belong to a prim?
@@ -18241,15 +18025,11 @@ SLONG person_is_on(Thing* p_person)
         //
         // Standing in a puddle?
         //
-#ifndef PSX
-#ifndef TARGET_DC
         if (PUDDLE_in(
                 p_person->WorldPos.X >> 8,
                 p_person->WorldPos.Z >> 8)) {
             return PERSON_ON_WATER;
         }
-#endif
-#endif
         //
         // Check for special floor textures...
         //
@@ -18258,10 +18038,6 @@ SLONG person_is_on(Thing* p_person)
         SLONG mz = p_person->WorldPos.Z >> 16;
 
         if (WITHIN(mx, 0, MAP_WIDTH - 1) && WITHIN(mz, 0, MAP_HEIGHT - 1)) {
-#ifdef PSX
-            //			page=255;
-            return (-255);
-#else
 
             SLONG page = PAP_2HI(mx, mz).Texture & 0x3ff;
 
@@ -18274,7 +18050,6 @@ SLONG person_is_on(Thing* p_person)
                 return 255; // god this SUCKS SO HARD! sorry
 
             return -page;
-#endif
 
             // return -SOUND_FXMapping[page];
 
@@ -19605,7 +19380,6 @@ void fn_person_circle(Thing* p_person)
     }
 }
 
-#ifndef PSX
 void fn_person_circle_old(Thing* p_person)
 {
     SLONG dx;
@@ -19737,7 +19511,6 @@ void fn_person_circle_old(Thing* p_person)
         vz << 8,
         p_person);
 }
-#endif
 
 //*************************************************************************************************************
 //** (JCL)  - get person scale
@@ -19771,7 +19544,6 @@ SLONG person_get_scale(Thing* t)
 //
 // returns how many game_turns an anim takes, a game_turn is assumed to be 1/20th of a second
 //
-#ifndef PSX
 SLONG how_long_is_anim(SLONG anim)
 {
     GameKeyFrame* frame;
@@ -19794,7 +19566,6 @@ SLONG how_long_is_anim(SLONG anim)
     }
     return (total);
 }
-#endif
 
 SLONG person_ok_for_conversation(Thing* p_person)
 {

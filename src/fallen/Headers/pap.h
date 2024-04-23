@@ -115,15 +115,6 @@ SLONG PAP_on_map_hi(SLONG x, SLONG z);
 // Returns the given square.
 //
 
-#ifdef PSX
-
-#define PAP_2LO(x, z) (PAP_lo[(x)][(z)])
-#define PAP_2HI(x, z) (PAP_hi[(x)][(z)])
-
-#define PAP_on_map_hi(x, z) ((WITHIN((x), 0, PAP_SIZE_HI - 1) && WITHIN((z), 0, PAP_SIZE_HI - 1)) ? TRUE : FALSE)
-#define PAP_on_map_lo(x, z) ((WITHIN((x), 0, PAP_SIZE_LO - 1) && WITHIN((z), 0, PAP_SIZE_LO - 1)) ? TRUE : FALSE)
-
-#else
 
 #ifdef NDEBUG
 
@@ -142,7 +133,6 @@ void PAP_assert_if_off_map_hi(SLONG x, SLONG z);
 #define PAP_2HI(x, z) (PAP_assert_if_off_map_hi((x), (z)), PAP_hi[(x)][(z)])
 
 #endif // NDEBUG
-#endif // PSX
 
 #define ON_PAP_LO(x, z) ((x) >= 0 && (z) >= 0 && (x) < PAP_SIZE_LO && (z) < PAP_SIZE_LO)
 

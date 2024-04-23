@@ -91,12 +91,8 @@
 #ifdef _DEBUG
 #ifdef _MSC_VER
 #pragma comment(lib, "ddraw.lib")
-#ifndef TARGET_DC
 #pragma comment(lib, "dplay.lib")
 #pragma comment(lib, "d3drm.lib")
-#else
-#pragma comment(lib, "dplayx.lib")
-#endif
 #pragma comment(lib, "M_WIN1_D")
 #elif defined(__WATCOMC__)
 #ifdef _MF_WINDOWS
@@ -108,12 +104,8 @@
 #else
 #ifdef _MSC_VER
 #pragma comment(lib, "ddraw.lib")
-#ifndef TARGET_DC
 #pragma comment(lib, "dplay.lib")
 #pragma comment(lib, "d3drm.lib")
-#else
-#pragma comment(lib, "dplayx.lib")
-#endif
 #pragma comment(lib, "M_WIN1_R")
 #elif defined(__WATCOMC__)
 #ifdef _MF_WINDOWS

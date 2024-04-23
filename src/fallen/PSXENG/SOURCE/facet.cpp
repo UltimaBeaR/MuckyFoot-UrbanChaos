@@ -1817,7 +1817,6 @@ SLONG build_split_face_4quad(PSX_POLY_Point* pp, SLONG page, POLY_GT4* q, SLONG 
     return (1);
 }
 
-#ifndef PSX
 void FACET_draw_quick(SLONG facet)
 {
     PSX_POLY_Point* pp = perm_pp_array;
@@ -1882,7 +1881,6 @@ void FACET_draw_quick(SLONG facet)
         break;
     }
 }
-#endif
 
 void fuck_z(PSX_POLY_Point* pp)
 {

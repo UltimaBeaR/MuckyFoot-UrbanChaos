@@ -67,7 +67,6 @@ void MATRIX_calc(SLONG matrix[9], SLONG yaw, SLONG pitch, SLONG roll)
 }
 */
 
-#ifndef PSX
 void MATRIX_vector(SLONG vector[3], SLONG yaw, SLONG pitch)
 {
     SLONG cy, cp;
@@ -133,8 +132,6 @@ void MATRIX_skew(SLONG matrix[9], FIX_16 skew, FIX_16 zoom, FIX_16 scale)
     //
     //
 }
-#endif
-#ifndef PSX
 void MATRIX_3x3mul(SLONG a[9], SLONG m[9], SLONG n[9])
 {
     a[0] = ((m[0] * n[0]) >> 16) + ((m[1] * n[3]) >> 16) + ((m[2] * n[6]) >> 16);
@@ -149,4 +146,3 @@ void MATRIX_3x3mul(SLONG a[9], SLONG m[9], SLONG n[9])
     a[7] = ((m[6] * n[1]) >> 16) + ((m[7] * n[4]) >> 16) + ((m[8] * n[7]) >> 16);
     a[8] = ((m[6] * n[2]) >> 16) + ((m[7] * n[5]) >> 16) + ((m[8] * n[8]) >> 16);
 }
-#endif

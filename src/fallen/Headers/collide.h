@@ -6,15 +6,9 @@
 //
 // Defines
 //
-#ifdef PSX
-#define MAX_COL_VECT_LINK 4000
-#define MAX_COL_VECT 1000
-#define MAX_WALK_POOL (10000)
-#else
 #define MAX_COL_VECT_LINK 10000
 #define MAX_COL_VECT 10000
 #define MAX_WALK_POOL (30000)
-#endif
 
 #define DONT_INTERSECT 0
 #define DO_INTERSECT 1

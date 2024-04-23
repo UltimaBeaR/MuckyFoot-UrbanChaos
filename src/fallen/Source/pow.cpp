@@ -5,11 +5,7 @@
 #include "game.h"
 #include "pow.h"
 #include "fmatrix.h"
-#ifndef PSX
 #include "panel.h"
-#else
-#include "psxeng.h"
-#endif
 
 //
 // Our data structures.
@@ -348,9 +344,7 @@ void POW_insert_sprite(
     SLONG sprite_index;
     POW_Sprite* ps;
     if (POW_sprite_free == NULL) {
-#ifndef PSX
 //		PANEL_new_text(NULL, 500, "No more sprites");
-#endif
 
         return;
     }
@@ -427,9 +421,7 @@ void POW_new(SLONG type, SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz
     //
 
     if (POW_pow_free == NULL) {
-#ifndef PSX
 //		PANEL_new_text(NULL, 1000, "No more pows");
-#endif
 
         return;
     }

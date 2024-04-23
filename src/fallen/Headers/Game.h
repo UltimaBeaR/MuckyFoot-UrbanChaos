@@ -4,25 +4,16 @@
 #ifndef GAME_H
 #define GAME_H
 
-#ifdef PSX
-#define DRAW_DIST 13
-#define BUILD_PSX
-#else
 #define DRAW_DIST 22
-#endif
 
 //---------------------------------------------------------------
 // PC - D3D Specific defines.
 
-#ifndef PSX
 
 #pragma warning(disable : 4244) // truncation warning : useless
 #pragma warning(disable : 4101) // unreferenced local : no-one ever bothers deleting these
 #pragma warning(disable : 4554) // yes, well ... some people use brackets, others disable this warning
 
-#else
-
-#endif
 #define THING_INDEX UWORD
 #define COMMON_INDEX UWORD
 
@@ -43,10 +34,8 @@
 //---------------------------------------------------------------
 
 #include <MFStdLib.h>
-#ifndef PSX
 #undef LogText
 #define LogText
-#endif
 
 typedef SLONG MAPCO8;
 typedef SLONG MAPCO16;
@@ -111,11 +100,6 @@ extern struct MemTable save_table[];
 #include "aeng.h"
 #endif
 
-#ifdef PSX
-#include "psxeng.h"
-#define _MAX_PATH 260
-#include "memory.h"
-#endif
 
 #ifdef EDITOR
 // #include	"Editor.h"
@@ -242,11 +226,7 @@ typedef struct
         Season;
 
     // Map members.
-#if defined(PSX) || defined(TARGET_DC)
-    MapElement Map[1];
-#else
     MapElement Map[MAP_SIZE];
-#endif
 
     // Thing members.
     Vehicle* Vehicles; //[MAX_VEHICLES];
@@ -378,16 +358,9 @@ extern UBYTE VIOLENCE;
 #define NET_PERSON(i) (the_game.net_persons[i])
 #define NET_PLAYER(i) (the_game.net_players[i])
 
-#ifdef TARGET_DC
-// Don't use these!
-#define MAP (ASSERT(FALSE), the_game.Map)
-#define MAP2(x, y) (ASSERT(FALSE), the_game.Map[(y) + ((x) * MAP_WIDTH)])
-#define MAP_WHO(i) (ASSERT(FALSE), MAP[i].MapWho)
-#else
 #define MAP (the_game.Map)
 #define MAP2(x, y) (the_game.Map[(y) + ((x) * MAP_WIDTH)])
 #define MAP_WHO(i) (MAP[i].MapWho)
-#endif
 
 #define PRIMARY_USED (the_game.UsedPrimaryThings)
 #define PRIMARY_UNUSED (the_game.UnusedPrimaryThings)
@@ -412,20 +385,6 @@ extern UBYTE VIOLENCE;
 #define VEHICLES (the_game.Vehicles)
 #define BATS (the_game.Bats)
 
-#ifdef TARGET_DC
-
-#define INDOORS_HEIGHT_FLOOR (the_game.indoors_height_floor)
-#define INDOORS_HEIGHT_CEILING (the_game.indoors_height_ceiling)
-#define INDOORS_DBUILDING (the_game.indoors_dbuilding)
-#define INDOORS_INDEX_FADE (the_game.indoors_index_fade)
-#define INDOORS_INDEX_FADE_EXT (the_game.indoors_index_fade_ext)
-#define INDOORS_INDEX_FADE_EXT_DIR (the_game.indoors_index_fade_ext_dir)
-#define INDOORS_ROOM_NEXT (0)
-#define INDOORS_INDEX_NEXT (0)
-#define INDOORS_INDEX (0)
-#define INDOORS_ROOM (0)
-
-#else
 
 #define INDOORS_HEIGHT_FLOOR (the_game.indoors_height_floor)
 #define INDOORS_HEIGHT_CEILING (the_game.indoors_height_ceiling)
@@ -438,7 +397,6 @@ extern UBYTE VIOLENCE;
 #define INDOORS_INDEX (the_game.indoors_index)
 #define INDOORS_ROOM (the_game.indoors_room)
 
-#endif
 
 #define TO_DRAW_TWEEN(t) (&DRAW_TWEENS[t])
 #define TO_DRAW_MESH(t) (&DRAW_MESHES[t])

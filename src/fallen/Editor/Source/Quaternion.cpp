@@ -13,12 +13,7 @@
 void QuatSlerp(CQuaternion* from, CQuaternion* to, float t, CQuaternion* res)
 {
     float to1[4];
-#ifdef TARGET_DC
-    // Why the PC guys need doubles, I'll never know...
-    float omega, cosom, sinom, scale0, scale1;
-#else
     double omega, cosom, sinom, scale0, scale1;
-#endif
 
     // calc cosine
     cosom = from->x * to->x + from->y * to->y + from->z * to->z + from->w * to->w;

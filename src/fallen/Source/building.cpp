@@ -32,14 +32,8 @@ SLONG insert_collision_vect(SLONG x1, SLONG y1, SLONG z1, SLONG x2, SLONG y2, SL
 #pragma warning(disable : 4244)
 #define ALT_SHIFT (3)
 
-#ifdef PSX
-#define EDIT_MAP_WIDTH 128
-#define EDIT_MAP_DEPTH 128
-#endif
 
-#ifndef PSX
 SLONG start_point[200];
-#endif
 
 UWORD next_roof_bound = 1;
 
@@ -53,7 +47,6 @@ UWORD end_prim_face3 = MAX_PRIM_FACES3 - 2;
 UWORD end_prim_object = MAX_PRIM_OBJECTS - 2;
 UWORD end_prim_multi_object = MAX_PRIM_MOBJECTS - 2;
 
-#ifndef PSX
 struct TXTY texture_xy2[] = {
     { 0, 0, 0 }, // 0
     { 0, 32, 0 }, // 1
@@ -87,7 +80,6 @@ struct TXTY texture_xy2[] = {
     { 0, 0 }
 
 };
-#endif
 
 // textures[piece][style]
 /*
@@ -109,11 +101,9 @@ struct TXTY texture_xy2[] = {
 
 };
 */
-#ifndef PSX
 struct TXTY textures_xy[200][5];
 struct DXTXTY dx_textures_xy[200][5];
 UBYTE textures_flags[200][5];
-#endif
 
 /*
 struct	TextureInfo texture_info[]=
@@ -202,7 +192,6 @@ struct	TextureInfo texture_info[]=
 };
 */
 
-#ifndef PSX
 
 static SLONG build_x, build_y, build_z, build_min_y, build_max_y;
 
@@ -533,10 +522,6 @@ void set_build_seed(SLONG seed)
 
 void add_walk_face_to_map(SWORD face, SLONG x, SLONG z)
 {
-#ifdef TARGET_DC
-    // Shouldn't be using this, apparently.
-    ASSERT(FALSE);
-#endif
 
     if (next_walk_link >= (MAX_WALK_POOL - 4)) {
         LogText(" failed out  of walk mem \n");
@@ -8032,9 +8017,6 @@ SLONG build_cables(SWORD storey, SLONG prev_facet)
         start_face4 = next_prim_face4;
 
         build_cable(x1, y1, z1, x2, y2, z2, wall, 0, wall_list[wall].TextureStyle2 * 64);
-#ifdef PSX
-//		printf(" build cable\n");
-#endif
         prev_facet = build_facet(start_point, next_prim_point, start_face3, start_face4, next_prim_face4, 0, FACET_FLAG_CABLE, 0);
 
         //		prim=build_building(start_point,start_face3,start_face4,prev_facet);
@@ -8145,7 +8127,6 @@ void build_fence_points_and_faces(SLONG y1, SLONG y2, SLONG x1, SLONG z1, SLONG 
         p_f4->ThingIndex = -wall;
         p_f4->DrawFlags |= (POLY_FLAG_DOUBLESIDED | POLY_FLAG_MASKED);
 
-#ifndef PSX
         p = next_prim_point;
         add_point(x1 + px, y2 + floor_2, z1 + pz);
         add_point(x1 + px, y1 + floor_2, z1 + pz);
@@ -8193,7 +8174,6 @@ void build_fence_points_and_faces(SLONG y1, SLONG y2, SLONG x1, SLONG z1, SLONG 
 
         p_f4 = create_a_quad(p + 4, p + 5, p1 + 4, p1 + 5, texture_style, TEXTURE_PIECE_LEFT);
         p_f4->ThingIndex = -wall;
-#endif
         //		p_f4=create_a_quad(p+0,p+2,p1,p1+2,texture_style,TEXTURE_PIECE_LEFT);
         //		p_f4->ThingIndex=-wall;
 
@@ -8474,9 +8454,6 @@ SLONG build_brick_wall(SLONG storey)
     z[3] = z[1] + dz;
     build_thick_wall_polys(&x[0], &z[0], y, height, 2, storey, wall);
 
-#ifdef PSX
-//		printf(" build brick wall\n");
-#endif
 
     prev_facet = build_facet(start_point, next_prim_point, start_face3, start_face4, next_prim_face4, 0, FACET_FLAG_NON_SORT, 0);
 
@@ -9196,9 +9173,6 @@ SLONG create_building_prim(UWORD building, SLONG* small_y)
 //						{
 //							build_ladder(wall_for_ladder[wall_count]);
 //						}
-#ifdef PSX
-//		printf(" build 1\n");
-#endif
 
                     prev_facet = build_facet(start_point, mid_point, start_face3, start_face4, mid_face4, prev_facet, 0, col_vect);
 
@@ -9368,9 +9342,6 @@ SLONG create_building_prim(UWORD building, SLONG* small_y)
     if (valid) {
         if (building == 3)
             LogText(" building 3   build last facet\n");
-#ifdef PSX
-//		printf(" build 2\n");
-#endif
         prev_facet = build_facet(start_point, next_prim_point, start_face3, start_face4, next_prim_face4, prev_facet, FACET_FLAG_ROOF, 0);
     }
     start_point = next_prim_point;
@@ -9686,14 +9657,12 @@ void create_city(UBYTE mode)
 {
     SLONG c0;
     SLONG bcount = 0;
-#ifndef PSX
     SLONG temp_next_prim;
     SLONG temp_next_face3;
     SLONG temp_next_face4;
     SLONG temp_next_point;
     SLONG temp_next_building_object;
     SLONG temp_next_building_facet;
-#endif
 
     diff_page_count1 = 0;
     diff_page_count2 = 0;
@@ -9720,14 +9689,12 @@ void create_city(UBYTE mode)
     // REMOVED FOR E3 DEMO
     //	load_all_prims("allprim.sav");
 
-#ifndef PSX
     temp_next_prim = next_prim_object;
     temp_next_face3 = next_prim_face3;
     temp_next_face4 = next_prim_face4;
     temp_next_point = next_prim_point;
     temp_next_building_object = next_building_object;
     temp_next_building_facet = next_building_facet;
-#endif
 
     /*
             LogText("*************\n");
@@ -9777,9 +9744,7 @@ void create_city(UBYTE mode)
     }
     extern void apply_global_amb_to_map(void);
 //	printf(" about to light map \n");
-#ifndef PSX
 //	apply_global_amb_to_map();
-#endif
 
     //	printf(" done light map \n");
     /*
@@ -10655,5 +10620,4 @@ void draw_a_building_at(UWORD building, SLONG x, SLONG y, SLONG z)
         index = building_facets[index].NextFacet;
     }
 }
-#endif
 #endif

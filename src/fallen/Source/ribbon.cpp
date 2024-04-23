@@ -6,9 +6,7 @@
 
 #include "game.h"
 #include "ribbon.h"
-#ifndef PSX
 #include "DrawXtra.h"
-#endif
 
 static Ribbon Ribbons[MAX_RIBBONS];
 
@@ -20,7 +18,6 @@ inline GameCoord Coord(SLONG x, SLONG y, SLONG z)
 
 // ----------------------------------------------------------------------------------------
 
-#ifndef PSX
 void RIBBON_draw()
 {
     SLONG i;
@@ -62,9 +59,6 @@ SLONG RIBBON_alloc(SLONG flags, UBYTE max_segments, SLONG page, SLONG life, UBYT
     static SLONG NextRibbon = 0;
     SLONG LastRibbon;
 
-#ifdef PSX
-//	return(0);
-#endif
 
     LastRibbon = NextRibbon;
     while (Ribbons[NextRibbon++].Flags) {
@@ -150,6 +144,5 @@ void RIBBON_life(SLONG ribbon, SLONG life)
     }
 }
 
-#endif
 
 // ----------------------------------------------------------------------------------------

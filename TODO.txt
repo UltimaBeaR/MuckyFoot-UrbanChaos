@@ -68,3 +68,8 @@ coan - tool to analyze preprocessor symbols and optimize/throw away unused code 
 
         remove editor related stuff (EDITOR symbol)
             TODO...
+
+
+done
+    coan source -UTARGET_DC -UPSX --no-transients --filter cpp,h --recurse src
+        to remove ps1 and dreamcast code under ifdefs

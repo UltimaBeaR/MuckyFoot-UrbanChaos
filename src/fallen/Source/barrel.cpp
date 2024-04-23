@@ -16,11 +16,7 @@
 #include "sound.h"
 #include "pow.h"
 #include "dirt.h"
-#ifndef PSX
 #include "panel.h"
-#else
-#include "c:\fallen\psxeng\headers\panel.h"
-#endif
 
 BARREL_Sphere* BARREL_sphere; //[BARREL_MAX_SPHERES];
 SLONG BARREL_sphere_last; // MARK!!! WTF, you usuall call thing BLAH_blah_upto
@@ -37,9 +33,7 @@ SLONG BARREL_sphere_last; // MARK!!! WTF, you usuall call thing BLAH_blah_upto
 #define BARREL_FLAG_RUBBISH (1 << 5) // This bin contains rubbish.
 #define BARREL_FLAG_CANS (1 << 6) // This bin contains cans.
 
-#ifndef PSX
 extern BOOL allow_debug_keys;
-#endif
 
 Barrel* BARREL_barrel; //[BARREL_MAX_BARRELS];
 SLONG BARREL_barrel_upto;
@@ -74,7 +68,6 @@ inline void BARREL_hit_noise(Thing* p_barrel)
     else
         MFX_play_thing(THING_NUMBER(p_barrel), SOUND_Range(S_BARREL_START, S_BARREL_END), 0, p_barrel);
 }
-#ifndef PSX
 
 void BARREL_init()
 {
@@ -91,7 +84,6 @@ void BARREL_init()
     }
     BARREL_fx_rate = 0;
 }
-#endif
 
 //
 // Returns an index to two free BARREL_Spheres.
@@ -1179,8 +1171,6 @@ void BARREL_process_normal(Thing* p_barrel)
 
         BARREL_convert_moving_to_stationary(p_barrel);
     }
-#ifndef PSX
-#ifndef TARGET_DC
     if (ControlFlag && allow_debug_keys) {
         AENG_world_line(
             bs1->x >> 8,
@@ -1195,8 +1185,6 @@ void BARREL_process_normal(Thing* p_barrel)
             0x00ff4444,
             TRUE);
     }
-#endif
-#endif
 }
 
 UWORD BARREL_alloc(
@@ -1572,7 +1560,6 @@ void BARREL_throw(Thing *p_barrel)
 
 */
 
-#ifndef PSX
 GameCoord BARREL_fire_pos(Thing* p_barrel)
 {
     SLONG sx;
@@ -1610,7 +1597,6 @@ GameCoord BARREL_fire_pos(Thing* p_barrel)
 
     return ans;
 }
-#endif
 
 void BARREL_dissapear(Thing* p_barrel)
 {
@@ -1750,16 +1736,7 @@ void BARREL_shoot(
         }
 
         */
-#ifdef PSX
-        POW_create(
-            (in_the_air) ? POW_CREATE_LARGE : POW_CREATE_LARGE_SEMI,
-            barrelpos.X,
-            barrelpos.Y,
-            barrelpos.Z,
-            0, 0, 0);
-#else
         PYRO_create(barrelpos, PYRO_FIREBOMB);
-#endif
 
         PCOM_oscillate_tympanum(
             PCOM_SOUND_BANG,

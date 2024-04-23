@@ -23,9 +23,6 @@
 #include "drive.h"
 #include "..\headers\attract.h"
 #include "crinkle.h"
-#ifdef TARGET_DC
-#include "c:\fallen\ddlibrary\headers\GDisplay.h"
-#endif
 int TEXTURE_create_clump = 0;
 
 //
@@ -66,20 +63,11 @@ SLONG TEXTURE_shadow_shift_alpha;
 
 extern UWORD floor_texture_sizes[];
 
-#ifdef TARGET_DC
-// Lower numbers so it actually fits.
 #define TEXTURE_NUM_STANDARD (22 * 64)
 #define TEXTURE_MAX_TEXTURES (TEXTURE_NUM_STANDARD + 160)
 #define TEXTURE_NORM_SIZE 32
 #define TEXTURE_NORM_SQUARES 8
 #define PEOPLE3_ALT 21 * 64
-#else
-#define TEXTURE_NUM_STANDARD (22 * 64)
-#define TEXTURE_MAX_TEXTURES (TEXTURE_NUM_STANDARD + 160)
-#define TEXTURE_NORM_SIZE 32
-#define TEXTURE_NORM_SQUARES 8
-#define PEOPLE3_ALT 21 * 64
-#endif
 
 //
 // Texutre pages that don't exist.
@@ -108,23 +96,6 @@ CRINKLE_Handle TEXTURE_crinkle[22 * 64];
 
 SLONG TEXTURE_page_num_standard;
 
-#ifdef TARGET_DC
-SLONG TEXTURE_page_background_use_instead;
-SLONG TEXTURE_page_background_use_instead2;
-
-SLONG TEXTURE_page_joypad_a;
-SLONG TEXTURE_page_joypad_b;
-SLONG TEXTURE_page_joypad_c;
-SLONG TEXTURE_page_joypad_x;
-SLONG TEXTURE_page_joypad_y;
-SLONG TEXTURE_page_joypad_z;
-SLONG TEXTURE_page_joypad_l;
-SLONG TEXTURE_page_joypad_r;
-SLONG TEXTURE_page_joypad_pad_l;
-SLONG TEXTURE_page_joypad_pad_r;
-SLONG TEXTURE_page_joypad_pad_d;
-SLONG TEXTURE_page_joypad_pad_u;
-#endif
 
 SLONG TEXTURE_page_snowflake;
 SLONG TEXTURE_page_sparkle;
@@ -705,21 +676,14 @@ static void TEXTURE_load_page(SLONG page)
         sprintf(shortname_res64, "tex%03dhi.tga", page);
         sprintf(shortname_res128, "tex%03dto.tga", page);
 
-#ifndef TARGET_DC
         fxref = GetPrivateProfileInt("Textures", shortname_res64, -1, TEXTURE_fx_inifile);
         if (fxref == -1) {
             fxref = GetPrivateProfileInt("Textures", shortname_res32, -1, TEXTURE_fx_inifile);
         }
-#else // #ifndef TARGET_DC
-      //  Dreamcast - GetPrivateProfile* don't exist. Spoof them for now.
-        fxref = -1;
-#endif // #else //#ifndef TARGET_DC
 
-#ifndef TARGET_DC
         if (SOUND_FXMapping != NULL) {
             SOUND_FXMapping[page] = fxref;
         };
-#endif
 
     } else if (page < 64 * 8) {
         //
@@ -734,21 +698,14 @@ static void TEXTURE_load_page(SLONG page)
         sprintf(shortname_res64, "tex%03dhi.tga", page);
         sprintf(shortname_res128, "tex%03dto.tga", page);
 
-#ifndef TARGET_DC
         fxref = GetPrivateProfileInt("Textures", shortname_res64, -1, TEXTURE_shared_fx_inifile);
         if (fxref == -1) {
             fxref = GetPrivateProfileInt("Textures", shortname_res32, -1, TEXTURE_shared_fx_inifile);
         }
-#else // #ifndef TARGET_DC
-      //  Dreamcast - GetPrivateProfile* don't exist. Spoof them for now.
-        fxref = -1;
-#endif // #else //#ifndef TARGET_DC
 
-#ifndef TARGET_DC
         if (SOUND_FXMapping != NULL) {
             SOUND_FXMapping[page] = fxref;
         }
-#endif
     } else if (page < 64 * 9) {
         /*
         //
@@ -785,24 +742,6 @@ static void TEXTURE_load_page(SLONG page)
     }
 
     if (IndividualTextures || TEXTURE_create_clump) {
-#ifdef TARGET_DC
-        HRESULT hres;
-        if (FileExists(name_res128) || FileExists(name_mvq128)) {
-            hres = TEXTURE_texture[page].LoadTextureTGA(name_res128, page);
-        } else if (FileExists(name_res64) || FileExists(name_mvq64)) {
-            hres = TEXTURE_texture[page].LoadTextureTGA(name_res64, page);
-        } else if (FileExists(name_res32) || FileExists(name_mvq32)) {
-            hres = TEXTURE_texture[page].LoadTextureTGA(name_res32, page);
-        } else {
-            hres = DDERR_INVALIDOBJECT;
-        }
-
-        if (FAILED(hres)) {
-            TRACE("Page %s not found", name_res32);
-            TEXTURE_dontexist[page] = TRUE;
-        }
-
-#else
 
         exists128 = MF_Fopen(name_res128, "rb");
         if (exists128) {
@@ -832,27 +771,8 @@ static void TEXTURE_load_page(SLONG page)
                 }
             }
         }
-#endif
     } else {
 
-#ifdef TARGET_DC
-        HRESULT hres;
-        if (FileExists(name_res128) || FileExists(name_mvq128)) {
-            hres = TEXTURE_texture[page].LoadTextureTGA(name_res128, page);
-        } else if (FileExists(name_res64) || FileExists(name_mvq64)) {
-            hres = TEXTURE_texture[page].LoadTextureTGA(name_res64, page);
-        } else if (FileExists(name_res32) || FileExists(name_mvq32)) {
-            hres = TEXTURE_texture[page].LoadTextureTGA(name_res32, page);
-        } else {
-            hres = DDERR_INVALIDOBJECT;
-        }
-
-        if (FAILED(hres)) {
-            TRACE("Page %s not found", name_res32);
-            ASSERT(FALSE);
-            TEXTURE_dontexist[page] = TRUE;
-        }
-#else
 
         if (DoesTGAExist(name_res64, page)) {
             TEXTURE_texture[page].LoadTextureTGA(name_res64, page);
@@ -861,35 +781,22 @@ static void TEXTURE_load_page(SLONG page)
         } else {
             TEXTURE_dontexist[page] = TRUE;
         }
-#endif
     }
 
     // crinkles
 
     if (page < 64 * 8) {
-#ifdef TARGET_DC
-        ASSERT(IndividualTextures);
-#endif
         if (IndividualTextures || TEXTURE_create_clump) {
             TEXTURE_crinkle[page] = CRINKLE_load(name_sex);
-#ifdef TARGET_DC
-            ASSERT(!TEXTURE_create_clump);
-#else
             if (TEXTURE_create_clump && TEXTURE_crinkle[page]) {
                 CRINKLE_write_bin(GetTGAClump(), TEXTURE_crinkle[page], TEXTURE_MAX_TEXTURES + page);
             }
-#endif
         } else {
-#ifdef TARGET_DC
-            // Shouldn't get here.
-            ASSERT(FALSE);
-#else
             if (!DoesTGAExist("", TEXTURE_MAX_TEXTURES + page)) {
                 TEXTURE_crinkle[page] = NULL;
             } else {
                 TEXTURE_crinkle[page] = CRINKLE_read_bin(GetTGAClump(), TEXTURE_MAX_TEXTURES + page);
             }
-#endif
         }
     }
 
@@ -903,13 +810,9 @@ static void TEXTURE_load_page(SLONG page)
 void TEXTURE_initialise_clumping(CBYTE* fname_level)
 {
 
-#ifdef TARGET_DC
-    const int clumping = 0;
-#else // #ifdef TARGET_DC
 
     int clumping = 1;
 
-#endif // #else //#ifdef TARGET_DC
 
     extern void SetLastClumpfile(char* file, size_t size); // in GDisplay.cpp, horrible bodge
 
@@ -919,10 +822,6 @@ void TEXTURE_initialise_clumping(CBYTE* fname_level)
         SetLastClumpfile("", 0);
     } else {
 
-#ifdef TARGET_DC
-        // Shouldn't be coming here.
-        ASSERT(FALSE);
-#else
 
         // load textures from the clump
         char filename[256];
@@ -944,7 +843,6 @@ void TEXTURE_initialise_clumping(CBYTE* fname_level)
         OpenTGAClump(filename, TEXTURE_MAX_TEXTURES + 64 * 8, !TEXTURE_create_clump);
         IndividualTextures = false;
         SetLastClumpfile(filename, TEXTURE_MAX_TEXTURES + 64 * 8);
-#endif
     }
 }
 
@@ -991,15 +889,6 @@ void TEXTURE_load_needed(CBYTE* fname_level,
 
     TEXTURE_initialise_clumping(fname_level);
 
-#ifdef TARGET_DC
-    bool bFrontEnd = FALSE;
-    if ((fname_level == NULL) || (0 == strcmp(fname_level, "levels\\frontend.ucm"))) {
-        // Not actually a level - no level stuff loaded.
-        bFrontEnd = TRUE;
-    }
-    // This should agree in theory.
-    ASSERT(loading_screen_active == !bFrontEnd);
-#endif
 
     TEXTURE_load_page(1);
 
@@ -1086,24 +975,6 @@ void TEXTURE_load_needed(CBYTE* fname_level,
     TEXTURE_page_snowflake = TEXTURE_NUM_STANDARD + 74;
     TEXTURE_page_fade_MF = TEXTURE_NUM_STANDARD + 75;
 
-#ifdef TARGET_DC
-    TEXTURE_page_joypad_a = TEXTURE_NUM_STANDARD + 76;
-    TEXTURE_page_joypad_b = TEXTURE_NUM_STANDARD + 77;
-    TEXTURE_page_joypad_c = TEXTURE_NUM_STANDARD + 78;
-    TEXTURE_page_joypad_x = TEXTURE_NUM_STANDARD + 79;
-    TEXTURE_page_joypad_y = TEXTURE_NUM_STANDARD + 80;
-    TEXTURE_page_joypad_z = TEXTURE_NUM_STANDARD + 81;
-    TEXTURE_page_joypad_l = TEXTURE_NUM_STANDARD + 82;
-    TEXTURE_page_joypad_r = TEXTURE_NUM_STANDARD + 83;
-    TEXTURE_page_joypad_pad_l = TEXTURE_NUM_STANDARD + 84;
-    TEXTURE_page_joypad_pad_r = TEXTURE_NUM_STANDARD + 85;
-    TEXTURE_page_joypad_pad_d = TEXTURE_NUM_STANDARD + 86;
-    TEXTURE_page_joypad_pad_u = TEXTURE_NUM_STANDARD + 87;
-
-    // Special-cased one.
-    TEXTURE_page_background_use_instead = TEXTURE_NUM_STANDARD + 88;
-    TEXTURE_page_background_use_instead2 = TEXTURE_NUM_STANDARD + 89;
-#endif
     TEXTURE_num_textures = TEXTURE_NUM_STANDARD + 90 + 20;
 
     //
@@ -1169,11 +1040,7 @@ void TEXTURE_load_needed(CBYTE* fname_level,
     TEXTURE_needed[TEXTURE_page_font2d] = 1;
 
     //	TEXTURE_texture[TEXTURE_page_lcdfont   ].LoadTextureTGA(TEXTURE_EXTRA_DIR"font3.tga", TEXTURE_page_
-#ifdef TARGET_DC
-    TEXTURE_texture[TEXTURE_page_lcdfont].LoadTextureTGA(TEXTURE_EXTRA_DIR "olyfont2dc.tga", TEXTURE_page_lcdfont, FALSE);
-#else
     TEXTURE_texture[TEXTURE_page_lcdfont].LoadTextureTGA(TEXTURE_EXTRA_DIR "olyfont2.tga", TEXTURE_page_lcdfont, FALSE);
-#endif
     TEXTURE_needed[TEXTURE_page_lcdfont] = 1;
 
     TEXTURE_texture[TEXTURE_page_lastpanel].LoadTextureTGA(TEXTURE_EXTRA_DIR "PCdisplay.tga", TEXTURE_page_lastpanel, FALSE);
@@ -1251,40 +1118,7 @@ void TEXTURE_load_needed(CBYTE* fname_level,
 
     LOADED_THIS_MANY_TEXTURES(7);
 
-#ifdef TARGET_DC
-    // The joypad button textures.
-    TEXTURE_texture[TEXTURE_page_joypad_a].LoadTextureTGA(TEXTURE_EXTRA_DIR "DC\\button_A.tga", TEXTURE_page_joypad_a);
-    TEXTURE_needed[TEXTURE_page_joypad_a] = 1;
-    TEXTURE_texture[TEXTURE_page_joypad_b].LoadTextureTGA(TEXTURE_EXTRA_DIR "DC\\button_B.tga", TEXTURE_page_joypad_b);
-    TEXTURE_needed[TEXTURE_page_joypad_b] = 1;
-    TEXTURE_texture[TEXTURE_page_joypad_c].LoadTextureTGA(TEXTURE_EXTRA_DIR "DC\\button_C.tga", TEXTURE_page_joypad_c);
-    TEXTURE_needed[TEXTURE_page_joypad_c] = 1;
-    TEXTURE_texture[TEXTURE_page_joypad_x].LoadTextureTGA(TEXTURE_EXTRA_DIR "DC\\button_X.tga", TEXTURE_page_joypad_x);
-    TEXTURE_needed[TEXTURE_page_joypad_x] = 1;
-    TEXTURE_texture[TEXTURE_page_joypad_y].LoadTextureTGA(TEXTURE_EXTRA_DIR "DC\\button_Y.tga", TEXTURE_page_joypad_y);
-    TEXTURE_needed[TEXTURE_page_joypad_y] = 1;
-    TEXTURE_texture[TEXTURE_page_joypad_z].LoadTextureTGA(TEXTURE_EXTRA_DIR "DC\\button_Z.tga", TEXTURE_page_joypad_z);
-    TEXTURE_needed[TEXTURE_page_joypad_z] = 1;
-    LOADED_THIS_MANY_TEXTURES(6);
-    TEXTURE_texture[TEXTURE_page_joypad_l].LoadTextureTGA(TEXTURE_EXTRA_DIR "DC\\button_LEFT.tga", TEXTURE_page_joypad_l);
-    TEXTURE_needed[TEXTURE_page_joypad_l] = 1;
-    TEXTURE_texture[TEXTURE_page_joypad_r].LoadTextureTGA(TEXTURE_EXTRA_DIR "DC\\button_RIGHT.tga", TEXTURE_page_joypad_r);
-    TEXTURE_needed[TEXTURE_page_joypad_r] = 1;
-    TEXTURE_texture[TEXTURE_page_joypad_pad_l].LoadTextureTGA(TEXTURE_EXTRA_DIR "DC\\button_PADLEFT.tga", TEXTURE_page_joypad_pad_l);
-    TEXTURE_needed[TEXTURE_page_joypad_pad_l] = 1;
-    TEXTURE_texture[TEXTURE_page_joypad_pad_r].LoadTextureTGA(TEXTURE_EXTRA_DIR "DC\\button_PADRIGHT.tga", TEXTURE_page_joypad_pad_r);
-    TEXTURE_needed[TEXTURE_page_joypad_pad_r] = 1;
-    TEXTURE_texture[TEXTURE_page_joypad_pad_d].LoadTextureTGA(TEXTURE_EXTRA_DIR "DC\\button_PADDOWN.tga", TEXTURE_page_joypad_pad_d);
-    TEXTURE_needed[TEXTURE_page_joypad_pad_d] = 1;
-    TEXTURE_texture[TEXTURE_page_joypad_pad_u].LoadTextureTGA(TEXTURE_EXTRA_DIR "DC\\button_PADUP.tga", TEXTURE_page_joypad_pad_u);
-    TEXTURE_needed[TEXTURE_page_joypad_pad_u] = 1;
-    LOADED_THIS_MANY_TEXTURES(6);
-#endif
 
-#ifdef TARGET_DC
-    // Only loaded during an actual level.
-    if (!bFrontEnd)
-#endif
     {
 
         TEXTURE_texture[TEXTURE_page_fadecat].LoadTextureTGA(TEXTURE_EXTRA_DIR "fadecat.tga", TEXTURE_page_fadecat, FALSE);
@@ -1357,13 +1191,6 @@ void TEXTURE_load_needed(CBYTE* fname_level,
         LOADED_THIS_MANY_TEXTURES(3);
     }
 
-#ifdef TARGET_DC
-    // Set this up, but don't do anything with it. The actual texture is overridden later.
-    the_display.AddLoadedTexture(&TEXTURE_texture[TEXTURE_page_background_use_instead]);
-    TEXTURE_needed[TEXTURE_page_background_use_instead] = 1;
-    the_display.AddLoadedTexture(&TEXTURE_texture[TEXTURE_page_background_use_instead2]);
-    TEXTURE_needed[TEXTURE_page_background_use_instead2] = 1;
-#endif
 
 #if 0
 	if (loading_screen_active)
@@ -1399,10 +1226,6 @@ void TEXTURE_load_needed(CBYTE* fname_level,
     //
     // The warehouse textures.
     //
-#ifdef TARGET_DC
-    // Only loaded during an actual level.
-    if (!bFrontEnd)
-#endif
     {
 
         for (i = 0; i < WARE_rooftex_upto; i++) {
@@ -1709,9 +1532,7 @@ void TEXTURE_load_needed(CBYTE* fname_level,
 
     TRACE("Finished loading everything\n");
 
-#ifndef TARGET_DC
     CloseTGAClump();
-#endif
 
 #ifdef TRUETYPE
     TT_Init();
@@ -1768,13 +1589,11 @@ void TEXTURE_load_needed(CBYTE* fname_level,
 
 #endif
 
-#ifndef TARGET_DC
     // this is a good point to estimate the
     // graphics card's capabilities
     extern void AENG_guess_detail_levels();
 
     AENG_guess_detail_levels();
-#endif
 
     // Guess what this does.
     NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit();
@@ -1926,21 +1745,9 @@ D3DTEXTUREHANDLE TEXTURE_get_handle(SLONG page)
 
 LPDIRECT3DTEXTURE2 TEXTURE_get_handle(SLONG page)
 {
-#ifdef TARGET_DC
-    if (page == TEXTURE_page_background_use_instead) {
-        // Special-cased for the background replacement.
-        return (the_display.lp_DD_Background_use_instead_texture);
-    } else if (page == TEXTURE_page_background_use_instead2) {
-        // Special-cased for the background replacement.
-        return (the_display.lp_DD_Background_use_instead_texture2);
-    }
-#endif
     if (page == -1) {
         return (NULL);
     }
-#ifdef TARGET_DC
-    ASSERT(WITHIN(page, 0, TEXTURE_num_textures - 1));
-#endif
     return TEXTURE_texture[page].GetD3DTexture();
 }
 
@@ -2386,7 +2193,6 @@ void TEXTURE_fix_prim_textures()
     }
 }
 
-#ifndef TARGET_DC
 void TEXTURE_set_colour_key(SLONG page)
 {
     DDCOLORKEY ck;
@@ -2409,7 +2215,6 @@ void TEXTURE_set_colour_key(SLONG page)
 
     TEXTURE_texture[page].SetColorKey(DDCKEY_SRCBLT, &ck);
 }
-#endif
 
 SLONG TEXTURE_shadow_lock(void)
 {
@@ -2511,7 +2316,6 @@ SLONG TEXTURE_av_r;
 SLONG TEXTURE_av_g;
 SLONG TEXTURE_av_b;
 
-#ifndef TARGET_DC
 SLONG TEXTURE_looks_like(SLONG page)
 {
     SLONG i;
@@ -2899,7 +2703,6 @@ SLONG TEXTURE_looks_like(SLONG page)
 
     return TEXTURE_LOOK_ROAD;
 }
-#endif // #ifndef TARGET_DC
 
 #define PEOPLE3_CROTCH 0
 #define PEOPLE3_FRONT 3

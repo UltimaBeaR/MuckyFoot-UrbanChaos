@@ -6,11 +6,7 @@
 
 //---------------------------------------------------------------
 
-#ifndef PSX
 #define MAX_PLAYERS 2
-#else
-#define MAX_PLAYERS 2
-#endif
 
 #define PLAYER_NONE 0
 #define PLAYER_DARCI 1

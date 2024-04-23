@@ -20,42 +20,10 @@
 
 //		STOREY_TYPE_NORMAL
 
-#ifndef PSX
 
 #include "math.h"
 void skip_load_a_multi_prim(MFFileHandle handle);
 
-#else
-
-//
-// PSX include
-//
-#include "libsn.h"
-extern void TEXTURE_choose_set(SLONG number);
-
-#define MAX_PATH 128
-#define FILE SLONG
-
-#define MFFileHandle SLONG
-#define FILE_OPEN_ERROR (-1)
-#define SEEK_MODE_CURRENT (1)
-
-extern SLONG SpecialOpen(CBYTE* name);
-extern SLONG SpecialRead(SLONG handle, UBYTE* ptr, SLONG s1);
-extern SLONG SpecialSeek(SLONG handle, SLONG mode, SLONG size);
-
-#define FileOpen(x) SpecialOpen(x)
-#define FileClose(x) SpecialClose(x)
-#define FileCreate(x, y) ASSERT(0)
-#define FileRead(h, a, s) SpecialRead(h, (UBYTE*)a, s)
-#define FileWrite(h, a, s) ASSERT(0)
-#define FileSeek(h, m, o) SpecialSeek(h, m, o)
-
-#define MF_Fopen(x, y) SpecialOpen(x)
-#define MF_Fclose(x) SpecialClose(x)
-#define fread(a, s1, s2, h) SpecialRead(h, a, s1* s2)
-
-#endif
 
 // #include "math.h"
 extern CBYTE texture_style_names[200][21];
@@ -69,7 +37,6 @@ SLONG load_anim_prim_object(SLONG prim);
 extern CBYTE inside_names[64][20];
 #endif
 
-#ifndef PSX
 #ifdef NO_SERVER
 CBYTE EXTRAS_DIR[100] = "data\\textures";
 CBYTE PRIM_DIR[100] = "server\\prims";
@@ -85,135 +52,7 @@ CBYTE LEVELS_DIR[100] = "";
 CBYTE TEXTURE_WORLD_DIR[100] = "";
 #endif
 
-#else
 
-struct FileSystem2 {
-    UBYTE* filemem;
-    ULONG fileindex;
-    ULONG filelen;
-};
-
-struct FileSystem2 file_system[5];
-SLONG file_handle = 1;
-
-SLONG SpecialSize(SLONG handle)
-{
-    return file_system[handle].filelen;
-}
-
-#if 1
-extern char* GDisp_Bucket;
-#else
-extern char GDisp_Bucket[];
-#endif
-
-SLONG SpecialOpen(CBYTE* name)
-{
-    SLONG handle;
-    struct FileSystem2* fs;
-
-#ifndef FS_ISO9660
-    fs = &file_system[file_handle];
-    handle = PCopen(name, 0, 0);
-    if (handle != FILE_OPEN_ERROR) {
-
-        fs->filelen = PClseek(handle, 0, 2);
-        fs->fileindex = 0;
-
-        fs->filemem = (UBYTE*)&GDisp_Bucket[BUCKET_MEM - fs->filelen];
-        ASSERT(fs->filemem);
-        PClseek(handle, 0, 0);
-        PCread(handle, fs->filemem, fs->filelen);
-        PCclose(handle);
-        file_handle++;
-        return (file_handle - 1);
-    } else
-        return (handle);
-#else
-    extern char cd_file_buffer[];
-    extern SLONG MFX_Seek_delay;
-
-    CdlFILE cfile;
-    char* p;
-
-    sprintf(cd_file_buffer, "\\%s;1", name);
-
-    p = cd_file_buffer;
-    while (*p)
-        *p++ = toupper(*p);
-
-    MFX_Seek_delay = INFINITY;
-    if (CdSearchFile(&cfile, cd_file_buffer) == 0)
-        return FILE_OPEN_ERROR;
-
-    fs = &file_system[file_handle];
-    fs->filelen = cfile.size;
-    fs->fileindex = 0;
-    fs->filemem = (UBYTE*)&GDisp_Bucket[BUCKET_MEM - (fs->filelen + 2048)];
-
-    ASSERT(fs->filemem);
-
-    CdReadFile(cd_file_buffer, (ULONG*)fs->filemem, fs->filelen);
-    CdReadSync(0, cd_file_buffer);
-
-    file_handle++;
-    return (file_handle - 1);
-#endif
-}
-
-SLONG SpecialRead(SLONG handle, UBYTE* ptr, SLONG s1)
-{
-    SLONG c0;
-    struct FileSystem2* fs;
-
-    fs = &file_system[handle];
-
-    if (fs->fileindex >= fs->filelen)
-        return FILE_OPEN_ERROR;
-
-    for (c0 = 0; c0 < s1; c0++) {
-        *ptr++ = fs->filemem[fs->fileindex++];
-    }
-
-    return (s1);
-}
-
-SLONG SpecialSeek(SLONG handle, SLONG mode, SLONG size)
-{
-    SLONG c0, max;
-    struct FileSystem2* fs;
-
-    fs = &file_system[handle];
-
-    if (mode == 0)
-        fs->fileindex = size;
-
-    if (mode == 1)
-        fs->fileindex += size;
-
-    if (mode == 2)
-        fs->fileindex = fs->filelen + size;
-    return (size);
-}
-
-SLONG SpecialClose(SLONG handle)
-{
-    struct FileSystem2* fs;
-
-    fs = &file_system[handle];
-
-    ASSERT(handle == file_handle - 1);
-    //	MemFree(fs->filemem);
-    fs->filemem = 0;
-    file_handle--;
-    extern SLONG MFX_Seek_delay;
-    MFX_Seek_delay = 20;
-    return (1);
-}
-
-#endif
-
-#ifndef PSX
 
 UWORD local_next_prim_point;
 UWORD local_next_prim_face4;
@@ -333,9 +172,7 @@ void load_texture_instyles(UBYTE editor, UBYTE world)
         FileClose(handle);
     }
 }
-#endif
 
-#ifndef PSX
 void load_texture_styles(UBYTE editor, UBYTE world)
 {
     UWORD temp, temp2;
@@ -347,12 +184,8 @@ void load_texture_styles(UBYTE editor, UBYTE world)
     // Which file do we try to load?
     //
 
-#ifndef PSX
     sprintf(fname, "%sstyle.tma", TEXTURE_WORLD_DIR);
 //	sprintf(fname, "u:\\urbanchaos\\textures\\world%d\\style.tma", world);
-#else
-    sprintf(fname, "data\\textures\\world%d\\style.pma", world);
-#endif
 
     handle = FileOpen(fname);
 
@@ -445,16 +278,11 @@ void load_texture_styles(UBYTE editor, UBYTE world)
     }
 }
 
-#ifndef TARGET_DC
 
 SLONG load_anim_prim_object(SLONG prim)
 {
     CBYTE fname[130];
-#ifdef PSX
-    FILE handle;
-#else
     FILE* handle;
-#endif
     ASSERT(WITHIN(prim, 0, 255));
 
     if (anim_chunk[prim].MultiObject[0])
@@ -1043,7 +871,6 @@ void load_all_individual_prims(void)
 }
 
 //---------------------------------------------------------
-#ifndef PSX
 void read_object_name(FILE* file_handle, CBYTE* dest_string)
 {
     CBYTE the_char = 0;
@@ -1077,11 +904,7 @@ void load_frame_numbers(CBYTE* vue_name, UWORD* frames, SLONG max_frames)
 {
     CBYTE name[200];
     SLONG len;
-#ifdef PSX
-    FILE f_handle;
-#else
     FILE* f_handle;
-#endif
     SLONG result = 0;
     SLONG val, val2, index = 0;
 
@@ -1320,8 +1143,6 @@ void normalise_max_matrix(float fe_matrix[3][3], float* x, float* y, float* z)
 //************************************************************************************************
 //************************************************************************************************
 
-#ifndef PSX
-#ifndef TARGET_DC
 
 void load_multi_vue(struct KeyFrameChunk* the_chunk, float shrink_me)
 {
@@ -1335,11 +1156,7 @@ void load_multi_vue(struct KeyFrameChunk* the_chunk, float shrink_me)
         fe_offset_x,
         fe_offset_y,
         fe_offset_z;
-#ifdef PSX
-    FILE f_handle;
-#else
     FILE* f_handle;
-#endif
     struct Matrix33 temp_matrix;
     struct KeyFrame* the_key_frame;
     struct KeyFrameElement* the_element;
@@ -1635,8 +1452,6 @@ void load_key_frame_chunks(KeyFrameChunk* the_chunk, CBYTE* vue_name, float scal
 #endif
     }
 }
-#endif
-#endif
 
 /*
 fucked one
@@ -1713,9 +1528,6 @@ LCTI obj 136 has f4 3 f3 6
 LCTI obj 137 has f4 0 f3 0
 
 */
-#endif
-#ifndef PSX
-#ifndef TARGET_DC
 
 void read_a_prim(SLONG prim, MFFileHandle handle, SLONG save_type)
 {
@@ -1787,10 +1599,6 @@ void read_a_prim(SLONG prim, MFFileHandle handle, SLONG save_type)
         next_prim_object++;
     }
 }
-#endif
-#endif
-#ifndef PSX
-#ifndef TARGET_DC
 
 // extern	struct	PrimMultiObject	prim_multi_objects[];
 
@@ -1904,11 +1712,7 @@ void create_kline_bottle(void)
 
 void load_palette(CBYTE* palette)
 {
-#ifdef PSX
-    FILE handle;
-#else
     FILE* handle;
-#endif
 
     handle = MF_Fopen(palette, "rb");
 
@@ -2090,10 +1894,6 @@ SLONG save_anim_system(struct GameKeyFrameChunk* p_chunk, CBYTE* name)
 #endif
     return (0);
 }
-#endif
-#endif
-#ifndef TARGET_DC
-#ifndef PSX
 SLONG load_insert_game_chunk(MFFileHandle handle, struct GameKeyFrameChunk* p_chunk)
 {
     SLONG save_type = 0, c0;
@@ -2650,8 +2450,4 @@ SLONG append_anim_system(struct GameKeyFrameChunk* p_chunk, CBYTE* name, SLONG s
     return (0);
 }
 
-#endif
-#endif
 
-#endif
-#endif

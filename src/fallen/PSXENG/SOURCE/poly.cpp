@@ -186,7 +186,6 @@ void POLY_camera_set(
     POLY_cam_z = z;
 }
 
-#ifndef PSX
 void POLY_camera_set_old(
     SLONG x,
     SLONG y,
@@ -236,7 +235,6 @@ void POLY_camera_set_old(
         POLY_cam_lens,
         POLY_cam_over_view_dist); // Shrink the matrix down so the furthest point has a view distance z of 1.0F
 }
-#endif
 
 #if 0
 void POLY_transform(

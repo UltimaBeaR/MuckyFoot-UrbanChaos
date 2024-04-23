@@ -3,14 +3,11 @@
 
 #pragma once
 
-
-#include	"Mission.h"
-
+#include "Mission.h"
 
 //---------------------------------------------------------------
 
-void	do_platform_setup(EventPoint *ep);
-//CBYTE	*get_platform_message(EventPoint *ep, CBYTE *msg);
+void do_platform_setup(EventPoint* ep);
+// CBYTE	*get_platform_message(EventPoint *ep, CBYTE *msg);
 
 //---------------------------------------------------------------
-

@@ -33,8 +33,7 @@ void  MUSIC_process();
 
 */
 // this is the 'max' gain, fade in/out will go from/to 0 from/to this value
-void  MUSIC_gain(UBYTE gain);
-
+void MUSIC_gain(UBYTE gain);
 
 /**********************************************************************************
  *
@@ -44,22 +43,22 @@ void  MUSIC_gain(UBYTE gain);
 // Curiously, I typed these in the order they came to mind: And there they are, sorted into
 // priority order...
 
-#define MUSIC_MODE_SILENT			(0)
-#define MUSIC_MODE_DRIVING			(1)
-#define	MUSIC_MODE_SPRINTING		(2)
-#define MUSIC_MODE_CRAWLING			(3)
-#define MUSIC_MODE_FIGHTING			(4)
-#define MUSIC_MODE_TRAIN_COMBAT		(5)
-#define MUSIC_MODE_TRAIN_DRIVING	(6)
-#define MUSIC_MODE_TRAIN_ASSAULT	(7)
-#define MUSIC_MODE_FINAL_RECKONING  (8)
-#define MUSIC_MODE_TIMER			(9)
-#define MUSIC_MODE_GAMELOST			(10)
-#define MUSIC_MODE_GAMEWON 			(11)
-#define MUSIC_MODE_BRIEFING			(12)
-#define MUSIC_MODE_FRONTEND			(13)
-#define MUSIC_MODE_CHAOS			(14)
-#define MUSIC_MODE_FORCE   			(128)
+#define MUSIC_MODE_SILENT (0)
+#define MUSIC_MODE_DRIVING (1)
+#define MUSIC_MODE_SPRINTING (2)
+#define MUSIC_MODE_CRAWLING (3)
+#define MUSIC_MODE_FIGHTING (4)
+#define MUSIC_MODE_TRAIN_COMBAT (5)
+#define MUSIC_MODE_TRAIN_DRIVING (6)
+#define MUSIC_MODE_TRAIN_ASSAULT (7)
+#define MUSIC_MODE_FINAL_RECKONING (8)
+#define MUSIC_MODE_TIMER (9)
+#define MUSIC_MODE_GAMELOST (10)
+#define MUSIC_MODE_GAMEWON (11)
+#define MUSIC_MODE_BRIEFING (12)
+#define MUSIC_MODE_FRONTEND (13)
+#define MUSIC_MODE_CHAOS (14)
+#define MUSIC_MODE_FORCE (128)
 
 void MUSIC_mode(UBYTE mode);
 void MUSIC_mode_process();
@@ -70,9 +69,7 @@ extern UBYTE MUSIC_bodge_code;
 
 extern SLONG MUSIC_is_playing(void);
 
-
 /**********************************************************************************/
-
 
 /*
 

@@ -3,14 +3,11 @@
 
 #pragma once
 
-
-#include	"Mission.h"
-
+#include "Mission.h"
 
 //---------------------------------------------------------------
 
-void	do_waypoint_setup(EventPoint *ep);
-CBYTE	*get_waypoint_message(EventPoint *ep, CBYTE *msg);
+void do_waypoint_setup(EventPoint* ep);
+CBYTE* get_waypoint_message(EventPoint* ep, CBYTE* msg);
 
 //---------------------------------------------------------------
-

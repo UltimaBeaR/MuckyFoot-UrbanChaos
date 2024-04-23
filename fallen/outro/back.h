@@ -4,14 +4,11 @@
 
 #pragma once
 
-
-
 //
 // Loads the textures.
 //
 
 void BACK_init(void);
-
 
 //
 // Draws the background polys- it clears both the screen and
@@ -19,4 +16,3 @@ void BACK_init(void);
 //
 
 void BACK_draw(void);
-

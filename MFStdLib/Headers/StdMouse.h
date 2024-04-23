@@ -5,24 +5,22 @@
 
 //---------------------------------------------------------------
 
-struct LastMouse
-{
-	SLONG		ButtonState,
-				MouseX,
-				MouseY;
-	MFPoint		MousePoint;
+struct LastMouse {
+    SLONG ButtonState,
+        MouseX,
+        MouseY;
+    MFPoint MousePoint;
 };
 
-
-extern volatile UBYTE		MouseMoved,
-							LeftButton,
-							MiddleButton,
-							RightButton;
-extern volatile SLONG		MouseX,
-							MouseY;
-extern volatile LastMouse	LeftMouse,
-							MiddleMouse,
-							RightMouse;
-extern volatile MFPoint		MousePoint;
+extern volatile UBYTE MouseMoved,
+    LeftButton,
+    MiddleButton,
+    RightButton;
+extern volatile SLONG MouseX,
+    MouseY;
+extern volatile LastMouse LeftMouse,
+    MiddleMouse,
+    RightMouse;
+extern volatile MFPoint MousePoint;
 
 //---------------------------------------------------------------

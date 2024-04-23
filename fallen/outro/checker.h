@@ -4,14 +4,11 @@
 
 #pragma once
 
-
-
 //
 // Loads textures.
 //
 
 void CHECKER_init(void);
-
 
 //
 // Draws the checkers as an overlay.

@@ -3,14 +3,11 @@
 
 #pragma once
 
-
-#include	"Mission.h"
-
+#include "Mission.h"
 
 //---------------------------------------------------------------
 
-void	do_player_setup(EventPoint *ep);
-CBYTE	*get_player_message(EventPoint *ep, CBYTE *msg);
+void do_player_setup(EventPoint* ep);
+CBYTE* get_player_message(EventPoint* ep, CBYTE* msg);
 
 //---------------------------------------------------------------
-

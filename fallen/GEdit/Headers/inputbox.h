@@ -8,4 +8,4 @@
 
 #include "MFStdLib.h"
 
-CBYTE *InputBox(CBYTE *title, CBYTE *prompt, CBYTE *txt);
+CBYTE* InputBox(CBYTE* title, CBYTE* prompt, CBYTE* txt);

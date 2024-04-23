@@ -1680,11 +1680,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="text\lang_english.txt">
-      <Filter>Res</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <CustomBuild Include="DDLibrary\arrowcop.cur">
       <Filter>Res</Filter>
     </CustomBuild>

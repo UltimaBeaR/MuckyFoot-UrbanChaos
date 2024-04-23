@@ -2,8 +2,7 @@
 // Interface to all the OS functions.
 //
 
-#ifndef _OS_
-#define _OS_
+#pragma once
 
 
 
@@ -470,7 +469,4 @@ extern float OS_joy_y;				// -1.0F to +1.0F
 extern ULONG OS_joy_button;			// The buttons that are currently down
 extern ULONG OS_joy_button_down;	// The buttons that have just been pressed
 extern ULONG OS_joy_button_up;		// The buttons that have just been released
-
-
-#endif
 

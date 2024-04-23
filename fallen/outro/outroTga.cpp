@@ -6,7 +6,7 @@
 #include "tga.h"
 
 
-TGA_Info TGA_FileLoad_Error(TGA_Info& ans, FILE*& handle, const CBYTE*& file) {
+Outro_TGA_Info TGA_FileLoad_Error(Outro_TGA_Info& ans, FILE*& handle, const CBYTE*& file) {
 
 	TRACE("File error loading TGA file %s\n", *file);
 	fclose(handle);
@@ -15,11 +15,11 @@ TGA_Info TGA_FileLoad_Error(TGA_Info& ans, FILE*& handle, const CBYTE*& file) {
 }
 
 
-TGA_Info TGA_load(
+Outro_TGA_Info Outro_TGA_load(
 			const CBYTE *file,
 			SLONG        max_width,
 			SLONG        max_height,
-			TGA_Pixel   *data)
+	Outro_TGA_Pixel   *data)
 {
 	SLONG i;
 
@@ -39,7 +39,7 @@ TGA_Info TGA_load(
 
 	FILE *handle;
 
-	TGA_Info ans{};
+	Outro_TGA_Info ans{};
 
 	//
 	// Open the file.
@@ -123,7 +123,7 @@ TGA_Info TGA_load(
 
 	if (tga_pixel_depth == 32)
 	{
-		if (fread(data, sizeof(TGA_Pixel), tga_width * tga_height, handle) != tga_width * tga_height) return TGA_FileLoad_Error(ans, handle, file);
+		if (fread(data, sizeof(Outro_TGA_Pixel), tga_width * tga_height, handle) != tga_width * tga_height) return TGA_FileLoad_Error(ans, handle, file);
 
 		no_alpha = FALSE;
 	}
@@ -226,7 +226,7 @@ void TGA_save(
 		const CBYTE *file,
 		SLONG        width,
 		SLONG        height,
-		TGA_Pixel   *data,
+	Outro_TGA_Pixel   *data,
 		SLONG contains_alpha)
 {
 	SLONG x;

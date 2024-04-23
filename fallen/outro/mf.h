@@ -2,8 +2,7 @@
 // Functions that act on the imported meshes
 //
 
-#ifndef _MF_
-#define _MF_
+#pragma once
 
 
 #include "imp.h"
@@ -172,7 +171,3 @@ void MF_add_triangles_bumpmapped_pass(IMP_Mesh *im, SLONG pass, ULONG draw = OS_
 //
 
 void MF_add_triangles_texture_after_bumpmap(IMP_Mesh *im);
-
-
-
-#endif

@@ -2,8 +2,7 @@
 // Draws the credits
 //
 
-#ifndef _CREDITS_
-#define _CREDITS_
+#pragma once
 
 
 
@@ -20,8 +19,3 @@ void CREDITS_init(void);
 
 void CREDITS_draw(void);
 
-
-
-
-
-#endif

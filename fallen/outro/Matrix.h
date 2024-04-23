@@ -2,8 +2,7 @@
 // Matrix stuff...
 //
 
-#ifndef _MATRIX_
-#define _MATRIX_
+#pragma once
 
 //
 // ALL ANGLES ARE IN RADIANS.
@@ -134,13 +133,3 @@ void MATRIX_scale(float matrix[9], float mulby);
 //
 
 void MATRIX_construct(float matrix[9], float dx, float dy, float dz);
-
-
-#endif
-
-
-
-
-
-
-

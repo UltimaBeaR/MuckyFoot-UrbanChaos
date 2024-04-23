@@ -2,8 +2,7 @@
 // Creates light maps.
 //
 
-#ifndef _LMAP_
-#define _LMAP_
+#pragma once
 
 
 #include "imp.h"
@@ -59,9 +58,3 @@ void LMAP_add_shadow(
 //
 
 void LMAP_render(LMAP_Lmap *lmap, OS_Texture *ot);
-
-
-
-
-
-#endif

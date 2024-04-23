@@ -2,8 +2,7 @@
 // Imports SEX files.
 //
 
-#ifndef _IMP_
-#define _IMP_
+#pragma once
 
 #include "os.h"
 
@@ -249,6 +248,3 @@ void IMP_free(IMP_Mesh *im);
 
 SLONG    IMP_binary_save(CBYTE *fname, IMP_Mesh *im);	// Returns FALSE on failure.
 IMP_Mesh IMP_binary_load(CBYTE *fname);
-
-
-#endif

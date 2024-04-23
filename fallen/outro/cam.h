@@ -2,8 +2,7 @@
 // The camera.
 //
 
-#ifndef _CAM_
-#define _CAM_
+#pragma once
 
 
 //
@@ -32,9 +31,3 @@ void CAM_init(void);
 //
 
 void CAM_process(void);
-
-
-
-
-
-#endif

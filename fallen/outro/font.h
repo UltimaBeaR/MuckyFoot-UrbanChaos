@@ -2,8 +2,7 @@
 // A font! That's all there is to it.
 //
 
-#ifndef _FONT_
-#define _FONT_
+#pragma once
 
 
 //
@@ -48,9 +47,3 @@ void FONT_draw(
 		SLONG cursor,		// If cursor is >= 0, then a cursor is drawn after the 'cursor'th character
 		float shimmer,		// How much to shimmer. 0.0F => no shimmering, 1.0F => maximum shimmering.
 		CBYTE *fmt, ...);
-
-
-
-
-
-#endif

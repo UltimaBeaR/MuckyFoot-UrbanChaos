@@ -2,8 +2,7 @@
 // Keyboard handling.
 //
 
-#ifndef _KEY_
-#define _KEY_
+#pragma once
 
 
 //
@@ -128,6 +127,3 @@ extern UBYTE KEY_shift;
 #define KEY_P2			0x050
 #define KEY_P3			0x051
 #define KEY_P0			0x052
-
-
-#endif

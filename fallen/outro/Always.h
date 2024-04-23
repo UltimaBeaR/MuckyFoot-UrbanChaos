@@ -1,5 +1,4 @@
-#ifndef _ALWAYS_
-#define _ALWAYS_
+#pragma once
 
 //
 // Turn off the warning about [] arrays at the end of structures.
@@ -215,7 +214,3 @@ static inline float frand(void)
 
 	return ans;
 }
-
-
-
-#endif

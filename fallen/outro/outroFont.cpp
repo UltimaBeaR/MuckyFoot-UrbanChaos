@@ -78,7 +78,7 @@ CBYTE FONT_punct[] =
 //
 
 OS_Texture *FONT_ot;
-TGA_Pixel   FONT_data[256][256];
+Outro_TGA_Pixel   FONT_data[256][256];
 
 
 //
@@ -141,9 +141,9 @@ void FONT_init()
 	// Load in the font bitmap.
 	//
 
-	TGA_Info  ti;
+	Outro_TGA_Info  ti;
 
-	ti = TGA_load(
+	ti = Outro_TGA_load(
 			"Textures\\font.tga",
 			256,
 			256,

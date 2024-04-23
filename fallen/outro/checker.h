@@ -2,8 +2,7 @@
 // The checkered way Darci and Roper appear on screen.
 //
 
-#ifndef _CHECKER_
-#define _CHECKER_
+#pragma once
 
 
 
@@ -19,8 +18,3 @@ void CHECKER_init(void);
 //
 
 void CHECKER_draw(void);
-
-
-
-
-#endif

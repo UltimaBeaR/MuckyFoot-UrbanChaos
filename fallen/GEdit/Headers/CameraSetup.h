@@ -1,8 +1,7 @@
 //	CameraSetup.h
 //	Matthew Rosenfeld, 30th September 1998.
 
-#ifndef	_CAMERASETUP_H_
-#define	_CAMERASETUP_H_
+#pragma once
 
 #include	"Mission.h"
 
@@ -14,4 +13,3 @@ CBYTE	*get_camera_message(EventPoint *ep, CBYTE *msg);
 
 //---------------------------------------------------------------
 
-#endif

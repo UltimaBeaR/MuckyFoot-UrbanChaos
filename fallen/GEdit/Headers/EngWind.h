@@ -1,8 +1,7 @@
 //	EngWind.cpp
 //	Guy Simmons, 27th July 1998.
 
-#ifndef	ENGWIND_H
-#define	ENGWIND_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -13,4 +12,3 @@ void		process_ewind(void);
 
 //---------------------------------------------------------------
 
-#endif

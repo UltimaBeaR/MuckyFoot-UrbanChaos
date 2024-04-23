@@ -1,8 +1,7 @@
 //	MapExitSetup.h
 //	Matthew Rosenfeld, 7th October 1998.
 
-#ifndef	_MAPEXITSETUP_H_
-#define	_MAPEXITSETUP_H_
+#pragma once
 
 #include	"Mission.h"
 
@@ -14,4 +13,3 @@ CBYTE	*get_mapexit_message(EventPoint *ep, CBYTE *msg);
 
 //---------------------------------------------------------------
 
-#endif

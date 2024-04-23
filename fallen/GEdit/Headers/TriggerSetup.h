@@ -1,8 +1,8 @@
 //	TriggerSetup.h
 //	Guy Simmons, 27th August 1998.
 
-#ifndef	TRIGGERSETUP_H
-#define	TRIGGERSETUP_H
+#pragma once
+
 
 //---------------------------------------------------------------
 
@@ -11,4 +11,3 @@ CBYTE	*get_trigger_message(EventPoint *ep, CBYTE *msg);
 
 //---------------------------------------------------------------
 
-#endif

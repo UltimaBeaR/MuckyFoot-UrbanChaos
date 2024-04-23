@@ -1,8 +1,8 @@
 //	PlatformSetup.h
 //	Matthew Rosenfeld, 10th November 1998.
 
-#ifndef	_PLATFORMSETUP_H_
-#define	_PLATFORMSETUP_H_
+#pragma once
+
 
 #include	"Mission.h"
 
@@ -14,4 +14,3 @@ void	do_platform_setup(EventPoint *ep);
 
 //---------------------------------------------------------------
 
-#endif

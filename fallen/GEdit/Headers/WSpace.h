@@ -1,8 +1,8 @@
 //	WSpace.h
 //	Guy Simmons, 11th August 1998.
 
-#ifndef	WSPACE_H
-#define	WSPACE_H
+#pragma once
+
 
 //---------------------------------------------------------------
 
@@ -85,5 +85,3 @@ void	ws_del_waypoint(EventPoint *ep);
 
 
 //---------------------------------------------------------------
-
-#endif

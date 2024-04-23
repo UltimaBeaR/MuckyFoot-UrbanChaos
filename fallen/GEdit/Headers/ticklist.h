@@ -1,5 +1,5 @@
-#ifndef _TICKLIST_H_
-#define _TICKLIST_H_
+#pragma once
+
 
 /*******************************************************************
  *
@@ -46,5 +46,3 @@ BOOL				ticklist_measure(HWND hWnd, WPARAM wParam, LPARAM lParam);
 	SetWindowLong(the_ctrl,GWL_WNDPROC,(long)previous);				\
 	}
 	*/
-
-#endif

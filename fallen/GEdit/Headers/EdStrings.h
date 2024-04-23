@@ -1,8 +1,7 @@
 //	EdStrings.h
 //	Guy Simmmons, 5th August 1998.
 
-#ifndef	EDSTRINGS_H
-#define	EDSTRINGS_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -47,5 +46,4 @@ extern TCHAR		*wtype_strings[],
 
 //---------------------------------------------------------------
 
-#endif
 

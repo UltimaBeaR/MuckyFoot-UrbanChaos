@@ -2,8 +2,7 @@
 // The interface between the game and the light editor.
 //
 
-#ifndef _GI_
-#define _GI_
+#pragma once
 
 //
 // Call once at the start of the light editor.
@@ -119,4 +118,3 @@ void GI_groundsquare_draw(
 
 //---------------------------------------------------------------
 
-#endif

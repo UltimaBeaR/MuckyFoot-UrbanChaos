@@ -1,8 +1,7 @@
 //	MapView.h
 //	Guy Simmons, 12th August 1998.
 
-#ifndef	MAPVIEW_H
-#define	MAPVIEW_H
+#pragma once
 
 #include	"Mission.h"
 
@@ -56,6 +55,3 @@ BOOL TypeHasProperties(SLONG type);
 BOOL HasProperties(EventPoint *ep);
 SLONG OpenProperties(EventPoint *ep);
 void CleanProperties(EventPoint *ep);
-
-
-#endif

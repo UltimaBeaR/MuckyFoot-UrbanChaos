@@ -2,8 +2,7 @@
 // Light editor.
 //
 
-#ifndef _ED_
-#define _ED_
+#pragma once
 
 #define	LIGHT_FLAGS_INSIDE	(1)
 
@@ -184,12 +183,6 @@ SLONG ED_save(CBYTE *name);
 //  SLONG        night_lampost_radius;
 //	NIGHT_Colour night_sky_colour;
 //
-
-
-
-#endif
-
-
 
 
 

@@ -1,8 +1,7 @@
 //	EnemySetup.h
 //	Guy Simmons, 23rd August 1998.
 
-#ifndef	ENEMYSETUP_H
-#define	ENEMYSETUP_H
+#pragma once
 
 #include	"Mission.h"
 
@@ -13,4 +12,3 @@ CBYTE	*get_enemy_message(EventPoint *ep, CBYTE *msg);
 
 //---------------------------------------------------------------
 
-#endif

@@ -2,6 +2,11 @@ whole project dependency graph could be analyzed using cppdepend 2024.1
 
 
 
+reformating whole project with clang-format
+    find . -regex '.*\.\(cpp\|h\)' -exec clang-format -style=file -i {} \;
+    in project folder from git bash
+
+
 most likely - should delete folders in fallen starting with psx
 
 found other psx stuff - some defines usages with psx (part of symbol name) in it.

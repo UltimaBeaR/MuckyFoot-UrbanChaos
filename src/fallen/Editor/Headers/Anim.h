@@ -63,11 +63,9 @@ extern SLONG next_anim_chunk;
 
 // Guys stuff.
 
-
 #define MAX_NUMBER_OF_CHUNKS 5
 #define MAX_NUMBER_OF_FRAMES 5000
 #define MAX_NUMBER_OF_ELEMENTS 80000
-
 
 //************************************
 //  Game Stuff
@@ -262,7 +260,7 @@ struct KeyFrameChunk {
     SLONG ElementCount;
     struct BodyDef PeopleTypes[MAX_PEOPLE_TYPES];
     CBYTE PeopleNames[MAX_PEOPLE_TYPES][PEOPLE_NAME_SIZE];
-//	UBYTE				BodyBits[MAX_BODY_PARTS][MAX_BODY_VARIETY]; //10 types of each body part
+    //	UBYTE				BodyBits[MAX_BODY_PARTS][MAX_BODY_VARIETY]; //10 types of each body part
     KeyFrame KeyFrames[MAX_NUMBER_OF_FRAMES];
     KeyFrameElement* FirstElement;
     KeyFrameElement* LastElement;

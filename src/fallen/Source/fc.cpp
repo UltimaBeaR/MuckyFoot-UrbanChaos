@@ -14,7 +14,6 @@
 #include "memory.h"
 #include "font2d.h"
 
-
 extern UBYTE GAME_cut_scene;
 extern SLONG analogue;
 
@@ -1406,13 +1405,11 @@ void FC_process()
                 if (fc->nobehind < 0) {
                     fc->nobehind = 0;
                 }
-            } else
-                if (fc->focus->Class == CLASS_PERSON && fc->focus->Genus.Person->Mode == PERSON_MODE_FIGHT) {
+            } else if (fc->focus->Class == CLASS_PERSON && fc->focus->Genus.Person->Mode == PERSON_MODE_FIGHT) {
                 //
                 // Don't get behind fighting people.
                 //
-            } else
-            {
+            } else {
                 //
                 // Get behind Darci.
                 //

@@ -8,7 +8,6 @@
 // NOTE! RTTI (run-time type information) MUST BE ENABLED IN PROJECT SETTINGS!
 //
 
-
 #include "A3DManager.h"
 #include "snd_type.h"
 // #include "A3DPlay.h"
@@ -762,4 +761,3 @@ BOOL A3DBase::HasEnded(UBYTE early_out)
     /*	TRACE("%d : %d\n",t,GetLengthSamples());
             return (t>GetLengthSamples());*/
 };
-

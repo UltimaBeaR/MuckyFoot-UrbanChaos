@@ -32,7 +32,6 @@ SLONG insert_collision_vect(SLONG x1, SLONG y1, SLONG z1, SLONG x2, SLONG y2, SL
 #pragma warning(disable : 4244)
 #define ALT_SHIFT (3)
 
-
 SLONG start_point[200];
 
 UWORD next_roof_bound = 1;
@@ -191,7 +190,6 @@ struct	TextureInfo texture_info[]=
 
 };
 */
-
 
 static SLONG build_x, build_y, build_z, build_min_y, build_max_y;
 
@@ -619,7 +617,7 @@ SLONG place_building_at(UWORD building, UWORD prim, SLONG x, SLONG y, SLONG z)
     // LogText(" place building prim %d x %d y %d z %d \n",prim,x,y,z);
     switch (build_mode) {
     case BUILD_MODE_EDITOR:
-    break;
+        break;
     case BUILD_MODE_DX: {
         Thing* p_thing;
         SLONG new_thing;
@@ -8379,7 +8377,6 @@ SLONG build_brick_wall(SLONG storey)
     z[3] = z[1] + dz;
     build_thick_wall_polys(&x[0], &z[0], y, height, 2, storey, wall);
 
-
     prev_facet = build_facet(start_point, next_prim_point, start_face3, start_face4, next_prim_face4, 0, FACET_FLAG_NON_SORT, 0);
 
     prim = build_building(start_point, start_face3, start_face4, prev_facet);
@@ -9094,10 +9091,10 @@ SLONG create_building_prim(UWORD building, SLONG* small_y)
                     if (wall_for_fe[wall_count] && pass2 == 0) {
                         build_firescape(wall_for_fe[wall_count]);
                     }
-//						if(wall_for_ladder[wall_count]&&pass2==0)
-//						{
-//							build_ladder(wall_for_ladder[wall_count]);
-//						}
+                    //						if(wall_for_ladder[wall_count]&&pass2==0)
+                    //						{
+                    //							build_ladder(wall_for_ladder[wall_count]);
+                    //						}
 
                     prev_facet = build_facet(start_point, mid_point, start_face3, start_face4, mid_face4, prev_facet, 0, col_vect);
 
@@ -9316,7 +9313,6 @@ SLONG create_building_prim(UWORD building, SLONG* small_y)
 void copy_to_game_map(void)
 {
     SLONG x, z, c0;
-
 }
 
 void clear_map2(void)
@@ -9594,8 +9590,8 @@ void create_city(UBYTE mode)
         //		LogText(" next walk link %d \n",next_walk_link);
     }
     extern void apply_global_amb_to_map(void);
-//	printf(" about to light map \n");
-//	apply_global_amb_to_map();
+    //	printf(" about to light map \n");
+    //	apply_global_amb_to_map();
 
     //	printf(" done light map \n");
     /*
@@ -10015,4 +10011,3 @@ void fn_building_normal(Thing* b_thing)
 }
 
 //---------------------------------------------------------------
-

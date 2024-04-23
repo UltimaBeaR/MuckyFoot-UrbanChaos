@@ -60,7 +60,6 @@ SLONG get_fence_top(SLONG x, SLONG z, SLONG col);
 UWORD next_col_vect = 1;
 UWORD next_col_vect_link = 1;
 
-
 ///////////////////////////
 //
 //	   		 o
@@ -2091,7 +2090,6 @@ SLONG find_face_near_y(MAPCO16 x, MAPCO16 y, MAPCO16 z, SLONG ignore_faces_of_th
                             //	if(new_y==1000000)
                             //		ASSERT(0);
                             dy = y - new_y;
-
 
                             if (ControlFlag && allow_debug_keys) {
                                 CBYTE str[100];
@@ -4336,7 +4334,6 @@ SLONG slide_along(
     return FALSE;
 }
 
-
 SLONG cross_door(SLONG x1, SLONG my_y1, SLONG z1,
     SLONG x2, SLONG y2, SLONG z2, SLONG radius)
 {
@@ -5427,30 +5424,30 @@ SLONG collide_against_things(
                         radius = 66 << 8;
                     else
                         radius = 50 << 8;
-/*
-                                                {
-                                                        SLONG	cx,cz,cy,r,ang,x1,z1,x2,z2;
-                                                        cx=col_thing->WorldPos.X>>8;
-                                                        cy=col_thing->WorldPos.Y>>8;
-                                                        cz=col_thing->WorldPos.Z>>8;
-                                                        r=radius>>8;
+                    /*
+                                                                    {
+                                                                            SLONG	cx,cz,cy,r,ang,x1,z1,x2,z2;
+                                                                            cx=col_thing->WorldPos.X>>8;
+                                                                            cy=col_thing->WorldPos.Y>>8;
+                                                                            cz=col_thing->WorldPos.Z>>8;
+                                                                            r=radius>>8;
 
-                                                        x1=cx+(r*COS(0)>>16);
-                                                        z1=cz+(r*SIN(0)>>16);
-                                                        for(ang=0;ang<2048;ang+=128)
-                                                        {
-                                                                x2=cx+(r*COS(ang)>>16);
-                                                                z2=cz+(r*SIN(ang)>>16);
+                                                                            x1=cx+(r*COS(0)>>16);
+                                                                            z1=cz+(r*SIN(0)>>16);
+                                                                            for(ang=0;ang<2048;ang+=128)
+                                                                            {
+                                                                                    x2=cx+(r*COS(ang)>>16);
+                                                                                    z2=cz+(r*SIN(ang)>>16);
 
-                                                                add_debug_line(x1,cy+10,z1,x2,cy+10,z2,0xffffff);
-                                                                x1=x2;
-                                                                z1=z2;
+                                                                                    add_debug_line(x1,cy+10,z1,x2,cy+10,z2,0xffffff);
+                                                                                    x1=x2;
+                                                                                    z1=z2;
 
-                                                        }
-                                                }
+                                                                            }
+                                                                    }
 
-                                                add_debug_line(x1,10,z1,col_thing->WorldPos.X>>8,10,col_thing->WorldPos.Z>>8,0xff00ff);
-*/
+                                                                    add_debug_line(x1,10,z1,col_thing->WorldPos.X>>8,10,col_thing->WorldPos.Z>>8,0xff00ff);
+                    */
 
                     tx2 = *x2;
                     tz2 = *z2;
@@ -6303,7 +6300,7 @@ extern	void	set_player_visited(UBYTE x,UBYTE z);
                 new_face = find_face_for_this_pos(x2 >> 8, y2 >> 8, z2 >> 8, &new_y, 0, 0); // ignore,0);
 
                 if (new_face && (new_face != GRAB_FLOOR)) {
-//					ASSERT(abs(new_y - (y2 >> 8)) < 0x100);
+                    //					ASSERT(abs(new_y - (y2 >> 8)) < 0x100);
 
                     //
                     // You're over a new face now.
@@ -9435,11 +9432,10 @@ SLONG slide_around_box(
                 }
             }
 
-            //
-            // We have to un-rotate the points. The inverse of the
-            // matrix is its transpose.
-            //
-
+        //
+        // We have to un-rotate the points. The inverse of the
+        // matrix is its transpose.
+        //
 
         *x2 = MUL64(best_x, matrix[0]) + MUL64(best_z, matrix[1]);
         *z2 = MUL64(best_x, matrix[2]) + MUL64(best_z, matrix[3]);
@@ -10122,7 +10118,6 @@ SLONG COLLIDE_can_i_fastnav(SLONG x, SLONG z)
 
 #endif // NDEBUG In release build, this function is a #define
 
-
 void COLLIDE_debug_fastnav(
     SLONG world_x, // 8-bits per mapsquare.
     SLONG world_z)
@@ -10180,7 +10175,6 @@ void COLLIDE_debug_fastnav(
             }
         }
 }
-
 
 // ========================================================
 //

@@ -25,9 +25,6 @@
 // temptemptempetc.
 #include "sprite.h"
 
-
-
-
 #define LOG_ENTER(x) \
     {                \
     }
@@ -40,7 +37,6 @@
 #define POLY_set_local_rotation_none() \
     {                                  \
     }
-
 
 #define FACETINFO
 #ifdef FACETINFO
@@ -3663,7 +3659,6 @@ void FACET_draw_walkable(SLONG build)
 
     UWORD* rooftex = NULL;
 
-
     //
     // Is this building a warehouse?
     //
@@ -4817,7 +4812,6 @@ void DRAW_ladder(struct DFacet* p_facet)
         }
     }
 }
-
 
 void FACET_project_crinkled_shadow(SLONG facet)
 {

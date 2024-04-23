@@ -132,7 +132,6 @@ extern HINSTANCE hGlobalThisInst;
 
 CBYTE old_path[_MAX_PATH];
 
-
 //---------------------------------------------------------------
 
 BOOL init_mission_editor(void)
@@ -719,7 +718,6 @@ HRESULT combo_draw(HWND hWnd, WPARAM wParam, LPARAM lParam)
         DrawFocusRect(item->hDC, &item->rcItem);
     return TRUE;
 }
-
 
 //---------------------------------------------------------------
 /*

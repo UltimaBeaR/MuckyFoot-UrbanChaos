@@ -134,7 +134,6 @@ void POLY_load_texture_flags(CBYTE* fname, SLONG offset)
 //
 // initialize all the render states for each page
 
-
 #define HOW_MANY_FRAMES_TO_WAIT 0
 
 void POLY_init_render_states()
@@ -1314,7 +1313,6 @@ void POLY_init_render_states()
 
                 break;
 
-
             default:
 
                 if (ii < TEXTURE_page_num_standard && !(draw_3d && (ii == 510 || ii == 511))) {
@@ -1335,8 +1333,7 @@ void POLY_init_render_states()
                                 // use colour keying to make the windows work on the Rage Pro
                                 TEXTURE_set_colour_key(ii);
                                 SET_RENDER_STATE(D3DRENDERSTATE_COLORKEYENABLE, TRUE);
-                            } else
-                            {
+                            } else {
                                 SET_RENDER_STATE(D3DRENDERSTATE_ALPHATESTENABLE, TRUE);
                             }
                         }

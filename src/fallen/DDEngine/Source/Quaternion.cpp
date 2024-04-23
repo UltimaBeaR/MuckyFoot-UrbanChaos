@@ -298,7 +298,6 @@ void CQuaternion::BuildTween(struct Matrix33* dest, struct CMatrix33* cm1, struc
     //	QUATERNION_BuildTweenInteger(dest, cm1, cm2, tween);
     //	return;
 
-
     FloatMatrix f1, f2, f3;
 
     cmat_to_fmat(cm1, &f1);

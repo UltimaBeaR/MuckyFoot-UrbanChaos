@@ -69,7 +69,6 @@ typedef struct
 
 SKY_Cloud SKY_cloud[SKY_NUM_CLOUDS];
 
-
 #define SKY_wibble_y1 62
 #define SKY_wibble_y2 137
 #define SKY_wibble_g1 17
@@ -79,7 +78,6 @@ SKY_Cloud SKY_cloud[SKY_NUM_CLOUDS];
 
 void SKY_init(CBYTE* star_file)
 {
-
 
     SLONG i;
 
@@ -503,7 +501,6 @@ void SKY_draw_poly_moon(
     temp.X = vector[0] * SKY_MOON_DIST + mid_x;
     temp.Y = vector[1] * SKY_MOON_DIST + mid_y * 0.5f;
     temp.Z = vector[2] * SKY_MOON_DIST + mid_z;
-
 
     POLY_transform(
         temp.X,
@@ -1061,7 +1058,6 @@ void SKY_draw_poly_sky_old(float world_camera_x, float world_camera_y, float wor
                 quad[1]->v = 0.0F;
                 quad[2]->v = 1.0F;
                 quad[3]->v = 1.0F;
-
 
                 POLY_add_quad(quad, POLY_PAGE_SKY, FALSE, 1);
             }

@@ -28,7 +28,6 @@
 #include "ddlib.h"
 #include "poly.h"
 
-
 UBYTE player_relative;
 
 extern void add_damage_text(SWORD x, SWORD y, SWORD z, CBYTE* text);
@@ -40,10 +39,8 @@ UBYTE cheat = 0;
 // has any effect or not
 #define REMAP_KEYBOARD 1
 
-
 #define GET_JOYX(input) (((input >> 17) & 0xfe) - 128)
 #define GET_JOYY(input) (((input >> 24) & 0xfe) - 128)
-
 
 bool g_bPunishMePleaseICheatedOnThisLevel = FALSE;
 // bool m_bDontMoveIfBothTriggersDown = FALSE;
@@ -124,7 +121,6 @@ void FC_force_camera_behind(SLONG cam);
 
 */
 
-
 extern Thing* net_players[20];
 
 void player_apply_move(Thing* p_thing, ULONG input);
@@ -136,7 +132,6 @@ UBYTE keybrd_button_use[16];
 bool m_bForceWalk = FALSE;
 
 int g_iCheatNumber = -1;
-
 
 void init_joypad_config(void)
 {
@@ -185,7 +180,6 @@ void init_joypad_config(void)
     keybrd_button_use[JOYPAD_BUTTON_CAM_RIGHT] = ENV_get_value_number("keyboard_cam_right", 209, "Keyboard");
     keybrd_button_use[JOYPAD_BUTTON_1STPERSON] = ENV_get_value_number("keyboard_1stperson", 30, "Keyboard");
 }
-
 
 // #define	INPUT_	(1<<)
 
@@ -787,7 +781,7 @@ void get_car_enter_xz(Thing* p_vehicle, SLONG door, SLONG* cx, SLONG* cz)
         UBYTE green,
         UBYTE blue);
 
-//	SHAPE_semisphere(*cx,0,*cz,0,256,0,0xb0,POLY_PAGE_COLOUR_ALPHA,255,0,0);
+    //	SHAPE_semisphere(*cx,0,*cz,0,256,0,0xb0,POLY_PAGE_COLOUR_ALPHA,255,0,0);
     /*
 
             AENG_world_line(
@@ -1281,7 +1275,6 @@ ULONG do_an_action(Thing* p_thing, ULONG input)
         }
     }
 
-
     if ((p_thing->State == STATE_IDLE || (p_thing->State == STATE_GUN && p_thing->SubState == SUB_STATE_AIM_GUN)) && p_thing->SubState != SUB_STATE_IDLE_CROUTCH && p_thing->SubState != SUB_STATE_IDLE_CROUTCHING) {
 #if 0 // We don't use anim_prim_switches any more
 
@@ -1561,8 +1554,7 @@ ULONG do_an_action(Thing* p_thing, ULONG input)
 
             if (is_semtex && (use == 193 || use == 195)) {
                 // skip the wetback line in stern revenge, (skymiss2)  PC && DREAMCAST
-            } else
-                if (use) {
+            } else if (use) {
                 Thing* p_person = TO_THING(use);
 
                 ASSERT(p_person->Class == CLASS_PERSON);
@@ -2712,8 +2704,7 @@ SLONG player_turn_left_right(Thing* p_thing, SLONG input)
             wTurn = wLastTurn;
 
             SATURATE(wTurn, -wMaxTurn, +wMaxTurn);
-        } else
-        {
+        } else {
             // Joystick present.
             wTurn = (wJoyX * wMaxTurn) >> 7;
         }
@@ -2886,7 +2877,6 @@ SLONG player_turn_left_right(Thing* p_thing, SLONG input)
         return 1;
     }
 
-
     if (mouse_input) {
         da = (-MouseDX * TICK_RATIO) >> TICK_SHIFT;
         if (p_thing->SubState == SUB_STATE_CRAWLING || p_thing->SubState == SUB_STATE_RUNNING_SKID_STOP) {
@@ -2903,8 +2893,7 @@ SLONG player_turn_left_right(Thing* p_thing, SLONG input)
         }
 
         p_thing->Draw.Tweened->Angle = (p_thing->Draw.Tweened->Angle + da) & 2047;
-    } else
-    {
+    } else {
         if (input & INPUT_MASK_LEFT) {
             if (p_thing->SubState == SUB_STATE_SIDLE) {
                 set_person_step_right(p_thing);
@@ -3871,8 +3860,7 @@ ULONG apply_button_input(struct Thing* p_player, struct Thing* p_person, ULONG i
         // if it does choose the best meaning and initiate it
         // else ignore it.
     }
-    if ((input & INPUT_MOVEMENT_MASK) || (mouse_input && MouseDX))
-    {
+    if ((input & INPUT_MOVEMENT_MASK) || (mouse_input && MouseDX)) {
         //		LogText(" apply button input %d  state %d\n",input,p_person->State);
         if (!(p_person->Genus.Person->Flags & FLAG_PERSON_NON_INT_M)) {
             switch (p_person->State) {
@@ -4839,8 +4827,7 @@ ULONG apply_button_input_car(Thing* p_furn, ULONG input)
     // get analogue / digital steering inputs
 
     // DC is always analogue
-    if (analogue)
-    {
+    if (analogue) {
         /*
                         SLONG	dx,vx;
 
@@ -4888,8 +4875,7 @@ ULONG apply_button_input_car(Thing* p_furn, ULONG input)
 
         veh->IsAnalog = 1;
 
-    }
-    else {
+    } else {
         veh->IsAnalog = 0;
         veh->Steering = 0;
 
@@ -5041,9 +5027,7 @@ ULONG get_hardware_input(UWORD type)
 
     extern DIJOYSTATE the_state;
 
-
     DWORD dwCurrentTime = 0;
-
 
     if (type & INPUT_TYPE_JOY) {
         if (ReadInputDevice()) {
@@ -5112,7 +5096,6 @@ ULONG get_hardware_input(UWORD type)
                                                 }
                 */
 
-
                 /*
                                                 if (Keys[KB_I])
                                                 {
@@ -5131,7 +5114,6 @@ ULONG get_hardware_input(UWORD type)
                                                         }
                                                 }
                 */
-
 
                 /*
 
@@ -5254,7 +5236,6 @@ ULONG get_hardware_input(UWORD type)
                     }
                 }
 #endif
-
             }
 
             if (input) {
@@ -5423,17 +5404,17 @@ ULONG get_hardware_input(UWORD type)
         if (Keys[KB_Z]) {
             input |= INPUT_MASK_PUNCH;
         }
-/*
-                if(LeftButton)
-                {
-                        input|=INPUT_MASK_PUNCH;
-                }
+        /*
+                        if(LeftButton)
+                        {
+                                input|=INPUT_MASK_PUNCH;
+                        }
 
-                if(RightButton)
-                {
-                        input|=INPUT_MASK_KICK;
-                }
-*/
+                        if(RightButton)
+                        {
+                                input|=INPUT_MASK_KICK;
+                        }
+        */
         if (Keys[KB_X]) {
             MSG_add(" HARDWARE KICK");
             input |= INPUT_MASK_KICK;
@@ -5466,7 +5447,6 @@ ULONG get_hardware_input(UWORD type)
 #else // remap_keyboard
 
     if (type & INPUT_TYPE_KEY) {
-
 
         if (Keys[keybrd_button_use[KEYBRD_BUTTON_FORWARDS]]) {
             input |= INPUT_MASK_FORWARDS;
@@ -5582,32 +5562,32 @@ ULONG get_hardware_input(UWORD type)
 
     */
 
-/*
-        if (SNIPE_on)
-        {
-                {
-                        //
-                        // Do sniper mode movement.
-                        //
+    /*
+            if (SNIPE_on)
+            {
+                    {
+                            //
+                            // Do sniper mode movement.
+                            //
 
-                        SLONG turn = 0;
+                            SLONG turn = 0;
 
-                        if (input & INPUT_MASK_LEFT)      {turn |= SNIPE_TURN_LEFT;}
-                        if (input & INPUT_MASK_RIGHT)     {turn |= SNIPE_TURN_RIGHT;}
-                        if (input & INPUT_MASK_FORWARDS)  {turn |= SNIPE_TURN_UP;}
-                        if (input & INPUT_MASK_BACKWARDS) {turn |= SNIPE_TURN_DOWN;}
+                            if (input & INPUT_MASK_LEFT)      {turn |= SNIPE_TURN_LEFT;}
+                            if (input & INPUT_MASK_RIGHT)     {turn |= SNIPE_TURN_RIGHT;}
+                            if (input & INPUT_MASK_FORWARDS)  {turn |= SNIPE_TURN_UP;}
+                            if (input & INPUT_MASK_BACKWARDS) {turn |= SNIPE_TURN_DOWN;}
 
-                        SNIPE_turn(turn);
-                }
+                            SNIPE_turn(turn);
+                    }
 
-                //
-                // Darci can't move while sniping...
-                //
+                    //
+                    // Darci can't move while sniping...
+                    //
 
-                input = 0;
+                    input = 0;
 
-        }
-*/
+            }
+    */
 
     if (input) {
         input_mode = INPUT_KEYS;
@@ -5897,7 +5877,7 @@ void process_hardware_level_input_for_player(Thing* p_player)
     // do the camera stuff
     //
 
-//	if (p_person->Genus.Person->Mode != PERSON_MODE_FIGHT)
+    //	if (p_person->Genus.Person->Mode != PERSON_MODE_FIGHT)
 
     // Blimey! Mad system!
     if (pl->Pressed & INPUT_MASK_CAMERA) {

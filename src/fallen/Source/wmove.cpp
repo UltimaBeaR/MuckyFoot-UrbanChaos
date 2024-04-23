@@ -375,8 +375,7 @@ void WMOVE_create(Thing* p_thing)
     PrimFace4* f4;
     WMOVE_Face* wf;
 
-
-//	#ifdef PSX
+    //	#ifdef PSX
     if (save_psx)
         if (p_thing->Class == CLASS_VEHICLE) {
             //
@@ -919,4 +918,3 @@ void WMOVE_draw()
             TRUE);
     }
 }
-

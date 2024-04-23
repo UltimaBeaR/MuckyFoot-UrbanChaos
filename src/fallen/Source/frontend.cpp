@@ -21,7 +21,6 @@
 // On DC, the "Start" button is not allowed to be remapped.
 #define WANT_A_START_JOYSTICK_ITEM defined
 
-
 #include "demo.h"
 #include "DDLib.h"
 #include "frontend.h"
@@ -808,7 +807,6 @@ char* pcSpeechLanguageDir = "talk2\\";
 
 DWORD dwAutoPlayFMVTimeout = 0;
 
-
 // Kludge!
 SLONG GammaIndex;
 
@@ -1431,8 +1429,7 @@ void FRONTEND_DrawMulti(MenuData* md, ULONG rgb)
     while ((*str) && c0--) {
         str += strlen(str) + 1;
     }
-    if (IsEnglish)
-    {
+    if (IsEnglish) {
         MENUFONT_Dimensions(str, x, y, -1, BIG_FONT_SCALE);
         if (320 + x > 630) {
             if (320 + (x >> 1) > 630) {
@@ -1445,8 +1442,7 @@ void FRONTEND_DrawMulti(MenuData* md, ULONG rgb)
         } else {
             MENUFONT_Draw(620 - x, dy, BIG_FONT_SCALE, str, rgb, 0);
         }
-    }
-    else {
+    } else {
         rgb = FRONTEND_fix_rgb(fade_rgb, 1);
         FONT2D_DrawStringRightJustify(str, 620, dy, rgb, SMALL_FONT_SCALE + 64, POLY_PAGE_FONT2D);
     }
@@ -2195,7 +2191,6 @@ void FRONTEND_MissionHierarchy(CBYTE* script)
             //			instead, the entire hierarchy is preserved in savegames and
             //			completing a mission sets the appropriate flag. ie, the proper way.
 
-
 #ifndef VERSION_DEMO
             if (mission_hierarchy[mdata->ParentID] & 2)
 #endif
@@ -2881,7 +2876,6 @@ void FRONTEND_store_video_data()
 #endif
 }
 
-
 void FRONTEND_do_drivers()
 {
     SLONG result, count = 0, selected = 0;
@@ -2989,7 +2983,6 @@ void FRONTEND_gamma_update()
     if (menu_state.selected == GammaIndex)
         the_display.SetGamma(menu_data[GammaIndex].Data & 0xff, 256);
 }
-
 
 void FRONTEND_do_gamma()
 {
@@ -4602,7 +4595,6 @@ SBYTE FRONTEND_loop()
     }
     // #endif
 
-
 #endif
 
 #ifdef WANT_AN_EXIT_MENU_ITEM
@@ -4740,7 +4732,6 @@ SBYTE FRONTEND_loop()
         if (cheating)
             FRONTEND_diddle_stats();
 
-
         FRONTEND_diddle_music();
         menu_state.stackpos = 0;
         menu_thrash = 0;
@@ -4758,4 +4749,3 @@ SBYTE FRONTEND_loop()
 
     return 0;
 }
-

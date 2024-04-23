@@ -2,7 +2,6 @@
 // Animals...
 //
 
-
 #include "game.h"
 #include "animal.h"
 #include "canid.h"
@@ -586,4 +585,3 @@ SetChunkCentre(GameKeyFrameChunk *chunk, GameCoord centre) {
 
 }
 */
-

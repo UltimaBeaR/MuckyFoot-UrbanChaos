@@ -27,12 +27,9 @@
 #include "poly.h"
 #include "sound.h"
 
-
-
 #define NEW_LEVELS 1
 
 // #define	NEW_LEVELS	1
-
 
 extern ULONG level_index;
 /*
@@ -196,7 +193,6 @@ MAP_Beacon* MAP_beacon; //[MAP_MAX_BEACONS];
 
 PSX_TEX* psx_textures_xy; //[200][5];
 
-
 void* mem_all = 0;
 ULONG mem_all_size = 0;
 
@@ -231,7 +227,6 @@ struct InsideStorey* inside_storeys; //[MAX_INSIDE_RECT];
 struct Staircase* inside_stairs; //[MAX_INSIDE_STAIRS];
 UBYTE* inside_block; //[MAX_INSIDE_MEM];
 UBYTE inside_tex[64][16];
-
 
 //
 // from building.cpp
@@ -994,7 +989,6 @@ void convert_fightcol_to_pointer(GameFightCol* p, GameFightCol* p_fight, SLONG c
             p[c0].Next = &p_fight[(SLONG)p[c0].Next];
     }
 }
-
 
 void save_whole_anims(MFFileHandle handle)
 {
@@ -1971,7 +1965,6 @@ void WMOVE_remove(UBYTE which_class);
 #endif
 }
 
-
 extern SLONG person_normal_animate(Thing* p_person);
 
 void convert_drawtype_to_pointer(Thing* p_thing, SLONG meshtype)
@@ -2438,7 +2431,6 @@ void load_whole_game(CBYTE* gamename)
     memset((UBYTE*)EWAY_timer_bodge, 0, EWAY_MAX_TIMERS * 2);
 #endif
 
-
     extern UWORD player_dlight;
     player_dlight = 0;
 
@@ -2523,7 +2515,6 @@ void load_whole_game(CBYTE* gamename)
         if (EWAY_mess_buffer[c0] == 160)
             EWAY_mess_buffer[c0] = 32;
 
-
     GET_DATA(PRIMARY_USED);
     GET_DATA(PRIMARY_UNUSED);
     GET_DATA(SECONDARY_USED);
@@ -2540,7 +2531,6 @@ void load_whole_game(CBYTE* gamename)
     GET_DATA(PRIMARY_COUNT);
     GET_DATA(SECONDARY_COUNT);
     GET_DATA(GAME_STATE);
-
 
     GET_DATA(GAME_TURN);
     GET_DATA(GAME_FLAGS);
@@ -2669,7 +2659,6 @@ void load_whole_game(CBYTE* gamename)
     //
     load_whole_anims(p_all);
 
-
     void setup_global_anim_array(void);
     setup_global_anim_array();
     void init_dead_tween(void);
@@ -2686,7 +2675,7 @@ void load_whole_game(CBYTE* gamename)
     {
         TEXTURE_choose_set(texture_set_local);
         ASSERT(0); // you need a filename for TEXTURE_load_needed()
-//		TEXTURE_load_needed();
+        //		TEXTURE_load_needed();
     }
 
     extern void PARTICLE_Reset();
@@ -2697,7 +2686,6 @@ void load_whole_game(CBYTE* gamename)
 
     extern void PCOM_init(void);
     PCOM_init();
-
 
     //	calc_prim_info();
     VEH_init_vehinfo();
@@ -2716,9 +2704,7 @@ void load_whole_game(CBYTE* gamename)
     NIGHT_generate_walkable_lighting();
 
     flag_v_faces();
-
 }
-
 
 //
 // Quick load\save filename.
@@ -2971,7 +2957,6 @@ SLONG MEMORY_quick_load()
     QREAD_DATA(SECONDARY_COUNT);
     QREAD_DATA(GAME_STATE);
 
-
     QREAD_DATA(GAME_TURN);
     QREAD_DATA(GAME_FLAGS);
     QREAD_DATA(TEXTURE_set);
@@ -3078,7 +3063,6 @@ file_error:;
 
     return FALSE;
 }
-
 
 #if 1 // TEST_DC
 
@@ -3510,7 +3494,6 @@ void load_dreamcast_wad(CBYTE* fname)
     // GET_DATA(GAME_STATE);
     p_all += sizeof(GAME_STATE);
 
-
     GET_DATA(GAME_TURN);
     GET_DATA(GAME_FLAGS);
     GET_DATA(texture_set_local);
@@ -3714,7 +3697,6 @@ void load_dreamcast_wad(CBYTE* fname)
 
     extern UBYTE EWAY_conv_active;
     EWAY_conv_active = 0; // fixes semtex restart crash during cut scene
-
 
     loading_screen_active = FALSE;
 }

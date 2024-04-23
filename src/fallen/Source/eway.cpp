@@ -43,7 +43,6 @@
 #include "gamemenu.h"
 #include "..\headers\env.h"
 
-
 extern SLONG person_ok_for_conversation(Thing* p_person);
 extern ULONG timer_bored; // I don't care I'm making the game better not the code!
 //
@@ -79,7 +78,6 @@ static void ScribbleCheck ( void )
 //
 // The waypoints.
 //
-
 
 SLONG EWAY_way_upto;
 
@@ -275,7 +273,6 @@ SLONG playing_level(const CBYTE* name)
 #ifdef VERSION_DEMO
 //	return 0;
 #endif
-
 
     //	if(save_psx)
     //		return(0);
@@ -1001,7 +998,6 @@ UWORD EWAY_create_vehicle(
     return p_index;
 }
 
-
 //
 // Converts a condition definition into a EWAY_Cond.
 //
@@ -1246,7 +1242,6 @@ EWAY_Cond EWAY_create_cond(
     return ans;
 }
 
-
 void EWAY_create(
     SLONG identifier, // A unique number that names the waypoint- same as arg for DEPENDENT conditions.
     SLONG colour,
@@ -1489,7 +1484,6 @@ SLONG EWAY_set_message(
     return (1);
 }
 
-
 //
 // Returns the index of the waypoint with the given identifier.
 //
@@ -1510,7 +1504,6 @@ SLONG EWAY_find_id(SLONG id)
 
     return NULL;
 }
-
 
 void EWAY_fix_cond(EWAY_Cond* ec)
 {
@@ -3199,7 +3192,7 @@ SLONG EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, SLONG EWAY_sub_condit
 
     if (ans) {
         // Bloody annoying on DC, and slows everything to a crawl.
-//		TRACE("EVAL TRUE type %d way %d \n",ec->type,ew-EWAY_way);
+        //		TRACE("EVAL TRUE type %d way %d \n",ec->type,ew-EWAY_way);
     }
 
     ANNOYINGSCRIBBLECHECK;
@@ -4414,7 +4407,6 @@ void EWAY_set_active(EWAY_Way* ew)
 
 #endif
 
-
                             if (who_says && who_says != NET_PERSON(0)) {
                                 if (person_ok_for_conversation(who_says)) {
                                     PCOM_make_people_talk_to_eachother(
@@ -5130,8 +5122,7 @@ extern	SLONG	SAVE_ingame(CBYTE *fname);
 
         break;
 
-    case EWAY_DO_CREATE_MIST:
-    {
+    case EWAY_DO_CREATE_MIST: {
         static SLONG last_detail = 17;
         static SLONG last_height = 84;
 
@@ -5149,8 +5140,7 @@ extern	SLONG	SAVE_ingame(CBYTE *fname);
             x2, z2);
 
         last_height += (last_height & 0x1) ? -11 : +11;
-    }
-    break;
+    } break;
 
     case EWAY_DO_STALL_CAR:
 
@@ -5503,8 +5493,8 @@ void EWAY_process()
     step = 1;
     offset = 0;
 
-//		start=1;
-//		end=eway_max;
+    //		start=1;
+    //		end=eway_max;
 
     //		step=1;
     //		offset=0;
@@ -5905,8 +5895,7 @@ SLONG EWAY_grab_camera(
 
         extern SLONG analogue;
 
-        if (analogue && !EWAY_stop_player_moving())
-        {
+        if (analogue && !EWAY_stop_player_moving()) {
             return FALSE;
         } else {
             *cam_x = EWAY_cam_x;
@@ -6947,4 +6936,3 @@ void flag_undeletable_people(void)
     }
 }
 #endif
-

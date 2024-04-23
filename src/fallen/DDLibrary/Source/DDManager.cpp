@@ -1,7 +1,6 @@
 //	DDManager.cpp
 //	Guy Simmons, 12th November 1997.
 
-
 #include "DDLib.h"
 #include "..\headers\env.h"
 #include "..\headers\game.h"

@@ -138,9 +138,7 @@ UBYTE InkeyToAsciiShift[] = {
     /* 120 - 127 */ 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-
 //---------------------------------------------------------------
-
 
 CBYTE* cmd_list[] = { "cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose", "s", "l", "restart", "ambient", "analogue", "world", "fade", "roper", "darci", "crinkles", "bangunsnotgames", "boo", NULL };
 
@@ -189,7 +187,6 @@ EWAY_Way* eway_find_near(GameCoord pos)
     return NULL;
 }
 
-
 #ifndef NDEBUG
 BOOL allow_debug_keys = 1;
 #else
@@ -199,7 +196,6 @@ BOOL allow_debug_keys = 1;
 BOOL allow_debug_keys = 0;
 #endif
 #endif
-
 
 BOOL dkeys_have_been_used;
 
@@ -429,11 +425,9 @@ void parse_console(CBYTE* str)
     CONSOLE_text("huh?", 3000);
 }
 
-
 //
 // Takes a screen shot of the city from above.
 //
-
 
 #include "tga.h"
 
@@ -876,7 +870,6 @@ void plan_view_shot()
     }
 }
 
-
 //---------------------------------------------------------------
 
 SLONG yomp_speed = 40;
@@ -954,7 +947,6 @@ void CONTROLS_set_inventory(Thing* darci, Thing* player, SLONG count)
         }
     }
 }
-
 
 Form* test_form;
 Widget* widget_text;
@@ -1285,12 +1277,12 @@ void context_music(void)
 
     if (WARE_ware[darci->Genus.Person->Ware].ambience == 4)
         return;
-        //		mode=0; // we're inside the nightclub, so don't play context music.
+    //		mode=0; // we're inside the nightclub, so don't play context music.
 
-        // Just for dreamcast MikeD aug 2000
-        //	if (WARE_ware[darci->Genus.Person->Ware].ambience)
-        //		mode=13+WARE_ware[darci->Genus.Person->Ware].ambience;
-        // return; // we're inside the nightclub, so don't play context music.
+    // Just for dreamcast MikeD aug 2000
+    //	if (WARE_ware[darci->Genus.Person->Ware].ambience)
+    //		mode=13+WARE_ware[darci->Genus.Person->Ware].ambience;
+    // return; // we're inside the nightclub, so don't play context music.
 
     MUSIC_mode(mode);
 }
@@ -2223,7 +2215,6 @@ void process_controls(void)
     if (!allow_debug_keys)
         return;
 
-
     if (mouse_input) {
         //
         // put the mouse in the center of the screen so we can always get a mousedx,mousedy
@@ -2603,8 +2594,7 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 
     */
 
-
-//	CLOTH_process();
+    //	CLOTH_process();
 
     //
     // Enter and leave the sewers if Darci does.
@@ -2973,7 +2963,6 @@ void FC_look_at(SLONG cam, UWORD thing_index);
         }
     }
 #endif
-
 
     /*
 
@@ -3374,16 +3363,16 @@ void FC_look_at(SLONG cam, UWORD thing_index);
         }
     }
     static UBYTE smokin = 0;
-/*	if (Keys[KB_FORESLASH]) {
+    /*	if (Keys[KB_FORESLASH]) {
 
-                Keys[KB_FORESLASH]=0;
+                    Keys[KB_FORESLASH]=0;
 
-                if (!ShiftFlag) {
-                        smokin=!smokin;
-                } else {
-                        the_ff_manager->Test();
-                }
-        }*/
+                    if (!ShiftFlag) {
+                            smokin=!smokin;
+                    } else {
+                            the_ff_manager->Test();
+                    }
+            }*/
     if (Keys[KB_FORESLASH]) {
         Keys[KB_FORESLASH] = 0;
 
@@ -4501,8 +4490,6 @@ extern	SLONG	FC_cam_height;
     //
     animate_texture_maps();
     //	Get user game input.
-
 }
-
 
 //---------------------------------------------------------------

@@ -23,14 +23,12 @@
 #include "BreakTimer.h"
 #include "superfacet.h"
 
-
 #define LOG_ENTER(x) \
     {                \
     }
 #define LOG_EXIT(x) \
     {               \
     }
-
 
 extern D3DTexture TEXTURE_texture[];
 
@@ -58,7 +56,6 @@ static UBYTE s_ClipMask; // the clip bits we care about
 // PC should clip to sides fo screen
 #define NO_CLIPPING_TO_THE_SIDES_PLEASE_BOB 0
 #define NO_BACKFACE_CULL_PLEASE_BOB 0
-
 
 //
 // Flags for each standard texture page.
@@ -209,7 +206,6 @@ float POLY_cam_off_x;
 float POLY_cam_off_y;
 float POLY_cam_off_z;
 
-
 void POLY_camera_set(
     float x,
     float y,
@@ -221,7 +217,6 @@ void POLY_camera_set(
     float lens,
     SLONG splitscreen)
 {
-
 
     POLY_splitscreen = splitscreen;
 
@@ -433,7 +428,6 @@ void POLY_camera_set(
     hres = (the_display.lp_D3D_Viewport)->SetViewport2(&g_viewData);
 
 #endif // #if USE_TOMS_ENGINE_PLEASE_BOB
-
 
     SUPERFACET_start_frame();
 }
@@ -723,7 +717,6 @@ void POLY_set_local_rotation(
     HRESULT hres = (the_display.lp_D3D_Device)->SetTransform(D3DTRANSFORMSTATE_WORLD, &g_matWorld);
 #endif
 
-
     LOG_EXIT(Poly_set_local_rotation)
 }
 
@@ -763,7 +756,6 @@ void POLY_set_local_rotation_none(void)
     g_matWorld._44 = 1.0f;
     HRESULT hres = (the_display.lp_D3D_Device)->SetTransform(D3DTRANSFORMSTATE_WORLD, &g_matWorld);
 #endif
-
 
     LOG_EXIT(Poly_set_local_rotation)
 }
@@ -851,7 +843,6 @@ void POLY_frame_init(SLONG keep_shadow_page, SLONG keep_text_page)
     SLONG i;
     //	TRACE("poly frame init\n");
 
-
     // This is going to cost serious performance - it bins all the VBs and IBs that we allocate,
     // so they all need allocating again. Madness.
     for (i = 0; i < POLY_NUM_PAGES; i++) {
@@ -867,7 +858,7 @@ void POLY_frame_init(SLONG keep_shadow_page, SLONG keep_text_page)
             POLY_Page[i].Clear();
         }
     }
-//	TRACE("poly frame init EXIT\n");
+    //	TRACE("poly frame init EXIT\n");
 
     // SPONG
 #if USE_TOMS_ENGINE_PLEASE_BOB
@@ -1208,7 +1199,6 @@ SLONG POLY_clip_against_nearplane(POLY_Point** rptr, float* dptr, SLONG count, P
     return wptr - wbuf;
 }
 
-
 // POLY_clip_against_side_X
 //
 // clip poly against a side (left or right)
@@ -1308,7 +1298,6 @@ SLONG POLY_clip_against_side_Y(POLY_Point** rptr, float* dptr, SLONG count, POLY
 
     return wptr - wbuf;
 }
-
 
 static float s_DistBuffer[128];
 static POLY_Point* s_PtrBuffer[128];
@@ -1604,7 +1593,7 @@ void POLY_add_nearclipped_triangle(POLY_Point* pt[3], SLONG page, SLONG backface
         }
 
 #else // #if WE_NEED_POLYBUFFERS_PLEASE_BOB
-        // The version with index buffers
+      // The version with index buffers
 
         PolyPage* pp = &POLY_Page[page];
 #ifdef TEX_EMBED
@@ -2127,7 +2116,6 @@ void POLY_add_quad_slow(POLY_Point *pp[4], SLONG page, SLONG backface_cull, SLON
 
 #endif // #if 0
 
-
 void POLY_add_quad(POLY_Point* pp[4], SLONG page, SLONG backface_cull, SLONG generate_clip_flags)
 {
 #if 0
@@ -2155,7 +2143,6 @@ void POLY_add_triangle(POLY_Point* pp[4], SLONG page, SLONG backface_cull, SLONG
         POLY_add_triangle_fast(pp, page, backface_cull, generate_clip_flags);
     }
 }
-
 
 float POLY_world_length_to_screen(float world_length)
 {
@@ -3074,7 +3061,7 @@ void POLY_frame_draw(SLONG draw_shadow_page, SLONG draw_text_page)
         //		BreakTime("FRAMEDRAW end buckets");
 
 #else // do it page by page
-        //		BreakTime("FRAMEDRAW start page by page");
+      //		BreakTime("FRAMEDRAW start page by page");
 
 #ifdef TEX_EMBED
         for (i = 0; i <= iPolyNumPagesRender; i++) // <= because we skip POLY_PAGE_COLOUR...
@@ -3120,7 +3107,6 @@ void POLY_frame_draw(SLONG draw_shadow_page, SLONG draw_text_page)
                     REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, FALSE);
                 }
 
-
                 //
                 // sort and render the polygons
                 //
@@ -3133,8 +3119,7 @@ void POLY_frame_draw(SLONG draw_shadow_page, SLONG draw_text_page)
 
 #endif
 
-    } else
-    {
+    } else {
         //
         // draw all the polygons at once
         //
@@ -3213,7 +3198,6 @@ void POLY_frame_draw_odd()
 
     PolyPage* pa;
 
-
     //
     // Start the scene.
     //
@@ -3288,7 +3272,6 @@ void POLY_frame_draw_puddles()
 #else
     PolyPage* ppDrawn = pp;
 #endif
-
 
     if (pp->NeedsRendering()) {
         BEGIN_SCENE;

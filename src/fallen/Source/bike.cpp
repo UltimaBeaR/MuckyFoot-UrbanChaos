@@ -769,7 +769,7 @@ again:;
         FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
         RIBBON_extend(bb->ribbon2, vector[0] + (p_bike->WorldPos.X >> 8), vector[1] + (p_bike->WorldPos.Y >> 8), vector[2] + (p_bike->WorldPos.Z >> 8));
     }
-//	TRACE("bike d's %d / %d \n",bb->back_dx,bb->back_dz);
+    //	TRACE("bike d's %d / %d \n",bb->back_dx,bb->back_dz);
     //	if (GAME_TURN&1)
     bb->tyrelast = TRACKS_Add(bb->back_x, bb->back_y, bb->back_z, bb->back_dx >> 8, bb->back_dy >> 8, bb->back_dz >> 8, TRACK_TYPE_TYRE, bb->tyrelast);
 
@@ -1381,7 +1381,6 @@ again:;
     }
 }
 
-
 UWORD BIKE_create(
     SLONG x,
     SLONG z,
@@ -1478,11 +1477,11 @@ UWORD BIKE_create(
 
             add_thing_to_map(p_thing);
 
-/*			if (NIGHT_flag & NIGHT_FLAG_DAYTIME) {
-                          bb->ribbon=0;
-                        } else {
-                          bb->ribbon=RIBBON_alloc(RIBBON_FLAG_FADE|RIBBON_FLAG_SLIDE|RIBBON_FLAG_IALPHA,16,POLY_PAGE_ADDITIVEALPHA,-1,8,5+(rand()&7),0,0,0x7F0000);
-                        }*/
+            /*			if (NIGHT_flag & NIGHT_FLAG_DAYTIME) {
+                                      bb->ribbon=0;
+                                    } else {
+                                      bb->ribbon=RIBBON_alloc(RIBBON_FLAG_FADE|RIBBON_FLAG_SLIDE|RIBBON_FLAG_IALPHA,16,POLY_PAGE_ADDITIVEALPHA,-1,8,5+(rand()&7),0,0,0x7F0000);
+                                    }*/
             bb->ribbon = RIBBON_alloc(RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE | RIBBON_FLAG_IALPHA, 10, POLY_PAGE_SMOKER, -1, 8, 5 + (rand() & 7), 1, 0.2, 0x6f6f6f);
             bb->ribbon2 = RIBBON_alloc(RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE | RIBBON_FLAG_IALPHA, 10, POLY_PAGE_SMOKER, -1, 8, 5 + (rand() & 7), 1, 0.2, 0x6f6f6f);
             return THING_NUMBER(p_thing);
@@ -1493,7 +1492,6 @@ UWORD BIKE_create(
 
     return NULL;
 }
-
 
 BIKE_Control BIKE_control_get(Thing* p_bike)
 {

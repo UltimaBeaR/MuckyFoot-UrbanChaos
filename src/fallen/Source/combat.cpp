@@ -13,7 +13,6 @@
 #include "poly.h"
 #include "dirt.h"
 
-
 SLONG people_allowed_to_hit_each_other(Thing* p_victim, Thing* p_agressor);
 
 extern SLONG set_face_thing(Thing* p_person, Thing* p_target);

@@ -517,8 +517,7 @@ void PolyPage::Render(IDirect3DDevice3* dev)
         hres = dev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, m_VertexPtr, m_VBUsed, IxBuffer, dst - IxBuffer, D3DDP_DONOTUPDATEEXTENTS | D3DDP_DONOTLIGHT);
 
         // ASSERT(hres == D3D_OK);
-    } else
-    {
+    } else {
         HRESULT hres;
 
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
@@ -910,7 +909,6 @@ extern D3DMATRIX g_matProjection;
 extern D3DMATRIX g_matWorld;
 extern D3DVIEWPORT2 g_viewData;
 
-
 // The DC version is just #defined in the header.
 
 // dwFVFType must be D3DFVF_VERTEX or D3DFVF_LVERTEX.
@@ -1015,4 +1013,3 @@ HRESULT DrawIndPrimMM(LPDIRECT3DDEVICE3 lpDevice,
 
     return (DD_OK);
 }
-

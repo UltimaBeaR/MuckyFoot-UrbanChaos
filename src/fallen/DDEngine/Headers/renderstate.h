@@ -44,7 +44,6 @@ struct RenderState {
 
     static RenderState s_State;
 
-
     bool IsAlphaBlendEnabled() { return (AlphaBlendEnable != FALSE); }
 
 private:

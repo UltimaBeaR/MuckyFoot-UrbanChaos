@@ -661,7 +661,6 @@ void VEH_init_vehinfo()
 
     init_arctans();
 
-
     for (ii = 0; ii < VEH_TYPE_NUMBER; ii++) {
         if (veh_info[ii].VertexAssignments) {
             MemFree(veh_info[ii].VertexAssignments);
@@ -713,8 +712,6 @@ void VEH_init_vehinfo()
             veh_info[ii].VertexAssignments[jj - obj->StartPoint] = best;
         }
     }
-
-
 }
 
 // find a free vehicle slot
@@ -797,7 +794,6 @@ THING_INDEX VEH_create(
 
     yaw += 1024;
     yaw &= 2047;
-
 
     //
     // Get a DrawMesh for this thing.
@@ -1012,8 +1008,7 @@ void draw_car(Thing* p_car)
         ANIM_obj_draw(p_car, &p_car->Genus.Vehicle->Draw);
 
         p_car->WorldPos.Y += info->BodyOffset;
-    } else
-    {
+    } else {
         //
         // Draw the car as a normal prim.
         //
@@ -1041,7 +1036,6 @@ void draw_car(Thing* p_car)
             //
         }
 
-
         //
         // Draw the car shadow...
         //
@@ -1053,7 +1047,6 @@ void draw_car(Thing* p_car)
             float(veh_info[p_car->Genus.Vehicle->Type].shad_elongate) * (1.0F / 64.0F),
             float(p_car->Genus.Vehicle->Angle) * (2.0F * PI / 2048.0F),
             OVAL_TYPE_SQUARE);
-
 
         // #ifndef PSX
         //  transpose matrix for some reason
@@ -1296,7 +1289,6 @@ void draw_car(Thing* p_car)
                     MFX_play_thing(THING_NUMBER(p_car), S_SKID_START + 1, MFX_MOVING, p_car);
                 else
                     MFX_play_thing(THING_NUMBER(p_car), S_SKID_END, MFX_MOVING, p_car);
-
             }
 
             if ((speed > 200) && (GAME_TURN & 1)) {
@@ -2067,12 +2059,12 @@ static SLONG CollideCar(Thing* p_car, SLONG step)
                 if (veh->Scrapin < 10)
                     veh->Scrapin++;
 
-                    //				if (is_driven_by_player(p_car))
-                    //				AENG_world_line((x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2, (z[ii] + z[jj]) / 2, 32, 0xffffff,
-                    //								(x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2 + 0xC00, (z[ii] + z[jj]) / 2, 0, 0xffffff,
-                    //								TRUE);
+                //				if (is_driven_by_player(p_car))
+                //				AENG_world_line((x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2, (z[ii] + z[jj]) / 2, 32, 0xffffff,
+                //								(x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2 + 0xC00, (z[ii] + z[jj]) / 2, 0, 0xffffff,
+                //								TRUE);
 
-                    // shake fence
+                // shake fence
                 VEH_shake_fences(last_mav_square_x, last_mav_square_z);
             }
         }
@@ -3517,7 +3509,6 @@ static void do_car_input(Thing* p_thing)
 
         // smokin!
         veh->Smokin = 1;
-
     }
 
     //

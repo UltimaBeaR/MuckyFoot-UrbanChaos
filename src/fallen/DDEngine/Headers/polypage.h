@@ -2,14 +2,12 @@
 //
 // PolyPage class - main low-level rendering
 
-
 // PC
 
 // this makes absolutely fuck-all difference to speed (tested)
 // #define TEX_EMBED		// must be set the same in D3DTexture.h
 // Do need to sort, and so need polybuffers
 #define WE_NEED_POLYBUFFERS_PLEASE_BOB 1
-
 
 #ifndef _POLYPAGE_
 #define _POLYPAGE_
@@ -73,7 +71,6 @@ public:
 
     // set scaling for different screen sizes
     static void SetScaling(float xmul, float ymul);
-
 
     // sort polygons in approx. Z order
     void SortBackFirst();
@@ -230,7 +227,6 @@ extern D3DMATRIX g_matProjection;
 extern D3DMATRIX g_matWorld;
 extern D3DVIEWPORT2 g_viewData;
 
-
 // This is already defined by DX in a DC build.
 struct D3DMULTIMATRIX {
     LPVOID lpvVertices; // Pointer to the vertex data. MUST be 32-byte aligned.
@@ -250,7 +246,6 @@ extern HRESULT DrawIndPrimMM(LPDIRECT3DDEVICE3 lpDevice,
     WORD wNumVertices,
     WORD* pwIndices,
     DWORD dwNumIndices);
-
 
 // Useful.
 #define GET_MM_INDEX(v) (((unsigned char*)&v)[12])

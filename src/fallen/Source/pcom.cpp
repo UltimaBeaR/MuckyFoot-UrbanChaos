@@ -178,7 +178,6 @@ CBYTE* PCOM_move_name[PCOM_MOVE_NUMBER] = {
     "TIED_UP",
 };
 
-
 //
 // The movement states a person can be in.
 //
@@ -2892,7 +2891,7 @@ void check_players_gang(Thing* p_target)
         if (gang_attacks[gang].Perp[c0]) {
 
             p_person = TO_THING(gang_attacks[gang].Perp[c0]);
-//			 AENG_world_line_infinite(p_target->WorldPos.X>>8,p_target->WorldPos.Y>>8,p_target->WorldPos.Z>>8,3,0xffffff,p_person->WorldPos.X>>8,p_person->WorldPos.Y>>8,p_person->WorldPos.Z>>8,0,0xffffff,1);
+            //			 AENG_world_line_infinite(p_target->WorldPos.X>>8,p_target->WorldPos.Y>>8,p_target->WorldPos.Z>>8,3,0xffffff,p_person->WorldPos.X>>8,p_person->WorldPos.Y>>8,p_person->WorldPos.Z>>8,0,0xffffff,1);
             if (p_person->Genus.Person->PlayerID) {
                 //
                 // a player attacking me
@@ -2919,7 +2918,7 @@ UWORD count_gang(Thing* p_target)
         if (gang_attacks[gang].Perp[c0]) {
             Thing* p_person;
             p_person = TO_THING(gang_attacks[gang].Perp[c0]);
-//			 AENG_world_line_infinite(p_target->WorldPos.X>>8,p_target->WorldPos.Y>>8,p_target->WorldPos.Z>>8,7,0xffff,p_person->WorldPos.X>>8,p_person->WorldPos.Y>>8,p_person->WorldPos.Z>>8,2,0xff0000,1);
+            //			 AENG_world_line_infinite(p_target->WorldPos.X>>8,p_target->WorldPos.Y>>8,p_target->WorldPos.Z>>8,7,0xffff,p_person->WorldPos.X>>8,p_person->WorldPos.Y>>8,p_person->WorldPos.Z>>8,2,0xff0000,1);
             count++;
         }
     }
@@ -5012,8 +5011,7 @@ THING_INDEX PCOM_create_player(
 
     extern SLONG playing_level(const CBYTE* name);
 
-    if (playing_level("skymiss2.ucm"))
-    {
+    if (playing_level("skymiss2.ucm")) {
         pcom_has |= PCOM_HAS_SHOTGUN;
     }
 
@@ -5896,7 +5894,6 @@ void PCOM_process_driving_wander(Thing* p_person)
                         Vehicle* veh = p_vehicle->Genus.Vehicle;
                         veh->Angle = yaw ^ 1024;
 
-
                         reinit_vehicle(p_vehicle);
 
                         //						return;
@@ -6731,8 +6728,8 @@ void PCOM_process_killing(Thing* p_person)
             // Say something aggressive to him- to catch his attention.
             //
 
-//			MFX_play_thing(THING_NUMBER(p_person),S_WHATRYOULOOKINAT,MFX_REPLACE,p_person);
-// wh wh wh wh wh wh
+            //			MFX_play_thing(THING_NUMBER(p_person),S_WHATRYOULOOKINAT,MFX_REPLACE,p_person);
+            // wh wh wh wh wh wh
             if (IsEnglish)
                 MFX_play_thing(THING_NUMBER(p_person), SOUND_Range(S_WTHUG1_ALERT_START, S_WTHUG1_ALERT_START + 1), MFX_REPLACE, p_person);
             PCOM_oscillate_tympanum(
@@ -6754,8 +6751,7 @@ void PCOM_process_killing(Thing* p_person)
             if (((GAME_TURN + (THING_NUMBER(p_person) << 5)) & 0xff) == 0)
             #endif
     */
-    if ((PTIME(p_person) & 0xff) == 0)
-    {
+    if ((PTIME(p_person) & 0xff) == 0) {
         Thing* p_special = PCOM_is_there_an_item_i_should_get(p_person);
 
         if (p_special) {
@@ -7291,8 +7287,7 @@ void PCOM_process_following(Thing* p_person)
 
                     if (p_person->Genus.Person->pcom_ai != PCOM_AI_CIV) {
                         // if (((GAME_TURN + (THING_NUMBER(p_person) << 5)) & 0x7f) == 0)
-                        if ((PTIME(p_person) & 0x7f) == 0)
-                        {
+                        if ((PTIME(p_person) & 0x7f) == 0) {
                             Thing* p_special = PCOM_is_there_an_item_i_should_get(p_person);
 
                             if (p_special) {
@@ -7929,7 +7924,7 @@ void PCOM_process_navtokill(Thing* p_person)
 
                 if (dist_to_target(p_person, p_target) < (10 << 8))
                     track_gun_sight(p_target, shoot_time - p_person->Genus.Person->pcom_ai_counter);
-                    //					ASSERT(dist_to_target(p_person,p_target)< (18<<8) );
+                //					ASSERT(dist_to_target(p_person,p_target)< (18<<8) );
 
                 // (a) doesn't work and (b) doesn't look any good. So it's toast.
                 if (p_target->Genus.Person->PlayerID) {
@@ -8152,10 +8147,10 @@ void PCOM_process_findcar(Thing* p_person)
             // We have got in the car... what now?
             //
 
-//				if ( ((GAME_TURN & 0xf)==(THING_NUMBER(p_person)&0xf)) || PCOM_are_there_people_who_want_to_enter(p_vehicle))
-//
-// don't use ptime we want this to happen quick
-//
+            //				if ( ((GAME_TURN & 0xf)==(THING_NUMBER(p_person)&0xf)) || PCOM_are_there_people_who_want_to_enter(p_vehicle))
+            //
+            // don't use ptime we want this to happen quick
+            //
             if (((GAME_TURN & 0xf) == (THING_NUMBER(p_person) & 0xf)) || PCOM_are_there_people_who_want_to_enter(p_vehicle))
             //				if ( ((PTIME(p_person) & 0xf)==0) || PCOM_are_there_people_who_want_to_enter(p_vehicle))
             {
@@ -8748,7 +8743,6 @@ void PCOM_process_snipe(Thing* p_person)
 
         return;
     }
-
 
     Thing* p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
@@ -9749,10 +9743,10 @@ void PCOM_process_state_change(Thing* p_person)
                     //						else //play wav anyway MikeD
                     {
 
-/*
-                                                        if(((GAME_TURN+THING_NUMBER(p_person))&255)==0)
-                                                                MFX_play_thing(THING_NUMBER(p_person),S_HEY_YOU,MFX_REPLACE,p_person);
-*/
+                        /*
+                                                                                if(((GAME_TURN+THING_NUMBER(p_person))&255)==0)
+                                                                                        MFX_play_thing(THING_NUMBER(p_person),S_HEY_YOU,MFX_REPLACE,p_person);
+                        */
                     }
                     PCOM_oscillate_tympanum(
                         PCOM_SOUND_HEY,
@@ -13206,7 +13200,6 @@ void DriveBike(Thing* p_person)
                 &rx2,
                 &rz2);
 
-
             if (ControlFlag && allow_debug_keys) {
                 AENG_world_line_infinite(
                     rx1, 0, rz1,
@@ -13217,7 +13210,6 @@ void DriveBike(Thing* p_person)
                     0x004400,
                     FALSE);
             }
-
 
             nearest_point_on_line(
                 rx1, rz1,
@@ -13367,7 +13359,6 @@ void DriveBike(Thing* p_person)
 
     BIKE_control_set(p_bike, bc);
 
-
     if (ControlFlag && allow_debug_keys) {
         AENG_world_line_infinite(
             p_bike->WorldPos.X >> 8,
@@ -13382,7 +13373,6 @@ void DriveBike(Thing* p_person)
             0x000000,
             TRUE);
     }
-
 
     p_person->Genus.Person->pcom_move_counter += PCOM_TICKS_PER_TURN * TICK_RATIO >> TICK_SHIFT;
 }

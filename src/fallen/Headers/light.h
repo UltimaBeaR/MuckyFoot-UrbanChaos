@@ -70,7 +70,7 @@ typedef struct
     SLONG width;
     SLONG height;
 
-    SLONG (*get_height)
+    SLONG(*get_height)
     (SLONG x, SLONG z); // 0 <= x < width, 0 <= z < height
     LIGHT_Colour (*get_light)(SLONG x, SLONG z);
     void (*set_light)(SLONG x, SLONG z, LIGHT_Colour light);

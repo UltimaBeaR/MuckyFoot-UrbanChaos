@@ -723,4 +723,3 @@ CLOTH_Info* CLOTH_get_info(UBYTE cloth)
 
     return &CLOTH_info;
 }
-

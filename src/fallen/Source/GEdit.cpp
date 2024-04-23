@@ -823,7 +823,6 @@ HRESULT combo_draw(HWND hWnd, WPARAM wParam, LPARAM lParam)
     return TRUE;
 }
 
-
 //---------------------------------------------------------------
 /*
 void	controls_to_ep(EventPoint *ep,ULONG flags)

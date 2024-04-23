@@ -374,7 +374,6 @@ void POLY_add_line_tex_uv(POLY_Point* p1, POLY_Point* p2, float width1, float wi
 // Turned off for the PC. You madmen :-)
 // #define LIMIT_TOTAL_PYRO_SPRITES_PLEASE_BOB 100
 
-
 #define DUSTWAVE_MULTIPLY (2048 / DUSTWAVE_MULTIPLY)
 
 #ifdef LIMIT_TOTAL_PYRO_SPRITES_PLEASE_BOB
@@ -1353,8 +1352,8 @@ void PYRO_draw_pyro(Thing* p_pyro)
 
         // make sure it is processed
 
-//		if(pyro->counter)
-    break;
+        //		if(pyro->counter)
+        break;
     }
 }
 

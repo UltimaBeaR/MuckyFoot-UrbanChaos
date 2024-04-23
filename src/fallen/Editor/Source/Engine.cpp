@@ -26,7 +26,7 @@ struct BucketHead bucket_heads[MAX_BUCKETS];
 UBYTE* current_bucket_pool = bucket_pool;
 UBYTE* end_bucket_pool = &bucket_pool[MAX_BUCKET_POOL - 100];
 
-ULONG (*rotate_point_gte)
+ULONG(*rotate_point_gte)
 (struct SVector* v, struct SVector* r);
 
 struct EngineStuff engine;

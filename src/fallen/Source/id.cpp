@@ -4,7 +4,6 @@
 #include "thing.h"
 #include "ob.h"
 
-
 //
 // Do you want thin walls
 //
@@ -178,7 +177,7 @@ SLONG ID_wall_upto;
 // The 'get_type' function.
 //
 
-SLONG (*ID_get_type)
+SLONG(*ID_get_type)
 (SLONG id, SLONG block);
 
 //
@@ -8672,4 +8671,3 @@ ID_Finfo* ID_get_furn(SLONG number)
 
     return &ID_get_finfo;
 }
-

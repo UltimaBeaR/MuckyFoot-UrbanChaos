@@ -13,4 +13,3 @@
 #include "supermap.h"
 #include "ware.h"
 #include "..\ledit\headers\ed.h"
-

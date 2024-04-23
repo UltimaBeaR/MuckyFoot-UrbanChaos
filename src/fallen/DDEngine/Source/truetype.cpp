@@ -27,7 +27,6 @@
 #include <mbctype.h> // MBCS crap
 #include <mbstring.h> // more MBCS crap
 
-
 #include "truetype.h"
 #include "polypoint.h"
 #include "env.h"
@@ -146,7 +145,7 @@ void TT_Init()
     hres = pShadowSurface->SetPalette(pShadowPalette);
     ASSERT(!FAILED(hres));
 
-      //  create the font - hey, a function with fourteen parameters!
+    //  create the font - hey, a function with fourteen parameters!
     hFont = CreateFont(FontHeight * AA_SIZE,
         0, 0, 0,
         FW_BOLD, // weight
@@ -457,7 +456,7 @@ static void DoTextCommand(TextCommand* tcmd)
         if (!chars)
             return;
 
-            // get width
+        // get width
         GetTextExtentExPoint(hDC, string, chars, 0, NULL, NULL, &size);
         int width = size.cx / AA_SIZE;
 

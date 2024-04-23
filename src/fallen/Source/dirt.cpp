@@ -1610,8 +1610,7 @@ void DIRT_process(void)
 
             if (GAME_FLAGS & GF_SEWERS) {
                 floor = NS_calc_splash_height_at(dd->x, dd->z);
-            } else
-            {
+            } else {
                 floor = PAP_calc_map_height_at(dd->x, dd->z);
             }
 
@@ -1655,7 +1654,6 @@ void DIRT_process(void)
                         } else
                             DIRT_spark_shower(dd);
                     }
-
                 }
             }
 
@@ -2911,4 +2909,3 @@ void DIRT_create_brass(
         dd->droll = 0;
     }
 }
-

@@ -69,8 +69,6 @@
 
 #include "DCLowLevel.h"
 
-
-
 //
 // This is the last map to be loaded.
 //
@@ -101,7 +99,6 @@ void TesterText(CBYTE* error, ...)
 }
 
 #endif
-
 
 //
 // to stop psx stack overflow
@@ -1613,7 +1610,7 @@ void ELEV_load_level(CBYTE* fname_level)
                     continue;
                 }
 
-//			  abandon_waypoint:;
+                //			  abandon_waypoint:;
                 {
                     CBYTE title[256];
 
@@ -2012,7 +2009,6 @@ void ELEV_game_init_common(
     SND_BeginAmbient();
 }
 
-
 SLONG ELEV_game_init(
     CBYTE* fname_map,
     CBYTE* fname_lighting,
@@ -2258,7 +2254,6 @@ SLONG ELEV_game_init(
     extern void envmap_specials(void);
 
     envmap_specials();
-
 
     calc_prim_info();
     calc_prim_normals();
@@ -2634,7 +2629,6 @@ extern MFFileHandle playback_file;
 
 extern CBYTE tab_map_name[];
 
-
 // extern SLONG EWAY_conv_active;
 extern SLONG PSX_inv_open;
 
@@ -2654,36 +2648,36 @@ SLONG ELEV_load_user(SLONG mission)
 
 try_again:;
 
-/*
-        if(mission<0)
-        {
-                //
-                // bodge for publishing meeting
-                //
-                        {
-                                SLONG	c0;
-                                strcpy(tab_map_name,my_mission_names[-mission]);
-                                for(c0=0;c0<strlen(tab_map_name);c0++)
-                                {
-                                        if(tab_map_name[c0]=='.')
-                                        {
-                                                tab_map_name[c0+1]='t';
-                                                tab_map_name[c0+2]='g';
-                                                tab_map_name[c0+3]='a';
+    /*
+            if(mission<0)
+            {
+                    //
+                    // bodge for publishing meeting
+                    //
+                            {
+                                    SLONG	c0;
+                                    strcpy(tab_map_name,my_mission_names[-mission]);
+                                    for(c0=0;c0<strlen(tab_map_name);c0++)
+                                    {
+                                            if(tab_map_name[c0]=='.')
+                                            {
+                                                    tab_map_name[c0+1]='t';
+                                                    tab_map_name[c0+2]='g';
+                                                    tab_map_name[c0+3]='a';
 
-                                                break;
-                                        }
-                                }
-                        }
-                return ELEV_load_name(my_mission_names[-mission]);
+                                                    break;
+                                            }
+                                    }
+                            }
+                    return ELEV_load_name(my_mission_names[-mission]);
 
-        }
-*/
+            }
+    */
 
-//
-// Using the GetOpenFileName() function changes the current directory,
-// so we must save and restore it.
-//
+    //
+    // Using the GetOpenFileName() function changes the current directory,
+    // so we must save and restore it.
+    //
 
     GetCurrentDirectory(_MAX_PATH, curr_directory);
 
@@ -2747,7 +2741,6 @@ try_again:;
         *STARTSCR_mission = 0;
         return res;
     }
-
 
     //
     // So we can see the dialog boxes!
@@ -3021,8 +3014,6 @@ try_again:;
     default:
         return FALSE;
     }
-
-
 }
 
 void reload_level(void)

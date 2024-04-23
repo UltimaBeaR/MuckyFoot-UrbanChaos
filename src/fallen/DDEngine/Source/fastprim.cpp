@@ -443,7 +443,6 @@ SLONG FASTPRIM_draw(
         return FALSE;
     }
 
-
     SLONG i;
     SLONG j;
     SLONG k;

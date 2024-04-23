@@ -15,7 +15,6 @@ extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat
 extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans, struct Matrix31* mat2);
 extern void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans, struct SMatrix31* mat2);
 
-
 // void	rotate_thing_point(struct SVector *vect,struct Matrix33	*matrix)
 /*
 void	apply_matrix_to_vect(struct SVector *before,struct Matrix33	*matrix,struct SVector *result)
@@ -581,7 +580,6 @@ void draw_a_prim_at(UWORD prim, SLONG x, SLONG y, SLONG z, UBYTE shade)
                         global_res[p0].X, global_res[p0].Y,
                         global_res[p1].X, global_res[p1].Y,
                         global_res[p2].X, global_res[p2].Y);
-
 
                     //			if(p_f3->TexturePage>15)
                     //				p_f3->TexturePage=15;

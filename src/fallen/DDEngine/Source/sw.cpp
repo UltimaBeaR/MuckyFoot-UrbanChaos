@@ -9,7 +9,6 @@
 #include "elev.h"
 #include "game.h"
 
-
 #define THIS_IS_INCLUDED_FROM_SW
 
 //
@@ -181,9 +180,7 @@ typedef struct sw_span {
 
 } SW_Span;
 
-
 #define SW_MAX_SPANS 0x20000
-
 
 SW_Span SW_span[SW_MAX_SPANS];
 SLONG SW_span_upto;
@@ -196,7 +193,6 @@ SLONG SW_span_upto;
 // #define SW_MAX_HEIGHT 480
 
 SW_Span* SW_line[SW_MAX_HEIGHT];
-
 
 // ========================================================
 //
@@ -238,7 +234,6 @@ static inline SLONG MUL16(SLONG a, SLONG b)
     }
 }
 #pragma warning(default : 4035)
-
 
 // ========================================================
 //
@@ -973,7 +968,6 @@ void SW_draw_span_reference(SW_Span* ss, SLONG line, SLONG mode)
     }
 }
 
-
 #define SWIZZLE 1
 
 #define ALPHA_NONE 0
@@ -1037,7 +1031,6 @@ void SW_draw_span(SW_Span* ss, SLONG line, SLONG mode)
         break;
     }
 }
-
 
 void SW_add_masked_triangle(
     SLONG x1, SLONG y1, SLONG z1, SLONG r1, SLONG g1, SLONG b1, SLONG u1, SLONG v1,
@@ -1744,7 +1737,6 @@ void SW_reload_textures()
                 SW_bucket[i] = 9;
                 break;
 
-
             default:
 
                 //
@@ -1908,7 +1900,6 @@ void SW_reload_textures()
 
     CloseTGAClump();
 }
-
 
 //
 // Thanks, Tom.
@@ -3236,7 +3227,6 @@ void SW_render_spans()
         SW_render_spans_tom();
     }
 }
-
 
 void SW_add_triangle(
     SLONG x1, SLONG y1, SLONG z1, SLONG r1, SLONG g1, SLONG b1, SLONG u1, SLONG v1,
@@ -5250,7 +5240,6 @@ ULONG SW_rdtsc(void)
     return ans;
 }
 
-
 SLONG SW_tick1;
 SLONG SW_tick2;
 
@@ -5975,4 +5964,3 @@ void SW_copy_to_bb()
         the_display.screen_unlock();
     }
 }
-

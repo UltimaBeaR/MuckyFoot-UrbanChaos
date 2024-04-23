@@ -4,7 +4,6 @@
 #include "DDLib.h"
 #include "tga.h"
 
-
 #ifndef VERIFY
 #ifdef NDEBUG
 #define VERIFY(x) x

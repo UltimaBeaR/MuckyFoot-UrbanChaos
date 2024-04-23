@@ -464,7 +464,6 @@ struct NET_packet {
 
 extern UWORD controls;
 
-
 MFFileHandle playback_file;
 MFFileHandle verifier_file;
 
@@ -646,14 +645,12 @@ void do_packets(void)
     }
 }
 
-
 static UWORD slow_mo = 0;
 
 void set_slow_motion(UWORD motion)
 {
     slow_mo = motion;
 }
-
 
 UWORD class_check[] = {
     CLASS_PLAYER,
@@ -746,7 +743,6 @@ void check_thing_data()
 {
     for_things(check_thing);
 }
-
 
 SLONG REAL_TICK_RATIO = 256;
 

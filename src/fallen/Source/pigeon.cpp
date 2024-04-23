@@ -989,4 +989,3 @@ void PIGEON_fn_normal(Thing* pigeon)
         }
     }
 }
-

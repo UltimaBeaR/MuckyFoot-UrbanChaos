@@ -21,14 +21,10 @@
 #include "pcom.h"
 #include "env.h"
 
-
-
 #define HEALTH_BAR_WIDTH 100
 #define HEALTH_BAR_HEIGHT 10
 #define HEALTH_BAR_VERT_GAP 2
 #define HEALTH_BAR_HORIZ_GAP 2
-
-
 
 // Coords of the bottom-left corner.
 int m_iPanelXPos = 0;
@@ -374,7 +370,6 @@ void PANEL_draw_number(float x, float y, UBYTE digit) // 0 <= digit <= 9... Not 
     }
 }
 
-
 typedef struct
 {
     float time;
@@ -387,7 +382,6 @@ typedef struct
 
 PANEL_Store PANEL_store[PANEL_MAX_STORES];
 SLONG PANEL_store_upto;
-
 
 /*
 void PANEL_draw_timer_do(float time, float x, float y)
@@ -497,7 +491,6 @@ void PANEL_draw_buffered()
     PANEL_store_upto = 0;
 }
 
-
 void PANEL_draw_timer(SLONG time, SLONG x, SLONG y)
 {
     if (WITHIN(PANEL_store_upto, 0, PANEL_MAX_STORES - 1)) {
@@ -540,7 +533,6 @@ void PANEL_draw_local_health(SLONG mx, SLONG my, SLONG mz, SLONG percentage, SLO
         percentage = 100;
     }
 
-
     // PC version
 
     p1.X -= 27.0f;
@@ -567,7 +559,6 @@ void PANEL_draw_local_health(SLONG mx, SLONG my, SLONG mz, SLONG percentage, SLO
         //		AENG_draw_rect(p1.X,p1.Y,percentage>>1,2,0xb0000000,3,POLY_PAGE_COLOUR);
         //		POLY_add_line(&p1, &p2, (float)2.0, 2.0, POLY_PAGE_COLOUR, 0);
     }
-
 }
 
 void PANEL_draw_gun_sight(SLONG mx, SLONG my, SLONG mz, SLONG accuracy, SLONG scale)
@@ -1080,7 +1071,6 @@ void PANEL_funky_quad(
             pi->v2);
     }
 }
-
 
 //
 // The funky hearbeat. A circular buffer.
@@ -2070,7 +2060,6 @@ void PANEL_new_text_process()
     }
 }
 
-
 //
 // The help message.
 //
@@ -2329,10 +2318,8 @@ ULONG PANEL_beacon_colour[PANEL_MAX_BEACON_COLOURS] = {
     0xff4488
 };
 
-
 #define PANEL_WHO_DARCI 0
 #define PANEL_WHO_ROPER 1
-
 
 void PANEL_start(void)
 {
@@ -3106,7 +3093,6 @@ void PANEL_last()
 
     bool bPanelIsAtBottomOfScreen = (m_iPanelYPos > 300);
 
-
     if (EWAY_tutorial_string) {
         //
         // Darken the whole screen...
@@ -3135,7 +3121,6 @@ void PANEL_last()
             PANEL_TUT_Y - 4,
             float(FONT2D_rightmost_x) + 6.0F,
             PANEL_TUT_Y + height + 4);
-
 
         return;
     }
@@ -3323,7 +3308,6 @@ void PANEL_last()
                         m_iPanelYPos - 53,
                         colour,
                         256);
-
                 }
 
                 itoa(p_special->Genus.Special->ammo, text, 10);
@@ -3430,7 +3414,6 @@ void PANEL_last()
 
         */
     }
-
 
     //
     // And the crime rate, if applicable
@@ -4098,7 +4081,6 @@ void PANEL_last()
                     float(FONT2D_rightmost_x) + 6.0F,
                     ybase - 2 + height);
 
-
                 if (height < 34) {
                     height = 34;
                 }
@@ -4107,7 +4089,6 @@ void PANEL_last()
             }
         }
     }
-
 
     //
     // Draw the signs.
@@ -4214,7 +4195,6 @@ void PANEL_last()
 
         int iYPos = bPanelIsAtBottomOfScreen ? 0 : 360;
 
-
 #ifdef DEBUG
 
 #if 0
@@ -4251,9 +4231,7 @@ extern DWORD m_dwFogTableDebugFogTableMode;
 #endif
 
 #endif
-
     }
-
 
     extern SLONG FARFACET_num_squares_drawn;
 
@@ -4392,13 +4370,10 @@ extern DWORD m_dwFogTableDebugFogTableMode;
 #if 0
 	// FINAL BUILD DONE! HOORAY!
 
-
 #endif
 
     // TRACE ( "PDo" );
 }
-
-
 
 void PANEL_draw_completion_bar(SLONG completion)
 {
@@ -4438,7 +4413,6 @@ void PANEL_draw_completion_bar(SLONG completion)
 
     POLY_frame_draw(FALSE, FALSE);
 }
-
 
 bool bScreensaverEnabled = FALSE;
 // Darkness of screensaver, from 0(off)->0xffff(full on)

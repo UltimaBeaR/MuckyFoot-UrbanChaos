@@ -16,7 +16,6 @@
 #include "hook.h"
 #include "eway.h"
 
-
 // remove float calcs from psx version
 #include <math.h>
 #include "mav.h"
@@ -962,8 +961,7 @@ SLONG CAM_los(
 
     if (INDOORS_INDEX) {
         ans = 1;
-    }
-    else if (GAME_FLAGS & GF_SEWERS) {
+    } else if (GAME_FLAGS & GF_SEWERS) {
         ans = NS_there_is_a_los(
             x1, y1, z1,
             x2, y2, z2);
@@ -971,8 +969,7 @@ SLONG CAM_los(
         CAM_los_fail_x = NS_los_fail_x;
         CAM_los_fail_y = NS_los_fail_y;
         CAM_los_fail_z = NS_los_fail_z;
-    }
-    else {
+    } else {
         ans = there_is_a_los(
             x1, y1, z1,
             x2, y2, z2);
@@ -1343,8 +1340,7 @@ void CAM_process_normal()
                     y += ay;
                     z += az;
                 }
-            } else
-            {
+            } else {
                 for (SLONG i = 0; i < 8; i++) {
                     if (MAV_inside(x, y, z)) {
                         //

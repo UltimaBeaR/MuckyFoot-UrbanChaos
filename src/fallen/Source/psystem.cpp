@@ -85,7 +85,6 @@ void PARTICLE_Run()
     } else
         prev_tick = cur_tick;
 
-
     if (!particle_count)
         return;
 
@@ -724,4 +723,3 @@ UWORD PARTICLE_SGrenade(Thing* object, UBYTE time)
     }
     return res;
 }
-

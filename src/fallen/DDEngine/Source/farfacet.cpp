@@ -751,7 +751,6 @@ void FARFACET_draw(
         return;
     }
 
-
     //
     // The five point of the view pyramid.
     //

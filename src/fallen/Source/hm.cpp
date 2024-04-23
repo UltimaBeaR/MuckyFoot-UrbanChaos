@@ -2,7 +2,6 @@
 // Hypermatter!
 //
 
-
 #include "game.h"
 #include <MFStdLib.h>
 #include <stdlib.h>
@@ -2860,4 +2859,3 @@ void HM_shockwave(
         }
     }
 }
-

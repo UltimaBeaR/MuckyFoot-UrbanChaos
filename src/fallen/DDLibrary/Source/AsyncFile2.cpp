@@ -13,7 +13,6 @@
 // #include <windows.h>
 #include <process.h>
 
-
 #include "asyncfile2.h"
 
 static AsyncFile File[MAX_ASYNC_FILES];

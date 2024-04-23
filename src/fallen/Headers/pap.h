@@ -115,7 +115,6 @@ SLONG PAP_on_map_hi(SLONG x, SLONG z);
 // Returns the given square.
 //
 
-
 #ifdef NDEBUG
 
 #define PAP_2LO(x, z) (PAP_lo[(x)][(z)])

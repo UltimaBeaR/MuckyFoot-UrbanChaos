@@ -1,7 +1,6 @@
 //	QSManager.cpp
 //	Guy Simmons, 6th May 1998.
 
-
 #include "DDLib.h"
 #include "C:\fallen\DDEngine\Headers\Matrix.h"
 
@@ -604,4 +603,3 @@ void Channel::Close(void)
 }
 
 //---------------------------------------------------------------
-

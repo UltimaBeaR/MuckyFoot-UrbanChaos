@@ -1444,7 +1444,6 @@ SLONG SUPERFACET_draw(SLONG facet)
     SUPERFACET_total_drawn += 1;
 #endif
 
-
     //
     // Not on the PC!
     //
@@ -1452,7 +1451,6 @@ SLONG SUPERFACET_draw(SLONG facet)
     if (Keys[KB_R]) {
         return FALSE;
     }
-
 
     //
     // Do we have any pre-calculated info for this facet?

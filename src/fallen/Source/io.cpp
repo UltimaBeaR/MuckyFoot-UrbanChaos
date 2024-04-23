@@ -20,10 +20,8 @@
 
 //		STOREY_TYPE_NORMAL
 
-
 #include "math.h"
 void skip_load_a_multi_prim(MFFileHandle handle);
-
 
 // #include "math.h"
 extern CBYTE texture_style_names[200][21];
@@ -32,7 +30,6 @@ SLONG load_a_multi_prim(CBYTE* name);
 void create_kline_bottle(void);
 SLONG load_anim_system(struct GameKeyFrameChunk* p_chunk, CBYTE* name, SLONG type = 0);
 SLONG load_anim_prim_object(SLONG prim);
-
 
 #ifdef NO_SERVER
 CBYTE EXTRAS_DIR[100] = "data\\textures";
@@ -48,8 +45,6 @@ CBYTE DATA_DIR[100] = "";
 CBYTE LEVELS_DIR[100] = "";
 CBYTE TEXTURE_WORLD_DIR[100] = "";
 #endif
-
-
 
 UWORD local_next_prim_point;
 UWORD local_next_prim_face4;
@@ -179,7 +174,7 @@ void load_texture_styles(UBYTE editor, UBYTE world)
     //
 
     sprintf(fname, "%sstyle.tma", TEXTURE_WORLD_DIR);
-//	sprintf(fname, "u:\\urbanchaos\\textures\\world%d\\style.tma", world);
+    //	sprintf(fname, "u:\\urbanchaos\\textures\\world%d\\style.tma", world);
 
     handle = FileOpen(fname);
 
@@ -267,7 +262,6 @@ void load_texture_styles(UBYTE editor, UBYTE world)
         FileClose(handle);
     }
 }
-
 
 SLONG load_anim_prim_object(SLONG prim)
 {
@@ -1010,7 +1004,6 @@ void sort_multi_object(struct KeyFrameChunk* the_chunk)
                   }
           }
           */
-
 }
 
 void set_default_people_types(struct KeyFrameChunk* the_chunk)
@@ -1077,7 +1070,6 @@ void normalise_max_matrix(float fe_matrix[3][3], float* x, float* y, float* z)
 
 //************************************************************************************************
 //************************************************************************************************
-
 
 void load_multi_vue(struct KeyFrameChunk* the_chunk, float shrink_me)
 {
@@ -1641,7 +1633,6 @@ void load_palette(CBYTE* palette)
     FILE* handle;
 
     handle = MF_Fopen(palette, "rb");
-
 
     if (handle == NULL) {
         TRACE("Could not open palette file.\n");
@@ -2266,5 +2257,3 @@ SLONG append_anim_system(struct GameKeyFrameChunk* p_chunk, CBYTE* name, SLONG s
     }
     return (0);
 }
-
-

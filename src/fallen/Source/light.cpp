@@ -4,7 +4,6 @@
 
 #include "game.h"
 
-
 #include "light.h"
 #include "fmatrix.h"
 #include "memory.h"
@@ -1905,7 +1904,6 @@ void LIGHT_prim_use_normals(THING_INDEX t_index)
 // ........................................................
 // ========================================================
 // ########################################################
-
 
 void apply_global_amb_to_map(void)
 {

@@ -1,8 +1,6 @@
 #ifndef INLINE_H
 #define INLINE_H
 
-
-
 #ifdef __WINDOWS_386__
 SLONG MUL64(SLONG, SLONG);
 #pragma aux MUL64 = "	imul	ebx				"  \
@@ -48,6 +46,5 @@ inline SLONG MUL64(SLONG a, SLONG b)
     return (ret_v);
 }
 #endif
-
 
 #endif

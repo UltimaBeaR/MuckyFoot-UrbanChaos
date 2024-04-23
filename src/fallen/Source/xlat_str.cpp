@@ -9,7 +9,6 @@
 
 #include "xlat_str.h"
 
-
 //----------------------------------------------------------------------------
 // DEFINES
 //
@@ -61,7 +60,6 @@ inline CBYTE* mbcs_inc_char(CBYTE*& c)
 #endif
     return c;
 }
-
 
 // safely finds previous character (_not_ byte) in a MBCS strings
 
@@ -240,8 +238,7 @@ CBYTE* XLAT_load_string(MFFileHandle& file, CBYTE* txt)
 
     *ptr = 0;
     while (emergency_bail_out_for_martins_machine--) {
-        if (FileRead(file, ptr, 1) == FILE_READ_ERROR)
-        {
+        if (FileRead(file, ptr, 1) == FILE_READ_ERROR) {
             *ptr = 0;
             return txt;
         };

@@ -11,11 +11,9 @@
 #include "special.h"
 #include "tracks.h"
 
-
 //
 // Low level output functions.
 //
-
 
 FILE* SAVE_handle;
 
@@ -46,7 +44,6 @@ FILE* SAVE_open()
 {
     return MF_Fopen("ingame.sav", "wb");
 }
-
 
 //
 // A compressed person.
@@ -743,4 +740,3 @@ SLONG LOAD_ingame(CBYTE* fname)
 
     return (TRUE);
 }
-

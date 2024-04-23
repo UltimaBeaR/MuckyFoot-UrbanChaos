@@ -541,8 +541,6 @@ SLONG OB_avoid(
     }
 }
 
-
-
 void load_general_prims(void)
 {
     //
@@ -746,7 +744,6 @@ void OB_load_needed_prims()
                 prim_points[j].Z -= mid_z;
             }
         }
-
     }
 
     load_prim_object(PRIM_OBJ_ITEM_KEY);
@@ -760,7 +757,6 @@ void OB_load_needed_prims()
 
     load_prim_object(PRIM_OBJ_BIN);
 }
-
 
 void envmap_specials(void)
 {
@@ -875,7 +871,6 @@ void envmap_specials(void)
         }
     }
 }
-
 
 SLONG ob_allowed_to_be_walkable(SLONG prim)
 {
@@ -1538,7 +1533,6 @@ SLONG OB_inside_prim(SLONG x, SLONG y, SLONG z)
     return FALSE;
 }
 
-
 void OB_make_all_the_switches_be_at_the_proper_height()
 {
     SLONG i;
@@ -1567,7 +1561,6 @@ void OB_make_all_the_switches_be_at_the_proper_height()
 
                     OB_ob[oi->index].y = gy + 0x80;
                 }
-
 
                 //
                 // All these prims are locked to the map height.

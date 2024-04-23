@@ -59,7 +59,6 @@ SLONG RIBBON_alloc(SLONG flags, UBYTE max_segments, SLONG page, SLONG life, UBYT
     static SLONG NextRibbon = 0;
     SLONG LastRibbon;
 
-
     LastRibbon = NextRibbon;
     while (Ribbons[NextRibbon++].Flags) {
         if (NextRibbon == MAX_RIBBONS)
@@ -143,6 +142,5 @@ void RIBBON_life(SLONG ribbon, SLONG life)
         Ribbons[ribbon].Life = life;
     }
 }
-
 
 // ----------------------------------------------------------------------------------------

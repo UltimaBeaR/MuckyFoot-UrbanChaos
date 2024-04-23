@@ -80,7 +80,6 @@
 #include "..\ddengine\headers\truetype.h"
 #include "panel.h"
 
-
 #include "xlat_str.h"
 #include "DCLowLevel.h"
 
@@ -95,7 +94,6 @@
 
 SLONG CAM_cur_x, CAM_cur_y, CAM_cur_z,
     CAM_cur_yaw, CAM_cur_pitch, CAM_cur_roll; // these are set appropriate to whichever cam
-
 
 //
 // The editor.
@@ -151,7 +149,6 @@ void stop_all_fx_and_music()
 // the editor.
 //
 
-
 void global_load(void)
 {
     init_memory();
@@ -172,7 +169,6 @@ void game_startup(void)
 
     init_memory();
     FC_init();
-
 
     //
     // Do PC setup.
@@ -230,8 +226,6 @@ void game_startup(void)
 
     TEXTURE_load_needed("levels\\frontend.ucm", 160, 256, 65);
 
-
-
     //
     // Load the console font
     //
@@ -259,11 +253,9 @@ void game_shutdown(void)
     NET_kill();
     AENG_fini();
     ANIM_fini();
-
 }
 
 //---------------------------------------------------------------
-
 
 //
 // Playback file stuff....
@@ -275,7 +267,6 @@ extern MFFileHandle playback_file;
 
 extern CBYTE* verifier_name = "C:\\Windows\\Desktop\\UrbanChaosRecordedGame.tst";
 extern MFFileHandle verifier_file;
-
 
 //
 // The player position is loaded into here by load_level()
@@ -376,7 +367,6 @@ BOOL game_init(void)
 
     // stop_all_fx_and_music();
 
-
     //
     // Set the seed and initialise game variables.
     //
@@ -410,11 +400,9 @@ BOOL game_init(void)
     // m_iPanelXPos = 4 * ENV_get_value_number ( "panel_x", 32 / 4, "" );
     // m_iPanelYPos = 4 * ENV_get_value_number ( "panel_y", (480-32) / 4, "" );
 
-
     //
     // Open the game record/playback file.
     //
-
 
     if (GAME_STATE & GS_RECORD) {
         DebugText(" PLAYBACK GAME\n");
@@ -441,7 +429,6 @@ BOOL game_init(void)
     if (verifier_file == FILE_CREATION_ERROR) {
         verifier_file = NULL;
     }
-
 
     //
     // Initialise pause mode...
@@ -488,13 +475,11 @@ BOOL game_init(void)
 
         ret = 1;
 
-
     } else {
         //
         // Load the game.
         //
         ret = ELEV_load_user(go_into_game);
-
 
         extern SLONG save_psx;
         if (save_psx)
@@ -516,7 +501,6 @@ BOOL game_init(void)
     init_stats();
 
     EWAY_tutorial_string = NULL;
-
 
     return (ret);
 
@@ -723,7 +707,6 @@ void game_fini(void)
 
     TRACE("gf8 ");
 
-
     NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit();
 
     TRACE("game_fini done\n");
@@ -763,7 +746,6 @@ void game(void)
     ResetBackImage();
 
 #endif
-
 
     while (SHELL_ACTIVE && GAME_STATE) {
         game_attract_mode();
@@ -859,8 +841,6 @@ void GAME_map_draw_old(void)
 
 extern void overlay_beacons(void);
 
-
-
 UBYTE screen_mem[640 * 3][480];
 
 void GAME_map_draw(void)
@@ -874,8 +854,6 @@ void GAME_map_draw(void)
     the_display.destroy_background_surface();
 }
 
-
-
 BOOL leave_map_form_proc(Form* form, Widget* widget, SLONG message)
 {
     if (widget && widget->methods == &BUTTON_Methods && message == WBN_PUSH) {
@@ -886,7 +864,6 @@ BOOL leave_map_form_proc(Form* form, Widget* widget, SLONG message)
         return FALSE; // Don't exit
     }
 }
-
 
 extern void PANEL_draw_timer_do(SLONG time, SLONG x, SLONG y);
 
@@ -1166,7 +1143,7 @@ inline void screen_flip(void)
         AENG_flip();
     }
 
-//	FLIP(NULL,DDFLIP_WAIT);
+    //	FLIP(NULL,DDFLIP_WAIT);
 }
 
 void playback_game_keys(void)
@@ -1273,7 +1250,6 @@ SLONG should_i_process_game(void)
         return FALSE;
     }
 
-
     if (GAMEMENU_is_paused()) {
         return FALSE;
     }
@@ -1295,7 +1271,6 @@ inline void draw_screen(void)
 {
     extern SLONG draw_3d;
 
-
 #ifdef DEBUG
     draw_debug_lines();
 #endif
@@ -1309,7 +1284,6 @@ inline void draw_screen(void)
     if (form_leave_map) {
         do_leave_map_form();
     }
-
 }
 
 //****************************************************************
@@ -1332,8 +1306,7 @@ SLONG hardware_input_continue(void)
     if (GAMEMENU_menu_type == 0 /*GAMEMENU_MENU_TYPE_NONE*/) {
         // No pause menu up, so wait for a keypress.
         SLONG input = get_hardware_input(INPUT_TYPE_ALL);
-        if (LastKey == KB_SPACE || LastKey == KB_ESC || LastKey == KB_Z || LastKey == KB_X || LastKey == KB_C || LastKey == KB_ENTER || (input & (INPUT_MASK_SELECT | INPUT_MASK_PUNCH | INPUT_MASK_JUMP)))
-        {
+        if (LastKey == KB_SPACE || LastKey == KB_ESC || LastKey == KB_Z || LastKey == KB_X || LastKey == KB_C || LastKey == KB_ENTER || (input & (INPUT_MASK_SELECT | INPUT_MASK_PUNCH | INPUT_MASK_JUMP))) {
             LastKey = 0;
 
             return (1);
@@ -1350,7 +1323,6 @@ UWORD darci_dlight;
 UWORD last_fudge_message;
 UWORD last_fudge_camera;
 UBYTE the_end;
-
 
 UWORD env_frame_rate;
 
@@ -1403,7 +1375,6 @@ round_again:;
 
         TRACE("game_loop init3\n");
 
-
         //
         // Initialise the SUPERFACET cache system. Allocates memory.
         //
@@ -1434,7 +1405,6 @@ round_again:;
         extern void envmap_specials(void);
         envmap_specials();
 
-
         TRACE("game_loop init8\n");
 
         while (SHELL_ACTIVE && (GAME_STATE & (GS_PLAY_GAME | GS_LEVEL_LOST | GS_LEVEL_WON))) {
@@ -1442,7 +1412,6 @@ round_again:;
             if (!exit_game_loop) {
                 exit_game_loop = GAMEMENU_process();
             }
-
 
             if (exit_game_loop) {
                 PANEL_fadeout_start();
@@ -1617,14 +1586,13 @@ round_again:;
 
             SLONG i_want_to_exit = FALSE;
 
-
             //
             // On screen Text
             //
             // #ifndef FINAL
             if (!(GAME_FLAGS & GF_PAUSED))
                 CONSOLE_draw();
-                // #endif
+            // #endif
 
             GAMEMENU_draw();
 
@@ -1727,76 +1695,75 @@ round_again:;
                 the_end = FALSE;
             } else
 
-            //
-            // Connected else...
-            //
-
+                //
+                // Connected else...
+                //
 
                 if ((NETPERSON != NULL) && (NET_PERSON(0) != NULL) && (NET_PERSON(0)->Genus.Person->PersonType == PERSON_DARCI)) {
-                if (NET_PLAYER(0)->Genus.Player->RedMarks > 1) {
-                    CBYTE* mess;
+                    if (NET_PLAYER(0)->Genus.Player->RedMarks > 1) {
+                        CBYTE* mess;
 
-                    InitBackImage("deadcivs.tga");
+                        InitBackImage("deadcivs.tga");
 
-                    Keys[KB_ESC] = 0;
-                    Keys[KB_SPACE] = 0;
-                    Keys[KB_ENTER] = 0;
-                    Keys[KB_PENTER] = 0;
+                        Keys[KB_ESC] = 0;
+                        Keys[KB_SPACE] = 0;
+                        Keys[KB_ENTER] = 0;
+                        Keys[KB_PENTER] = 0;
 
-                    while (SHELL_ACTIVE) {
-                        ShowBackImage();
-                        POLY_frame_init(FALSE, FALSE);
+                        while (SHELL_ACTIVE) {
+                            ShowBackImage();
+                            POLY_frame_init(FALSE, FALSE);
 
-                        switch (the_game.DarciDeadCivWarnings) {
-                        case 0:
-                            mess = XLAT_str(X_CIVSDEAD_WARNING_1);
-                            break;
-                        case 1:
-                            mess = XLAT_str(X_CIVSDEAD_WARNING_2);
-                            break;
-                        case 2:
-                            mess = XLAT_str(X_CIVSDEAD_WARNING_3);
-                            break;
+                            switch (the_game.DarciDeadCivWarnings) {
+                            case 0:
+                                mess = XLAT_str(X_CIVSDEAD_WARNING_1);
+                                break;
+                            case 1:
+                                mess = XLAT_str(X_CIVSDEAD_WARNING_2);
+                                break;
+                            case 2:
+                                mess = XLAT_str(X_CIVSDEAD_WARNING_3);
+                                break;
 
-                        default:
-                        case 3:
-                            GAME_STATE = GS_LEVEL_LOST;
+                            default:
+                            case 3:
+                                GAME_STATE = GS_LEVEL_LOST;
 
-                            MENUFONT_Draw(
-                                30, 320,
-                                192,
-                                XLAT_str(X_LEVEL_LOST),
-                                0xffffffff,
-                                0);
+                                MENUFONT_Draw(
+                                    30, 320,
+                                    192,
+                                    XLAT_str(X_LEVEL_LOST),
+                                    0xffffffff,
+                                    0);
 
-                            mess = XLAT_str(X_CIVSDEAD_WARNING_4);
+                                mess = XLAT_str(X_CIVSDEAD_WARNING_4);
 
-                            break;
+                                break;
+                            }
+
+                            FONT2D_DrawStringWrapTo(mess, 32, 82, 0x000000, 256, POLY_PAGE_FONT2D, 0, 352);
+                            FONT2D_DrawStringWrapTo(mess, 30, 80, 0xffffff, 256, POLY_PAGE_FONT2D, 0, 350);
+
+                            // FONT2D_DrawStringWrap(mess, 10, 300, 0xffffffff);
+                            POLY_frame_draw(TRUE, TRUE);
+                            AENG_flip();
+
+                            if (Keys[KB_ESC] || Keys[KB_SPACE] || Keys[KB_ENTER] || Keys[KB_PENTER]) {
+                                break;
+                            }
                         }
 
-                        FONT2D_DrawStringWrapTo(mess, 32, 82, 0x000000, 256, POLY_PAGE_FONT2D, 0, 352);
-                        FONT2D_DrawStringWrapTo(mess, 30, 80, 0xffffff, 256, POLY_PAGE_FONT2D, 0, 350);
+                        // Bin the memory again.
+                        ResetBackImage();
 
-                        // FONT2D_DrawStringWrap(mess, 10, 300, 0xffffffff);
-                        POLY_frame_draw(TRUE, TRUE);
-                        AENG_flip();
+                        Keys[KB_ESC] = 0;
+                        Keys[KB_SPACE] = 0;
+                        Keys[KB_ENTER] = 0;
+                        Keys[KB_PENTER] = 0;
 
-                        if (Keys[KB_ESC] || Keys[KB_SPACE] || Keys[KB_ENTER] || Keys[KB_PENTER]) {
-                            break;
-                        }
+                        the_game.DarciDeadCivWarnings += 1;
                     }
-
-                    // Bin the memory again.
-                    ResetBackImage();
-
-                    Keys[KB_ESC] = 0;
-                    Keys[KB_SPACE] = 0;
-                    Keys[KB_ENTER] = 0;
-                    Keys[KB_PENTER] = 0;
-
-                    the_game.DarciDeadCivWarnings += 1;
                 }
-            }
         }
 
         // game_fini();
@@ -1810,10 +1777,10 @@ round_again:;
 
             goto round_again;
         case GS_LEVEL_WON:
-//				STARTSCR_notify_gameover(1);
+            //				STARTSCR_notify_gameover(1);
             break;
         case GS_LEVEL_LOST:
-//				STARTSCR_notify_gameover(0);
+            //				STARTSCR_notify_gameover(0);
             break;
         }
 

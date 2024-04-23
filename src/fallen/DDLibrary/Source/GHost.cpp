@@ -81,7 +81,6 @@ BOOL SetupHost(ULONG flags)
     if (!SetupKeyboard())
         return FALSE;
 
-
     // Create the shell window.
     // Create & register the window class.
     DDLibClass.hInstance = hGlobalThisInst;
@@ -378,7 +377,6 @@ void Time(MFTime* the_time)
 static UWORD argc;
 static LPTSTR argv[MAX_PATH];
 
-
 void init_best_found(void);
 
 int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPTSTR lpszArgs, int iWinMode)
@@ -390,7 +388,6 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPTSTR lpszArgs, in
     hGlobalPrevInst = hPrevInst;
 
     init_best_found();
-
 
 #if 0 // Someone already done it! :)
 #ifdef NDEBUG

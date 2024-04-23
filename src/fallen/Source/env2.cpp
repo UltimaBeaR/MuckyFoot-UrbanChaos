@@ -8,10 +8,8 @@
 #include "Interfac.h"
 #include "menufont.h"
 
-
 CBYTE inifile[_MAX_PATH];
 CBYTE strbuf[_MAX_PATH];
-
 
 void ENV_load(CBYTE* fname)
 {
@@ -56,4 +54,3 @@ void ENV_set_value_number(CBYTE* name, SLONG value, CBYTE* section)
     sprintf(strbuf, "%d", value);
     WritePrivateProfileString(section, name, strbuf, inifile);
 }
-

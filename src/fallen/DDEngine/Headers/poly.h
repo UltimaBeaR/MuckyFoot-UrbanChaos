@@ -123,7 +123,6 @@ typedef struct
 
 } POLY_Point;
 
-
 // Does nothing on PC.
 inline void POLY_flush_local_rot(void)
 {
@@ -142,7 +141,6 @@ void POLY_transform_c(
     float world_z,
     POLY_Point* pt,
     bool bUnused = FALSE);
-
 
 void POLY_set_local_rotation_none(void);
 
@@ -243,13 +241,11 @@ void POLY_set_local_rotation(
     float off_z,
     float matrix[9]);
 
-
 void POLY_transform_using_local_rotation(
     float local_x,
     float local_y,
     float local_z,
     POLY_Point* pt);
-
 
 void POLY_transform_using_local_rotation_and_wibble(
     float local_x,
@@ -387,7 +383,6 @@ void POLY_fadeout_buffer(void);
 //
 
 #define POLY_NUM_PAGES (22 * 64 + 111) // 1508
-
 
 #define POLY_PAGE_FADE_MF (POLY_NUM_PAGES - 110)
 #define POLY_PAGE_SNOWFLAKE (POLY_NUM_PAGES - 109)

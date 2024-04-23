@@ -2,7 +2,6 @@
 // A new sewer system.
 //
 
-
 #include "game.h"
 #include "ns.h"
 #include "heap.h"
@@ -122,7 +121,6 @@ SLONG NS_texture_upto = NS_TEXTURE_NUMBER;
 
 NS_Page NS_page[NS_PAGE_NUMBER] =
 
-
     {
         149, // Rock
         187, // Sewer
@@ -130,7 +128,6 @@ NS_Page NS_page[NS_PAGE_NUMBER] =
         187, // Sewer walls
         37 // Grating
     };
-
 
 //
 // The maps.
@@ -3737,4 +3734,3 @@ void NS_add_prim(
     nst->next = nl->st;
     nl->st = index;
 }
-

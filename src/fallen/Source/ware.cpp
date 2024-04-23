@@ -72,7 +72,6 @@ SLONG WARE_calc_height_at(UBYTE ware, SLONG x, SLONG z)
     return 0; // Maybe this should assert...
 }
 
-
 //
 // Returns the bounding box of the given building. The bounding box is exclusive.
 //
@@ -665,7 +664,6 @@ void WARE_init()
 
 #endif
 }
-
 
 /*
 

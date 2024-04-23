@@ -5,7 +5,6 @@
  *
  */
 
-
 #include "flamengine.h"
 #include "texture.h"
 #include "poly.h"
@@ -805,4 +804,3 @@ void Flamengine::Feedback()
     //	res=TEXTURE_texture[TEXTURE_page_menuflame].GetSurface()->Blt(&rcDest,the_display.lp_DD_BackSurface,&rcSource,DDBLT_WAIT,NULL);
     res = TEXTURE_texture[TEXTURE_page_menuflame].GetSurface()->Blt(NULL, the_display.lp_DD_BackSurface, &rcSource, DDBLT_WAIT, NULL);
 }
-

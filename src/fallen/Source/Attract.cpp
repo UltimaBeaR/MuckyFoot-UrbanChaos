@@ -212,7 +212,6 @@ reinit_because_of_language_change:
             dont_leave_for_a_while -= 1;
         }
 
-
 #ifdef DEMO
         if (ControlFlag && Keys[KB_Q]) {
             GAME_STATE = 0;
@@ -340,7 +339,6 @@ reinit_because_of_language_change:
                         GAME_STATE |= GS_PLAY_GAME;
                         go_into_game = TRUE;
 
-
                         ATTRACT_loadscreen_init();
 
                         // Stop everything.
@@ -381,7 +379,6 @@ reinit_because_of_language_change:
                 case STARTS_LANGUAGE_CHANGE:
                     // A language change has been made -
                     // reload all the language stuff and go to the main menu.
-
 
                     // Loading screen for a second.
                     ATTRACT_loadscreen_init();
@@ -763,7 +760,6 @@ void ScoresDraw(void)
                         hash = hash % 12345;
                         hash += 0x9a2f;
 
-
                         sprintf(code, ": CODE <%X> ", hash);
                     }
 
@@ -788,7 +784,6 @@ void ScoresDraw(void)
     }
 
     //	POLY_frame_draw(FALSE, FALSE);
-
 }
 
 #if 0
@@ -1005,7 +1000,6 @@ void ATTRACT_loadscreen_init(void)
 
     PANEL_disable_screensaver(TRUE);
 
-
     InitBackImage("e3load.tga");
     ShowBackImage(FALSE);
     AENG_flip();
@@ -1013,9 +1007,7 @@ void ATTRACT_loadscreen_init(void)
     InitBackImage("e3load.tga");
     ShowBackImage(FALSE);
     AENG_flip();
-
 }
-
 
 void ATTRACT_loadscreen_draw(SLONG completion) // completion is in 8-bit fixed point from 0 to 256.
 {
@@ -1023,4 +1015,3 @@ void ATTRACT_loadscreen_draw(SLONG completion) // completion is in 8-bit fixed p
     PANEL_draw_completion_bar(completion);
     AENG_flip();
 }
-

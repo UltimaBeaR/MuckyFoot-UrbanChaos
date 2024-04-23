@@ -18,7 +18,6 @@
 
 #include "resource.h"
 
-
 //---------------------------------------------------------------
 // mikes mouse stuff
 
@@ -57,7 +56,6 @@ extern void RecenterMouse(void);
 
 #ifndef NDEBUG
 
-
 inline SLONG check_result(HRESULT f, SLONG line, CBYTE* file)
 {
     //	if (f == DD_OK)			// this is an *INCORRECT* error test; see e.g. Petzold "Programming Windows 95"
@@ -76,7 +74,6 @@ inline SLONG check_result(HRESULT f, SLONG line, CBYTE* file)
 #undef SUCCEEDED
 #define FAILED(f) (check_result(f, __LINE__, __FILE__))
 #define SUCCEEDED(f) (!FAILED(f))
-
 
 #endif // else use Micro$oft macros
 

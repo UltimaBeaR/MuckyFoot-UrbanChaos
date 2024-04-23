@@ -12,7 +12,6 @@
 
 extern UBYTE roper_pickup;
 
-
 /*
 "Performance Analyser"  -PA
 
@@ -126,7 +125,6 @@ UWORD calc_inside_for_xyz(SLONG x, SLONG y, SLONG z, UWORD* room)
     *room = 0;
     return (0);
 }
-
 
 SLONG first_walkable_prim_point;
 SLONG number_of_walkable_prim_points;
@@ -492,7 +490,6 @@ void SUPERMAP_counter_increase(UBYTE which)
     }
 }
 
-
 struct Levels {
     CBYTE* name;
     CBYTE* map_name;
@@ -817,7 +814,6 @@ void make_psx_pal(UWORD page_id, UBYTE* pal)
     }
 }
 
-
 UWORD prims_remap[30 * 64];
 
 SLONG remap_a_prim_face(UWORD page, SLONG* next_page, SLONG level_no, SLONG start_page)
@@ -1094,7 +1090,6 @@ UWORD get_split_bits(UWORD tex)
     return (0);
 }
 
-
 BOOL game_create_psx(CBYTE* mission_name);
 BOOL make_texture_clumps(CBYTE* mission_name);
 extern void TesterText(CBYTE* error, ...);
@@ -1102,13 +1097,11 @@ extern CBYTE ELEV_fname_level[];
 
 // SLONG    MAV_opt_upto;
 
-
 SWORD people_types[50];
 ULONG DONT_load = 0; // nice global used for people loading
 void save_all_nads(void)
 {
 }
-
 
 extern int TEXTURE_create_clump;
 
@@ -1141,4 +1134,3 @@ void make_all_clumps(void)
 
     exit(0);
 }
-

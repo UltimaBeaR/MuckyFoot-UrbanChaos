@@ -5,7 +5,6 @@
 //           sort of thing.
 //
 
-
 #include "game.h"
 #include "canid.h"
 #include "statedef.h"
@@ -1431,4 +1430,3 @@ void CANID_init_land(Thing *canid)
 {
 }
 */
-

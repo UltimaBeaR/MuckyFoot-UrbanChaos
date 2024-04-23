@@ -522,15 +522,12 @@ void reset_anim_stuff(void)
         //		MemFree(test_chunk);
     }
 
-
     //	if(the_elements)
     //		MemFree(the_elements);
 }
 
-
 void setup_anim_stuff(void)
 {
-
 
     //	if(test_chunk)
     //		MemFree(test_chunk);
@@ -538,8 +535,6 @@ void setup_anim_stuff(void)
 
 UBYTE estate = 0; // desperate bodge
 UBYTE semtex = 0;
-
-
 
 // extern	SLONG	load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name);
 extern SLONG load_anim_system(struct GameKeyFrameChunk* game_chunk, CBYTE* name, SLONG peep = 0);
@@ -656,7 +651,6 @@ void setup_people_anims(void)
 
     darci_normal_count = next_prim_point;
 }
-
 
 void setup_global_anim_array(void)
 {
@@ -1021,8 +1015,7 @@ void setup_global_anim_array(void)
         global_anim_array[c0][ANIM_HANDS_UP] = game_chunk[ANIM_TYPE_CIV].AnimList[CIV_M_ANIM_HANDS_UP];
         global_anim_array[c0][ANIM_HANDS_UP_LOOP] = game_chunk[ANIM_TYPE_CIV].AnimList[CIV_M_ANIM_HANDS_UP_LOOP];
         global_anim_array[c0][ANIM_HANDS_UP_LIE] = game_chunk[ANIM_TYPE_CIV].AnimList[CIV_M_ANIM_HANDS_UP_LIE];
-        if (!save_psx || roper_pickup)
-        {
+        if (!save_psx || roper_pickup) {
             global_anim_array[c0][ANIM_PICKUP_CARRY] = game_chunk[ANIM_TYPE_ROPER].AnimList[NROPER_PICKUP_CARRY];
             global_anim_array[c0][ANIM_START_WALK_CARRY] = game_chunk[ANIM_TYPE_ROPER].AnimList[NROPER_START_WALK_CARRY];
             global_anim_array[c0][ANIM_WALK_CARRY] = game_chunk[ANIM_TYPE_ROPER].AnimList[NROPER_WALK_CARRY];
@@ -1335,7 +1328,6 @@ void convert_elements(KeyFrameChunk* the_chunk, GameKeyFrameChunk* game_chunk, U
     game_chunk->MaxElements = max_ele;
     LogText(" unique matrix count %d out of %d\n", unique, count);
 }
-
 
 void free_game_chunk(GameKeyFrameChunk* the_chunk)
 {

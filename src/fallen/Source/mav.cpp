@@ -471,7 +471,6 @@ void MAV_remove_facet_car(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
     }
 }
 
-
 //
 // Turns off movement in the given direction from the square.
 //

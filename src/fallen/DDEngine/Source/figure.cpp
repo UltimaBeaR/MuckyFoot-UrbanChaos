@@ -38,7 +38,6 @@
 
 #include "psystem.h"
 
-
 #define LOG_ENTER(x) \
     {                \
     }
@@ -48,8 +47,6 @@
 #define LOG_EVENT(x) \
     {                \
     }
-
-
 
 extern BOOL allow_debug_keys;
 
@@ -991,7 +988,7 @@ void draw_flames(SLONG x, SLONG y, SLONG z, SLONG lod, SLONG offset)
                 break;
             }
 
-//			SPRITE_draw_tex(
+            //			SPRITE_draw_tex(
             SPRITE_draw_tex_distorted(
                 float(dx),
                 float(dy),
@@ -1099,7 +1096,6 @@ void draw_flame_element(SLONG x, SLONG y, SLONG z, SLONG c0, UBYTE base, UBYTE r
             dy += 50;
             break;
         }
-
 
         SPRITE_draw_tex_distorted(
             float(dx),
@@ -3908,9 +3904,7 @@ no_muzzle_calcs:
                 {
                     if (FIGURE_alpha != 255) {
                         POLY_Page[page].RS.SetTempTransparent();
-                    }
-                    else if (the_display.GetDeviceInfo()->AdamiLightingSupported())
-                    {
+                    } else if (the_display.GetDeviceInfo()->AdamiLightingSupported()) {
                         // draw lighting quad
                         POLY_add_quad(quad, POLY_PAGE_COLOUR, !(p_f4->DrawFlags & POLY_FLAG_DOUBLESIDED));
                     }
@@ -4144,8 +4138,7 @@ no_muzzle_calcs:
                         POLY_Page[page].RS.SetTempTransparent();
                     }
 
-                    else if (the_display.GetDeviceInfo()->AdamiLightingSupported())
-                    {
+                    else if (the_display.GetDeviceInfo()->AdamiLightingSupported()) {
                         // add lighting triangle
                         POLY_add_triangle(tri, POLY_PAGE_COLOUR, !(p_f3->DrawFlags & POLY_FLAG_DOUBLESIDED));
                     }
@@ -6355,7 +6348,6 @@ void FIGURE_draw(Thing* p_thing)
     LOG_EXIT(Figure_FIGURE_Draw)
 }
 
-
 void ANIM_obj_draw(Thing* p_thing, DrawTween* dt)
 {
     SLONG dx;
@@ -6610,7 +6602,6 @@ void ANIM_obj_draw_warped(Thing* p_thing, DrawTween* dt)
             p_thing);
     }
 }
-
 
 // ========================================================
 //
@@ -7239,7 +7230,6 @@ void FIGURE_draw_reflection(Thing* p_thing, SLONG height)
             p_thing);
     }
 }
-
 
 // Like FIGURE_draw_prim_tween, but optimised for the person-only case.
 // Also assumes the lighting has been set up, etc.

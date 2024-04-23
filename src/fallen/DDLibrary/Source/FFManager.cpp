@@ -4,7 +4,6 @@
 //
 // Limitations: Currently assumes first joystick
 
-
 #if 0
 
 #include "FFManager.h"
@@ -82,4 +81,3 @@ BOOL FFManager::Test() {
 }
 
 #endif // #if 0
-

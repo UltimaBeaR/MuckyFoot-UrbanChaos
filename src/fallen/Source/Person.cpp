@@ -54,7 +54,6 @@
 UBYTE player_visited[16][128];
 extern SLONG save_psx;
 
-
 #define MAX_COL_WITH 16
 
 extern Thing* is_person_under_attack_low_level(
@@ -1106,12 +1105,12 @@ SLONG footstep_wave(Thing* p_person)
         start = S_FOOTS_RUNG_START;
         end = S_FOOTS_RUNG_END;
         break;
-/*
-                case PERSON_ON_PRIM:
-                        start = S_FOOTS_CAR_START;
-                        end   = S_FOOTS_CAR_END;
-                        break;
-*/
+        /*
+                        case PERSON_ON_PRIM:
+                                start = S_FOOTS_CAR_START;
+                                end   = S_FOOTS_CAR_END;
+                                break;
+        */
     case PERSON_ON_GRAVEL:
         //		case PERSON_ON_PRIM:
         start = S_FOOTS_GRAVEL_START;
@@ -1221,7 +1220,6 @@ void person_splash(
     Thing* p_person,
     SLONG limb) // -1 => Splash at the centre of the person.
 {
-
 
     SLONG i, type;
 
@@ -3280,7 +3278,6 @@ void general_process_player(Thing* p_person)
         }
     }
 
-
     if (p_person->Genus.Person->GangAttack) {
         extern void check_players_gang(Thing * p_target);
         check_players_gang(p_person);
@@ -3641,17 +3638,17 @@ void general_process_person(Thing* p_person)
 	}
 #endif
 
-/*
-        if(p_person->Genus.Person->PlayerID==0)
-        {
-                if(!is_person_dead(p_person))
-                if(can_a_see_b(p_person,NET_PERSON(0)))
+        /*
+                if(p_person->Genus.Person->PlayerID==0)
                 {
-                        Thing	*p_target=NET_PERSON(0);
-                        AENG_world_line_infinite(p_target->WorldPos.X>>8,p_target->WorldPos.Y>>8,p_target->WorldPos.Z>>8,1,0x00ff00,p_person->WorldPos.X>>8,p_person->WorldPos.Y>>8,p_person->WorldPos.Z>>8,5,0x00ff00,1);
+                        if(!is_person_dead(p_person))
+                        if(can_a_see_b(p_person,NET_PERSON(0)))
+                        {
+                                Thing	*p_target=NET_PERSON(0);
+                                AENG_world_line_infinite(p_target->WorldPos.X>>8,p_target->WorldPos.Y>>8,p_target->WorldPos.Z>>8,1,0x00ff00,p_person->WorldPos.X>>8,p_person->WorldPos.Y>>8,p_person->WorldPos.Z>>8,5,0x00ff00,1);
+                        }
                 }
-        }
-*/
+        */
         /*
                 if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER)
                 {
@@ -3906,9 +3903,9 @@ void general_process_person(Thing* p_person)
     if (p_person->Genus.Person->BurnIndex && (p_person->Genus.Person->Health > 0))
         p_person->Genus.Person->Health--;
 
-        //
-        // If urinating... then pee!
-        //
+    //
+    // If urinating... then pee!
+    //
 
     if (p_person->Genus.Person->Flags & FLAG_PERSON_PEEING) {
         if (p_person->Flags & FLAGS_IN_VIEW) {
@@ -11186,9 +11183,9 @@ SLONG grab_ledge(Thing* p_person)
     if (p_person->Genus.Person->InsideIndex)
         return (0);
 
-        //
-        // While we're grabbing a ledge- try grabbing a balloon!
-        //
+    //
+    // While we're grabbing a ledge- try grabbing a balloon!
+    //
 
     BALLOON_find_grab(THING_NUMBER(p_person));
     //
@@ -11237,8 +11234,7 @@ SLONG grab_ledge(Thing* p_person)
             &grab_y,
             &grab_z,
             &grab_angle);
-    } else
-    {
+    } else {
         SLONG radius = 80;
         if (p_person->State == STATE_CLIMBING)
             radius = 100;
@@ -11526,8 +11522,7 @@ void set_tween_for_height(Thing* p_person)
 
     if (p_person->Flags & FLAGS_IN_SEWERS) {
         floor_y = NS_calc_height_at(x, z);
-    } else
-    {
+    } else {
         floor_y = PAP_calc_height_at_thing(p_person, x, z);
     }
 
@@ -13328,8 +13323,7 @@ void fn_person_dangling(Thing* p_person)
             if (p_person->Flags & FLAGS_IN_SEWERS) {
                 p_person->OnFace = 0;
                 p_person->WorldPos.Y = NS_calc_height_at(p_person->WorldPos.X >> 8, p_person->WorldPos.Z >> 8) << 8;
-            } else
-            {
+            } else {
                 face = find_face_for_this_pos(p_person->WorldPos.X >> 8, p_person->WorldPos.Y >> 8, p_person->WorldPos.Z >> 8, &new_y, ignore_building, 0);
 
                 if (face == GRAB_FLOOR) {
@@ -14123,8 +14117,7 @@ void fn_person_moveing(Thing* p_person)
                 rgb = 0;
             rgb = (rgb << 24) | 0xc9b7a3;
             j = (p_person->Velocity > 40) ? 7 : 3;
-            for (i = 0; i < j; i++)
-            {
+            for (i = 0; i < j; i++) {
                 px = fx + (((Random() & 0x7ff) - 0x3ff) << 2);
                 pz = fz + (((Random() & 0x7ff) - 0x3ff) << 2);
                 PARTICLE_Add(px, fy, pz, (Random() & 7) - 3, 20, (Random() & 7) - 3, POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), rgb, PFLAG_FADE | PFLAG_RESIZE | PFLAG_SPRITEANI | PFLAG_SPRITELOOP, 40, 25, 1, 10, 4);
@@ -15496,7 +15489,6 @@ void fn_person_dead(Thing* p_person)
 
         if (VIOLENCE == 0)
             vanish_time = 30;
-
 
         if ((p_person->Flags & FLAGS_IN_VIEW) && (VIOLENCE != 0)) {
             // Person is still in view, and we're allowed violence,

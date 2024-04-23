@@ -96,7 +96,6 @@ CRINKLE_Handle TEXTURE_crinkle[22 * 64];
 
 SLONG TEXTURE_page_num_standard;
 
-
 SLONG TEXTURE_page_snowflake;
 SLONG TEXTURE_page_sparkle;
 SLONG TEXTURE_page_explode2;
@@ -773,7 +772,6 @@ static void TEXTURE_load_page(SLONG page)
         }
     } else {
 
-
         if (DoesTGAExist(name_res64, page)) {
             TEXTURE_texture[page].LoadTextureTGA(name_res64, page);
         } else if (DoesTGAExist(name_res32, page)) {
@@ -810,9 +808,7 @@ static void TEXTURE_load_page(SLONG page)
 void TEXTURE_initialise_clumping(CBYTE* fname_level)
 {
 
-
     int clumping = 1;
-
 
     extern void SetLastClumpfile(char* file, size_t size); // in GDisplay.cpp, horrible bodge
 
@@ -821,7 +817,6 @@ void TEXTURE_initialise_clumping(CBYTE* fname_level)
         IndividualTextures = true;
         SetLastClumpfile("", 0);
     } else {
-
 
         // load textures from the clump
         char filename[256];
@@ -888,7 +883,6 @@ void TEXTURE_load_needed(CBYTE* fname_level,
     D3DTexture::BeginLoading();
 
     TEXTURE_initialise_clumping(fname_level);
-
 
     TEXTURE_load_page(1);
 
@@ -1118,7 +1112,6 @@ void TEXTURE_load_needed(CBYTE* fname_level,
 
     LOADED_THIS_MANY_TEXTURES(7);
 
-
     {
 
         TEXTURE_texture[TEXTURE_page_fadecat].LoadTextureTGA(TEXTURE_EXTRA_DIR "fadecat.tga", TEXTURE_page_fadecat, FALSE);
@@ -1190,7 +1183,6 @@ void TEXTURE_load_needed(CBYTE* fname_level,
         TEXTURE_texture[TEXTURE_page_people3 + 29].LoadTextureTGA(TEXTURE_PEOPLE3_DIR "FEMBAK3.tga", TEXTURE_page_people3 + 29);
         LOADED_THIS_MANY_TEXTURES(3);
     }
-
 
 #if 0
 	if (loading_screen_active)

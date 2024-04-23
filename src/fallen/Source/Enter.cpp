@@ -10,7 +10,6 @@
 #include "supermap.h"
 #include "memory.h"
 
-
 //
 // Returns TRUE if the building is valid to enter.
 //
@@ -715,4 +714,3 @@ SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_bes
         return FALSE;
     }
 }
-

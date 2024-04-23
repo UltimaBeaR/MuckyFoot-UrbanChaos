@@ -49,7 +49,6 @@ void mkt_test(void)
 
 //---------------------------------------------------------------
 
-
 // VerifyDirectX
 //
 // init DirectDraw and Direct3D and check they're OK
@@ -101,7 +100,6 @@ SLONG main(UWORD argc, TCHAR* argv[])
 //	ASSERT(the_qs_sound_manager.Init() == ERROR_QMIX_OK);
 //	the_qs_sound_manager.Init() == ERROR_QMIX_OK;
 #endif
-
 
     if (SetupHost(H_CREATE_LOG)) {
         //		mkt_test();

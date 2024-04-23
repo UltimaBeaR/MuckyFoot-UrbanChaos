@@ -21,5 +21,3 @@
 #include "truetype.h"
 #include "c:\fallen\ddlibrary\headers\dclowlevel.h"
 #include "interfac.h"
-
-

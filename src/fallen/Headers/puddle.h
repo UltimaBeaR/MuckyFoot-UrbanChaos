@@ -5,7 +5,6 @@
 #ifndef _PUDDLE_
 #define _PUDDLE_
 
-
 //
 // Clears out all puddle info.
 //
@@ -82,6 +81,5 @@ typedef struct
 
 void PUDDLE_get_start(UBYTE z_map, UBYTE x_map_min, UBYTE x_map_max);
 PUDDLE_Info* PUDDLE_get_next(void);
-
 
 #endif

@@ -8,7 +8,6 @@ UBYTE CNET_i_am_host;
 UBYTE CNET_player_id = 0;
 UBYTE CNET_num_players = 1;
 
-
 void CNET_display_error(CBYTE* error)
 {
     SLONG i;
@@ -346,4 +345,3 @@ joined_session:;
         }
     }
 }
-

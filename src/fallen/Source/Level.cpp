@@ -5,7 +5,6 @@
 #include "Command.h"
 #include "statedef.h"
 
-
 UWORD comlist_map[MAX_COMLISTS],
     conlist_map[MAX_CLISTS],
     waypoint_map[MAX_WAYPOINTS];

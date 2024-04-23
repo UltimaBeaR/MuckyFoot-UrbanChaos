@@ -969,8 +969,7 @@ void PYRO_fn_normal(Thing* thing)
 
     case PYRO_HITSPANG:
 
-        if (pyro->counter < 5)
-        {
+        if (pyro->counter < 5) {
             pyro->counter++;
         } else {
             global_spang_count--;

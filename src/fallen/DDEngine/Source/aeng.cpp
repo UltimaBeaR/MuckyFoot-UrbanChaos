@@ -93,7 +93,6 @@
     {                                  \
     }
 
-
 #define AENG_MAX_BBOXES 8
 #define AENG_BBOX_PUSH_IN 16
 #define AENG_BBOX_PUSH_OUT 4
@@ -118,7 +117,6 @@ static void ScribbleCheck ( void )
 #define ANNOYINGSCRIBBLECHECK
 #endif
 
-
 #define LOG_ENTER(x) \
     {                \
     }
@@ -128,7 +126,6 @@ static void ScribbleCheck ( void )
 #define LOG_EVENT(x) \
     {                \
     }
-
 
 void AENG_draw_far_facets(void);
 void AENG_draw_box_around_recessed_door(DFacet* df, SLONG inside_out);
@@ -367,7 +364,6 @@ void init_clouds(void)
         memset(cloud_data, 0, 1024);
     }
 }
-
 
 // GetShadowPixelMapping
 //
@@ -711,7 +707,7 @@ UBYTE *movie_data_upto;
 void AENG_init(void)
 {
     MESH_init();
-//	FONT2D_init();
+    //	FONT2D_init();
     init_clouds();
     SKY_init("stars\\poo");
     POLY_init();
@@ -905,7 +901,6 @@ void AENG_world_line_infinite(
     SLONG ix2, SLONG iy2, SLONG iz2, SLONG iwidth2, ULONG colour2,
     SLONG sort_to_front)
 {
-
 
     float x1 = float(ix1);
     float y1 = float(iy1);
@@ -2057,7 +2052,6 @@ void AENG_add_projected_lit_shadow_poly(SMAP_Link* sl)
                 pp->specular = 0xff000000;
             }
 
-
         } else {
             //
             // Abandon the whole shadow polygon.
@@ -2827,10 +2821,8 @@ void AENG_draw_dirt()
             float cangle;
             float sangle;
 
-
             sangle = sinf(angle);
             cangle = cosf(angle);
-
 
             //
             // Fix the uv's for texture paging.
@@ -2986,7 +2978,6 @@ void AENG_draw_dirt()
                 float cy, cp, cr;
                 float sy, sp, sr;
 
-
                 sy = 0.0F; // sin(0)
                 cy = 1.0F; // cos(0)
 
@@ -2995,7 +2986,6 @@ void AENG_draw_dirt()
 
                 cp = cos(fpitch);
                 cr = cos(froll);
-
 
                 //
                 // (matrix[3],matrix[4],matrix[5]) remains undefined...
@@ -3161,7 +3151,6 @@ void AENG_draw_dirt()
                     float cy, cp, cr;
                     float sy, sp, sr;
 
-
                     sy = 0.0F; // sin(0)
                     cy = 1.0F; // cos(0)
 
@@ -3170,7 +3159,6 @@ void AENG_draw_dirt()
 
                     cp = cos(fpitch);
                     cr = cos(froll);
-
 
                     //
                     // (matrix[3],matrix[4],matrix[5]) remains undefined...
@@ -4921,7 +4909,6 @@ void AENG_guess_detail_levels()
     AENG_set_detail_levels(stars, shadows, moon_reflection, people_reflection, puddles, dirt, mist, rain, skyline, filter, perspective, crinkles);
 }
 
-
 void AENG_get_detail_levels(int* stars,
     int* shadows,
     int* moon_reflection,
@@ -6423,7 +6410,6 @@ void draw_quick_floor(SLONG warehouse)
     END_SCENE;
 }
 
-
 UBYTE index_lookup[] = { 0, 1, 3, 2 };
 
 void AENG_draw_city()
@@ -6611,7 +6597,6 @@ void AENG_draw_city()
     colour = 0x00888888;
     specular = 0xff000000;
 
-
     if (!INDOORS_INDEX || outside)
         for (z = NGAMUT_point_zmin; z <= NGAMUT_point_zmax; z++) {
             for (x = NGAMUT_point_gamut[z].xmin; x <= NGAMUT_point_gamut[z].xmax; x++) {
@@ -6645,12 +6630,12 @@ void AENG_draw_city()
                         //
 
                         if (INDOORS_INDEX) {
-/*
-                                                NIGHT_get_d3d_colour_dim(
-                                                        nq->colour[dx + dz * PAP_BLOCKS],
-                                                   &pp->colour,
-                                                   &pp->specular);
-*/
+                            /*
+                                                                            NIGHT_get_d3d_colour_dim(
+                                                                                    nq->colour[dx + dz * PAP_BLOCKS],
+                                                                               &pp->colour,
+                                                                               &pp->specular);
+                            */
                             pp->colour = 0x80808080; // 202020;
                             pp->specular = 0x80000000;
                         } else {
@@ -7988,7 +7973,7 @@ void AENG_draw_city()
 
     */
 
-// End of reflection stuff.
+    // End of reflection stuff.
 
     //
     // The sky.
@@ -8651,7 +8636,6 @@ void AENG_draw_city()
                         }
 
                         UBYTE fade = 0xff;
-
 
                         col = MESH_draw_poly(
                             oi->prim,
@@ -9672,7 +9656,6 @@ extern	void	ANIMAL_draw(Thing *p_thing);
         }
     }
 #endif
-
 
     LOG_EXIT(AENG_Draw_Rain)
 
@@ -11170,7 +11153,6 @@ void AENG_draw_warehouse()
 // For drawing water.
 //
 
-
 void AENG_draw_scanner(
     SLONG screen_x1,
     SLONG screen_y1,
@@ -11579,7 +11561,6 @@ void AENG_draw_power(SLONG x, SLONG y, SLONG w, SLONG h, SLONG val, SLONG max)
 
 UBYTE record_video = 0;
 
-
 void AENG_screen_shot(void)
 {
     if (allow_debug_keys)
@@ -11658,7 +11639,6 @@ void AENG_draw_FPS()
         FONT2D_DrawString(str, DisplayWidth >> 1, 30, 0xffffff, 128);
     }
 }
-
 
 void AENG_draw_messages()
 {
@@ -12755,7 +12735,6 @@ void AENG_draw_sewer_editor(
 
 #endif
 
-
 //
 // Draws text at the given point.
 //
@@ -13002,7 +12981,6 @@ void AENG_groundsquare_draw(
         POLY_frame_draw(FALSE, FALSE);
 }
 
-
 //---------------------------------------------------------------
 
 UBYTE AENG_transparent_warehouses;
@@ -13039,7 +13017,6 @@ void AENG_clear_viewport()
 
         the_display.SetUserBackground();
         the_display.ClearViewport();
-
     }
 
     BreakTime("Cleared Viewport");
@@ -13087,7 +13064,6 @@ void AENG_draw(SLONG draw_3d)
 	CurDrawDistance = FC_cam[1].focus ? 16 : NormalDrawDistance;
 #endif
 
-
     /*
             if (Keys[KB_RBRACE])
             {
@@ -13103,7 +13079,7 @@ void AENG_draw(SLONG draw_3d)
     // Update stuff.
     //
 
-// d	AENG_movie_update();
+    // d	AENG_movie_update();
     move_clouds();
     POLY_set_wibble(62, 137, 17, 178, 20, 25);
 
@@ -13451,7 +13427,6 @@ void AENG_draw_box_around_recessed_door(DFacet* df, SLONG inside_out)
 
     SLONG col_page;
     SLONG specular;
-
 
     NIGHT_get_d3d_colour(
         NIGHT_sky_colour,

@@ -6,7 +6,6 @@
 #include "MFStdLib.h"
 #include "DIManager.h"
 
-
 #if 0
 
 PC doesn't have DIDeviceInfo's any more

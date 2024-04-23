@@ -2,7 +2,6 @@
 // The new bikes are called dikes.
 //
 
-
 #ifndef _DIKE_
 #define _DIKE_
 
@@ -110,4 +109,3 @@ void DIKE_process(DIKE_Dike* dd);
 void DIKE_draw(DIKE_Dike* dd);
 
 #endif
-

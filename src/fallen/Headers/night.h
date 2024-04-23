@@ -9,9 +9,7 @@
 
 #define NIGHT_MAX_SLIGHTS 256
 
-
 #define NIGHT_LIGHT_MULTIPLIER 1.0f
-
 
 //
 // The static lights.
@@ -135,7 +133,6 @@ extern UBYTE NIGHT_square_free;
 //
 
 extern UBYTE NIGHT_cache[PAP_SIZE_LO][PAP_SIZE_LO];
-
 
 //
 // The cached lighting for dfacets.
@@ -379,7 +376,6 @@ NIGHT_Colour NIGHT_get_light_at(
     SLONG y,
     SLONG z);
 
-
 //
 // Fills the array with all the lights that effect the given point.
 // (not including the ambient light)
@@ -402,7 +398,6 @@ extern NIGHT_Found NIGHT_found[NIGHT_MAX_FOUND];
 extern SLONG NIGHT_found_upto;
 
 void NIGHT_find(SLONG x, SLONG y, SLONG z);
-
 
 //
 // Initialises the heap and gets rid of all cached lighting.

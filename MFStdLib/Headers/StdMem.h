@@ -1,8 +1,7 @@
 // StdMem.h
 // Guy Simmons, 18th December 1997
 
-#ifndef	STD_MEM_H
-#define	STD_MEM_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -39,5 +38,3 @@ template<class T> void MFdelete(T *thing)
 }
 
 //---------------------------------------------------------------
-
-#endif

@@ -1,8 +1,7 @@
 // StdMouse.h
 // Guy Simmons, 18th December 1997.
 
-#ifndef	STD_MOUSE_H
-#define	STD_MOUSE_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -27,5 +26,3 @@ extern volatile LastMouse	LeftMouse,
 extern volatile MFPoint		MousePoint;
 
 //---------------------------------------------------------------
-
-#endif

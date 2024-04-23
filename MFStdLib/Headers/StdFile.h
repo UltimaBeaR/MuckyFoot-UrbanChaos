@@ -1,8 +1,7 @@
 // StdFile.h
 // Guy Simmons, 18th December 1997.
 
-#ifndef	STD_FILE_H
-#define	STD_FILE_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -45,4 +44,3 @@ int MF_Fclose( FILE *stream );
 
 //---------------------------------------------------------------
 
-#endif

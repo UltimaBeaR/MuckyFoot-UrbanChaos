@@ -2,8 +2,7 @@
 // MFStdLib.h
 // Guy Simmons, 18th December 1997.
 
-#ifndef	MF_STD_LIB_H
-#define	MF_STD_LIB_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -225,8 +224,3 @@ BOOL	ReadInputDevice(void);
 
 #define	SDIST3(x,y,z)	(((x)*(x))+((y)*(y))+((z)*(z)))
 #define	SDIST2(x,y)		(((x)*(x))+((y)*(y)))
-
-
-
-#endif
-

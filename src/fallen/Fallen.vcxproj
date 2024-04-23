@@ -231,9 +231,6 @@
     <ClCompile Include="DDLibrary\Source\Tga.cpp" />
     <ClCompile Include="DDLibrary\Source\WindProcs.cpp" />
     <ClCompile Include="Editor\Source\outline.cpp" />
-    <ClCompile Include="Ledit\Source\ed.cpp" />
-    <ClCompile Include="Ledit\Source\gi.cpp" />
-    <ClCompile Include="Ledit\Source\ledit.cpp" />
     <ClCompile Include="outro\back.cpp" />
     <ClCompile Include="outro\cam.cpp" />
     <ClCompile Include="outro\credits.cpp" />

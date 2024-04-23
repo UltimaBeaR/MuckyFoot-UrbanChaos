@@ -8,22 +8,13 @@
 #include "c:\fallen\headers\animtmap.h"
 #include "c:\fallen\headers\memory.h"
 
-#define EDITOR 1
+// error : inserted by coan: "#define EDITOR 1" contradicts -U or --implicit at C:\WORK\MuckyFoot-UrbanChaos\src\fallen\Editor\Source\prim_draw.cpp(11)
 
 extern UWORD calc_lights(SLONG x, SLONG y, SLONG z, struct SVector* p_vect); // prim.c??
 extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
 extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans, struct Matrix31* mat2);
 extern void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans, struct SMatrix31* mat2);
 
-#ifdef EDITOR
-extern void do_quad_clip_list(SWORD face, SLONG p0, SLONG p1, SLONG p2, SLONG p3); // prim_edit.h
-extern void do_tri_clip_list(SWORD face, SLONG p0, SLONG p1, SLONG p2); // prim_edit.h
-extern BOOL check_mouse_over_prim_quad(struct SVector* res, SLONG p1, SLONG p2, SLONG p3, SLONG p4, SLONG face); // edit.h
-extern BOOL check_mouse_over_prim_tri(struct SVector* res, SLONG p1, SLONG p2, SLONG p3, SLONG face); // edit.h
-extern struct SVector selected_prim_xyz;
-extern SWORD SelectFlag;
-extern SWORD SelectDrawn;
-#endif
 
 // void	rotate_thing_point(struct SVector *vect,struct Matrix33	*matrix)
 /*
@@ -482,11 +473,6 @@ void draw_a_prim_at(UWORD prim, SLONG x, SLONG y, SLONG z, UBYTE shade)
                             global_res[p1].X, global_res[p1].Y,
                             global_res[p2].X, global_res[p2].Y,
                             global_res[p3].X, global_res[p3].Y);
-#ifdef EDITOR
-                        if (SelectFlag)
-                            if (SelectDrawn == 0 || is_it_clockwise(global_res, p0, p1, p2))
-                                do_quad_clip_list(c0, p0, p1, p2, p3);
-#endif
 
                         if (p_f4->FaceFlags & FACE_FLAG_ANIMATE) {
                             struct AnimTmap* p_a;
@@ -531,13 +517,6 @@ void draw_a_prim_at(UWORD prim, SLONG x, SLONG y, SLONG z, UBYTE shade)
                         ((struct BucketQuad*)current_bucket_pool)->DebugFlags = p_f4->FaceFlags;
 
                         add_bucket((void*)current_bucket_pool, az);
-#ifdef EDITOR
-                        if (check_mouse_over_prim_quad(global_res, p0, p1, p2, p3, c0)) {
-                            selected_prim_xyz.X = x;
-                            selected_prim_xyz.Y = y;
-                            selected_prim_xyz.Z = z;
-                        }
-#endif
 
                         current_bucket_pool += sizeof(struct BucketQuad);
                     } else {
@@ -603,11 +582,6 @@ void draw_a_prim_at(UWORD prim, SLONG x, SLONG y, SLONG z, UBYTE shade)
                         global_res[p1].X, global_res[p1].Y,
                         global_res[p2].X, global_res[p2].Y);
 
-#ifdef EDITOR
-                    if (SelectFlag)
-                        if (SelectDrawn == 0 || is_it_clockwise(global_res, p0, p1, p2))
-                            do_tri_clip_list(-c0, p0, p1, p2);
-#endif
 
                     //			if(p_f3->TexturePage>15)
                     //				p_f3->TexturePage=15;
@@ -632,13 +606,6 @@ void draw_a_prim_at(UWORD prim, SLONG x, SLONG y, SLONG z, UBYTE shade)
                     ((struct BucketTri*)current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
 
                     add_bucket((void*)current_bucket_pool, az);
-#ifdef EDITOR
-                    if (check_mouse_over_prim_tri(global_res, p0, p1, p2, c0)) {
-                        selected_prim_xyz.X = x;
-                        selected_prim_xyz.Y = y;
-                        selected_prim_xyz.Z = z;
-                    }
-#endif
                     current_bucket_pool += sizeof(struct BucketQuad);
                 }
             p_f3++;
@@ -760,9 +727,6 @@ void draw_a_rot_prim_at(UWORD prim, SLONG x, SLONG y, SLONG z, SLONG tween, stru
                 add_bucket((void*)current_bucket_pool, az);
 
                 current_bucket_pool += sizeof(struct BucketQuad);
-#ifdef EDITOR
-                check_mouse_over_prim_quad(global_res, p0, p1, p2, p3, c0);
-#endif
             }
         p_f4++;
     }
@@ -795,9 +759,6 @@ void draw_a_rot_prim_at(UWORD prim, SLONG x, SLONG y, SLONG z, SLONG tween, stru
                 ((struct BucketTri*)current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
 
                 add_bucket((void*)current_bucket_pool, az);
-#ifdef EDITOR
-                check_mouse_over_prim_tri(global_res, p0, p1, p2, c0);
-#endif
 
                 current_bucket_pool += sizeof(struct BucketQuad);
             }

@@ -1,0 +1,39 @@
+whole project dependency graph could be analyzed using cppdepend 2024.1
+
+
+reformating whole project with clang-format
+    find . -regex '.*\.\(cpp\|h\)' -exec clang-format -style=file -i {} \;
+    in project folder from git bash
+
+coan - tool to analyze preprocessor symbols and optimize/throw away unused code under it
+    https://coan2.sourceforge.net/index.php?page=about
+
+    commands to clean source code from old unused ifdef-s
+
+    command:
+        coan source *** --filter cpp,h --recurse src
+        where *** is options string
+
+    options for defines:
+        TARGET_DC - should be undefined. only for dreamcast platform
+            -UTARGET_DC
+
+        PSX - should be undefined. only for ps1 platform
+            -UPSX
+
+    other options
+        --no-transients fixes some bad coan optimizations that should not be done here
+
+
+things to try
+    report unique preprocessor directives that are using in project
+        coan symbols --ifs --once-only --gag error --filter cpp,h --recurse src
+
+
+
+done
+    coan source -UTARGET_DC -UPSX --no-transients --filter cpp,h --recurse src
+        to remove ps1 and dreamcast code under ifdefs
+
+    coan source -UEDITOR --no-transients --filter cpp,h --recurse src
+        to remove editor related code from main code base

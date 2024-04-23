@@ -212,12 +212,6 @@ reinit_because_of_language_change:
             dont_leave_for_a_while -= 1;
         }
 
-#ifdef EDITOR
-/*		if(ControlFlag && Keys[KB_E])
-                {
-                        GAME_STATE	=	GS_EDITOR;
-                }*/
-#endif
 
 #ifdef DEMO
         if (ControlFlag && Keys[KB_Q]) {
@@ -336,10 +330,6 @@ reinit_because_of_language_change:
                     */
 
                 case STARTS_PSX:
-#ifdef EDITOR
-                    void make_all_wads(void);
-                    make_all_wads();
-#endif
                     break;
                 case STARTS_START:
 #ifdef OBEY_SCRIPT

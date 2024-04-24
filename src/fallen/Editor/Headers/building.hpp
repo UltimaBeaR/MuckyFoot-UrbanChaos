@@ -1,5 +1,4 @@
-#ifndef BUILDING_H
-#define BUILDING_H 1
+#pragma once
 
 // DEFINES
 #define MAX_BUILDINGS (500)
@@ -211,5 +210,3 @@ extern void create_city(void);
 extern SLONG create_building_prim(UWORD building, SLONG* small_y);
 extern SLONG next_connected_face(SLONG type, SLONG id, SLONG count);
 extern SLONG is_storey_circular(SLONG storey);
-
-#endif

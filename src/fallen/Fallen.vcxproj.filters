@@ -591,15 +591,6 @@
     <ClCompile Include="Editor\Source\outline.cpp">
       <Filter>Editor\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Ledit\Source\ed.cpp">
-      <Filter>Ledit\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Ledit\Source\gi.cpp">
-      <Filter>Ledit\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Ledit\Source\ledit.cpp">
-      <Filter>Ledit\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\MFStdLib\Source\StdLib\StdFile.cpp">
       <Filter>MFStdLib\Source Files</Filter>
     </ClCompile>
@@ -1200,9 +1191,6 @@
       <Filter>Editor\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor\Headers\Controls.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\convert.h">
       <Filter>Editor\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor\Headers\CtrlSet.hpp">

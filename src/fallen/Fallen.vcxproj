@@ -740,7 +740,6 @@
     <ClInclude Include="Editor\Headers\ComTab.h" />
     <ClInclude Include="Editor\Headers\CondTab.h" />
     <ClInclude Include="Editor\Headers\Controls.hpp" />
-    <ClInclude Include="Editor\Headers\convert.h" />
     <ClInclude Include="Editor\Headers\CtrlSet.hpp" />
     <ClInclude Include="Editor\Headers\DarkCity.h" />
     <ClInclude Include="Editor\Headers\EdCom.h" />

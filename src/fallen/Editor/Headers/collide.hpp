@@ -1,5 +1,4 @@
-#ifndef COLLISION_H
-#define COLLISION_H 1
+#pragma once
 
 // #include "c:\fallen\headers\collide.h"
 // DEFINES
@@ -35,5 +34,3 @@ SLONG lines_intersect(
     SLONG x3, SLONG y3, SLONG x4, SLONG y4,
     SLONG* x,
     SLONG* y);
-
-#endif

@@ -1,8 +1,7 @@
 // CondTab.h
 // Guy Simmons, 16th March 1998.
 
-#ifndef CONDTAB_H
-#define CONDTAB_H
+#pragma once
 
 #include "EdCom.h"
 
@@ -48,5 +47,3 @@ public:
 };
 
 //---------------------------------------------------------------
-
-#endif

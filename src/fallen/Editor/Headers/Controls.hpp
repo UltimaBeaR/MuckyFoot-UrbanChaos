@@ -1,8 +1,7 @@
 // Controls.hpp
 // Guy Simmons, 18th February 1997
 
-#ifndef _CONTROLS_HPP_
-#define _CONTROLS_HPP_
+#pragma once
 
 #include "Primativ.hpp"
 
@@ -295,5 +294,3 @@ public:
     inline void SetBottomButtonFlags(UBYTE flags) { BottomButtonFlags = flags; }
     inline UBYTE GetBottomButtonFlags(void) { return BottomButtonFlags; }
 };
-
-#endif

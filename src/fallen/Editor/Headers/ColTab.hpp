@@ -1,8 +1,7 @@
 // TexTab.hpp
 // Guy Simmons, 20th February 1997
 
-#ifndef _COLTAB_HPP_
-#define _COLTAB_HPP_
+#pragma once
 
 #include "ModeTab.hpp"
 #include "Stealth.h"
@@ -72,5 +71,3 @@ public:
 
 extern struct ColInfo col_info[MAX_COL_INFO];
 extern UWORD next_col_info;
-
-#endif

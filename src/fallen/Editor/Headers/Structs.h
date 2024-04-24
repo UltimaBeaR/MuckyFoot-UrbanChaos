@@ -4,8 +4,6 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
-#include "DarkCity.h"
-
 //---------------------------------------------------------------
 
 typedef struct

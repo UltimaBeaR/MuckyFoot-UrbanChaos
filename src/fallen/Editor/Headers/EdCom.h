@@ -1,8 +1,7 @@
 // EdCom.h
 // Guy Simmons, 16th March 1998.
 
-#ifndef ED_COM_H
-#define ED_COM_H
+#pragma once
 
 //---------------------------------------------------------------
 // Editor condition stuff.
@@ -129,5 +128,3 @@ void remove_command(EditComList* the_comlist, EditCommand* the_command);
 void move_command(EditComList* the_comlist, EditCommand* insert_point, EditCommand* the_command);
 
 //---------------------------------------------------------------
-
-#endif

@@ -1,8 +1,7 @@
 // CtrlSet.hpp
 // Guy Simmons, 25th November 1996.
 
-#ifndef _CTRLSET_HPP_
-#define _CTRLSET_HPP_
+#pragma once
 
 #include "Controls.hpp"
 #include "Primativ.hpp"
@@ -67,5 +66,3 @@ public:
 
     inline UBYTE GetControlCount(void) { return ControlCount; }
 };
-
-#endif

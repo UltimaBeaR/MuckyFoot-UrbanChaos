@@ -1,5 +1,4 @@
-#ifndef EDIT_H
-#define EDIT_H 1
+#pragma once
 
 #include "primativ.hpp"
 #include "Anim.h"
@@ -196,5 +195,3 @@ extern void build_radius_info(void);
 extern void draw_quick_map(void);
 extern ULONG engine_keys_scroll_game(void);
 extern SLONG add_floor_face_to_bucket(SLONG x1, SLONG y1, SLONG z1, SLONG x2, SLONG y2, SLONG z2, SLONG x3, SLONG y3, SLONG z3, SLONG x4, SLONG y4, SLONG z4, struct DepthStrip* p_map, SLONG b1, SLONG b2, SLONG b3, SLONG b4, UWORD tex);
-
-#endif

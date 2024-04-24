@@ -52,9 +52,6 @@
     <Filter Include="Ledit\Header Files">
       <UniqueIdentifier>{d28503aa-f996-45e4-a0e1-64364cc61738}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Ledit\Source Files">
-      <UniqueIdentifier>{dea8be02-feca-4da8-a78c-69b0c328d14d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MFStdLib">
       <UniqueIdentifier>{e05742ab-db31-44ce-bb0e-8c35195a504e}</UniqueIdentifier>
     </Filter>
@@ -1194,9 +1191,6 @@
       <Filter>Editor\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor\Headers\CtrlSet.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\DarkCity.h">
       <Filter>Editor\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor\Headers\EdCom.h">

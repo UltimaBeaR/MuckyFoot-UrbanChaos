@@ -5,7 +5,6 @@
 #define ETHING_H
 
 #include "anim.h"
-#include "DarkCity.h"
 
 //---------------------------------------------------------------
 // old style

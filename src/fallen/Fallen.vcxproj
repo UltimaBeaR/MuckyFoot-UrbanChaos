@@ -741,7 +741,6 @@
     <ClInclude Include="Editor\Headers\CondTab.h" />
     <ClInclude Include="Editor\Headers\Controls.hpp" />
     <ClInclude Include="Editor\Headers\CtrlSet.hpp" />
-    <ClInclude Include="Editor\Headers\DarkCity.h" />
     <ClInclude Include="Editor\Headers\EdCom.h" />
     <ClInclude Include="Editor\Headers\Edit.h" />
     <ClInclude Include="Editor\Headers\EditMod.hpp" />

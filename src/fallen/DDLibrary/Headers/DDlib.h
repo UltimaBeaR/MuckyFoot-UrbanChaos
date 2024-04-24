@@ -1,8 +1,7 @@
 // DDLib.h
 // Guy Simmons, 20th November 1997
 
-#ifndef DDLIB_H
-#define DDLIB_H
+#pragma once
 
 #include <MFStdLib.h>
 
@@ -76,5 +75,3 @@ inline SLONG check_result(HRESULT f, SLONG line, CBYTE* file)
 #define SUCCEEDED(f) (!FAILED(f))
 
 #endif // else use Micro$oft macros
-
-#endif

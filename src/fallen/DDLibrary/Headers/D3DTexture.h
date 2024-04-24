@@ -1,8 +1,7 @@
 // D3DTexture.h
 // Guy Simmons, 29th November 1997.
 
-#ifndef D3DTEXTURE_H
-#define D3DTEXTURE_H
+#pragma once
 
 // Call after doing lots of loading.
 void NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit(void);
@@ -178,5 +177,3 @@ public:
     // Call this when unloading everything.
     void D3DPage::Unload(void);
 };
-
-#endif

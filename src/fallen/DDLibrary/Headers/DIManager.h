@@ -1,8 +1,7 @@
 // DIManager.h
 // Guy Simmons, 19th February 1998.
 
-#ifndef DIMANAGER_H
-#define DIMANAGER_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -29,4 +28,3 @@ BOOL ReadInputDevice(void);
 
 //---------------------------------------------------------------
 
-#endif

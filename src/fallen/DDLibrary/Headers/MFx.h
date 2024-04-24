@@ -1,5 +1,4 @@
-#ifndef _mfx_h_
-#define _mfx_h_
+#pragma once
 
 #include "MFStdLib.h"
 #include "structs.h"
@@ -77,5 +76,3 @@ SLONG MFX_QUICK_play(CBYTE* str, SLONG x = 0, SLONG y = 0, SLONG z = 0); // shou
 void MFX_QUICK_wait(void);
 void MFX_QUICK_stop();
 SLONG MFX_QUICK_still_playing(void);
-
-#endif

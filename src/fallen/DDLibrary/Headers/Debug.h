@@ -1,8 +1,7 @@
 // Debug.h
 // Guy Simmons, 15th November 1997.
 
-#ifndef DEBUG_H
-#define DEBUG_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -25,4 +24,3 @@ void di_error(HRESULT di_err);
 
 //---------------------------------------------------------------
 
-#endif

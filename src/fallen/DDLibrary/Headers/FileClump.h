@@ -2,8 +2,7 @@
 //
 // File clump class - contains multiple files
 
-#ifndef FILECLUMP_H
-#define FILECLUMP_H
+#pragma once
 
 // FileClump
 //
@@ -28,4 +27,3 @@ private:
     bool ReadOnly; // read-only flag
 };
 
-#endif // FILECLUMP_H

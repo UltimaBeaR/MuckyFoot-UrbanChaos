@@ -1,5 +1,4 @@
-#ifndef SAMPLE_H
-#define SAMPLE_H 1
+#pragma once
 
 #define SAMPLE_FLESH_HIT1 2
 #define SAMPLE_FLESH_HIT2 3
@@ -21,4 +20,3 @@
 #define SAMPLE_WOMAN_JUMP1 13
 #define SAMPLE_WOMAN_LAND1 14
 
-#endif

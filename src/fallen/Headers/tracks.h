@@ -4,8 +4,7 @@
 // 22 sept 98
 //
 
-#ifndef _TRACKS_H_
-#define _TRACKS_H_
+#pragma once
 
 #include "MFStdLib.h"
 #include "Structs.h"
@@ -80,5 +79,3 @@ SLONG TRACKS_GroundAtXZ(SLONG X, SLONG Z);
 // Make something bleed
 void TRACKS_Bleed(Thing* bleeder);
 void TRACKS_Bloodpool(Thing* bleeder);
-
-#endif

@@ -1,8 +1,7 @@
 // Thug.h
 // Guy Simmons, 12th January 1998.
 
-#ifndef THUG_H
-#define THUG_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -13,4 +12,3 @@ void fn_thug_normal(Thing* t_thing);
 
 //---------------------------------------------------------------
 
-#endif

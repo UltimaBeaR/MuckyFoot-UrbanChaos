@@ -2,8 +2,7 @@
 // Sewers.. yuck!
 //
 
-#ifndef _SEWER_
-#define _SEWER_
+#pragma once
 
 //
 // The size of the sewage system.
@@ -77,5 +76,3 @@ typedef struct
 void SEWER_get_start(SLONG x, SLONG z);
 SEWER_Face* SEWER_get_next(void); // NULL => there are no more faces.
 SEWER_Face* SEWER_get_water(void); // Returns the water faces...
-
-#endif

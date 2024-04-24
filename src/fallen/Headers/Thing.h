@@ -1,8 +1,7 @@
 // Thing.h
 // Guy Simmons, 15th October 1997.
 
-#ifndef THING_H
-#define THING_H
+#pragma once
 #include "../Headers/Game.h"
 #include "../Headers/drawtype.h"
 #include "../Headers/vehicle.h"
@@ -215,5 +214,3 @@ SLONG THING_find_nearest(
     ULONG classes);
 
 //---------------------------------------------------------------
-
-#endif

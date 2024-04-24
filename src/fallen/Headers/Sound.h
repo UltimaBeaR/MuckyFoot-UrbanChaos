@@ -1,8 +1,7 @@
 //	Sound.h
 //	Guy Simmons, 8th May 1998.
 
-#ifndef SOUND_H
-#define SOUND_H
+#pragma once
 
 #include "Structs.h"
 #include "MFX.h"
@@ -93,7 +92,5 @@ extern SOUNDFXG* SOUND_FXGroups; //[128][2]; // blahblah
 // extern void	A3DFreeWaveList(void);
 // extern void A3DRender(void);
 extern void A3D_Check_Init(void);
-
-#endif
 
 #endif

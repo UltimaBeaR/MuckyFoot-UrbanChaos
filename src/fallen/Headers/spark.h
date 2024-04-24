@@ -2,8 +2,7 @@
 // Electric sparks...
 //
 
-#ifndef _SPARK_
-#define _SPARK_
+#pragma once
 
 //
 // Removes all sparks.
@@ -94,5 +93,3 @@ typedef struct
 
 void SPARK_get_start(UBYTE xmin, UBYTE xmax, UBYTE z);
 SPARK_Info* SPARK_get_next(void); // NULL => No more sparks...
-
-#endif

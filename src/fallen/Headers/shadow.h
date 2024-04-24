@@ -2,8 +2,7 @@
 // Precalculates shadows on a built city.
 //
 
-#ifndef _SHADOW_
-#define _SHADOW_
+#pragma once
 
 //
 // The SHADOW module creates 3bit values for a square-
@@ -94,5 +93,3 @@ void SHADOW_do(void);
 //
 
 SLONG SHADOW_in(SLONG x, SLONG y, SLONG z);
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef SUPERMAP_H
-#define SUPERMAP_H 1
+#pragma once
 
 #define MAX_FACET_LINK 32000
 
@@ -175,5 +174,3 @@ void create_super_dbuilding(SLONG building);
 
 //
 // ========================================================
-
-#endif

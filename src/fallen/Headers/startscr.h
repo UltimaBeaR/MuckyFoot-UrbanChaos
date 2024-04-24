@@ -1,5 +1,4 @@
-#ifndef START_SCR_H
-#define START_SCR_H 1
+#pragma once
 
 #define STARTS_START 1
 #define STARTS_EDITOR 2
@@ -40,5 +39,3 @@ void STARTSCR_notify_gameover(BOOL won);
 
 typedef void (*MISSION_callback)(CBYTE* filename);
 void MissionListCallback(CBYTE* script, MISSION_callback cb);
-
-#endif

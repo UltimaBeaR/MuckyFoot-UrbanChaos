@@ -2,8 +2,7 @@
 // Water.
 //
 
-#ifndef WATER_H
-#define WATER_H
+#pragma once
 
 //
 // Gets rid of all water.
@@ -62,5 +61,3 @@ void WATER_get_face_points(UWORD f_index, UWORD p_index[4]);
 
 void WATER_get_point_pos(UWORD p_index, float* x, float* y, float* z);
 void WATER_get_point_uvs(UWORD p_index, float* u, float* v, ULONG* colour);
-
-#endif

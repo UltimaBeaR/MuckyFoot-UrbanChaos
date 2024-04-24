@@ -398,12 +398,10 @@ struct MemTable save_table[] = {
     { M_("map_beacon"), (void**)&MAP_beacon, MEM_STATIC, 0, 0, MAP_MAX_BEACONS, sizeof(MAP_Beacon), 0 }, // 66
 //	{"anim_mids"	,(void**)&anim_mids				,MEM_STATIC ,0							,&next_anim_mids			,256						,sizeof(PrimPoint)				},
 // cutscene memory
-#ifndef BUILD_PSX
     { M_("cutscene_data"), (void**)&PLAYCUTS_cutscenes, MEM_DYNAMIC, 0, &PLAYCUTS_cutscene_ctr, MAX_CUTSCENES, sizeof(CPData), 0 },
     { M_("cutscene_trks"), (void**)&PLAYCUTS_tracks, MEM_DYNAMIC, 0, &PLAYCUTS_track_ctr, MAX_CUTSCENE_TRACKS, sizeof(CPChannel), 0 },
     { M_("cutscene_pkts"), (void**)&PLAYCUTS_packets, MEM_DYNAMIC, 0, &PLAYCUTS_packet_ctr, MAX_CUTSCENE_PACKETS, sizeof(CPPacket), 0 },
     { M_("cutscene_text"), (void**)&PLAYCUTS_text_data, MEM_DYNAMIC, 0, &PLAYCUTS_text_ctr, MAX_CUTSCENE_TEXT, sizeof(CBYTE), 0 },
-#endif
     { M_("darci normal"), (void**)&darci_normal, MEM_DYNAMIC, 0, &darci_normal_count, 12000, sizeof(UWORD), 0 },
     { M_("prim info"), (void**)&prim_info, MEM_STATIC, 0, 0, 256, sizeof(PrimInfo), 0 },
 
@@ -892,7 +890,6 @@ void convert_pointers_to_index(void)
             TO_PYRO(c0)->victim = (Thing*)THING_NUMBER(TO_PYRO(c0)->victim);
     }
 
-#ifndef BUILD_PSX
     // cutscene stuff. convert the track pointers first:
     for (c0 = 0; c0 < PLAYCUTS_cutscene_ctr; c0++) {
         PLAYCUTS_cutscenes[c0].channels = (CPChannel*)(PLAYCUTS_cutscenes[c0].channels - PLAYCUTS_tracks);
@@ -905,7 +902,6 @@ void convert_pointers_to_index(void)
         if (PLAYCUTS_packets[c0].type == 5)
             PLAYCUTS_packets[c0].pos.X -= (ULONG)PLAYCUTS_text_data;
     }
-#endif
 }
 
 #define STORE_DATA(a)                         \

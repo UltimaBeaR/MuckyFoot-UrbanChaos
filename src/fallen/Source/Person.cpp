@@ -5332,9 +5332,7 @@ SLONG shoot_get_ammo_sound_anim_time(Thing* p_person, SLONG* sound, SLONG* anim,
         case SPECIAL_SHOTGUN:
             *anim = ANIM_SHOTGUN_FIRE;
             *time = 400;
-#ifndef BUILD_PSX
             DIRT_new_sparks(p_person->Genus.Person->GunMuzzle.X >> 8, p_person->Genus.Person->GunMuzzle.Y >> 8, p_person->Genus.Person->GunMuzzle.Z >> 8, 2 | 32);
-#endif
             break;
 
         case SPECIAL_GRENADE:
@@ -5488,7 +5486,6 @@ void actually_fire_gun(Thing* p_person)
         }
     }
 
-#ifndef BUILD_PSX
 
     extern void DIRT_create_brass(SLONG x, SLONG y, SLONG z, SLONG angle);
 
@@ -5515,8 +5512,6 @@ void actually_fire_gun(Thing* p_person)
             }
         }
     }
-#else
-#endif
 
     if (p_person->Genus.Person->Target) {
         SLONG damage;
@@ -16103,7 +16098,6 @@ void fn_person_gun(Thing* p_person)
                                         py += p_person->WorldPos.Y;
                                         pz += p_person->WorldPos.Z;
 */
-#ifndef BUILD_PSX
             alpha = (0x6f - (p_person->Draw.Tweened->FrameIndex * 4));
             if (alpha >= 0) {
                 alpha <<= 24;
@@ -16118,7 +16112,6 @@ void fn_person_gun(Thing* p_person)
                     PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE | PFLAG_RESIZE,
                     150, 28, 1, 8, 1);
             }
-#endif
         }
 
         if (end == 1) {

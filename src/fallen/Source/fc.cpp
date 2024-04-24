@@ -1880,15 +1880,9 @@ void FC_position_for_lookaround(SLONG cam, SLONG pitch)
         fc->focus_yaw,
         pitch);
 
-#ifdef PSX_NOT_REALLY
-    fc->want_x = fc->focus_x + (vector[0] >> 2);
-    fc->want_y = fc->focus_y + 0xb000 + (vector[1] >> 2);
-    fc->want_z = fc->focus_z + (vector[2] >> 2);
-#else
     fc->want_x = fc->focus_x + (vector[0] * 3 >> 2);
     fc->want_y = fc->focus_y + 0xb000 + (vector[1] * 3 >> 2);
     fc->want_z = fc->focus_z + (vector[2] * 3 >> 2);
-#endif
 
     fc->toonear = TRUE;
     fc->toonear_dist = 0x90000;

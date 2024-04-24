@@ -71,13 +71,9 @@ extern NIGHT_Dlight* NIGHT_dlight; //[NIGHT_MAX_DLIGHTS];
 
 typedef struct
 {
-#ifdef PSX_COMPRESS_LIGHT
-    UWORD Col;
-#else
     UBYTE red;
     UBYTE green;
     UBYTE blue;
-#endif
 
 } NIGHT_Colour;
 

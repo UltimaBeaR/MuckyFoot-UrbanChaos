@@ -52,16 +52,9 @@ UBYTE SOUND_Gender(Thing* p_thing);
 
 // SLONG	SOUND_Range(SLONG start, SLONG end);
 
-#ifdef DODGYPSXIFY
-extern BOOL dodgy_psx_mode;
-#endif
 
 inline SLONG SOUND_Range(SLONG start, SLONG end)
 {
-#ifdef DODGYPSXIFY
-    if (dodgy_psx_mode)
-        return start;
-#endif
     SLONG diff = (end - start) + 1;
     return start + (rand() % diff);
 }

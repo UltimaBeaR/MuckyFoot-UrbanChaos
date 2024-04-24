@@ -1,3 +1,10 @@
+useful defines
+    DARCI_HITS_COPS
+        enables hitting cops (1st level for example)
+
+
+
+
 whole project dependency graph could be analyzed using cppdepend 2024.1
 
 
@@ -21,6 +28,15 @@ coan - tool to analyze preprocessor symbols and optimize/throw away unused code 
 
         PSX - should be undefined. only for ps1 platform
             -UPSX
+            -UBUILD_PSX
+            -UPSX_COMPRESS_LIGHT
+            -UPSX_STERN_REVENGE_BUG_AND_CRAP_DRIVERS
+            -UPSX_NOT_REALLY
+            -UDODGYPSXIFY
+            -UVERSION_PSX
+        
+        GLIDE
+            -UVERSION_GLIDE
 
     other options
         --no-transients fixes some bad coan optimizations that should not be done here
@@ -34,9 +50,16 @@ things to try
         dead code ellimination
 
 
+    
+
+
+
 done
     coan source -UTARGET_DC -UPSX --no-transients --filter cpp,c,h,hpp --recurse src
         to remove ps1 and dreamcast code under ifdefs
 
     coan source -UEDITOR --no-transients --filter cpp,c,h,hpp --recurse src
         to remove editor related code from main code base
+
+    coan source -UBUILD_PSX -UPSX_COMPRESS_LIGHT -UPSX_STERN_REVENGE_BUG_AND_CRAP_DRIVERS -UPSX_NOT_REALLY -UDODGYPSXIFY -UVERSION_PSX -UVERSION_GLIDE --no-transients --filter cpp,c,h,hpp --recurse src
+        other psx and glide stuff

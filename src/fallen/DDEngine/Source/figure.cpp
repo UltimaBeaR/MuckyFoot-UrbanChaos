@@ -2909,7 +2909,6 @@ void FIGURE_draw_prim_tween(
     POLY_buffer_upto = 0;
 
     // Check for being a gun
-#ifndef BUILD_PSX
     if (prim == 256) {
         i = sp;
     } else
@@ -2944,7 +2943,6 @@ void FIGURE_draw_prim_tween(
     p_thing->Genus.Person->GunMuzzle.Z = pp->z * 256;
     //	x=pp->x*256; y=pp->y*256; z=pp->z*256;
 
-#endif
 no_muzzle_calcs:
 
 #if USE_TOMS_ENGINE_PLEASE_BOB

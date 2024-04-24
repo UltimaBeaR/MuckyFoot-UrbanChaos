@@ -3530,12 +3530,6 @@ void EWAY_process_camera(void)
 
                 if (!EWAY_conv_ambient)
                     if (NET_PLAYER(0)->Genus.Player->Pressed & (INPUT_MASK_JUMP | INPUT_MASK_KICK | INPUT_MASK_ACTION | INPUT_MASK_PUNCH)) {
-#ifdef VERSION_PSX
-                        if ((EWAY_cam_skip <= 0) && PANEL_wide_cont) {
-                            strcpy(PANEL_wide_text, PANEL_wide_cont);
-                            PANEL_wide_cont = 0;
-                        } else
-#endif
                             EWAY_cam_skip = 0;
                     }
             }

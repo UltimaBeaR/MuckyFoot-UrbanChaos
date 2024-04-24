@@ -1,8 +1,7 @@
 // Bucket.h
 // Guy Simmons, 24th October 1997.
 
-#ifndef BUCKET_H
-#define BUCKET_H
+#pragma once
 #include "Engine.h"
 
 //---------------------------------------------------------------
@@ -167,5 +166,3 @@ inline void add_bucket(BucketHead* header, UBYTE bucket_type, SLONG list_index, 
 void init_buckets(void);
 
 //---------------------------------------------------------------
-
-#endif

@@ -2,8 +2,7 @@
 // Drawing sprites...
 //
 
-#ifndef _SPRITE_
-#define _SPRITE_
+#pragma once
 
 #define SPRITE_SORT_NORMAL 1
 #define SPRITE_SORT_FRONT 2
@@ -40,5 +39,3 @@ void SPRITE_draw_tex_distorted(
     float u, float v, float w, float h,
     float wx1, float wy1, float wx2, float wy2, float wx3, float wy3, float wx4, float wy4,
     SLONG sort);
-
-#endif

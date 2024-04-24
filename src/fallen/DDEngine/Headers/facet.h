@@ -2,8 +2,7 @@
 // Facet drawing functions.
 //
 
-#ifndef _FACET_
-#define _FACET_
+#pragma once
 
 //
 // Draws the given facet.
@@ -41,5 +40,3 @@ void FACET_draw_ns_ladder(
     SLONG x2,
     SLONG z2,
     SLONG height);
-
-#endif

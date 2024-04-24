@@ -2,8 +2,7 @@
 // Faster far-facets...
 //
 
-#ifndef _FARFACET_
-#define _FARFACET_
+#pragma once
 
 //
 // Creates optimised data for drawing farfacets.
@@ -31,5 +30,3 @@ void FARFACET_draw(
 //
 
 void FARFACET_fini(void);
-
-#endif

@@ -2,8 +2,7 @@
 // Texture handling is wierd!
 //
 
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#pragma once
 
 #include "crinkle.h"
 
@@ -237,5 +236,3 @@ extern SLONG TEXTURE_av_g;
 extern SLONG TEXTURE_av_b;
 
 SLONG TEXTURE_looks_like(SLONG page);
-
-#endif

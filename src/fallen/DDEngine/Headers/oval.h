@@ -2,8 +2,7 @@
 // Simple ovals underneath people, barrels etc...
 //
 
-#ifndef _OVAL_
-#define _OVAL_
+#pragma once
 
 //
 // Creates an oval elongated in a given direction...
@@ -21,4 +20,3 @@ void OVAL_add(
     float angle = 0.0F,
     SLONG type = OVAL_TYPE_OVAL);
 
-#endif

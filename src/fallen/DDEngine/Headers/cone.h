@@ -2,8 +2,7 @@
 // Cones clipped by planar polygons.
 //
 
-#ifndef _CONE_
-#define _CONE_
+#pragma once
 
 //
 // Creates a new cone. (dx,dy,dz) need not be normalised.
@@ -54,5 +53,3 @@ void CONE_intersect_with_map(void);
 //
 
 void CONE_draw(void);
-
-#endif

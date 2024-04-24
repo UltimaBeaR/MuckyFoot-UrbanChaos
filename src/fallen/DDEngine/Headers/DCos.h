@@ -2,8 +2,7 @@
 // Sprite drawing routines for the DC credits sequence.
 //
 
-#ifndef _DCOS_
-#define _DCOS_
+#pragma once
 
 //
 // A new buffer.
@@ -36,5 +35,3 @@ void DCOS_buffer_add_sprite(
 #define DCOS_DRAW_ADD 1
 
 void DCOS_buffer_draw(OS_Buffer* ob, D3DTexture* texture, ULONG draw = DCOS_DRAW_NORMAL);
-
-#endif

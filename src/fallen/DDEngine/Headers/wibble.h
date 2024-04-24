@@ -2,8 +2,7 @@
 // Wibbles the given bit of screen.
 //
 
-#ifndef _WIBBLE_
-#define _WIBBLE_
+#pragma once
 
 //
 // ALL THESE FUNCTIONS MUST ONLY BE CALLED WHEN THE SCREEN IS LOCKED.
@@ -21,4 +20,3 @@ void WIBBLE_simple(
     UBYTE wibble_s1,
     UBYTE wibble_s2);
 
-#endif

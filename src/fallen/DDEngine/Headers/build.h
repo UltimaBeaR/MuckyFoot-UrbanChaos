@@ -2,8 +2,7 @@
 // Draws buildings.
 //
 
-#ifndef _BUILD_
-#define _BUILD_
+#pragma once
 
 //
 // This function uses the POLY module, and assumes
@@ -18,4 +17,3 @@ void BUILD_draw(Thing* building);
 
 void BUILD_draw_inside(void);
 
-#endif

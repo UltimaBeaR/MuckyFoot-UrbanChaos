@@ -1,9 +1,7 @@
 //
 // Shadow maps.
 //
-
-#ifndef _SMAP_
-#define _SMAP_
+#pragma once
 
 //
 // Creates a shadow map of the given person.
@@ -52,5 +50,3 @@ typedef struct smap_link {
 } SMAP_Link;
 
 SMAP_Link* SMAP_project_onto_poly(SVector_F poly[], SLONG num_points); // poly must be planar.
-
-#endif

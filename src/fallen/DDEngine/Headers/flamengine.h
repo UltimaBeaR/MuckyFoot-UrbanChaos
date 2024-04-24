@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef _FLAMENGINE_
-#define _FLAMENGINE_
+#pragma once
 
 #include <MFStdLib.h>
 
@@ -62,5 +61,3 @@ public:
     void Blit(); //   Blit the texture, suitably alpha'd, onto the backbuffer
     void BlitHalf(CBYTE side); //   Same, but half only (for seperate left + right)
 };
-
-#endif

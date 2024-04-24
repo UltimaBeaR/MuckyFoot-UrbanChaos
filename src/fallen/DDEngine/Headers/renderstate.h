@@ -2,8 +2,7 @@
 //
 // render state class; encapsulates a state of the renderer
 
-#ifndef _RENDERSTATE_
-#define _RENDERSTATE_
+#pragma once
 
 enum SpecialEffect {
     RS_None, // no special effect
@@ -76,5 +75,3 @@ private:
     DWORD TempEffect;
 };
 #pragma pack(pop)
-
-#endif

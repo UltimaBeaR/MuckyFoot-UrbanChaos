@@ -2,8 +2,7 @@
 // Draws a person.
 //
 
-#ifndef _FIGURE_
-#define _FIGURE_
+#pragma once
 
 //
 // This function uses the POLY module, and assumes
@@ -39,5 +38,3 @@ void init_flames();
 //
 
 void ANIM_obj_draw(Thing* p_thing, DrawTween* dt);
-
-#endif

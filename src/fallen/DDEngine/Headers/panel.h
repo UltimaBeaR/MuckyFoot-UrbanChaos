@@ -1,6 +1,4 @@
-#ifndef AENG_PANEL_HPP
-
-#define AENG_PANEL_HPP
+#pragma once
 
 extern UBYTE PANEL_scanner_poo; // sets whether you want a poo scanner or not
 
@@ -112,5 +110,3 @@ void PANEL_draw_quad(
     float v1 = 0.0F,
     float u2 = 1.0F,
     float v2 = 1.0F);
-
-#endif

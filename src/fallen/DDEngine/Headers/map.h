@@ -2,8 +2,7 @@
 // The new map screen
 //
 
-#ifndef _MAP_
-#define _MAP_
+#pragma once
 
 //
 // Initialises the map (gets rid of nav beacons... sets up view)
@@ -37,4 +36,3 @@ void MAP_process(void);
 
 void MAP_draw_onscreen_beacons(void);
 
-#endif

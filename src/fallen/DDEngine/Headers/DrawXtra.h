@@ -7,8 +7,7 @@
 // drawxtra.cpp -- stuff like the van, helicopter, footprints, etc.
 //
 
-#ifndef _DRAWXTRA_H_
-#define _DRAWXTRA_H_
+#pragma once
 
 #include "MFStdLib.h"
 #include "game.h"
@@ -57,5 +56,3 @@ void IHaveToHaveSomePyroSprites(int iINeedThisMany);
 
 // Just call this once a frame, would you? Ta.
 void Pyros_EndOfFrameMarker(void);
-
-#endif

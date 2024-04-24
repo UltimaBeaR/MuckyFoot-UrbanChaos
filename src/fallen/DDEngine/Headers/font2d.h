@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef _FONT_2D_H_
-#define _FONT_2D_H_
+#pragma once
 
 #include "MFStdLib.h"
 #include "poly.h"
@@ -72,5 +71,3 @@ void FONT2D_DrawStringCentred(CBYTE* chr, SLONG x, SLONG y, ULONG rgb = 0xffffff
 
 // void FONT2D_DrawStrikethrough(SLONG x1, SLONG x2, SLONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SLONG fade=0);
 void FONT2D_DrawStrikethrough(SLONG x1, SLONG x2, SLONG y, ULONG rgb, SLONG scale, SLONG page, SLONG fade, bool bUseLastOffset = FALSE);
-
-#endif

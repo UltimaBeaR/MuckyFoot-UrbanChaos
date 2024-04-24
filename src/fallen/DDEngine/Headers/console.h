@@ -6,8 +6,7 @@
  *
  */
 
-#ifndef _CONSOLE_
-#define _CONSOLE_
+#pragma once
 
 #include "MFStdLib.h"
 
@@ -28,5 +27,3 @@ void CONSOLE_text_at(
     SLONG y,
     SLONG delay,
     CBYTE* fmt, ...);
-
-#endif

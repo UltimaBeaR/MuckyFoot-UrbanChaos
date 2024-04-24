@@ -2,8 +2,7 @@
 // Draws prims super-fast!
 //
 
-#ifndef _FASTPRIM_
-#define _FASTPRIM_
+#pragma once
 
 #include "night.h"
 
@@ -30,5 +29,3 @@ SLONG FASTPRIM_draw(
 //
 
 void FASTPRIM_fini(void);
-
-#endif

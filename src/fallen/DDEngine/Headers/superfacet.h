@@ -2,8 +2,7 @@
 // Converts facets to draw indexed primitive calls...
 //
 
-#ifndef _SUPERFACET_
-#define _SUPERFACET_
+#pragma once
 
 //
 // Call at the start of the game_loop()- after everything has
@@ -30,4 +29,3 @@ SLONG SUPERFACET_draw(SLONG facet);
 
 void SUPERFACET_fini(void);
 
-#endif

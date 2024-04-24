@@ -2,8 +2,7 @@
 // The background...
 //
 
-#ifndef _BACK_
-#define _BACK_
+#pragma once
 
 //
 // Loads the textures.
@@ -18,4 +17,3 @@ void BACK_init(void);
 
 void BACK_draw(void);
 
-#endif

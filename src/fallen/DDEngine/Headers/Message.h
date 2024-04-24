@@ -2,8 +2,7 @@
 // Message passing to the user.
 //
 
-#ifndef _MSG_
-#define _MSG_
+#pragma once
 
 //
 // Clears all current messages.	You don't have to call this at the
@@ -28,4 +27,3 @@ void MSG_clear(void);
 
 void MSG_draw(void);
 
-#endif

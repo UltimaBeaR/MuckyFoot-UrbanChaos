@@ -2,8 +2,7 @@
 // SUPERCRINKLES!
 //
 
-#ifndef _SUPERCRINKLE_
-#define _SUPERCRINKLE_
+#pragma once
 
 // Set to 0 to remove all crinkle stuff.
 #define SUPERCRINKLES_ENABLED 0
@@ -43,5 +42,3 @@ inline void SUPERCRINKLE_init(void) { }
 inline SLONG SUPERCRINKLE_draw(SLONG page, ULONG colour[4], ULONG specular[4]) { return FALSE; }
 
 #endif // #else //#if SUPERCRINKLES_ENABLED
-
-#endif

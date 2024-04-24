@@ -2,8 +2,7 @@
 // The map draw.
 //
 
-#ifndef _PLANMAP_
-#define _PLANMAP_
+#pragma once
 
 //
 // Draws the plan view of the city.
@@ -24,5 +23,3 @@ void map_beacon_draw(
     ULONG col,
     ULONG flags,
     UWORD dir);
-
-#endif

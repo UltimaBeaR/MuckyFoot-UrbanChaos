@@ -1,8 +1,7 @@
 // Gamut.h
 // Guy Simmons, 4th November 1997.
 
-#ifndef GAMUT_H
-#define GAMUT_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -27,4 +26,3 @@ void draw_gamut(SLONG x, SLONG y);
 
 //---------------------------------------------------------------
 
-#endif

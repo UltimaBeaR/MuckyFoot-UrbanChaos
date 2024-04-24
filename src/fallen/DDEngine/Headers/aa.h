@@ -2,8 +2,7 @@
 // An anti-aliased triangle draw.
 //
 
-#ifndef _AA_
-#define _AA_
+#pragma once
 
 //
 // The value generated for each pixel is the percentage area of
@@ -22,4 +21,3 @@ void AA_draw(
     SLONG p2x, SLONG p2y,
     SLONG p3x, SLONG p3y);
 
-#endif

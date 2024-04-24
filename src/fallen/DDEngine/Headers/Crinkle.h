@@ -2,8 +2,7 @@
 // Crinkles!
 //
 
-#ifndef CRINKLE_H
-#define CRINKLE_H
+#pragma once
 
 #include "aeng.h"
 #include "poly.h"
@@ -60,5 +59,3 @@ void CRINKLE_project(
     float amount,
     SVector_F poly[4],
     SLONG flip);
-
-#endif

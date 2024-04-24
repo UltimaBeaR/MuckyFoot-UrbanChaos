@@ -2,8 +2,7 @@
 // Sky.
 //
 
-#ifndef SKY_H
-#define SKY_H
+#pragma once
 
 //
 // Needs the screen to have been initialised.
@@ -79,5 +78,3 @@ void SKY_draw_poly_sky(
     float max_dist,
     ULONG bot_colour,
     ULONG top_colour);
-
-#endif

@@ -1,8 +1,7 @@
 // GameEd.h
 // Guy Simmons, 12th January 1998.
 
-#ifndef GAMEED_H
-#define GAMEED_H
+#pragma once
 
 #include "engine.h"
 #include "ComTab.h"
@@ -113,5 +112,3 @@ struct GameEdDefaults {
 };
 
 //---------------------------------------------------------------
-
-#endif

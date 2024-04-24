@@ -1,8 +1,7 @@
 // Window.hpp
 // Guy Simmons, 18th February 1997.
 
-#ifndef _ICON_HPP_
-#define _ICON_HPP_
+#pragma once
 
 #include "Primativ.hpp"
 
@@ -24,4 +23,3 @@ public:
     void InitIcons(struct AWindowIcon* p_icons);
 };
 
-#endif

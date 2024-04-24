@@ -1,8 +1,7 @@
 // KFramer.hpp
 // Guy Simmons, 19th September 1997.
 
-#ifndef _KFRAMER_HPP_
-#define _KFRAMER_HPP_
+#pragma once
 
 #include "EditMod.hpp"
 
@@ -35,4 +34,3 @@ public:
     void DrawKeyFrame(UWORD multi_object, EdRect* bounds_rect, struct KeyFrame* the_frame, struct Matrix33* r_matrix);
 };
 
-#endif

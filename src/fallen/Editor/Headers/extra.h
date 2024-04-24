@@ -1,5 +1,4 @@
-#ifndef _EXTRA_
-#define _EXTRA_
+#pragma once
 
 //
 // Extra stuff like puddles and mist.
@@ -38,4 +37,3 @@ extern EXTRA_Thing EXTRA_thing[EXTRA_MAX_THINGS];
 
 void EXTRA_create_or_delete(SLONG type, SLONG x, SLONG z);
 
-#endif

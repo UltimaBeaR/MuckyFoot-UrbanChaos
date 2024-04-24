@@ -1,8 +1,7 @@
 // Intrface.hpp
 // Guy Simmons, 18th February 1997.
 
-#ifndef _INTRFACE_HPP_
-#define _INTRFACE_HPP_
+#pragma once
 
 class Interface {
 private:
@@ -87,5 +86,3 @@ extern Interface* InterfaceDefaults;
 #define LEFT_CLICK 1
 #define RIGHT_CLICK 2
 #define MIDDLE_CLICK 3
-
-#endif

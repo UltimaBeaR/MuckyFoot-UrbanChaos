@@ -1,8 +1,7 @@
 // EdWay.h
 // Guy Simmons, 6th February 1998.
 
-#ifndef ED_WAY_H
-#define ED_WAY_H
+#pragma once
 
 //---------------------------------------------------------------
 // Waypoint definition.
@@ -29,5 +28,3 @@ void link_prev_waypoint(UWORD link_wp, UWORD prev_wp);
 void pack_waypoints(UWORD* map_table);
 
 //---------------------------------------------------------------
-
-#endif

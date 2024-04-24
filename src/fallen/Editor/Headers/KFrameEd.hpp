@@ -1,8 +1,7 @@
 // KFrameEd.hpp
 // Guy Simmons, 12th March 1997.
 
-#ifndef _KFRAMEED_HPP_
-#define _KFRAMEED_HPP_
+#pragma once
 
 #include "EditMod.hpp"
 #include "Anim.h"
@@ -125,5 +124,3 @@ public:
 
     SLONG GetQuaternionFlag() { return (!(QuaternionFlag)); };
 };
-
-#endif

@@ -2,8 +2,7 @@
 // For doing network game stuff...
 //
 
-#ifndef CNET_H
-#define CNET_H
+#pragma once
 
 //
 // The configuring loop.
@@ -16,4 +15,3 @@ extern UBYTE CNET_player_id;
 
 SLONG CNET_configure(void);
 
-#endif

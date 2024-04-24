@@ -1,5 +1,4 @@
-#ifndef COLLIDE_GAME
-#define COLLIDE_GAME
+#pragma once
 
 #include "pap.h"
 
@@ -445,5 +444,3 @@ SLONG COLLIDE_can_i_fastnav(SLONG x, SLONG z);
 void COLLIDE_debug_fastnav(
     SLONG world_x, // 8-bits per mapsquare.
     SLONG world_z);
-
-#endif

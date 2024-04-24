@@ -1,6 +1,4 @@
-#ifndef COMBAT_H
-
-#define COMBAT_H 1
+#pragma once
 
 //
 // Defines
@@ -141,5 +139,3 @@ SLONG find_best_kick(Thing* p_person, ULONG flag);
 
 Thing* is_person_under_attack(Thing* p_person);
 Thing* is_anyone_nearby_alive(Thing* p_person); // The nearest person alive to you.
-
-#endif

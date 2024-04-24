@@ -2,8 +2,7 @@
 // An A-Z of the current city.
 //
 
-#ifndef _AZ_
-#define _AZ_
+#pragma once
 
 //
 // Initialises the AZ module.
@@ -36,4 +35,3 @@ extern SLONG AZ_line_upto;
 
 void AZ_create_lines(void);
 
-#endif

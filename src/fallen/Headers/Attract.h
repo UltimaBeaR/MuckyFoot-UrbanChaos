@@ -1,8 +1,7 @@
 // Attract.h
 // Guy Simmons, 20th November 1997
 
-#ifndef ATTRACT_H
-#define ATTRACT_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -19,4 +18,3 @@ void ATTRACT_loadscreen_draw(SLONG completion); // completion is in 8-bit fixed 
 
 //---------------------------------------------------------------
 
-#endif

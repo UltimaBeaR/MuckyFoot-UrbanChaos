@@ -1,5 +1,4 @@
-#ifndef ANIM_H
-#define ANIM_H 1
+#pragma once
 
 #include "Prim.h"
 
@@ -339,5 +338,3 @@ public:
 
 void ANIM_init(void);
 void ANIM_fini(void);
-
-#endif

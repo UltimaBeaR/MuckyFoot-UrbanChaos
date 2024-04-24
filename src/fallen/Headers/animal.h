@@ -2,8 +2,7 @@
 // Animals.
 //
 
-#ifndef ANIMAL_H
-#define ANIMAL_H
+#pragma once
 
 #define MAX_ANIMALS 6
 
@@ -88,5 +87,3 @@ Animal* ANIMAL_get_animal(Thing* animal_thing);
 
 // GameCoord GetChunkCentre(GameKeyFrameChunk *chunk);
 // SetChunkCentre(GameKeyFrameChunk *chunk, GameCoord centre);
-
-#endif

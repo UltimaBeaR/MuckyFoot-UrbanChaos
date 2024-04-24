@@ -1,5 +1,4 @@
-#ifndef ANIM_TMAP_H
-#define ANIM_TMAP_H
+#pragma once
 
 // defines
 
@@ -25,4 +24,3 @@ extern void sync_animtmaps(void);
 extern void animate_texture_maps(void);
 extern void load_animtmaps(void);
 
-#endif

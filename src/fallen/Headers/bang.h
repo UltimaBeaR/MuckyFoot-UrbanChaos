@@ -2,8 +2,7 @@
 // Explosions!
 //
 
-#ifndef _BANG_
-#define _BANG_
+#pragma once
 
 //
 // Initialises all the bangs.
@@ -53,5 +52,3 @@ typedef struct
 
 void BANG_get_start(UBYTE xmin, UBYTE xmax, UBYTE z);
 BANG_Info* BANG_get_next(void); // NULL => No more bangs.
-
-#endif

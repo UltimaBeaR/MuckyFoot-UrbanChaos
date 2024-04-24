@@ -2,8 +2,7 @@
 // Motobikes.
 //
 
-#ifndef _BIKE_
-#define _BIKE_
+#pragma once
 
 #ifdef BIKE
 
@@ -175,7 +174,5 @@ typedef struct
 } BIKE_Drawinfo;
 
 BIKE_Drawinfo BIKE_get_drawinfo(Thing* p_bike);
-
-#endif
 
 #endif

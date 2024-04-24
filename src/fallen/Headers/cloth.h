@@ -2,8 +2,7 @@
 // Draped cloth and flags.
 //
 
-#ifndef _CLOTH_
-#define _CLOTH_
+#pragma once
 
 //
 // Gets rid of all the cloths.
@@ -102,5 +101,3 @@ typedef struct
 } CLOTH_Info;
 
 CLOTH_Info* CLOTH_get_info(UBYTE cloth);
-
-#endif

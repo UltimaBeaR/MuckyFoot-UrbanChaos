@@ -1,6 +1,7 @@
 whole project dependency graph could be analyzed using cppdepend 2024.1
 
 
+
 reformating whole project with clang-format
     find . -regex '.*\.\(cpp\|c\|h\|hpp\)' -exec clang-format -style=file -i {} \;
     in project folder from git bash
@@ -29,6 +30,8 @@ things to try
     report unique preprocessor directives that are using in project
         coan symbols --ifs --once-only --gag error --filter cpp,c,h,hpp --recurse src
 
+    https://github.com/myint/cppclean
+        dead code ellimination
 
 
 done

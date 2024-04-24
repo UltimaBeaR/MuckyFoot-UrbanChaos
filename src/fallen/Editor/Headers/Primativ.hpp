@@ -1,8 +1,7 @@
 // Primativ.hpp
 // Guy Simmons, 26th October 1996.
 
-#ifndef _PRIMATIV_HPP_
-#define _PRIMATIV_HPP_
+#pragma once
 
 class EdRect {
 private:
@@ -40,4 +39,3 @@ public:
     inline MFPoint GetBottomRight(void) { return BottomRight; }
 };
 
-#endif

@@ -1310,9 +1310,6 @@
     <ClInclude Include="Editor\Headers\sewertab.hpp">
       <Filter>Editor\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\Headers\spare.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor\Headers\Stealth.h">
       <Filter>Editor\Header Files</Filter>
     </ClInclude>

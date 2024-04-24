@@ -781,7 +781,6 @@
     <ClInclude Include="Editor\Headers\scan.h" />
     <ClInclude Include="Editor\Headers\scrflc.h" />
     <ClInclude Include="Editor\Headers\sewertab.hpp" />
-    <ClInclude Include="Editor\Headers\spare.h" />
     <ClInclude Include="Editor\Headers\Stealth.h" />
     <ClInclude Include="Editor\Headers\Structs.h" />
     <ClInclude Include="Editor\Headers\TexTab.hpp" />

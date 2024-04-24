@@ -1,5 +1,4 @@
-#ifndef PRIM_EDIT_H
-#define PRIM_EDIT_H 1
+#pragma once
 
 extern void calc_prims_screen_box(UWORD prim, SLONG x, SLONG y, SLONG z, EdRect* rect);
 extern void calc_prims_world_box(UWORD prim, SLONG x, SLONG y, SLONG z, EdRect* rect);
@@ -30,4 +29,3 @@ SLONG save_prim_object(SLONG prim);
 
 void save_all_individual_prims(void);
 
-#endif

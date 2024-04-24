@@ -1,5 +1,4 @@
-#ifndef POLY_H
-#define POLY_H 1
+#pragma once
 
 #include <d3dtypes.h>
 // DEFINES
@@ -95,5 +94,3 @@ extern void (*render_span)(struct Boint* p_b, UBYTE* ptr_screen, SLONG draw_flag
 extern void draw_all_spans(void);
 extern void my_quad_noz(struct MfEnginePoint* p4, struct MfEnginePoint* p3, struct MfEnginePoint* p2, struct MfEnginePoint* p1);
 extern void my_trig_noz(struct MfEnginePoint* p4, struct MfEnginePoint* p3, struct MfEnginePoint* p2);
-
-#endif

@@ -2,8 +2,7 @@
 // Handles the allocation of prims and prim textures on n:\
 //
 
-#ifndef _PRIMTEX_
-#define _PRIMTEX_
+#pragma once
 
 // ========================================================
 
@@ -25,4 +24,3 @@ SLONG PRIMTEX_get_number(CBYTE* fname);
 
 // ========================================================
 
-#endif

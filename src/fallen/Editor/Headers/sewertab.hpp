@@ -1,8 +1,7 @@
 // TexTab.hpp
 // Guy Simmons, 20th February 1997
 
-#ifndef _SewerTab_HPP_
-#define _SewerTab_HPP_
+#pragma once
 
 #include "ModeTab.hpp"
 #include "Stealth.h"
@@ -138,5 +137,3 @@ public:
     UWORD CurrentFloorType;
     EditorModule* Parent;
 };
-
-#endif

@@ -1,8 +1,7 @@
 // ThingTab.h
 // Guy Simmons, 15th January 1998.
 
-#ifndef THINGTAB_H
-#define THINGTAB_H
+#pragma once
 
 #define THING_MODE_NONE 0
 #define THING_MODE_SELECT_THING 1
@@ -66,5 +65,3 @@ public:
 };
 
 //---------------------------------------------------------------
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _SCRFLC_H_
-#define _SCRFLC_H_
+#pragma once
 
 //**************************************|************************************
 
@@ -142,4 +141,3 @@ extern SLONG anim_show_FLI_COPY();
 extern SLONG anim_read_data(UBYTE* data, SLONG size);
 
 //**************************************|************************************
-#endif

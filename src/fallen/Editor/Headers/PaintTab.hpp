@@ -1,8 +1,7 @@
 // PaintTab.hpp
 // Guy Simmons, 7th April 1997
 
-#ifndef _PAINTTAB_HPP_
-#define _PAINTTAB_HPP_
+#pragma once
 
 #include "undo.hpp"
 #include "ModeTab.hpp"
@@ -110,5 +109,3 @@ public:
     SLONG SubMode, SubStatus;
     MapBlock CutMapBlock;
 };
-
-#endif

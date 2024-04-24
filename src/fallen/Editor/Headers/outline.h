@@ -2,8 +2,7 @@
 // Functions for helping with the outline of shapes on grids.
 //
 
-#ifndef _OUTLINE_
-#define _OUTLINE_
+#pragma once
 
 typedef struct outline_outline OUTLINE_Outline;
 
@@ -46,5 +45,3 @@ SLONG OUTLINE_intersects(
     OUTLINE_Outline* oo,
     SLONG x1, SLONG z1,
     SLONG x2, SLONG z2);
-
-#endif

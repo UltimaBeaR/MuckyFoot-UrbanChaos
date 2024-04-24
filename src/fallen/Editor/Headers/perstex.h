@@ -2,8 +2,7 @@
 // Handles the allocation of people textures on n:\
 //
 
-#ifndef _PERSTEX_
-#define _PERSTEX_
+#pragma once
 
 // ========================================================
 
@@ -25,4 +24,3 @@ SLONG PERSTEX_get_number(CBYTE* fname);
 
 // ========================================================
 
-#endif

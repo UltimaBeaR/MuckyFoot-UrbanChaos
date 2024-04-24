@@ -1,8 +1,7 @@
 // Thing.h
 // Guy Simmons, 15th October 1997.
 
-#ifndef ETHING_H
-#define ETHING_H
+#pragma once
 
 #include "anim.h"
 
@@ -124,5 +123,3 @@ THING_INDEX		alloc_secondary_thing(void);
 void		free_secondary_thing(THING_INDEX thing);
 */
 //---------------------------------------------------------------
-
-#endif

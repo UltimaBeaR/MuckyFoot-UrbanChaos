@@ -1,8 +1,7 @@
 // TexTab.hpp
 // Guy Simmons, 20th February 1997
 
-#ifndef _UNDO_HPP_
-#define _UNDO_HPP_
+#pragma once
 
 #include "Prim.h"
 #define MAX_UNDO 100
@@ -80,5 +79,3 @@ public:
     GenericUndo undo_info[MAX_UNDO];
     GenericUndo undo_undo_info[MAX_UNDO];
 };
-
-#endif

@@ -2,8 +2,7 @@
 // The new ECTS level stuff!
 //
 
-#ifndef _ELEV_
-#define _ELEV_
+#pragma once
 
 //
 // This are the last ones to be loaded...
@@ -28,5 +27,3 @@ SLONG ELEV_game_init(
     CBYTE* fname_lighting,
     CBYTE* fname_sewers,
     CBYTE* fname_level);
-
-#endif

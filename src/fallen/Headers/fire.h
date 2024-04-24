@@ -2,8 +2,7 @@
 // Fire!
 //
 
-#ifndef _FIRE_
-#define _FIRE_
+#pragma once
 
 //
 // Gets rid of all the fire.
@@ -71,5 +70,3 @@ typedef struct
 
 void FIRE_get_start(UBYTE z, UBYTE x_min, UBYTE x_max);
 FIRE_Info* FIRE_get_next(void); // NULL => No more fire here.
-
-#endif

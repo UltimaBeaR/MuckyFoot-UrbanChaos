@@ -3,8 +3,7 @@
 // given largish blocks of memory out...
 //
 
-#ifndef HEAP_H
-#define HEAP_H
+#pragma once
 
 //
 // Initialises the heap.
@@ -23,5 +22,3 @@ void HEAP_give(void*, SLONG num_bytes);
 #define HEAP_PAD_SIZE (1024 * 4)
 
 extern UBYTE HEAP_pad[HEAP_PAD_SIZE];
-
-#endif

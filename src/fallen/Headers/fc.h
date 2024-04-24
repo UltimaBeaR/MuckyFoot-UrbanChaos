@@ -2,8 +2,7 @@
 // The final camera?
 //
 
-#ifndef _FC_
-#define _FC_
+#pragma once
 
 //
 // The camera.
@@ -121,5 +120,3 @@ void FC_setup_initial_camera(SLONG cam);
 //
 
 void FC_explosion(SLONG x, SLONG y, SLONG z, SLONG force); // 0 <= force <= 400 ish
-
-#endif

@@ -2,8 +2,7 @@
 // Fog!
 //
 
-#ifndef FOG_H
-#define FOG_H
+#pragma once
 
 //
 // Gets rid of all the fog info and starts afresh.
@@ -63,4 +62,3 @@ typedef struct
 void FOG_get_start(void);
 FOG_Info FOG_get_info(void);
 
-#endif

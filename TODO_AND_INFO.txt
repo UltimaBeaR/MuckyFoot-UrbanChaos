@@ -1,6 +1,233 @@
+
+
+
+
+
+
+all defines
+    _WIN32: unconfigured
+    WIN32: unconfigured
+    DIRECTINPUT_VERSION: unconfigured
+    NDEBUG: unconfigured
+    ASSERT: unconfigured
+    ASSERT(e): unconfigured
+    min: unconfigured
+    max: unconfigured
+    DEBUG: unconfigured
+    HEAP_DEBUGGING_PLEASE_BOB: unconfigured
+    BREAKTIMER: unconfigured
+    ENGINE_H: unconfigured
+    _FONT_3D_H_: unconfigured
+    USE_W_FOG_PLEASE_BOB: unconfigured
+    _POLYPAGE_: unconfigured
+    WE_NEED_POLYBUFFERS_PLEASE_BOB: transient
+    TEX_EMBED: unconfigured
+    USE_D3D_VBUF: unconfigured
+    _DEBUG: unconfigured
+    SUPERCRINKLES_ENABLED: transient
+    _SW_: unconfigured
+    USE_D3D_VBUF: transient
+    DISABLE_CRINKLES: transient
+    FINAL: unconfigured
+    MIN3: unconfigured
+    MAX3: unconfigured
+    _DEBUG_POO: unconfigured
+    DOG_POO: unconfigured
+    MAKE_THEM_FACE_THE_CAMERA: unconfigured
+    TARGET: unconfigured
+    NEW_FLOOR: unconfigured
+    STRIP_STATS: unconfigured
+    MIKES_UNUSED_AUTOMATIC_FLOOR_TEXTURE_GROUPER: unconfigured
+    TOMS_TEST_FIXUP_CODE: transient
+    FAST_EDDIE: unconfigured
+    BIKE: unconfigured
+    DRAW_THIS_DEBUG_STUFF: unconfigured
+    NO_MORE_BALLOONS: unconfigured
+    NO_MORE_BALLOONS_NOW: unconfigured
+    WE_WANT_TO_DRAW_THE_TEXTURE_SHADOW_PAGE: unconfigured
+    ARGH: unconfigured
+    werrr: unconfigured
+    SEWERS: unconfigured
+    LIMIT_TOTAL_PYRO_SPRITES_PLEASE_BOB: unconfigured
+    FACETINFO: transient
+    UNUSED_WIRE_CUTTERS: unconfigured
+    FACET_REMOVAL_TEST: unconfigured
+    UNUSED_WIRECUTTERS: unconfigured
+    QUICK_FACET: unconfigured
+    WE_WANT_TO_DRAW_THESE_FACET_LINES: unconfigured
+    DO_SUPERFACETS_PLEASE_BOB: unconfigured
+    FARFACET_USE_INDEXED_LISTS: transient
+    FASTPRIM_PERFORMANCE: unconfigured
+    HIGH_REZ_PEOPLE_PLEASE_BOB: unconfigured
+    USE_TOMS_ENGINE_PLEASE_BOB: unconfigured
+    SHOW_ME_FIGURE_DEBUGGING_PLEASE_BOB: unconfigured
+    DTRACE: unconfigured
+    DRAW_WHOLE_PERSON_AT_ONCE: unconfigured
+    FEEDBACK: unconfigured
+    NO_SERVER: unconfigured
+    TRUETYPE: unconfigured
+    CALC_CAR_CRUMPLE: transient
+    MESH_SHOW_MOUSE_POINT: unconfigured
+    BODGE_MY_PANELS_PLEASE_BOB: unconfigured
+    OLD_CAM: unconfigured
+    USE_D3D_VBUF: unconfigured
+    NO_CLIPPING_TO_THE_SIDES_PLEASE_BOB: transient
+    WE_NEED_POLYBUFFERS_PLEASE_BOB: unconfigured
+    WIREFRAME: transient
+    VERIFY_SORT: transient
+    CAM_OLD: unconfigured
+    SUPERCRINKLES_ENABLED: unconfigured
+    SUPERFACET_PERFORMANCE: transient
+    SHOW_ME_SUPERFACET_DEBUGGING_PLEASE_BOB: unconfigured
+    TESSELATE_DEGREE: transient
+    ALPHA_MODE: transient
+    ALPHA_ADD: transient
+    ALPHA_BLEND: transient
+    SWIZZLE: transient
+    ALPHA_BLEND_NOT_DOUBLE_LIGHTING: transient
+    ALPHA_TEST: transient
+    TEXTURE_ENABLE_DC_PACKING: transient
+    THIS_IS_INCLUDED_FROM_SW: unconfigured
+    ALPHA_MODE: unconfigured
+    ALPHA_ADD: unconfigured
+    ALPHA_BLEND: unconfigured
+    SWIZZLE: unconfigured
+    ALPHA_BLEND_NOT_DOUBLE_LIGHTING: unconfigured
+    ALPHA_TEST: unconfigured
+    ANTIALIAS_BY_HAND: transient
+    _A3D_MANAGER_H_: unconfigured
+    MF_STD_LIB_H: unconfigured
+    _A3DPLAY_H_: unconfigured
+    _DCLL_: unconfigured
+    QMDX_H: unconfigured
+    APSTUDIO_INVOKED: unconfigured
+    APSTUDIO_READONLY_SYMBOLS: unconfigured
+    A3D_SOUND: unconfigured
+    VERIFY: unconfigured
+    MAD_AM_I: unconfigured
+    _RELEASE: unconfigured
+    ASYNC_FILE_IO: transient
+    BOGUS_TGAS_PLEASE_BOB: unconfigured
+    DOWNSAMPLE_PLEASE_BOB_AMOUNT: unconfigured
+    ULTRA_COMPRESSED_ANIMATIONS: unconfigured
+    __WINDOWS_386__: unconfigured
+    USE_TOMS_ENGINE_PLEASE_BOB: transient
+    STRUCTS_H: unconfigured
+    _MSC_VER: unconfigured
+    __MSC_VER: unconfigured
+    _CAMTARGETSETUP_H_: unconfigured
+    CAMERA_H: unconfigured
+    _CAMERASETUP_H_: unconfigured
+    EDSTRINGS_H: unconfigured
+    ENEMYSETUP_H: unconfigured
+    ENGWIND_H: unconfigured
+    VERSION_D3D: unconfigured
+    IN_BUILDING_H: unconfigured
+    _ENV_: unconfigured
+    GEDIT_H: unconfigured
+    ITEMSETUP_H: unconfigured
+    MAPVIEW_H: unconfigured
+    MISSION_H: unconfigured
+    NAV_H: unconfigured
+    PLAYERSETUP_H: unconfigured
+    USE_A3D: transient
+    SUBCLASS_H: unconfigured
+    _TABCTL_H_: unconfigured
+    TRIGGERSETUP_H: unconfigured
+    WSPACE_H: unconfigured
+    WALLHUG_H: unconfigured
+    WAYWIND_H: unconfigured
+    _BUILD2_: unconfigured
+    _DIKE_: unconfigured
+    _DOOR_: unconfigured
+    _FRONTEND_H_: unconfigured
+    _GAMEMENU_: unconfigured
+    INLINE_H: unconfigured
+    _LEAD_: unconfigured
+    LIGHT_COLOURED: transient
+    _ND_: unconfigured
+    POLY_FADEOUT_START: unconfigured
+    EIDOS: transient
+    USA: unconfigured
+    GERMANY: unconfigured
+    FRANCE: unconfigured
+    KK: unconfigured
+    SINGAPORE: unconfigured
+    LEADER: unconfigured
+    HALIFAX: unconfigured
+    SYNTHESIS: unconfigured
+    DLMM: unconfigured
+    EEM: unconfigured
+    EUROPE: unconfigured
+    JAPAN: unconfigured
+    TDFX: unconfigured
+    PIGEON_H: unconfigured
+    _PLAYCUTS_H_: unconfigured
+    _POW_: unconfigured
+    MIKE: unconfigured
+    _QLS_: unconfigured
+    _RIBBON_H_: unconfigured
+    _SNIPE_: unconfigured
+    _WAND_: unconfigured
+    DEMO: transient
+    NEW_FRONTEND: transient
+    OBEY_SCRIPT: unconfigured
+    VERSION_DEMO: unconfigured
+    THIS_IS_A_LOS_TEST: unconfigured
+    WE_NEED_THE_NUMBER_KEYS: unconfigured
+    WE_WANNA_TEST_THE_LOS_STUFF: unconfigured
+    WE_WANT_WIND: unconfigured
+    WE_WANT_SOME_BOLLOCKS_OLD_WIND_SOUND_FX_THATS_BEEN_OBSOLETE_FOR_OVER_A_YEAR: unconfigured
+    WE_WANT_MANUAL_WIND_ASWELL: unconfigured
+    WE_WANT_SHITTY_PANTS_WIND: unconfigured
+    POO: unconfigured
+    ULTRA_DEBUG: transient
+    VERSION_GERMAN: unconfigured
+    VERSION_FRENCH: unconfigured
+    VERIFY_PLAYBACK: transient
+    TIMEOUT_DEMO: transient
+    GUY: unconfigured
+    EXIT_SUCCESS: unconfigured
+    USE_A3D: unconfigured
+    SHOW_ANIM_NUMS: unconfigured
+    UNUSED: unconfigured
+    DARCI_HITS_COPS: unconfigured
+    ROPER_EVER_ARRESTS_AGAIN: unconfigured
+    WE_WANT_THE_SURFING_THAT_BREAKS_WHEN_YOU_PRESS_C: unconfigured
+    NOT_SETUP_IN_PROJECTILE: unconfigured
+    WE_WANT_TO_TURN_AND_PUT_OUR_BACK_TO_THE_WALL: unconfigured
+    MAKE_FPM_TRACK_ENEMY: transient
+    I_WAS_MAKING_SURE_OF_IT: unconfigured
+    SAVE_A_FEW_MORE_BYTES: unconfigured
+    OLD_DOG_POO_OF_A_SYSTEM_OR_IS_IT: unconfigured
+    FUNNY_FANNY: unconfigured
+    ISNT_THIS_THE_SAME_AS_MOVING_TOO_FAR: unconfigured
+    OLD_METHOD_THAT_LETS_YOU_GET_RIGHT_TO_THE_EDGE_OF_NOGO_SQUARES: unconfigured
+    ANIM_PRIM: unconfigured
+    ANIM_PRIMS: unconfigured
+    MARKS_EXTRA_DEBUG: unconfigured
+    DIKE_DIST_SHIFT: transient
+    BEHEAD: unconfigured
+    GET_RID_OF_THE_BLOODY_MIST: unconfigured
+    MATTS_BUGGY_VERSION: unconfigured
+    UNFINISHED: unconfigured
+    MARKS_MACHINE: unconfigured
+    MARKS_PRIVATE_VERSION: unconfigured
+    VERSION_NTSC: unconfigured
+    WANT_A_KEYBOARD_ITEM: transient
+
+
+
+
+
 useful defines
     DARCI_HITS_COPS
         enables hitting cops (1st level for example)
+
+
+
+
+
 
 
 

@@ -1,6 +1,4 @@
-#ifndef SERVER
-#define SERVER
+#pragma once
 
 #define NO_SERVER 1
 
-#endif

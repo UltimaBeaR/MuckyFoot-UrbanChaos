@@ -2,8 +2,7 @@
 // Interior design module.
 //
 
-#ifndef ID_H
-#define ID_H
+#pragma once
 
 //
 // The size of the box inside which the floorplan can be.
@@ -321,5 +320,3 @@ void ID_editor_start_get_stairs(void);
 SLONG ID_editor_get_room(ID_Roominfo* ans);
 SLONG ID_editor_get_wall(ID_Wallinfo* ans);
 SLONG ID_editor_get_stair(ID_Stairinfo* ans);
-
-#endif

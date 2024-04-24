@@ -1,8 +1,7 @@
 // Player.h
 // Guy Simmons, 2nd January 1998.
 
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -67,5 +66,3 @@ Thing* create_player(UBYTE type, SLONG x, SLONG y, SLONG z, SLONG id);
 //
 
 void PLAYER_redmark(SLONG playerid, SLONG dredmarks);
-
-#endif

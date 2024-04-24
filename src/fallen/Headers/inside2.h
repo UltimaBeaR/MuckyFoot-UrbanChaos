@@ -1,5 +1,4 @@
-#ifndef INSIDE2_H
-#define INSIDE2_H 1
+#pragma once
 
 #include "structs.h"
 
@@ -82,6 +81,4 @@ MAV_Action INSIDE2_mav_enter (Thing *p_person, SLONG inside, UBYTE caps);		// To
 MAV_Action INSIDE2_mav_inside(Thing *p_person, SLONG inside, UBYTE x, UBYTE z);	// Navigating within a floor
 MAV_Action INSIDE2_mav_stair (Thing *p_person, SLONG inside, SLONG new_inside); // Going up the stairs to another floor
 MAV_Action INSIDE2_mav_exit  (Thing *p_person, SLONG inside);					// Exit the building
-#endif
-
 #endif

@@ -1,8 +1,7 @@
 // Map.h
 // Guy Simmons, 22nd October 1997.
 
-#ifndef MAP_H
-#define MAP_H
+#pragma once
 
 #include "light.h"
 
@@ -80,5 +79,3 @@ LIGHT_Colour MAP_light_get_light(SLONG x, SLONG z);
 void MAP_light_set_light(SLONG x, SLONG z, LIGHT_Colour colour);
 
 extern LIGHT_Map MAP_light_map;
-
-#endif

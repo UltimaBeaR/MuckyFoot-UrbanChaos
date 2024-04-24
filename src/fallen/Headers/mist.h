@@ -2,8 +2,7 @@
 // Mist.
 //
 
-#ifndef MIST_H
-#define MIST_H
+#pragma once
 
 //
 // Initialises all the mist.
@@ -55,5 +54,3 @@ void MIST_get_point(SLONG px, SLONG pz,
 void MIST_get_texture(SLONG px, SLONG pz,
     float* u,
     float* v);
-
-#endif

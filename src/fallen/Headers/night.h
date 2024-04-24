@@ -2,8 +2,7 @@
 // Cached lighting.
 //
 
-#ifndef _NIGHT_
-#define _NIGHT_
+#pragma once
 
 #include "pap.h"
 
@@ -582,5 +581,3 @@ SLONG NIGHT_check_index(SLONG walkable_prim_point_index);
 //
 
 void NIGHT_generate_walkable_lighting(void);
-
-#endif

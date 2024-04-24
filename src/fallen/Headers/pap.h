@@ -2,8 +2,7 @@
 // A lower memory map: 100k
 //
 
-#ifndef _PAP_
-#define _PAP_
+#pragma once
 // #include	"game.h" //really requires thing.h but thing.h required game.h so lets cut it off at the pass#
 struct Thing;
 
@@ -163,5 +162,3 @@ void PAP_clear(void);
 SLONG PAP_is_flattish(
     SLONG x1, SLONG z1,
     SLONG x2, SLONG z2);
-
-#endif

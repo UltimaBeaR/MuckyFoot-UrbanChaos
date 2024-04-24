@@ -1,5 +1,4 @@
-#ifndef INTERFACE_H
-#define INTERFACE_H
+#pragma once
 
 //
 // Defines
@@ -126,4 +125,3 @@ extern UBYTE keybrd_button_use[16];
 #define KEYBRD_BUTTON_FORWARDS 13
 #define KEYBRD_BUTTON_BACK 14
 
-#endif // #ifndef	  INTERFACE_H

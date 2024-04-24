@@ -2,8 +2,7 @@
 // Person commands and high-level AI
 //
 
-#ifndef _PCOM_
-#define _PCOM_
+#pragma once
 
 //
 // The types of high-level AI.
@@ -367,5 +366,3 @@ SLONG PCOM_if_i_wanted_to_jump_how_fast_should_i_do_it(Thing* p_person);
 //
 
 SLONG PCOM_call_cop_to_arrest_me(Thing* p_person, SLONG store_it);
-
-#endif

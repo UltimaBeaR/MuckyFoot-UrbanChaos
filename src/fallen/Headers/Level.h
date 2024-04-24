@@ -1,8 +1,7 @@
 // Level.h
 // Guy Simmons, 26th January 1998.
 
-#ifndef LEVEL_H
-#define LEVEL_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -128,4 +127,3 @@ BOOL load_level(ULONG level);
 
 //---------------------------------------------------------------
 
-#endif

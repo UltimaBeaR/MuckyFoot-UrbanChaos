@@ -8,8 +8,7 @@
  *
  */
 
-#ifndef _PAUSE_
-#define _PAUSE_
+#pragma once
 
 //
 // Returns TRUE if you should exit the game loop...
@@ -17,4 +16,3 @@
 
 SLONG PAUSE_handler();
 
-#endif

@@ -1,5 +1,4 @@
-#ifndef IO_H
-#define IO_H
+#pragma once
 
 //
 // Defines
@@ -66,5 +65,3 @@ SLONG load_prim_object(SLONG prim);
 //
 
 void load_all_individual_prims(void);
-
-#endif

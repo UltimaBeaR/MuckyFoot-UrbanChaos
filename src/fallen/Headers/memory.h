@@ -1,5 +1,4 @@
-#ifndef MEMORY_H
-#define MEMORY_H
+#pragma once
 
 #include "supermap.h"
 #include "inside2.h"
@@ -82,5 +81,3 @@ void MEMORY_quick_save(void);
 
 SLONG MEMORY_quick_load_available(void);
 SLONG MEMORY_quick_load(void);
-
-#endif

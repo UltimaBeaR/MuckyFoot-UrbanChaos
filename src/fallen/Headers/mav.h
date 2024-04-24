@@ -2,8 +2,7 @@
 // Marks navigation system.
 //
 
-#ifndef _MAV_
-#define _MAV_
+#pragma once
 
 #include "pap.h"
 #include "structs.h"
@@ -187,5 +186,3 @@ void MAV_turn_movement_off(UBYTE mx, UBYTE mz, UBYTE dir);
 
 void MAV_turn_car_movement_on(UBYTE mx, UBYTE mz, UBYTE dir);
 void MAV_turn_car_movement_off(UBYTE mx, UBYTE mz, UBYTE dir);
-
-#endif

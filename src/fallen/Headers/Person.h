@@ -1,8 +1,7 @@
 // Person.h
 // Guy Simmons, 12th January 1998
 
-#ifndef PERSON_H
-#define PERSON_H
+#pragma once
 #include "../Headers/Structs.h"
 
 //---------------------------------------------------------------
@@ -518,5 +517,3 @@ SLONG calc_dist_benefit_to_gun(SLONG dist);
 SLONG person_get_scale(Thing* t);
 
 //---------------------------------------------------------------
-
-#endif

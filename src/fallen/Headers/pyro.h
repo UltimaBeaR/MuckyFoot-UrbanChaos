@@ -3,8 +3,7 @@
 // Burning (and maybe Exploding) Things
 //
 
-#ifndef PYRO_H
-#define PYRO_H
+#pragma once
 
 #ifdef MIKE
 #define MAX_PYROS 32
@@ -139,4 +138,3 @@ Pyro* PYRO_get_pyro(Thing* pyro_thing);
 
 void PYRO_blast_radius(SLONG x, SLONG y, SLONG z, SLONG radius, SLONG strength);
 
-#endif

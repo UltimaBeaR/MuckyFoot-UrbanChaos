@@ -1,5 +1,4 @@
-#ifndef PRIM_H
-#define PRIM_H 1
+#pragma once
 
 // DEFINES
 
@@ -633,5 +632,3 @@ void clear_all_wmove_flags(void);
 //
 
 SLONG does_fence_lie_along_line(SLONG x1, SLONG z1, SLONG x2, SLONG z2);
-
-#endif

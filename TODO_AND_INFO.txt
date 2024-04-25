@@ -25,7 +25,6 @@ all defines
     USE_D3D_VBUF: unconfigured
     _DEBUG: unconfigured
     SUPERCRINKLES_ENABLED: transient
-    _SW_: unconfigured
     USE_D3D_VBUF: transient
     DISABLE_CRINKLES: transient
     FINAL: unconfigured
@@ -80,29 +79,12 @@ all defines
     SUPERFACET_PERFORMANCE: transient
     SHOW_ME_SUPERFACET_DEBUGGING_PLEASE_BOB: unconfigured
     TESSELATE_DEGREE: transient
-    ALPHA_MODE: transient
-    ALPHA_ADD: transient
-    ALPHA_BLEND: transient
-    SWIZZLE: transient
-    ALPHA_BLEND_NOT_DOUBLE_LIGHTING: transient
-    ALPHA_TEST: transient
     TEXTURE_ENABLE_DC_PACKING: transient
-    THIS_IS_INCLUDED_FROM_SW: unconfigured
-    ALPHA_MODE: unconfigured
-    ALPHA_ADD: unconfigured
-    ALPHA_BLEND: unconfigured
-    SWIZZLE: unconfigured
-    ALPHA_BLEND_NOT_DOUBLE_LIGHTING: unconfigured
-    ALPHA_TEST: unconfigured
     ANTIALIAS_BY_HAND: transient
-    _A3D_MANAGER_H_: unconfigured
-    MF_STD_LIB_H: unconfigured
-    _A3DPLAY_H_: unconfigured
     _DCLL_: unconfigured
     QMDX_H: unconfigured
     APSTUDIO_INVOKED: unconfigured
     APSTUDIO_READONLY_SYMBOLS: unconfigured
-    A3D_SOUND: unconfigured
     VERIFY: unconfigured
     MAD_AM_I: unconfigured
     _RELEASE: unconfigured
@@ -115,57 +97,22 @@ all defines
     STRUCTS_H: unconfigured
     _MSC_VER: unconfigured
     __MSC_VER: unconfigured
-    _CAMTARGETSETUP_H_: unconfigured
-    CAMERA_H: unconfigured
-    _CAMERASETUP_H_: unconfigured
-    EDSTRINGS_H: unconfigured
-    ENEMYSETUP_H: unconfigured
-    ENGWIND_H: unconfigured
-    VERSION_D3D: unconfigured
     IN_BUILDING_H: unconfigured
     _ENV_: unconfigured
-    GEDIT_H: unconfigured
-    ITEMSETUP_H: unconfigured
-    MAPVIEW_H: unconfigured
+    VERSION_D3D: unconfigured
     MISSION_H: unconfigured
-    NAV_H: unconfigured
-    PLAYERSETUP_H: unconfigured
     USE_A3D: transient
-    SUBCLASS_H: unconfigured
-    _TABCTL_H_: unconfigured
-    TRIGGERSETUP_H: unconfigured
-    WSPACE_H: unconfigured
-    WALLHUG_H: unconfigured
-    WAYWIND_H: unconfigured
     _BUILD2_: unconfigured
     _DIKE_: unconfigured
     _DOOR_: unconfigured
     _FRONTEND_H_: unconfigured
     _GAMEMENU_: unconfigured
     INLINE_H: unconfigured
-    _LEAD_: unconfigured
     LIGHT_COLOURED: transient
-    _ND_: unconfigured
     POLY_FADEOUT_START: unconfigured
-    EIDOS: transient
-    USA: unconfigured
-    GERMANY: unconfigured
-    FRANCE: unconfigured
-    KK: unconfigured
-    SINGAPORE: unconfigured
-    LEADER: unconfigured
-    HALIFAX: unconfigured
-    SYNTHESIS: unconfigured
-    DLMM: unconfigured
-    EEM: unconfigured
-    EUROPE: unconfigured
-    JAPAN: unconfigured
-    TDFX: unconfigured
-    PIGEON_H: unconfigured
     _PLAYCUTS_H_: unconfigured
     _POW_: unconfigured
     MIKE: unconfigured
-    _QLS_: unconfigured
     _RIBBON_H_: unconfigured
     _SNIPE_: unconfigured
     _WAND_: unconfigured
@@ -201,7 +148,6 @@ all defines
     SAVE_A_FEW_MORE_BYTES: unconfigured
     OLD_DOG_POO_OF_A_SYSTEM_OR_IS_IT: unconfigured
     FUNNY_FANNY: unconfigured
-    ISNT_THIS_THE_SAME_AS_MOVING_TOO_FAR: unconfigured
     OLD_METHOD_THAT_LETS_YOU_GET_RIGHT_TO_THE_EDGE_OF_NOGO_SQUARES: unconfigured
     ANIM_PRIM: unconfigured
     ANIM_PRIMS: unconfigured
@@ -269,9 +215,14 @@ coan - tool to analyze preprocessor symbols and optimize/throw away unused code 
         --no-transients fixes some bad coan optimizations that should not be done here
 
 
+
+report unique preprocessor directives that are using in project
+    coan symbols --ifs --once-only --gag error --filter cpp,c,h,hpp --recurse src
+
+
+
 things to try
-    report unique preprocessor directives that are using in project
-        coan symbols --ifs --once-only --gag error --filter cpp,c,h,hpp --recurse src
+
 
     https://github.com/myint/cppclean
         dead code ellimination

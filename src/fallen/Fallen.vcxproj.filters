@@ -635,9 +635,6 @@
     <ClInclude Include="Headers\america.h">
       <Filter>fallen\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\Headers\Anim.h">
-      <Filter>fallen\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Headers\animal.h">
       <Filter>fallen\Header Files</Filter>
     </ClInclude>
@@ -717,9 +714,6 @@
       <Filter>fallen\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Headers\drip.h">
-      <Filter>fallen\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Headers\Editor.h">
       <Filter>fallen\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Headers\elev.h">
@@ -843,9 +837,6 @@
       <Filter>fallen\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Headers\pq.h">
-      <Filter>fallen\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\Prim.h">
       <Filter>fallen\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Headers\PSystem.h">
@@ -1166,169 +1157,7 @@
     <ClInclude Include="DDLibrary\Headers\WindProcs.h">
       <Filter>DDLibrary\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\Headers\Alert.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\building.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\BuildTab.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\collide.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\ColTab.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\ComTab.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\CondTab.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\Controls.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\CtrlSet.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\EdCom.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\Edit.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\EditMod.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\Editor.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor\Headers\Editor.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\EditorLib.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\EdUtils.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\EdWay.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\engine.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\extra.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\FileReq.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\game.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\GameEd.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\HmTab.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\Icon.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\Intrface.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\KFrameEd.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\KFramer.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\LevelEd.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\LightTab.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\macros.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\map.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\MapEdTab.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\MapTab.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\ModeTab.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\ObjectEd.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\outline.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\PaintTab.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\perstex.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\Poly.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\prim_draw.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\prim_edit.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\Primativ.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\primtex.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\PrPiTab.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\SaveTab.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\scan.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\scrflc.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\sewertab.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\Stealth.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\Structs.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\TexTab.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\Thing.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\ThingTab.h">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\undo.hpp">
-      <Filter>Editor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor\Headers\Window.hpp">
       <Filter>Editor\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Ledit\Headers\ed.h">
@@ -1406,6 +1235,36 @@
     <ClInclude Include="outro\wire.h">
       <Filter>outro\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DDLibrary\Headers\DCLowLevel.h" />
+    <ClInclude Include="Headers\briefing.h" />
+    <ClInclude Include="Headers\build2.h" />
+    <ClInclude Include="Headers\dike.h" />
+    <ClInclude Include="Headers\door.h" />
+    <ClInclude Include="Headers\Enter.h" />
+    <ClInclude Include="Headers\Env.h" />
+    <ClInclude Include="Headers\frontend.h" />
+    <ClInclude Include="Headers\gamemenu.h" />
+    <ClInclude Include="Headers\grenade.h" />
+    <ClInclude Include="Headers\inline.h" />
+    <ClInclude Include="Headers\Mission.h" />
+    <ClInclude Include="Headers\playcuts.h" />
+    <ClInclude Include="Headers\pow.h" />
+    <ClInclude Include="Headers\ribbon.h" />
+    <ClInclude Include="Headers\snipe.h" />
+    <ClInclude Include="Headers\soundenv.h" />
+    <ClInclude Include="Headers\wand.h" />
+    <ClInclude Include="sedit\Headers\es.h" />
+    <ClInclude Include="sedit\Headers\sedit.h" />
+    <ClInclude Include="Editor\Headers\map.h" />
+    <ClInclude Include="Editor\Headers\EditorLib.h" />
+    <ClInclude Include="Editor\Headers\Edit.h" />
+    <ClInclude Include="Editor\Headers\Anim.h" />
+    <ClInclude Include="Editor\Headers\Primativ.hpp" />
+    <ClInclude Include="Editor\Headers\Prim.h" />
+    <ClInclude Include="Editor\Headers\Thing.h" />
+    <ClInclude Include="Editor\Headers\extra.h" />
+    <ClInclude Include="Editor\Headers\outline.h" />
+    <ClInclude Include="Editor\Headers\prim_draw.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="DDLibrary\bitmap1.bmp">
@@ -1420,6 +1279,22 @@
     <Image Include="DDLibrary\icon1.ico">
       <Filter>Res</Filter>
     </Image>
+    <Image Include="DDLibrary\ahead.bmp" />
+    <Image Include="DDLibrary\bitmap2.bmp" />
+    <Image Include="DDLibrary\bm_red1.bmp" />
+    <Image Include="DDLibrary\bm_red2.bmp" />
+    <Image Include="DDLibrary\bm_red3.bmp" />
+    <Image Include="DDLibrary\bm_red4.bmp" />
+    <Image Include="DDLibrary\bm_red5.bmp" />
+    <Image Include="DDLibrary\bm_red6.bmp" />
+    <Image Include="DDLibrary\bm_red7.bmp" />
+    <Image Include="DDLibrary\icon2.ico" />
+    <Image Include="DDLibrary\mucky_lo.bmp" />
+    <Image Include="DDLibrary\rightturn.bmp" />
+    <Image Include="DDLibrary\scene_ic.bmp" />
+    <Image Include="DDLibrary\stop.bmp" />
+    <Image Include="DDLibrary\toolbar.bmp" />
+    <Image Include="DDLibrary\uturn.BMP" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="DDLibrary\arrowcop.cur">

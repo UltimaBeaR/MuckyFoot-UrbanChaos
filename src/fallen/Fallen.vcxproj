@@ -929,6 +929,8 @@
     <ClInclude Include="outro\slap.h" />
     <ClInclude Include="outro\Tga.h" />
     <ClInclude Include="outro\wire.h" />
+    <ClInclude Include="sedit\Headers\es.h" />
+    <ClInclude Include="sedit\Headers\sedit.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="DDLibrary\arrowcop.cur" />

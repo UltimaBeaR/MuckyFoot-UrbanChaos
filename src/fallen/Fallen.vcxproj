@@ -800,7 +800,6 @@
     <ClInclude Include="Headers\interact.h" />
     <ClInclude Include="Headers\interfac.h" />
     <ClInclude Include="Headers\io.h" />
-    <ClInclude Include="Headers\Level.h" />
     <ClInclude Include="Headers\light.h" />
     <ClInclude Include="Headers\Map.h" />
     <ClInclude Include="Headers\maths.h" />

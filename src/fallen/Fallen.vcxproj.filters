@@ -773,9 +773,6 @@
     <ClInclude Include="Headers\io.h">
       <Filter>fallen\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\Level.h">
-      <Filter>fallen\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Headers\light.h">
       <Filter>fallen\Header Files</Filter>
     </ClInclude>

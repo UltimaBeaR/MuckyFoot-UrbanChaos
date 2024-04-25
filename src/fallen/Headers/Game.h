@@ -51,7 +51,6 @@ extern struct MemTable save_table[];
 
 #include "Structs.h"
 #include "State.h"
-// #include	"Level.h"
 
 #include "drawtype.h"
 

@@ -821,7 +821,6 @@
     <ClInclude Include="Headers\door.h" />
     <ClInclude Include="Headers\drawtype.h" />
     <ClInclude Include="Headers\drip.h" />
-    <ClInclude Include="Headers\Editor.h" />
     <ClInclude Include="Headers\elev.h" />
     <ClInclude Include="Headers\Enter.h" />
     <ClInclude Include="Headers\Env.h" />

@@ -20,17 +20,6 @@
 #define ES_FLAG_ENTRANCE (1 << 1)
 #define ES_FLAG_NOCURBS (1 << 2)
 
-typedef struct
-{
-    UBYTE type;
-    UBYTE height;
-    UBYTE flag;
-    UBYTE water; // 0 => no water.
-
-} ES_Hi;
-
-extern ES_Hi ES_hi[PAP_SIZE_HI][PAP_SIZE_HI];
-
 //
 // Water in the city.
 //
@@ -46,45 +35,7 @@ extern SBYTE ES_city_water_level[PAP_SIZE_LO][PAP_SIZE_LO];
 #define ES_THING_TYPE_LADDER 1
 #define ES_THING_TYPE_PRIM 2
 
-typedef struct
-{
-    UBYTE type;
-    UBYTE padding;
-    UBYTE prim;
-    UBYTE height;
-    UBYTE x1;
-    UBYTE z1;
-    UBYTE x2;
-    UBYTE z2;
-    UWORD yaw;
-    SWORD x;
-    SWORD y;
-    SWORD z;
-
-} ES_Thing;
-
 #define ES_MAX_THINGS 512
-
-extern ES_Thing ES_thing[ES_MAX_THINGS];
-
-//
-// The lo-res mapwho.
-//
-
-typedef struct
-{
-    //
-    // Inside the square.
-    //
-
-    UBYTE light_on; // TRUE or FALSE
-    UBYTE light_x;
-    UBYTE light_y;
-    UBYTE light_z;
-
-} ES_Lo;
-
-extern ES_Lo ES_lo[PAP_SIZE_LO][PAP_SIZE_LO];
 
 //
 // Initialises the ES module.

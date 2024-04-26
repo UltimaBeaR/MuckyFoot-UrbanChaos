@@ -3,10 +3,6 @@
 
 #pragma once
 
-#ifdef __WINDOWS_386__
-#pragma warning 389 9
-#endif
-
 #include "EditorLib.h"
 #pragma warning(disable : 4244)
 #include "Map.h"

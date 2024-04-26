@@ -1,18 +1,5 @@
 #pragma once
 
-#ifdef __WINDOWS_386__
-SLONG MUL64(SLONG, SLONG);
-#pragma aux MUL64 = "	imul	ebx				"  \
-                    "	mov		ax,dx			" \
-                    "	rol		eax,16			" parm[eax][ebx] modify[eax ebx edx] value[eax]
-
-#pragma aux DIV64 = "   mov     eax,edx         " \
-                    "   shl     eax,16          " \
-                    "   sar     edx,16          " \
-                    "   idiv    ebx             " parm[edx][ebx] modify[eax ebx edx] value[eax]
-
-#else
-
 inline SLONG DIV64(SLONG a, SLONG b)
 {
     /* 64bit divide */
@@ -44,4 +31,3 @@ inline SLONG MUL64(SLONG a, SLONG b)
     }
     return (ret_v);
 }
-#endif

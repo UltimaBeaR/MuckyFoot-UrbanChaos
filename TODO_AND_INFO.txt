@@ -88,7 +88,6 @@ all defines
     BOGUS_TGAS_PLEASE_BOB: unconfigured
     DOWNSAMPLE_PLEASE_BOB_AMOUNT: unconfigured
     ULTRA_COMPRESSED_ANIMATIONS: unconfigured
-    __WINDOWS_386__: unconfigured
     USE_TOMS_ENGINE_PLEASE_BOB: transient
     VERSION_D3D: unconfigured
     USE_A3D: transient

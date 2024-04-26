@@ -5,8 +5,7 @@
 // plays back cutscenes made with cutscene.cpp in gedit
 //
 
-#ifndef _PLAYCUTS_H_
-#define _PLAYCUTS_H_
+#pragma once
 
 #include "MFStdLib.h"
 #include "Game.h"
@@ -75,5 +74,3 @@ CPData* PLAYCUTS_Read(MFFileHandle handle);
 void PLAYCUTS_Free(CPData* cutscene);
 void PLAYCUTS_Play(CPData* cutscene);
 void PLAYCUTS_Reset();
-
-#endif

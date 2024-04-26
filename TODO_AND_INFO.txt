@@ -261,12 +261,10 @@ src\fallen\Headers\Structs.h
 
 
 
-src\fallen\Headers\playcuts.h
-src\fallen\Headers\pow.h
-src\fallen\Headers\ribbon.h
-src\fallen\Headers\snipe.h
 
-src\fallen\Headers\wand.h
+
+
+
 src\fallen\sedit\Headers\es.h
 src\fallen\sedit\Headers\sedit.h
 

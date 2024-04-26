@@ -2,8 +2,7 @@
 // The sewer editor.
 //
 
-#ifndef _ES_
-#define _ES_
+#pragma once
 
 #include "pap.h"
 
@@ -221,5 +220,3 @@ SLONG ES_undo_redo_valid(void);
 
 SLONG ES_load(CBYTE* filename);
 SLONG ES_save(CBYTE* filename);
-
-#endif

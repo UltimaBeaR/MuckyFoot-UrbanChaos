@@ -4,8 +4,7 @@
 // matthew rosenfeld 10 nov 1998
 //
 
-#ifndef _RIBBON_H_
-#define _RIBBON_H_
+#pragma once
 
 #include "MFStdLib.h"
 #include "Structs.h"
@@ -44,5 +43,3 @@ void RIBBON_free(SLONG ribbon);
 void RIBBON_extend(SLONG ribbon, SLONG x, SLONG y, SLONG z);
 SLONG RIBBON_length(SLONG ribbon);
 void RIBBON_life(SLONG ribbon, SLONG life);
-
-#endif

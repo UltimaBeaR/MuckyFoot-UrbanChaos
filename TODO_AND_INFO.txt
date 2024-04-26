@@ -16,10 +16,7 @@ all defines
     DEBUG: unconfigured
     HEAP_DEBUGGING_PLEASE_BOB: unconfigured
     BREAKTIMER: unconfigured
-    ENGINE_H: unconfigured
-    _FONT_3D_H_: unconfigured
     USE_W_FOG_PLEASE_BOB: unconfigured
-    _POLYPAGE_: unconfigured
     WE_NEED_POLYBUFFERS_PLEASE_BOB: transient
     TEX_EMBED: unconfigured
     USE_D3D_VBUF: unconfigured
@@ -81,7 +78,6 @@ all defines
     TESSELATE_DEGREE: transient
     TEXTURE_ENABLE_DC_PACKING: transient
     ANTIALIAS_BY_HAND: transient
-    _DCLL_: unconfigured
     QMDX_H: unconfigured
     APSTUDIO_INVOKED: unconfigured
     APSTUDIO_READONLY_SYMBOLS: unconfigured
@@ -94,28 +90,11 @@ all defines
     ULTRA_COMPRESSED_ANIMATIONS: unconfigured
     __WINDOWS_386__: unconfigured
     USE_TOMS_ENGINE_PLEASE_BOB: transient
-    STRUCTS_H: unconfigured
-    _MSC_VER: unconfigured
-    __MSC_VER: unconfigured
-    IN_BUILDING_H: unconfigured
-    _ENV_: unconfigured
     VERSION_D3D: unconfigured
-    MISSION_H: unconfigured
     USE_A3D: transient
-    _BUILD2_: unconfigured
-    _DIKE_: unconfigured
-    _DOOR_: unconfigured
-    _FRONTEND_H_: unconfigured
-    _GAMEMENU_: unconfigured
-    INLINE_H: unconfigured
     LIGHT_COLOURED: transient
     POLY_FADEOUT_START: unconfigured
-    _PLAYCUTS_H_: unconfigured
-    _POW_: unconfigured
     MIKE: unconfigured
-    _RIBBON_H_: unconfigured
-    _SNIPE_: unconfigured
-    _WAND_: unconfigured
     DEMO: transient
     NEW_FRONTEND: transient
     OBEY_SCRIPT: unconfigured
@@ -242,35 +221,3 @@ done
 
     coan source -UBUILD_PSX -UPSX_COMPRESS_LIGHT -UPSX_STERN_REVENGE_BUG_AND_CRAP_DRIVERS -UPSX_NOT_REALLY -UDODGYPSXIFY -UVERSION_PSX -UVERSION_GLIDE --no-transients --filter cpp,c,h,hpp --recurse src
         other psx and glide stuff
-
-
-
-
-
-src\fallen\DDEngine\Headers\Engine.h
-src\fallen\Headers\Structs.h
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-src\fallen\sedit\Headers\es.h
-src\fallen\sedit\Headers\sedit.h
-
-
-
-
-
-src\fallen\outro\Tga.h
-    added outro_ prefix

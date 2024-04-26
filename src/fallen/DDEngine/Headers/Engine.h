@@ -1,8 +1,7 @@
 // Engine.h
 // Guy Simmons, 18th October 1997
 
-#ifndef ENGINE_H
-#define ENGINE_H
+#pragma once
 
 #include "Game.h"
 #include "DDLib.h"
@@ -365,5 +364,3 @@ void e_draw_3d_line_col(SLONG x1, SLONG y1, SLONG z1, SLONG x2, SLONG y2, SLONG 
 void e_draw_3d_line_col_sorted(SLONG x1, SLONG y1, SLONG z1, SLONG x2, SLONG y2, SLONG z2, SLONG r, SLONG g, SLONG b);
 void e_draw_3d_mapwho(SLONG x1, SLONG z1);
 void e_draw_3d_mapwho_y(SLONG x1, SLONG y1, SLONG z1);
-
-#endif

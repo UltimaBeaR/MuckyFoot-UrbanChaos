@@ -81,7 +81,6 @@
 #include "panel.h"
 
 #include "xlat_str.h"
-#include "DCLowLevel.h"
 
 #define TIMEOUT_DEMO 0
 #define VERIFY_PLAYBACK 0 // !$$! set to 1 to verify demo playback

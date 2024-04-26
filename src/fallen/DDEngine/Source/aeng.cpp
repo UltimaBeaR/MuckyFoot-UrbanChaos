@@ -87,7 +87,6 @@
 #include "interfac.h"
 
 #include "polypage.h"
-#include "DCLowLevel.h"
 
 #define POLY_set_local_rotation_none() \
     {                                  \

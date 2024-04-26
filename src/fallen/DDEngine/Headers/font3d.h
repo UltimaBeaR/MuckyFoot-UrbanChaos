@@ -10,8 +10,7 @@
  *
  */
 
-#ifndef _FONT_3D_H_
-#define _FONT_3D_H_
+#pragma once
 
 // #include <MFStdLib.h>
 
@@ -62,7 +61,5 @@ class Font3D {
 	Font3D(char *path, float scale=1.0);
 	~Font3D();
 };
-
-#endif
 
 #endif

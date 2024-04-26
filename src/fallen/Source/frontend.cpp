@@ -40,7 +40,6 @@
 #include "..\DDEngine\headers\polypage.h"
 #include "io.h"
 #include "truetype.h"
-#include "..\ddlibrary\headers\dclowlevel.h"
 #include "panel.h"
 
 #include "interfac.h"

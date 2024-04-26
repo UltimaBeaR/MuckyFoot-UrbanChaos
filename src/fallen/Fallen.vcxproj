@@ -165,10 +165,6 @@
     <ClCompile Include="DDEngine\Source\cone.cpp" />
     <ClCompile Include="DDEngine\Source\console.cpp" />
     <ClCompile Include="DDEngine\Source\Crinkle.cpp" />
-    <ClCompile Include="DDEngine\Source\DCback.cpp" />
-    <ClCompile Include="DDEngine\Source\DCcredits.cpp" />
-    <ClCompile Include="DDEngine\Source\DCfont.cpp" />
-    <ClCompile Include="DDEngine\Source\DCos.cpp" />
     <ClCompile Include="DDEngine\Source\drawxtra.cpp" />
     <ClCompile Include="DDEngine\Source\engineMap.cpp" />
     <ClCompile Include="DDEngine\Source\facet.cpp" />
@@ -664,10 +660,6 @@
     <ClInclude Include="DDEngine\Headers\cone.h" />
     <ClInclude Include="DDEngine\Headers\console.h" />
     <ClInclude Include="DDEngine\Headers\Crinkle.h" />
-    <ClInclude Include="DDEngine\Headers\DCback.h" />
-    <ClInclude Include="DDEngine\Headers\DCcredits.h" />
-    <ClInclude Include="DDEngine\Headers\DCfont.h" />
-    <ClInclude Include="DDEngine\Headers\DCos.h" />
     <ClInclude Include="DDEngine\Headers\DrawXtra.h" />
     <ClInclude Include="DDEngine\Headers\Engine.h" />
     <ClInclude Include="DDEngine\Headers\facet.h" />
@@ -712,7 +704,6 @@
     <ClInclude Include="DDLibrary\Headers\AsyncFile2.h" />
     <ClInclude Include="DDLibrary\Headers\BinkClient.h" />
     <ClInclude Include="DDLibrary\Headers\D3DTexture.h" />
-    <ClInclude Include="DDLibrary\Headers\DCLowLevel.h" />
     <ClInclude Include="DDLibrary\Headers\DDlib.h" />
     <ClInclude Include="DDLibrary\Headers\DDManager.h" />
     <ClInclude Include="DDLibrary\Headers\Debug.h" />

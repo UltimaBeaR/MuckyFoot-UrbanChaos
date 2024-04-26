@@ -110,6 +110,3 @@ void BARREL_shoot(
 // the barrel processing itself. To start the barrel physics again, call
 // BARREL_throw()
 //
-
-void BARREL_position_on_hands(Thing* p_barrel, Thing* p_person);
-void BARREL_throw(Thing* p_barrel);

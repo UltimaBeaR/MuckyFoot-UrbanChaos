@@ -5,12 +5,6 @@
 #pragma once
 
 //
-// Initialises the AZ module.
-//
-
-void AZ_init(void);
-
-//
 // Creates a line-based representation of the current city. Make sure
 // you have already sunken the roads before calling this function.
 //
@@ -32,6 +26,4 @@ typedef struct
 
 extern AZ_Line AZ_line[];
 extern SLONG AZ_line_upto;
-
-void AZ_create_lines(void);
 

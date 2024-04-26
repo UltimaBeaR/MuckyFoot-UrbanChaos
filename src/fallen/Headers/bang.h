@@ -22,12 +22,6 @@ void BANG_process(void);
 
 #define BANG_BIG 0
 
-void BANG_create(
-    SLONG type,
-    SLONG x,
-    SLONG y,
-    SLONG z);
-
 //
 // Drawing the bangs requires a semi-sphere primitive in the engine
 // whose colour of the centre point is given and the colour on the edge
@@ -49,6 +43,3 @@ typedef struct
     UBYTE frame;
 
 } BANG_Info;
-
-void BANG_get_start(UBYTE xmin, UBYTE xmax, UBYTE z);
-BANG_Info* BANG_get_next(void); // NULL => No more bangs.

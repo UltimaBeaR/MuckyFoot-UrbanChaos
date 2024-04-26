@@ -40,12 +40,6 @@ void free_animal(struct Thing* animal_thing);
 
 extern GenusFunctions ANIMAL_functions[ANIMAL_NUMBER];
 
-//
-// Registers an animal's body part...
-//
-
-// GameKeyFrameChunk *ANIMAL_register(char *filename, float x, float y, float z);
-GameKeyFrameChunk* ANIMAL_register(char* filename);
 
 //
 // Creates an animal thing of the given type.  It puts it at the

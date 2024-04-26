@@ -372,11 +372,8 @@ extern SLONG next_inside;
 
 // functions
 
-extern SLONG place_building_at(UWORD prim, SLONG x, SLONG y, SLONG z);
+
 extern void offset_buildings(SLONG x, SLONG y, SLONG z);
-// extern	void	calc_buildings_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
-// extern	void	calc_buildings_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
-extern void draw_a_building_at(UWORD building, SLONG x, SLONG y, SLONG z);
 extern void create_city(UBYTE flag);
 extern SLONG create_building_prim(UWORD building, SLONG* small_y);
 extern SLONG next_connected_face(SLONG type, SLONG id, SLONG count);

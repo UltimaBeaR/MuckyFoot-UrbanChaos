@@ -241,3 +241,35 @@ done
 
     coan source -UBUILD_PSX -UPSX_COMPRESS_LIGHT -UPSX_STERN_REVENGE_BUG_AND_CRAP_DRIVERS -UPSX_NOT_REALLY -UDODGYPSXIFY -UVERSION_PSX -UVERSION_GLIDE --no-transients --filter cpp,c,h,hpp --recurse src
         other psx and glide stuff
+
+
+
+
+
+src\fallen\DDEngine\Headers\Engine.h
+src\fallen\DDEngine\Headers\font3d.h
+src\fallen\DDLibrary\Headers\DCLowLevel.h
+src\fallen\Headers\build2.h
+src\fallen\Headers\dike.h
+src\fallen\Headers\door.h
+src\fallen\Headers\Enter.h
+src\fallen\Headers\Env.h
+src\fallen\Headers\frontend.h
+src\fallen\Headers\gamemenu.h
+src\fallen\Headers\inline.h
+src\fallen\Headers\Mission.h
+src\fallen\Headers\playcuts.h
+src\fallen\Headers\pow.h
+src\fallen\Headers\ribbon.h
+src\fallen\Headers\snipe.h
+src\fallen\Headers\Structs.h
+src\fallen\Headers\wand.h
+src\fallen\sedit\Headers\es.h
+src\fallen\sedit\Headers\sedit.h
+
+
+
+
+
+src\fallen\outro\Tga.h
+    added outro_ prefix

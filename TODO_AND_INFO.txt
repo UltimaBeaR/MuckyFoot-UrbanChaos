@@ -247,8 +247,11 @@ done
 
 
 src\fallen\DDEngine\Headers\Engine.h
-src\fallen\DDEngine\Headers\font3d.h
-src\fallen\DDLibrary\Headers\DCLowLevel.h
+src\fallen\Headers\Structs.h
+
+
+
+
 src\fallen\Headers\build2.h
 src\fallen\Headers\dike.h
 src\fallen\Headers\door.h
@@ -262,7 +265,7 @@ src\fallen\Headers\playcuts.h
 src\fallen\Headers\pow.h
 src\fallen\Headers\ribbon.h
 src\fallen\Headers\snipe.h
-src\fallen\Headers\Structs.h
+
 src\fallen\Headers\wand.h
 src\fallen\sedit\Headers\es.h
 src\fallen\sedit\Headers\sedit.h

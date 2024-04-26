@@ -72,8 +72,6 @@
       <PrecompiledHeaderOutputFile>.\Release\Fallen.pch</PrecompiledHeaderOutputFile>
       <ObjectFileName>.\Release\</ObjectFileName>
       <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
-      <AdditionalOptions> /D /NODEFAULTLIB:libcmtd.lib" "</AdditionalOptions>
-      <StructMemberAlignment>1Byte</StructMemberAlignment>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Midl>
@@ -120,8 +118,6 @@
       <PrecompiledHeaderOutputFile>.\Debug\Fallen.pch</PrecompiledHeaderOutputFile>
       <ObjectFileName>.\Debug\</ObjectFileName>
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
-      <AdditionalOptions> /D /NODEFAULTLIB:libcmtd.lib" "</AdditionalOptions>
-      <StructMemberAlignment>1Byte</StructMemberAlignment>
       <AdditionalIncludeDirectories>Headers;..\fallen\ledit\headers;..\fallen\sedit\headers;..\fallen\DDLibrary\Headers;..\fallen\ddengine\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>

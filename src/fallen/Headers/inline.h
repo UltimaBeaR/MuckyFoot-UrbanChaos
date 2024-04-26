@@ -1,5 +1,4 @@
-#ifndef INLINE_H
-#define INLINE_H
+#pragma once
 
 #ifdef __WINDOWS_386__
 SLONG MUL64(SLONG, SLONG);
@@ -45,6 +44,4 @@ inline SLONG MUL64(SLONG a, SLONG b)
     }
     return (ret_v);
 }
-#endif
-
 #endif

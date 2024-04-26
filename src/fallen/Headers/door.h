@@ -2,8 +2,7 @@
 // Doors
 //
 
-#ifndef _DOOR_
-#define _DOOR_
+#pragma once
 
 //
 // Doors in the process of opening or closing.
@@ -31,5 +30,3 @@ void DOOR_shut(SLONG world_x, SLONG world_z);
 //
 
 void DOOR_process(void);
-
-#endif

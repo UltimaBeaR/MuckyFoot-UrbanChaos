@@ -6,8 +6,7 @@
 // this is our new front end thingy to replace the hideous startscr.cpp
 //
 
-#ifndef _FRONTEND_H_
-#define _FRONTEND_H_
+#pragma once
 
 #include "MFStdLib.h"
 
@@ -17,5 +16,3 @@ void FRONTEND_level_won();
 void FRONTEND_level_lost();
 
 extern UBYTE IsEnglish;
-
-#endif

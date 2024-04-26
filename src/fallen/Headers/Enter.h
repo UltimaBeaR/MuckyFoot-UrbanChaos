@@ -2,8 +2,8 @@
 // Building related stuff
 //
 
-#ifndef IN_BUILDING_H
-#define IN_BUILDING_H
+#pragma once
+
 #include "Game.h"
 
 //
@@ -57,5 +57,3 @@ void ENTER_get_extents(
 //
 
 SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_best_layout);
-
-#endif

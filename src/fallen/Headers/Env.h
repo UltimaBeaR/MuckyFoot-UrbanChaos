@@ -2,8 +2,7 @@
 // Loads an environment from a file.
 //
 
-#ifndef _ENV_
-#define _ENV_
+#pragma once
 
 //
 // now we use standard Windows .INI files
@@ -24,5 +23,3 @@ SLONG ENV_get_value_number(CBYTE* name, SLONG def, CBYTE* section = "Game"); // 
 
 void ENV_set_value_string(CBYTE* name, CBYTE* value, CBYTE* section = "Game");
 void ENV_set_value_number(CBYTE* name, SLONG value, CBYTE* section = "Game");
-
-#endif

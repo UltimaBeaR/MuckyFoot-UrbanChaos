@@ -1,8 +1,7 @@
 //	Mission.h
 //	Guy Simmons, 2nd August 1998.
 
-#ifndef MISSION_H
-#define MISSION_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -545,5 +544,3 @@ void SetEPTextID(EventPoint* ep, SLONG value = -1);
 CBYTE* GetEPText(EventPoint* ep);
 
 //---------------------------------------------------------------
-
-#endif

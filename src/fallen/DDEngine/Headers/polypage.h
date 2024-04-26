@@ -1,3 +1,5 @@
+#pragma once
+
 // polypage.h
 //
 // PolyPage class - main low-level rendering
@@ -8,9 +10,6 @@
 // #define TEX_EMBED		// must be set the same in D3DTexture.h
 // Do need to sort, and so need polybuffers
 #define WE_NEED_POLYBUFFERS_PLEASE_BOB 1
-
-#ifndef _POLYPAGE_
-#define _POLYPAGE_
 
 #include "renderstate.h"
 #include "vertexbuffer.h"
@@ -162,8 +161,6 @@ public:
 #pragma pack(pop)
 
 extern PolyPage POLY_Page[POLY_NUM_PAGES];
-
-#endif
 
 // A routine to emulate the DC's DrawPrimtiveMM call on the PC, so
 // that people can use it when developing on the PC.

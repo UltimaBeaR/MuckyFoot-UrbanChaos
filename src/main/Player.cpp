@@ -1,7 +1,7 @@
 // Player.cpp
 // Guy Simmons, 5th December 1997.
 
-#include "Game.h"
+#include "game.h"
 #include "Darci.h"
 #include "Roper.h"
 #include "statedef.h"

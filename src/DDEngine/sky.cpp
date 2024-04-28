@@ -4,7 +4,7 @@
 
 #include "../MFStdLib/MFStdlib.h"
 #include <DDLib.h>
-#include "game.h"
+#include "../main/game.h"
 #include "matrix.h"
 #include "poly.h"
 #include "aeng.h"

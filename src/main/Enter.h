@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Game.h"
+#include "game.h"
 
 //
 // Stories are identified by the height of their floor.

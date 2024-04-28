@@ -1,7 +1,7 @@
 // Enemy.cpp
 // Guy Simmons, 6th December 1997.
 
-#include "Game.h"
+#include "game.h"
 #include "person.h"
 #include "animate.h"
 #include "..\Editor\Headers\Thing.h"

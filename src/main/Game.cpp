@@ -2,7 +2,7 @@
 // Guy Simmons, 17th October 1997
 
 #include "demo.h"
-#include "Game.h"
+#include "game.h"
 #include "pap.h"
 #include "Attract.h"
 #include "id.h"
@@ -50,7 +50,7 @@
 #include "pause.h"
 #include "snipe.h"
 #include "pow.h"
-#include "Game.h"
+#include "game.h"
 #include "widget.h"
 #include "memory.h"
 #include "fc.h"

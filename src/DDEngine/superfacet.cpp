@@ -2,7 +2,7 @@
 // Converts facets to draw indexed primitive calls...
 //
 
-#include "game.h"
+#include "../main/game.h"
 #include "ddlib.h"
 #include "poly.h"
 #include "polypoint.h"

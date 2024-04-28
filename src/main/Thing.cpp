@@ -1,7 +1,7 @@
 // Thing.cpp
 // Guy Simmons, 14th October 1997.
 
-#include "Game.h"
+#include "game.h"
 #include "statedef.h"
 #include "cnet.h"
 #include "..\ddlibrary\headers\net.h"

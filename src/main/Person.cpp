@@ -1,7 +1,7 @@
 // Person.cpp
 // Guy Simmons, 12th January 1998.
 
-#include "Game.h"
+#include "game.h"
 #include "Cop.h"
 #include "cam.h"
 #include "Darci.h"
@@ -5485,7 +5485,6 @@ void actually_fire_gun(Thing* p_person)
             NIGHT_dlight[dlight].flag |= NIGHT_DLIGHT_FLAG_REMOVE;
         }
     }
-
 
     extern void DIRT_create_brass(SLONG x, SLONG y, SLONG z, SLONG angle);
 
@@ -16084,20 +16083,20 @@ void fn_person_gun(Thing* p_person)
             // Let's try some gun smoke
             //
             SLONG px, py, pz, alpha;
-/*
-                                        calc_sub_objects_position(
-                                                p_person,
-                                                p_person->Draw.Tweened->AnimTween,
-                                                SUB_OBJECT_RIGHT_HAND,
-                                           &px,
-                                           &py,
-                                           &pz);
+            /*
+                                                    calc_sub_objects_position(
+                                                            p_person,
+                                                            p_person->Draw.Tweened->AnimTween,
+                                                            SUB_OBJECT_RIGHT_HAND,
+                                                       &px,
+                                                       &py,
+                                                       &pz);
 
-                                        px<<=8; py<<=8; pz<<=8;
-                                        px += p_person->WorldPos.X;
-                                        py += p_person->WorldPos.Y;
-                                        pz += p_person->WorldPos.Z;
-*/
+                                                    px<<=8; py<<=8; pz<<=8;
+                                                    px += p_person->WorldPos.X;
+                                                    py += p_person->WorldPos.Y;
+                                                    pz += p_person->WorldPos.Z;
+            */
             alpha = (0x6f - (p_person->Draw.Tweened->FrameIndex * 4));
             if (alpha >= 0) {
                 alpha <<= 24;

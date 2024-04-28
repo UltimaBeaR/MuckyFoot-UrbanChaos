@@ -8,7 +8,7 @@
 #pragma once
 
 #include "../MFStdLib/MFStdlib.h"
-#include "Game.h"
+#include "game.h"
 
 //----------------------------------------------------------------------------
 // DEFINES

@@ -1,7 +1,7 @@
 // Effect.cpp
 // Guy Simmons, 8th December 1997.
 
-#include "Game.h"
+#include "game.h"
 
 #define SPEED OnFace
 #define RADIUS Index

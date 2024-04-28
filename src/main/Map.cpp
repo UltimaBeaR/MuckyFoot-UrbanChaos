@@ -1,7 +1,7 @@
 // Map.cpp
 // Guy Simmons, 22nd October 1997.
 
-#include "Game.h"
+#include "game.h"
 
 //---------------------------------------------------------------
 void init_map(void)

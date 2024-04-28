@@ -2,7 +2,7 @@
 // Simple ovals underneath people, barrels etc...
 //
 
-#include "game.h"
+#include "../main/game.h"
 #include "ddlib.h"
 #include "mav.h"
 #include "poly.h"

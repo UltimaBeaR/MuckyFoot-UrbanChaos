@@ -6,7 +6,7 @@
 //
 
 #include "playcuts.h"
-#include "Game.h"
+#include "game.h"
 
 #include "person.h"
 #include "psystem.h"

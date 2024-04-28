@@ -3,7 +3,7 @@
 
 #include "DDLib.h"
 #include "..\headers\env.h"
-#include "..\headers\game.h"
+#include "../main/game.h"
 #include <tchar.h>
 
 DDDriverManager the_manager;

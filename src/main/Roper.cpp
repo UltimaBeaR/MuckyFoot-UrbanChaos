@@ -1,7 +1,7 @@
 // Roper.cpp
 // Guy Simmons, 4th January 1998
 
-#include "Game.h"
+#include "game.h"
 #include "Roper.h"
 #include "statedef.h"
 #include "animate.h"

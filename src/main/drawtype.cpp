@@ -1,7 +1,7 @@
 // drawtype.cpp
 // Mike Diskett, 15th January 1998.
 
-#include "Game.h"
+#include "game.h"
 #include "memory.h"
 
 //---------------------------------------------------------------

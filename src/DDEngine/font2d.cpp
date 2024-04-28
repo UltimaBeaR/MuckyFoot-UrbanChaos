@@ -11,7 +11,7 @@
 #include "noserver.h"
 #include <DDLib.h>
 #include "truetype.h"
-#include "game.h"
+#include "../main/game.h"
 
 #ifdef _DEBUG
 #define PERHAPS if (!Keys[KB_J])
@@ -72,7 +72,7 @@ FONT2D_Letter FONT2D_letter[FONT2D_NUM_LETTERS];
 //
 
 CBYTE FONT2D_punct[] = {
-    "!\"£$%^&*(){}[]<>\\/:;'@#_?-=+.,"
+    "!\"ï¿½$%^&*(){}[]<>\\/:;'@#_?-=+.,"
 
     //
     // German characters in decimal and octal!
@@ -81,13 +81,13 @@ CBYTE FONT2D_punct[] = {
     // (a) We can type them in directly and this can be physically matched against the bitmap
     // (b) We can type them *all* in, instead of missing a few
 
-    "ÄËÏÖØÜßïöø"
+    "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 
     //
     // French characters
     //
 
-    "ÆÇÔàâçèéêîïôøû"
+    "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 
     //
     // Spanish
@@ -95,7 +95,7 @@ CBYTE FONT2D_punct[] = {
     // 161,191,216,225,228,233,237,241,243,248,250
     //
 
-    "¡¿Øáäéíñóøú"
+    "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 
     //
     // Italian
@@ -104,7 +104,7 @@ CBYTE FONT2D_punct[] = {
     //
     //
 
-    "ÀÈÌÒÙàìòùü©®"
+    "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 };
 
 // ARGH! Can't get this sodding type right. Do it with a typedef.
@@ -247,7 +247,7 @@ SLONG FONT2D_GetIndex(CBYTE chr)
     // Remap certain characters first
     //
 
-    if (chr == 'É')
+    if (chr == 'ï¿½')
         chr = 'E';
 
     //
@@ -282,8 +282,8 @@ SLONG FONT2D_GetLetterWidth(CBYTE chr)
 {
     SLONG letter;
 
-    if ((chr == ' ') || (chr == '¬')) {
-        // ¬ is a non-wrapping space.
+    if ((chr == ' ') || (chr == 'ï¿½')) {
+        // ï¿½ is a non-wrapping space.
         return 8;
     }
 
@@ -324,8 +324,8 @@ SLONG FONT2D_DrawLetter(CBYTE chr, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLO
         chr = 39;
     }
 
-    // ¬ is a non-wrapping space.
-    if (chr == ' ' || chr == '\n' || chr == '\r' || chr == '\t' || chr == '¬') {
+    // ï¿½ is a non-wrapping space.
+    if (chr == ' ' || chr == '\n' || chr == '\r' || chr == '\t' || chr == 'ï¿½') {
         return 8 * scale >> 8;
     }
 

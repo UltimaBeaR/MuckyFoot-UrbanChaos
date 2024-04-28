@@ -1,7 +1,7 @@
 // Darci.cpp
 // Guy Simmons, 4th January 1998
 
-#include "Game.h"
+#include "game.h"
 #include "Darci.h"
 #include "animate.h"
 #include "combat.h"

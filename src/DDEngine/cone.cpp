@@ -2,7 +2,7 @@
 // Cones clipped by planar polygons.
 //
 
-#include "game.h"
+#include "../main/game.h"
 #include "poly.h"
 #include "cone.h"
 #include "pap.h"

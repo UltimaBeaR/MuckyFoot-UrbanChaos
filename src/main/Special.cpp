@@ -21,7 +21,7 @@
 // So long lives this, and this gives life to thee.
 //
 
-#include "Game.h"
+#include "game.h"
 #include "StateDef.h"
 #include "Special.h"
 #include "eway.h"

@@ -1,7 +1,7 @@
 // Cop.cpp
 // Guy Simmons, 12th January 1998.
 
-#include "Game.h"
+#include "game.h"
 // #include	"Command.h"
 #include "Cop.h"
 #include "statedef.h"

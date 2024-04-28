@@ -9,7 +9,7 @@
 #include "vertexbuffer.h"
 #include "polypoint.h"
 #include "renderstate.h"
-#include "game.h"
+#include "../main/game.h"
 #include "matrix.h"
 
 #include "polypage.h"

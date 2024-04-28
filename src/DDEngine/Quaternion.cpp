@@ -1,6 +1,6 @@
 #include <math.h>
 
-#include "game.h"
+#include "../main/game.h"
 #include "Quaternion.h"
 #include "..\headers\fmatrix.h"
 

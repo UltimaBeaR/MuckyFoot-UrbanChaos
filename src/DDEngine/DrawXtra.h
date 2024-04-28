@@ -10,7 +10,7 @@
 #pragma once
 
 #include "../MFStdLib/MFStdlib.h"
-#include "game.h"
+#include "../main/game.h"
 #include "thing.h"
 #include "ribbon.h"
 

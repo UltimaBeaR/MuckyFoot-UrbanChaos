@@ -1,7 +1,7 @@
 // Switch.cpp
 // Guy Simmons, 9th March 1998.
 
-#include "Game.h"
+#include "game.h"
 #include "statedef.h"
 #include "Switch.h"
 

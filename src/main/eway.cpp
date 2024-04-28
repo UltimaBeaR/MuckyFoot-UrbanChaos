@@ -3530,7 +3530,7 @@ void EWAY_process_camera(void)
 
                 if (!EWAY_conv_ambient)
                     if (NET_PLAYER(0)->Genus.Player->Pressed & (INPUT_MASK_JUMP | INPUT_MASK_KICK | INPUT_MASK_ACTION | INPUT_MASK_PUNCH)) {
-                            EWAY_cam_skip = 0;
+                        EWAY_cam_skip = 0;
                     }
             }
         }

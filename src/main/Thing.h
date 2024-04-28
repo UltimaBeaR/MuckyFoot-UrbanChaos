@@ -2,9 +2,9 @@
 // Guy Simmons, 15th October 1997.
 
 #pragma once
-#include "../Headers/Game.h"
-#include "../Headers/drawtype.h"
-#include "../Headers/vehicle.h"
+#include "game.h"
+#include "drawtype.h"
+#include "vehicle.h"
 
 //---------------------------------------------------------------
 /*

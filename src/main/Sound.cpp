@@ -1,7 +1,7 @@
 //	Sound.cpp
 //	Guy Simmons, 8th May 1998.
 
-#include "Game.h"
+#include "game.h"
 
 #include "cnet.h"
 #include "Sound.h"

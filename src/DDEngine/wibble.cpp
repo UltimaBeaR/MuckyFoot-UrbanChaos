@@ -1,4 +1,4 @@
-#include "game.h"
+#include "../main/game.h"
 #include <ddlib.h>
 
 SLONG mul_y1;

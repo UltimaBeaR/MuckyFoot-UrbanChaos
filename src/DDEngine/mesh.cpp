@@ -2,7 +2,7 @@
 // Drawing rotating prims.
 //
 
-#include "game.h"
+#include "../main/game.h"
 #include "aeng.h"
 #include "matrix.h"
 #include "mesh.h"

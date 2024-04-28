@@ -5,7 +5,7 @@
 #include "../MFStdLib/MFStdlib.h"
 #include <DDLib.h>
 #include <math.h>
-#include "Game.h" //	Guy	-	4 DEMO
+#include "../main/game.h" //	Guy	-	4 DEMO
 #include "matrix.h"
 #include "poly.h"
 #include "texture.h"

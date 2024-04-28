@@ -15,7 +15,7 @@
 #include "polypage.h"
 #include "gdisplay.h"
 #include "panel.h"
-#include "..\headers\game.h"
+#include "../main/game.h"
 
 //
 // From mfx_miles.h...

@@ -2,7 +2,7 @@
 // Draws prims super-fast!
 //
 
-#include "game.h"
+#include "../main/game.h"
 #include "ddlib.h"
 #include "poly.h"
 #include "polypoint.h"

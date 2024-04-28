@@ -6,7 +6,7 @@
  *
  */
 
-#include "game.h"
+#include "../main/game.h"
 #include "console.h"
 #include "poly.h"
 #include "..\DDLibrary\headers\D3DTexture.h"

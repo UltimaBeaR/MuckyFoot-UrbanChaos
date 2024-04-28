@@ -2,7 +2,7 @@
 // Texture handling.
 //
 
-#include "game.h"
+#include "../main/game.h"
 #include <DDLib.h>
 #include "..\ddlibrary\headers\tga.h"
 #include "texture.h"

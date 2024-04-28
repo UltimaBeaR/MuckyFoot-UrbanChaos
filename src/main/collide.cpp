@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "game.h"
 // #include	"..\editor\headers\collide.hpp"
 #include "..\editor\headers\map.h"
 #include "animate.h"

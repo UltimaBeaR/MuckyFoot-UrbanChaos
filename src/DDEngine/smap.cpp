@@ -2,7 +2,7 @@
 // Shadow maps!
 //
 
-#include "game.h"
+#include "../main/game.h"
 #include "smap.h"
 #include "aa.h"
 #include "..\headers\person.h"

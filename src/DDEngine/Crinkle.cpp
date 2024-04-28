@@ -2,7 +2,7 @@
 // Crinkles!
 //
 
-#include "game.h"
+#include "../main/game.h"
 #include "poly.h"
 #include "crinkle.h"
 

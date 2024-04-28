@@ -5,7 +5,7 @@
 #include "../MFStdLib/MFStdlib.h"
 #include <DDLib.h>
 #include <math.h>
-#include "game.h"
+#include "../main/game.h"
 #include "poly.h"
 #include "text.h"
 #include "texture.h"

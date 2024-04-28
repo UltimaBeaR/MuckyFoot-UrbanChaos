@@ -1,7 +1,7 @@
 // Thug.cpp
 // Guy Simmons, 8th February 1998.
 
-#include "Game.h"
+#include "game.h"
 // #include	"Command.h"
 #include "Thug.h"
 #include "statedef.h"

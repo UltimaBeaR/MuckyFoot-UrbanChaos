@@ -9,7 +9,7 @@
 #include "matrix.h"
 #include "..\editor\headers\prim.h"
 #include "mesh.h"
-#include "game.h"
+#include "../main/game.h"
 
 // How much to shift the W value up by to prevent Z-fighting.
 #define DC_SHADOW_Z_ADJUST 0.0001f

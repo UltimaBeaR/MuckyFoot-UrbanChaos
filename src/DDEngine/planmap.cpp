@@ -2,7 +2,7 @@
 #include <DDLib.h>
 #include <math.h>
 #include "aeng.h"
-#include "game.h"
+#include "../main/game.h"
 #include "..\headers\pap.h"
 #include "..\headers\road.h"
 #include "planmap.h"

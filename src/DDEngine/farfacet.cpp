@@ -2,7 +2,7 @@
 // Faster far-facets...
 //
 
-#include "game.h"
+#include "../main/game.h"
 #include "ddlib.h"
 #include "pap.h"
 #include "poly.h"

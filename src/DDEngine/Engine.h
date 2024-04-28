@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "Game.h"
+#include "../main/game.h"
 #include "DDLib.h"
 
 #include "Gamut.h"

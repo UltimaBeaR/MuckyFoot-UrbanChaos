@@ -1,7 +1,7 @@
 // Control.cpp
 // Guy Simmons, 4th November 1997.
 
-#include "Game.h"
+#include "game.h"
 #include "enter.h"
 #include "id.h"
 #include "dirt.h"
@@ -123,7 +123,7 @@ UBYTE InkeyToAscii[] = {
 };
 
 UBYTE InkeyToAsciiShift[] = {
-    /*   0 - 9   */ 0, 0, '!', '"', 'œ', '$', '%', '^', '&', '*',
+    /*   0 - 9   */ 0, 0, '!', '"', 'ï¿½', '$', '%', '^', '&', '*',
     /*  10 - 19  */ '(', ')', '_', '+', '\b', '\t', 'Q', 'W', 'E', 'R',
     /*  20 - 29  */ 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', 0, 0,
     /*  30 - 39  */ 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':',
@@ -1692,7 +1692,7 @@ void process_controls(void)
         // set_person_dead(darci, NULL, PERSON_DEATH_TYPE_LEG_SWEEP, 0, 0);
     }
 
-    //	PANEL_new_text(NULL, 2000, "abcdefghijk lmnopqr stuvwxyz ABCDEFG HIJKLMNO PQRSTUVWXYZ 0123456789 !\"£$%^ &*(){} []<>\\/:;'@ #~?-=+.,");
+    //	PANEL_new_text(NULL, 2000, "abcdefghijk lmnopqr stuvwxyz ABCDEFG HIJKLMNO PQRSTUVWXYZ 0123456789 !\"ï¿½$%^ &*(){} []<>\\/:;'@ #~?-=+.,");
     //	PANEL_new_text(NULL, 2000, "a-b-c-d-e-f-g  h-i-j-k-l-m-n");
 
 #if THIS_IS_A_LOS_TEST
@@ -1810,10 +1810,10 @@ void process_controls(void)
 			"xyzABCDEFGHIJKLMNOPQRS "
 			"TUVWXYZ0123456789!\"#$ "
 			"%^&*(){}[]<>\\/:;'@#_?-=+., "
-			"ÄË ABC ÏÖØÜß Abc ïöøü "
-			"ÆÇôàâç abc èéê abc îïôøû "
-			"¡¿Ø abc áäéí abc ñóøú "
- 			"ÀÈ ABC ÌÒÙàì abc òù©®");
+			"ï¿½ï¿½ ABC ï¿½ï¿½ï¿½ï¿½ï¿½ Abc ï¿½ï¿½ï¿½ï¿½ "
+			"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ abc ï¿½ï¿½ï¿½ abc ï¿½ï¿½ï¿½ï¿½ï¿½ "
+			"ï¿½ï¿½ï¿½ abc ï¿½ï¿½ï¿½ï¿½ abc ï¿½ï¿½ï¿½ï¿½ "
+ 			"ï¿½ï¿½ ABC ï¿½ï¿½ï¿½ï¿½ï¿½ abc ï¿½ï¿½ï¿½ï¿½");
 	}
 #endif
 

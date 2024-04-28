@@ -1,6 +1,6 @@
 #include "../MFStdLib/MFStdlib.h"
 #include <DDLib.h>
-#include "game.h"
+#include "../main/game.h"
 #include "ray.h"
 #include "poly.h"
 #include "inline.h"

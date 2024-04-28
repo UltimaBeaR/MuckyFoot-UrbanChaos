@@ -1,7 +1,7 @@
 // Attract.cpp
 // Guy Simmons, 20th November 1997.
 
-#include "Game.h"
+#include "game.h"
 #include "cam.h"
 #include "..\Headers\ddlib.h"
 #include "font2d.h"

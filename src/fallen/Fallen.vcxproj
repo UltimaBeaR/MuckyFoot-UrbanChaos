@@ -565,38 +565,5 @@
     <ClInclude Include="sedit\Headers\es.h" />
     <ClInclude Include="sedit\Headers\sedit.h" />
   </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="DDLibrary\arrowcop.cur" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="DDLibrary\ahead.bmp" />
-    <Image Include="DDLibrary\bitmap1.bmp" />
-    <Image Include="DDLibrary\bitmap2.bmp" />
-    <Image Include="DDLibrary\bmp00001.bmp" />
-    <Image Include="DDLibrary\bm_red1.bmp" />
-    <Image Include="DDLibrary\bm_red2.bmp" />
-    <Image Include="DDLibrary\bm_red3.bmp" />
-    <Image Include="DDLibrary\bm_red4.bmp" />
-    <Image Include="DDLibrary\bm_red5.bmp" />
-    <Image Include="DDLibrary\bm_red6.bmp" />
-    <Image Include="DDLibrary\bm_red7.bmp" />
-    <Image Include="DDLibrary\ico00001.ico" />
-    <Image Include="DDLibrary\icon1.ico" />
-    <Image Include="DDLibrary\icon2.ico" />
-    <Image Include="DDLibrary\mucky_lo.bmp" />
-    <Image Include="DDLibrary\rightturn.bmp" />
-    <Image Include="DDLibrary\scene_ic.bmp" />
-    <Image Include="DDLibrary\stop.bmp" />
-    <Image Include="DDLibrary\toolbar.bmp" />
-    <Image Include="DDLibrary\uturn.BMP" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="DDLibrary\DDlib.rc">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">DDLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">DDLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
 </Project>

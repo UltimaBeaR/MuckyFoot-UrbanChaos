@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <!-- maybe use OutDir or IntDir instead of ProjectDir here  -->
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)\Debug</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)\Release</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Label="Globals">
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <ProjectGuid>{66A37855-71A1-40B6-BA26-2F4C69C4FFA8}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\Debug\</OutDir>
+    <IntDir>.\Debug\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_RELEASE;WIN32;_WINDOWS;VERSION_D3D;TEX_EMBED;FINAL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Release\Fallen.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release\Fallen.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <RedirectOutputAndErrors>NUL</RedirectOutputAndErrors>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\Fallen.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>.\Release\Fallen.exe</OutputFile>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;amstrmid.lib;quartz.lib;strmbase.lib;ddraw.lib;dinput8.lib;dxguid.lib;SDL2.lib;imm32.lib;Version.lib;OpenAL32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level2</WarningLevel>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PreprocessorDefinitions>_WINDOWS;WIN32;_DEBUG;DEBUG;VERSION_D3D;TEX_EMBED;WINDOWS_IGNORE_PACKING_MISMATCH;DARCI_HITS_COPS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Debug\Fallen.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug\Fallen.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <RedirectOutputAndErrors>NUL</RedirectOutputAndErrors>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug\Fallen.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>.\Debug\Fallen.exe</OutputFile>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;amstrmid.lib;quartz.lib;strmbase.lib;ddraw.lib;dinput8.lib;dxguid.lib;imm32.lib;Version.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\MFStdLib\StdFile.cpp" />
+    <ClCompile Include="src\MFStdLib\StdMaths.cpp" />
+    <ClCompile Include="src\MFStdLib\StdMem.cpp" />
+    <ClCompile Include="src\DDEngine\aa.cpp" />
+    <ClCompile Include="src\DDEngine\aeng.cpp" />
+    <ClCompile Include="src\DDEngine\BreakTimer.cpp" />
+    <ClCompile Include="src\DDEngine\Bucket.cpp" />
+    <ClCompile Include="src\DDEngine\build.cpp" />
+    <ClCompile Include="src\DDEngine\comp.cpp" />
+    <ClCompile Include="src\DDEngine\cone.cpp" />
+    <ClCompile Include="src\DDEngine\console.cpp" />
+    <ClCompile Include="src\DDEngine\Crinkle.cpp" />
+    <ClCompile Include="src\DDEngine\drawxtra.cpp" />
+    <ClCompile Include="src\DDEngine\engineMap.cpp" />
+    <ClCompile Include="src\DDEngine\facet.cpp" />
+    <ClCompile Include="src\DDEngine\farfacet.cpp" />
+    <ClCompile Include="src\DDEngine\fastprim.cpp" />
+    <ClCompile Include="src\DDEngine\figure.cpp" />
+    <ClCompile Include="src\DDEngine\flamengine.cpp" />
+    <ClCompile Include="src\DDEngine\Font.cpp" />
+    <ClCompile Include="src\DDEngine\font2d.cpp" />
+    <ClCompile Include="src\DDEngine\font3d.cpp" />
+    <ClCompile Include="src\DDEngine\Gamut.cpp" />
+    <ClCompile Include="src\DDEngine\ic.cpp" />
+    <ClCompile Include="src\DDEngine\Matrix.cpp" />
+    <ClCompile Include="src\DDEngine\menufont.cpp" />
+    <ClCompile Include="src\DDEngine\mesh.cpp" />
+    <ClCompile Include="src\DDEngine\Message.cpp" />
+    <ClCompile Include="src\DDEngine\NGamut.cpp" />
+    <ClCompile Include="src\DDEngine\oval.cpp" />
+    <ClCompile Include="src\DDEngine\panel.cpp" />
+    <ClCompile Include="src\DDEngine\planmap.cpp" />
+    <ClCompile Include="src\DDEngine\poly.cpp" />
+    <ClCompile Include="src\DDEngine\polypage.cpp" />
+    <ClCompile Include="src\DDEngine\polypoint.cpp" />
+    <ClCompile Include="src\DDEngine\polyrenderstate.cpp" />
+    <ClCompile Include="src\DDEngine\qeng.cpp" />
+    <ClCompile Include="src\DDEngine\Quaternion.cpp" />
+    <ClCompile Include="src\DDEngine\ray.cpp" />
+    <ClCompile Include="src\DDEngine\renderstate.cpp" />
+    <ClCompile Include="src\DDEngine\shape.cpp" />
+    <ClCompile Include="src\DDEngine\sky.cpp" />
+    <ClCompile Include="src\DDEngine\smap.cpp" />
+    <ClCompile Include="src\DDEngine\sprite.cpp" />
+    <ClCompile Include="src\DDEngine\supercrinkle.cpp" />
+    <ClCompile Include="src\DDEngine\superfacet.cpp" />
+    <ClCompile Include="src\DDEngine\Text.cpp" />
+    <ClCompile Include="src\DDEngine\texture.cpp" />
+    <ClCompile Include="src\DDEngine\truetype.cpp" />
+    <ClCompile Include="src\DDEngine\vertexbuffer.cpp" />
+    <ClCompile Include="src\DDEngine\wibble.cpp" />
+    <ClCompile Include="src\DDLibrary\AsyncFile2.cpp" />
+    <ClCompile Include="src\DDLibrary\BinkClient.cpp" />
+    <ClCompile Include="src\DDLibrary\D3DTexture.cpp" />
+    <ClCompile Include="src\DDLibrary\DDManager.cpp" />
+    <ClCompile Include="src\DDLibrary\DIManager.cpp" />
+    <ClCompile Include="src\DDLibrary\Drive.cpp" />
+    <ClCompile Include="src\DDLibrary\FFManager.cpp" />
+    <ClCompile Include="src\DDLibrary\FileClump.cpp" />
+    <ClCompile Include="src\DDLibrary\GDebug.cpp" />
+    <ClCompile Include="src\DDLibrary\GDisplay.cpp" />
+    <ClCompile Include="src\DDLibrary\GHost.cpp" />
+    <ClCompile Include="src\DDLibrary\GKeyboard.cpp" />
+    <ClCompile Include="src\DDLibrary\GMouse.cpp" />
+    <ClCompile Include="src\DDLibrary\GWorkScreen.cpp" />
+    <ClCompile Include="src\DDLibrary\MFX.cpp" />
+    <ClCompile Include="src\DDLibrary\net.cpp" />
+    <ClCompile Include="src\DDLibrary\Tga.cpp" />
+    <ClCompile Include="src\DDLibrary\WindProcs.cpp" />
+    <ClCompile Include="src\Editor\outline.cpp" />
+    <ClCompile Include="src\outro\back.cpp" />
+    <ClCompile Include="src\outro\cam.cpp" />
+    <ClCompile Include="src\outro\credits.cpp" />
+    <ClCompile Include="src\outro\imp.cpp" />
+    <ClCompile Include="src\outro\mf.cpp" />
+    <ClCompile Include="src\outro\os.cpp" />
+    <ClCompile Include="src\outro\outroFont.cpp" />
+    <ClCompile Include="src\outro\outroMain.cpp" />
+    <ClCompile Include="src\outro\outroMatrix.cpp" />
+    <ClCompile Include="src\outro\OutroTga.cpp" />
+    <ClCompile Include="src\outro\wire.cpp" />
+    <ClCompile Include="src\main\Anim.cpp" />
+    <ClCompile Include="src\main\animal.cpp" />
+    <ClCompile Include="src\main\animtmap.cpp" />
+    <ClCompile Include="src\main\Attract.cpp" />
+    <ClCompile Include="src\main\balloon.cpp" />
+    <ClCompile Include="src\main\barrel.cpp" />
+    <ClCompile Include="src\main\bat.cpp" />
+    <ClCompile Include="src\main\bike.cpp" />
+    <ClCompile Include="src\main\build2.cpp" />
+    <ClCompile Include="src\main\building.cpp" />
+    <ClCompile Include="src\main\canid.cpp" />
+    <ClCompile Include="src\main\chopper.cpp" />
+    <ClCompile Include="src\main\cnet.cpp" />
+    <ClCompile Include="src\main\collide.cpp" />
+    <ClCompile Include="src\main\combat.cpp" />
+    <ClCompile Include="src\main\Controls.cpp" />
+    <ClCompile Include="src\main\Cop.cpp" />
+    <ClCompile Include="src\main\Darci.cpp" />
+    <ClCompile Include="src\main\dike.cpp" />
+    <ClCompile Include="src\main\dirt.cpp" />
+    <ClCompile Include="src\main\door.cpp" />
+    <ClCompile Include="src\main\drawtype.cpp" />
+    <ClCompile Include="src\main\drip.cpp" />
+    <ClCompile Include="src\main\Effect.cpp" />
+    <ClCompile Include="src\main\elev.cpp" />
+    <ClCompile Include="src\main\Enemy.cpp" />
+    <ClCompile Include="src\main\Env.cpp" />
+    <ClCompile Include="src\main\env2.cpp" />
+    <ClCompile Include="src\main\eway.cpp" />
+    <ClCompile Include="src\main\fc.cpp" />
+    <ClCompile Include="src\main\fire.cpp" />
+    <ClCompile Include="src\main\FMatrix.cpp" />
+    <ClCompile Include="src\main\fog.cpp" />
+    <ClCompile Include="src\main\frontend.cpp" />
+    <ClCompile Include="src\main\Game.cpp" />
+    <ClCompile Include="src\main\gamemenu.cpp" />
+    <ClCompile Include="src\main\glitter.cpp" />
+    <ClCompile Include="src\main\grenade.cpp" />
+    <ClCompile Include="src\main\guns.cpp" />
+    <ClCompile Include="src\main\heap.cpp" />
+    <ClCompile Include="src\main\Hierarchy.cpp" />
+    <ClCompile Include="src\main\hm.cpp" />
+    <ClCompile Include="src\main\hook.cpp" />
+    <ClCompile Include="src\main\inside2.cpp" />
+    <ClCompile Include="src\main\interact.cpp" />
+    <ClCompile Include="src\main\interfac.cpp" />
+    <ClCompile Include="src\main\io.cpp" />
+    <ClCompile Include="src\main\Main.cpp" />
+    <ClCompile Include="src\main\Map.cpp" />
+    <ClCompile Include="src\main\maths.cpp" />
+    <ClCompile Include="src\main\mav.cpp" />
+    <ClCompile Include="src\main\memory.cpp" />
+    <ClCompile Include="src\main\mist.cpp" />
+    <ClCompile Include="src\main\morph.cpp" />
+    <ClCompile Include="src\main\music.cpp" />
+    <ClCompile Include="src\main\night.cpp" />
+    <ClCompile Include="src\main\nightpsx.cpp" />
+    <ClCompile Include="src\main\ns.cpp" />
+    <ClCompile Include="src\main\ob.cpp" />
+    <ClCompile Include="src\main\overlay.cpp" />
+    <ClCompile Include="src\main\pap.cpp" />
+    <ClCompile Include="src\main\pause.cpp" />
+    <ClCompile Include="src\main\pcom.cpp" />
+    <ClCompile Include="src\main\Person.cpp" />
+    <ClCompile Include="src\main\Pjectile.cpp" />
+    <ClCompile Include="src\main\plat.cpp" />
+    <ClCompile Include="src\main\playcuts.cpp" />
+    <ClCompile Include="src\main\Player.cpp" />
+    <ClCompile Include="src\main\pow.cpp" />
+    <ClCompile Include="src\main\Prim.cpp" />
+    <ClCompile Include="src\main\psystem.cpp" />
+    <ClCompile Include="src\main\puddle.cpp" />
+    <ClCompile Include="src\main\pyro.cpp" />
+    <ClCompile Include="src\main\qedit.cpp" />
+    <ClCompile Include="src\main\qmap.cpp" />
+    <ClCompile Include="src\main\ribbon.cpp" />
+    <ClCompile Include="src\main\road.cpp" />
+    <ClCompile Include="src\main\Roper.cpp" />
+    <ClCompile Include="src\main\save.cpp" />
+    <ClCompile Include="src\main\shadow.cpp" />
+    <ClCompile Include="src\main\sm.cpp" />
+    <ClCompile Include="src\main\snipe.cpp" />
+    <ClCompile Include="src\main\Sound.cpp" />
+    <ClCompile Include="src\main\soundenv.cpp" />
+    <ClCompile Include="src\main\sound_id.cpp" />
+    <ClCompile Include="src\main\spark.cpp" />
+    <ClCompile Include="src\main\Special.cpp" />
+    <ClCompile Include="src\main\stair.cpp" />
+    <ClCompile Include="src\main\startscr.cpp" />
+    <ClCompile Include="src\main\State.cpp" />
+    <ClCompile Include="src\main\supermap.cpp" />
+    <ClCompile Include="src\main\Switch.cpp" />
+    <ClCompile Include="src\main\Thing.cpp" />
+    <ClCompile Include="src\main\Thug.cpp" />
+    <ClCompile Include="src\main\tracks.cpp" />
+    <ClCompile Include="src\main\trip.cpp" />
+    <ClCompile Include="src\main\vehicle.cpp" />
+    <ClCompile Include="src\main\walkable.cpp" />
+    <ClCompile Include="src\main\wand.cpp" />
+    <ClCompile Include="src\main\ware.cpp" />
+    <ClCompile Include="src\main\widget.cpp" />
+    <ClCompile Include="src\main\wmove.cpp" />
+    <ClCompile Include="src\main\xlat_str.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\MFStdLib\MFStdLib.h" />
+    <ClInclude Include="src\MFStdLib\StdFile.h" />
+    <ClInclude Include="src\MFStdLib\StdKeybd.h" />
+    <ClInclude Include="src\MFStdLib\StdMaths.h" />
+    <ClInclude Include="src\MFStdLib\StdMem.h" />
+    <ClInclude Include="src\MFStdLib\StdMouse.h" />
+    <ClInclude Include="src\DDEngine\aa.h" />
+    <ClInclude Include="src\DDEngine\aeng.h" />
+    <ClInclude Include="src\DDEngine\BreakTimer.h" />
+    <ClInclude Include="src\DDEngine\Bucket.h" />
+    <ClInclude Include="src\DDEngine\build.h" />
+    <ClInclude Include="src\DDEngine\comp.h" />
+    <ClInclude Include="src\DDEngine\cone.h" />
+    <ClInclude Include="src\DDEngine\console.h" />
+    <ClInclude Include="src\DDEngine\Crinkle.h" />
+    <ClInclude Include="src\DDEngine\DrawXtra.h" />
+    <ClInclude Include="src\DDEngine\Engine.h" />
+    <ClInclude Include="src\DDEngine\facet.h" />
+    <ClInclude Include="src\DDEngine\fall.h" />
+    <ClInclude Include="src\DDEngine\farfacet.h" />
+    <ClInclude Include="src\DDEngine\fastprim.h" />
+    <ClInclude Include="src\DDEngine\figure.h" />
+    <ClInclude Include="src\DDEngine\flamengine.h" />
+    <ClInclude Include="src\DDEngine\Font.h" />
+    <ClInclude Include="src\DDEngine\font2d.h" />
+    <ClInclude Include="src\DDEngine\font3d.h" />
+    <ClInclude Include="src\DDEngine\Gamut.h" />
+    <ClInclude Include="src\DDEngine\ic.h" />
+    <ClInclude Include="src\DDEngine\map.h" />
+    <ClInclude Include="src\DDEngine\Matrix.h" />
+    <ClInclude Include="src\DDEngine\menufont.h" />
+    <ClInclude Include="src\DDEngine\mesh.h" />
+    <ClInclude Include="src\DDEngine\Message.h" />
+    <ClInclude Include="src\DDEngine\NGamut.h" />
+    <ClInclude Include="src\DDEngine\oval.h" />
+    <ClInclude Include="src\DDEngine\panel.h" />
+    <ClInclude Include="src\DDEngine\planmap.h" />
+    <ClInclude Include="src\DDEngine\poly.h" />
+    <ClInclude Include="src\DDEngine\polypage.h" />
+    <ClInclude Include="src\DDEngine\polypoint.h" />
+    <ClInclude Include="src\DDEngine\qeng.h" />
+    <ClInclude Include="src\DDEngine\Quaternion.h" />
+    <ClInclude Include="src\DDEngine\ray.h" />
+    <ClInclude Include="src\DDEngine\renderstate.h" />
+    <ClInclude Include="src\DDEngine\shape.h" />
+    <ClInclude Include="src\DDEngine\sky.h" />
+    <ClInclude Include="src\DDEngine\smap.h" />
+    <ClInclude Include="src\DDEngine\sprite.h" />
+    <ClInclude Include="src\DDEngine\supercrinkle.h" />
+    <ClInclude Include="src\DDEngine\superfacet.h" />
+    <ClInclude Include="src\DDEngine\Text.h" />
+    <ClInclude Include="src\DDEngine\texture.h" />
+    <ClInclude Include="src\DDEngine\truetype.h" />
+    <ClInclude Include="src\DDEngine\vertexbuffer.h" />
+    <ClInclude Include="src\DDEngine\wibble.h" />
+    <ClInclude Include="src\DDLibrary\AsyncFile.h" />
+    <ClInclude Include="src\DDLibrary\AsyncFile2.h" />
+    <ClInclude Include="src\DDLibrary\BinkClient.h" />
+    <ClInclude Include="src\DDLibrary\D3DTexture.h" />
+    <ClInclude Include="src\DDLibrary\DDlib.h" />
+    <ClInclude Include="src\DDLibrary\DDManager.h" />
+    <ClInclude Include="src\DDLibrary\Debug.h" />
+    <ClInclude Include="src\DDLibrary\DIManager.h" />
+    <ClInclude Include="src\DDLibrary\Drive.h" />
+    <ClInclude Include="src\DDLibrary\FFManager.h" />
+    <ClInclude Include="src\DDLibrary\FileClump.h" />
+    <ClInclude Include="src\DDLibrary\GDisplay.h" />
+    <ClInclude Include="src\DDLibrary\GWorkScreen.h" />
+    <ClInclude Include="src\DDLibrary\MFx.h" />
+    <ClInclude Include="src\DDLibrary\net.h" />
+    <ClInclude Include="src\DDLibrary\QSManager.h" />
+    <ClInclude Include="src\DDLibrary\resource.h" />
+    <ClInclude Include="src\DDLibrary\Tga.h" />
+    <ClInclude Include="src\DDLibrary\WindProcs.h" />
+    <ClInclude Include="src\Editor\Anim.h" />
+    <ClInclude Include="src\Editor\Edit.h" />
+    <ClInclude Include="src\Editor\Editor.hpp" />
+    <ClInclude Include="src\Editor\EditorLib.h" />
+    <ClInclude Include="src\Editor\extra.h" />
+    <ClInclude Include="src\Editor\map.h" />
+    <ClInclude Include="src\Editor\outline.h" />
+    <ClInclude Include="src\Editor\Prim.h" />
+    <ClInclude Include="src\Editor\Primativ.hpp" />
+    <ClInclude Include="src\Editor\prim_draw.h" />
+    <ClInclude Include="src\Editor\Thing.h" />
+    <ClInclude Include="src\main\america.h" />
+    <ClInclude Include="src\main\animal.h" />
+    <ClInclude Include="src\main\animate.h" />
+    <ClInclude Include="src\main\animtmap.h" />
+    <ClInclude Include="src\main\Attract.h" />
+    <ClInclude Include="src\main\az.h" />
+    <ClInclude Include="src\main\balloon.h" />
+    <ClInclude Include="src\main\bang.h" />
+    <ClInclude Include="src\main\barrel.h" />
+    <ClInclude Include="src\main\bat.h" />
+    <ClInclude Include="src\main\bike.h" />
+    <ClInclude Include="src\main\briefing.h" />
+    <ClInclude Include="src\main\build2.h" />
+    <ClInclude Include="src\main\building.h" />
+    <ClInclude Include="src\main\cache.h" />
+    <ClInclude Include="src\main\cam.h" />
+    <ClInclude Include="src\main\canid.h" />
+    <ClInclude Include="src\main\chopper.h" />
+    <ClInclude Include="src\main\cloth.h" />
+    <ClInclude Include="src\main\cnet.h" />
+    <ClInclude Include="src\main\collide.h" />
+    <ClInclude Include="src\main\combat.h" />
+    <ClInclude Include="src\main\Command.h" />
+    <ClInclude Include="src\main\Controls.h" />
+    <ClInclude Include="src\main\Cop.h" />
+    <ClInclude Include="src\main\Darci.h" />
+    <ClInclude Include="src\main\demo.h" />
+    <ClInclude Include="src\main\dike.h" />
+    <ClInclude Include="src\main\dirt.h" />
+    <ClInclude Include="src\main\door.h" />
+    <ClInclude Include="src\main\drawtype.h" />
+    <ClInclude Include="src\main\drip.h" />
+    <ClInclude Include="src\main\elev.h" />
+    <ClInclude Include="src\main\Enter.h" />
+    <ClInclude Include="src\main\Env.h" />
+    <ClInclude Include="src\main\eway.h" />
+    <ClInclude Include="src\main\fc.h" />
+    <ClInclude Include="src\main\fire.h" />
+    <ClInclude Include="src\main\FMatrix.h" />
+    <ClInclude Include="src\main\fog.h" />
+    <ClInclude Include="src\main\frontend.h" />
+    <ClInclude Include="src\main\Furn.h" />
+    <ClInclude Include="src\main\Game.h" />
+    <ClInclude Include="src\main\gamemenu.h" />
+    <ClInclude Include="src\main\glitter.h" />
+    <ClInclude Include="src\main\grenade.h" />
+    <ClInclude Include="src\main\guns.h" />
+    <ClInclude Include="src\main\heap.h" />
+    <ClInclude Include="src\main\Hierarchy.h" />
+    <ClInclude Include="src\main\hm.h" />
+    <ClInclude Include="src\main\hook.h" />
+    <ClInclude Include="src\main\id.h" />
+    <ClInclude Include="src\main\inline.h" />
+    <ClInclude Include="src\main\inside2.h" />
+    <ClInclude Include="src\main\interact.h" />
+    <ClInclude Include="src\main\interfac.h" />
+    <ClInclude Include="src\main\io.h" />
+    <ClInclude Include="src\main\light.h" />
+    <ClInclude Include="src\main\Map.h" />
+    <ClInclude Include="src\main\maths.h" />
+    <ClInclude Include="src\main\mav.h" />
+    <ClInclude Include="src\main\memory.h" />
+    <ClInclude Include="src\main\Mission.h" />
+    <ClInclude Include="src\main\mist.h" />
+    <ClInclude Include="src\main\morph.h" />
+    <ClInclude Include="src\main\music.h" />
+    <ClInclude Include="src\main\night.h" />
+    <ClInclude Include="src\main\noserver.h" />
+    <ClInclude Include="src\main\ns.h" />
+    <ClInclude Include="src\main\ob.h" />
+    <ClInclude Include="src\main\overlay.h" />
+    <ClInclude Include="src\main\pap.h" />
+    <ClInclude Include="src\main\pause.h" />
+    <ClInclude Include="src\main\pcom.h" />
+    <ClInclude Include="src\main\Person.h" />
+    <ClInclude Include="src\main\Pjectile.h" />
+    <ClInclude Include="src\main\plat.h" />
+    <ClInclude Include="src\main\playcuts.h" />
+    <ClInclude Include="src\main\Player.h" />
+    <ClInclude Include="src\main\pow.h" />
+    <ClInclude Include="src\main\pq.h" />
+    <ClInclude Include="src\main\PSystem.h" />
+    <ClInclude Include="src\main\puddle.h" />
+    <ClInclude Include="src\main\pyro.h" />
+    <ClInclude Include="src\main\qedit.h" />
+    <ClInclude Include="src\main\qmap.h" />
+    <ClInclude Include="src\main\ribbon.h" />
+    <ClInclude Include="src\main\road.h" />
+    <ClInclude Include="src\main\Roper.h" />
+    <ClInclude Include="src\main\sample.h" />
+    <ClInclude Include="src\main\save.h" />
+    <ClInclude Include="src\main\sewer.h" />
+    <ClInclude Include="src\main\shadow.h" />
+    <ClInclude Include="src\main\sm.h" />
+    <ClInclude Include="src\main\snipe.h" />
+    <ClInclude Include="src\main\Sound.h" />
+    <ClInclude Include="src\main\soundenv.h" />
+    <ClInclude Include="src\main\sound_id.h" />
+    <ClInclude Include="src\main\spark.h" />
+    <ClInclude Include="src\main\Special.h" />
+    <ClInclude Include="src\main\stair.h" />
+    <ClInclude Include="src\main\startscr.h" />
+    <ClInclude Include="src\main\State.h" />
+    <ClInclude Include="src\main\statedef.h" />
+    <ClInclude Include="src\main\Structs.h" />
+    <ClInclude Include="src\main\supermap.h" />
+    <ClInclude Include="src\main\Switch.h" />
+    <ClInclude Include="src\main\Thing.h" />
+    <ClInclude Include="src\main\Thug.h" />
+    <ClInclude Include="src\main\tracks.h" />
+    <ClInclude Include="src\main\trip.h" />
+    <ClInclude Include="src\main\vehicle.h" />
+    <ClInclude Include="src\main\walkable.h" />
+    <ClInclude Include="src\main\wand.h" />
+    <ClInclude Include="src\main\ware.h" />
+    <ClInclude Include="src\main\water.h" />
+    <ClInclude Include="src\main\widget.h" />
+    <ClInclude Include="src\main\wmove.h" />
+    <ClInclude Include="src\main\xlat_str.h" />
+    <ClInclude Include="src\Ledit\ed.h" />
+    <ClInclude Include="src\Ledit\gi.h" />
+    <ClInclude Include="src\Ledit\ledit.h" />
+    <ClInclude Include="src\outro\Always.h" />
+    <ClInclude Include="src\outro\back.h" />
+    <ClInclude Include="src\outro\cam.h" />
+    <ClInclude Include="src\outro\checker.h" />
+    <ClInclude Include="src\outro\credits.h" />
+    <ClInclude Include="src\outro\font.h" />
+    <ClInclude Include="src\outro\imp.h" />
+    <ClInclude Include="src\outro\Key.h" />
+    <ClInclude Include="src\outro\lmap.h" />
+    <ClInclude Include="src\outro\Matrix.h" />
+    <ClInclude Include="src\outro\mf.h" />
+    <ClInclude Include="src\outro\midasdll.h" />
+    <ClInclude Include="src\outro\os.h" />
+    <ClInclude Include="src\outro\slap.h" />
+    <ClInclude Include="src\outro\Tga.h" />
+    <ClInclude Include="src\outro\wire.h" />
+    <ClInclude Include="src\sedit\es.h" />
+    <ClInclude Include="src\sedit\sedit.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

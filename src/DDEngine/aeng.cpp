@@ -2,7 +2,7 @@
 // Another engine.
 //
 
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdLib.h"
 #include <DDLib.h>
 #include <math.h>
 #include "game.h"

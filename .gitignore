@@ -1,6 +1,6 @@
 .vs
-/src/fallen/Debug
-/src/fallen/Release
+/src/Debug
+/src/Release
 *.VC.db
 *.VC.opendb
 *.vcxproj.user

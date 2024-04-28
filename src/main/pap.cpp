@@ -2,7 +2,7 @@
 // A lower memory map: 100k
 //
 
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 #include "pap.h"
 #include "game.h"
 #include "mav.h"

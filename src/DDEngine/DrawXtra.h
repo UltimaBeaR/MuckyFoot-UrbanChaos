@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "MFStdLib.h"
+#include "../MFStdLib/MFStdlib.h"
 #include "game.h"
 #include "thing.h"
 #include "ribbon.h"

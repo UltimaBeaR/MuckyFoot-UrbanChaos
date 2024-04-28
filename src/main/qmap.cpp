@@ -3,7 +3,7 @@
 //
 
 #include "game.h"
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 #include "qmap.h"
 #include "..\ddengine\headers\qeng.h"
 

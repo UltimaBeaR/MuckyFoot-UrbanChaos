@@ -3,7 +3,7 @@
 //
 
 #include "game.h"
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 #include <stdlib.h>
 #include <hm.h>
 #include <math.h>

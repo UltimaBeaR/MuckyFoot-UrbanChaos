@@ -1,7 +1,7 @@
 // StdMaths.cpp
 // Guy Simmons, 18th December 1997.
 
-#include <MFStdLib.h>
+#include "MFStdLib.h"
 
 //---------------------------------------------------------------
 

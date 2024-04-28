@@ -3,7 +3,7 @@
 // Generated from N:\UrbanChaos\sounds.slb on 16/11/99 14:09:12
 //
 
-#include "MFStdLib.h"
+#include "../MFStdLib/MFStdlib.h"
 
 CBYTE* sound_list[] = {
     "NULL.wav",

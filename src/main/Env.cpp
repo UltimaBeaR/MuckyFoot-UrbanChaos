@@ -3,7 +3,7 @@
 //
 
 #include "game.h"
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 #include "env.h"
 
 #if 0

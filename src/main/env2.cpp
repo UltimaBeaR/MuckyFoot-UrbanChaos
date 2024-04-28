@@ -3,7 +3,7 @@
 // ENV stuff #2
 
 #include "game.h"
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 #include "env.h"
 #include "Interfac.h"
 #include "menufont.h"

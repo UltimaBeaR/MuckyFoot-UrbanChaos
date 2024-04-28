@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 
 struct FlameXY2 {
     UBYTE x, y;

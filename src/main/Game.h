@@ -15,7 +15,7 @@
 #define THING_INDEX UWORD
 #define COMMON_INDEX UWORD
 
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 #undef LogText
 #define LogText
 

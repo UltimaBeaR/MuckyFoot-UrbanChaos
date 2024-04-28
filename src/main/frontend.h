@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "MFStdLib.h"
+#include "../MFStdLib/MFStdlib.h"
 
 void FRONTEND_init(bool bGoToTitleScreen = FALSE);
 SBYTE FRONTEND_loop();

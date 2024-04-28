@@ -9,7 +9,7 @@
 
 #define PSYSTEM_MAX_PARTICLES 2048
 
-#include "MFStdLib.h"
+#include "../MFStdLib/MFStdlib.h"
 #include "game.h"
 #include "thing.h"
 

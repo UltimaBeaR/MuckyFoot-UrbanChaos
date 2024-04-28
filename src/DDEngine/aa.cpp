@@ -2,7 +2,7 @@
 // An anti-aliased triangle draw.
 //
 
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 
 //
 // The internal fixed point we used.

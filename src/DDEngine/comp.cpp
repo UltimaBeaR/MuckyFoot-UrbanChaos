@@ -2,7 +2,7 @@
 // Movie compression.
 //
 
-#include <MFStdlib.h>
+#include "../MFStdLib/MFStdlib.h"
 #include "comp.h"
 #include "ic.h"
 #include "tga.h"

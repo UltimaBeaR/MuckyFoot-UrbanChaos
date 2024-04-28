@@ -12,7 +12,7 @@
 
 #pragma once
 
-// #include <MFStdLib.h>
+// #include "../MFStdLib/MFStdlib.h"
 
 // why does the above line toast it?
 // oh well... set up manually then...

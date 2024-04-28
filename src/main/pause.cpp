@@ -8,7 +8,7 @@
  *
  */
 
-#include "mfstdlib.h"
+#include "../MFStdLib/MFStdlib.h"
 #include "game.h"
 #include "xlat_str.h"
 

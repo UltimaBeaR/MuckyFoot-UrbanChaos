@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 
 #include "D3DTexture.h"
 #include "DDManager.h"

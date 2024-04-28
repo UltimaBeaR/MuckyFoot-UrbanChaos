@@ -2,7 +2,7 @@
 // Drawing polygons with D3D
 //
 
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 #include <DDLib.h>
 #include <math.h>
 #include "Game.h" //	Guy	-	4 DEMO

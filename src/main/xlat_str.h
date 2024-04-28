@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "MFStdLib.h"
+#include "../MFStdLib/MFStdlib.h"
 
 //----------------------------------------------------------------------------
 // MISC CONFIG DEFINES

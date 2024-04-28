@@ -1,4 +1,4 @@
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 #include "game.h"
 #include "..\ddlibrary\headers\net.h"
 

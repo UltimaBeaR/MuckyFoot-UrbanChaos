@@ -3,7 +3,7 @@
 //
 
 #include "../Headers/Editor.hpp"
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 
 //
 // An outline.

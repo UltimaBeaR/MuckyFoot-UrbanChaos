@@ -2,7 +2,7 @@
 // Loads in 32-bit RGBA uncompressed TGAs.
 //
 
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 #include "Tga.h"
 #include "FileClump.h"
 

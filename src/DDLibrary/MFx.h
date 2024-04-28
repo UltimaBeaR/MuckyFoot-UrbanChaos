@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MFStdLib.h"
+#include "../MFStdLib/MFStdlib.h"
 #include "structs.h"
 #include "thing.h"
 

@@ -3,7 +3,7 @@
 //
 
 #include "game.h"
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 #include "qedit.h"
 #include "qmap.h"
 #include "fmatrix.h"

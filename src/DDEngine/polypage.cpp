@@ -2,7 +2,7 @@
 //
 // PolyPage class - main low-level rendering
 
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 #include <DDLib.h>
 #include <math.h>
 #include "poly.h"

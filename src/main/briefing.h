@@ -4,7 +4,7 @@
 // 14 dec 98
 //
 
-#include "MFStdLib.h"
+#include "../MFStdLib/MFStdlib.h"
 
 extern CBYTE BRIEFING_mission_filename[_MAX_PATH];
 

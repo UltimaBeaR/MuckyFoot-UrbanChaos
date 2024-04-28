@@ -1,4 +1,4 @@
-#include <MFStdLib.h>
+#include "../MFStdLib/MFStdlib.h"
 #include <ddlib.h>
 #include "poly.h"
 #include "qeng.h"

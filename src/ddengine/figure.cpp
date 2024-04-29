@@ -128,15 +128,6 @@ ALIGNED_STATIC_ARRAY(static D3DMATRIX*, MM_pMatrix, 1, D3DMATRIX, 32);
 ALIGNED_STATIC_ARRAY(static D3DVERTEX*, MM_Vertex, 4, D3DVERTEX, 32);
 ALIGNED_STATIC_ARRAY(static float*, MM_pNormal, 4, float, 8);
 
-#if 0
-// The MM lighting table.
-D3DCOLOR *MM_pcFadeTable = NULL;
-D3DCOLOR *MM_pcFadeTableTint = NULL;
-D3DMATRIX *MM_pMatrix = NULL;
-D3DVERTEX *MM_Vertex = NULL;
-float *MM_pNormal = NULL;
-#endif
-
 D3DVECTOR MM_vLightDir;
 bool MM_bLightTableAlreadySetUp = FALSE;
 
@@ -179,16 +170,6 @@ void BuildMMLightingTable(Pyro* p, DWORD colour_and = 0xffffffff)
             vTotal.y -= fBright * nf->dy;
             vTotal.z -= fBright * nf->dz;
         }
-#if 0
-		else
-		{
-			// Negative light - make it "illuminate" from the correct direction.
-			// Directions are also negative!
-			vTotal.x += fBright * nf->dx;
-			vTotal.y += fBright * nf->dy;
-			vTotal.z += fBright * nf->dz;
-		}
-#endif
     }
 
     // Unitise the vector.
@@ -651,106 +632,6 @@ BOOL MSOptimizeIndexedList(WORD* pwIndices, int nTriangles)
 
 #endif // #if USE_TOMS_ENGINE_PLEASE_BOB
 
-/*
-
-
-// D3D lighting fucntions.
-#define MAX_NUM_OF_LIGHTS 10
-LPDIRECT3DLIGHT m_pLight[MAX_NUM_OF_LIGHTS];
-bool m_bLightInScene[MAX_NUM_OF_LIGHTS];
-int m_iNumLights = 0;
-
-int FindMeAFreeLightAndPutItInTheScene ( void )
-{
-        int i = 0;
-        while ( TRUE )
-        {
-                ASSERT ( i < MAX_NUM_OF_LIGHTS );
-                if ( !m_bLightInScene[i] )
-                {
-                        // Found one.
-                        break;
-                }
-                i++;
-        }
-
-        if ( m_pLight[i] == NULL )
-        {
-                // Haven't created this one yet.
-                HRESULT hres = (the_display.lp_D3D)->CreateLight ( &(m_pLight[i]), NULL );
-                ASSERT ( SUCCEEDED ( hres ) );
-        }
-        // Add the light in.
-        HRESULT hres = (the_display.lp_D3D_Viewport)->AddLight ( m_pLight[i] );
-        ASSERT ( SUCCEEDED ( hres ) );
-        m_bLightInScene[i] = TRUE;
-        return ( i );
-}
-
-void MakeThisLightLikeThis ( int iLightNum, D3DLIGHT *pd3dLight )
-{
-        ASSERT ( m_bLightInScene[iLightNum] );
-        ASSERT ( m_pLight[iLightNum] != NULL );
-        HRESULT hres = (m_pLight[iLightNum])->SetLight ( (D3DLIGHT *)pd3dLight );
-        ASSERT ( SUCCEEDED ( hres ) );
-}
-
-void MakeThisLightLikeThis ( int iLightNum, D3DLIGHT2 *pd3dLight )
-{
-        MakeThisLightLikeThis ( iLightNum, (D3DLIGHT *)pd3dLight );
-}
-
-void RemoveThisLightFromScene ( int iLightNum )
-{
-        ASSERT ( m_bLightInScene[iLightNum] );
-        ASSERT ( m_pLight[iLightNum] != NULL );
-        HRESULT hres = (the_display.lp_D3D_Viewport)->DeleteLight ( m_pLight[iLightNum] );
-        ASSERT ( SUCCEEDED ( hres ) );
-        m_bLightInScene[iLightNum] = FALSE;
-}
-
-#if 0
-int AddThisSortOfLightToTheScene ( D3DLIGHT *pd3dLight )
-{
-        int iLightNum = FindMeAFreeLightAndPutItInTheScene();
-        MakeThisLightLikeThis ( iLightNum, pd3dLight );
-        return ( iLightNum );
-}
-
-int AddThisSortOfLightToTheScene ( D3DLIGHT2 *pd3dLight )
-{
-        return ( AddThisSortOfLightToTheScene ( (D3DLIGHT *)pd3dLight ) );
-}
-void RemoveAllLightsFromScene ( void )
-{
-        for ( int i = 0; i < MAX_NUM_OF_LIGHTS; i++ )
-        {
-                if ( m_bLightInScene[i] )
-                {
-                        RemoveThisLightFromScene ( i );
-                }
-        }
-}
-
-#else
-// HACKED!
-int AddThisSortOfLightToTheScene ( D3DLIGHT2 *pd3dLight )
-{
-        if ( m_pLight[0] == NULL )
-        {
-                FindMeAFreeLightAndPutItInTheScene();
-                MakeThisLightLikeThis ( 0, pd3dLight );
-        }
-        return ( 0 );
-}
-void RemoveAllLightsFromScene ( void )
-{
-}
-#endif
-
-
-*/
-
 SLONG get_steam_rand(void)
 {
     steam_seed *= 31415965;
@@ -887,20 +768,6 @@ void draw_flames(SLONG x, SLONG y, SLONG z, SLONG lod, SLONG offset)
     //
 
     steam_seed = 54321678 + offset;
-
-#if 0
-	// Now moved to the actual callers instead.
-	SLONG lod_mul;
-
-	if (!AENG_detail_skyline)//||ShiftFlag)
-	{
-		lod_mul = 2;
-	}
-	else
-	{
-		lod_mul = 5;
-	}
-#endif
 
     // for(c0=0;c0<lod*lod_mul;c0++)
     for (c0 = 0; c0 < lod; c0++) {
@@ -1609,12 +1476,6 @@ void FIGURE_TPO_init_3d_object(TomsPrimObject* pPrimObj /*, int iThrashIndex = 0
 
     TPO_pPrimObj = pPrimObj;
 
-#if 0
-// Do this after the object has been compiled, so we know how big it is.
-	// Add this to a good place in the LRU queue.
-	FIGURE_find_and_clean_prim_queue_item ( pPrimObj, iThrashIndex );
-#endif
-
     // No index offset for the first object
     TPO_iPrimObjIndexOffset[0] = 0;
 
@@ -1995,19 +1856,10 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject* pPrimObj, int iThrashIndex = 0)
 
                                             // Grow the bounding sphere if need be.
 
-#if 0
-											// THIS IS NOT BEING DONE RIGHT!
-											float fDistSqu = ( d3dvert.dvX * d3dvert.dvX ) + ( d3dvert.dvY * d3dvert.dvY ) + ( d3dvert.dvZ * d3dvert.dvZ );
-											if ( pPrimObj->fBoundingSphereRadius < fDistSqu )
-											{
-												pPrimObj->fBoundingSphereRadius = fDistSqu;
-											}
-#else
                                             float fDistSqu = (d3dvert.dvX * d3dvert.dvX) + (d3dvert.dvY * d3dvert.dvY) + (d3dvert.dvZ * d3dvert.dvZ);
                                             if ((*pfBoundingSphereRadius * *pfBoundingSphereRadius) < fDistSqu) {
                                                 *pfBoundingSphereRadius = sqrtf(fDistSqu);
                                             }
-#endif
                                         } else {
                                             // OK, try the links.
                                             int iLastIndex = iVertIndex;
@@ -2063,19 +1915,6 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject* pPrimObj, int iThrashIndex = 0)
                                         ASSERT((iIndices[1] >= 0) && (iIndices[1] < pMaterial->wNumVertices));
                                         ASSERT((iIndices[2] >= 0) && (iIndices[2] < pMaterial->wNumVertices));
 
-#if 0
-										// Strip indices.
-										*TPO_pCurStripIndex++ = iIndices[0];
-										*TPO_pCurStripIndex++ = iIndices[1];
-										*TPO_pCurStripIndex++ = iIndices[2];
-										*TPO_pCurStripIndex++ = -1;
-										TPO_iNumStripIndices += 4;
-										pMaterial->wNumStripIndices += 4;
-										ASSERT ( TPO_iNumStripIndices < MAX_INDICES );
-
-										if ( TPO_iNumStripIndices >= MAX_INDICES ) { DeadAndBuried ( 0x07ff07ff ); }
-
-#endif
                                         // List indices.
                                         *TPO_pCurListIndex++ = iIndices[0];
                                         *TPO_pCurListIndex++ = iIndices[1];
@@ -2100,20 +1939,6 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject* pPrimObj, int iThrashIndex = 0)
                                         ASSERT((iIndices[2] >= 0) && (iIndices[2] < pMaterial->wNumVertices));
                                         ASSERT((iIndices[3] >= 0) && (iIndices[3] < pMaterial->wNumVertices));
 
-#if 0
-										// Strip indices.
-										*TPO_pCurStripIndex++ = iIndices[0];
-										*TPO_pCurStripIndex++ = iIndices[1];
-										*TPO_pCurStripIndex++ = iIndices[2];
-										*TPO_pCurStripIndex++ = iIndices[3];
-										*TPO_pCurStripIndex++ = -1;
-										TPO_iNumStripIndices += 5;
-										pMaterial->wNumStripIndices += 5;
-										ASSERT ( TPO_iNumStripIndices < MAX_INDICES );
-
-										if ( TPO_iNumStripIndices >= MAX_INDICES ) { DeadAndBuried ( 0x07ff07ff ); }
-
-#endif
                                         // List indices.
                                         *TPO_pCurListIndex++ = iIndices[0];
                                         *TPO_pCurListIndex++ = iIndices[1];
@@ -2163,7 +1988,7 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject* pPrimObj, int iThrashIndex = 0)
                         int iNumEdges = 0;
                         WORD* pSrcIndex = pFirstListIndex;
                         WORD wI1, wI2, wI3, wI4;
-                        for (i = pMaterial->wNumListIndices / 3; i > 0; i--) {
+                        for (UWORD i = pMaterial->wNumListIndices / 3; i > 0; i--) {
                             wI1 = pSrcIndex[0];
                             wI2 = pSrcIndex[1];
                             wI3 = pSrcIndex[2];
@@ -2198,7 +2023,7 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject* pPrimObj, int iThrashIndex = 0)
 
                         // Now scan the edges, creating the midpoints.
                         EdgeList* pEdgeCur = pEdgeList;
-                        for (i = 0; i < iNumEdges; i++) {
+                        for (int i = 0; i < iNumEdges; i++) {
                             D3DVERTEX *pvertMid, *pvert1, *pvert2;
 
                             pvert1 = &pFirstVertex[pEdgeCur->wPt1];
@@ -2339,7 +2164,7 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject* pPrimObj, int iThrashIndex = 0)
                         pSrcIndex = pFirstListIndex + pMaterial->wNumListIndices;
                         WORD* pDstIndex = pFirstListIndex + iNewMatNumListIndices;
                         WORD wMid[3];
-                        for (i = pMaterial->wNumListIndices / 3; i > 0; i--) {
+                        for (UWORD i = pMaterial->wNumListIndices / 3; i > 0; i--) {
                             pSrcIndex -= 3;
                             pDstIndex -= 3 * 4;
 
@@ -2356,7 +2181,7 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject* pPrimObj, int iThrashIndex = 0)
                                         break;
                                     }
                                 }
-                                ASSERT(k != iNumEdges);
+                                //ASSERT(k != iNumEdges);
 
                                 // Next edge.
                                 wI1 = wI2;

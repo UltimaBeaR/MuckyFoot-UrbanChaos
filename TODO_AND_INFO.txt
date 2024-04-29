@@ -155,7 +155,6 @@ useful defines
 
 
 
-
 whole project dependency graph could be analyzed using cppdepend 2024.1
 
 
@@ -196,6 +195,11 @@ coan - tool to analyze preprocessor symbols and optimize/throw away unused code 
 
 report unique preprocessor directives that are using in project
     coan symbols --ifs --once-only --gag error --filter cpp,c,h,hpp --recurse src
+
+
+remove specific define
+    coan source -U*** --no-transients --filter cpp,c,h,hpp --recurse src
+
 
 
 
@@ -265,11 +269,11 @@ graphics init
 ===============
 
 TODO
-    pragma once to every file
-    one .h file for every .cpp file. always import mfstdlib on header level (and other stuff that can be used in specific header)
     try to strip out as much unnececary includes as possible in every file (h or cpp)
 
     remove all #if 0 code (and empty files after that)
+
+    remove qedit code (look for QEDIT_loop and dependencies)
 
 
     remove all editor code

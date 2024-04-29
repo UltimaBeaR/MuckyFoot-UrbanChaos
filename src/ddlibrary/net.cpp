@@ -91,6 +91,7 @@ SLONG NET_get_session_number()
 NET_Sinfo NET_get_session_info(SLONG session)
 {
     NET_Sinfo ans;
+    ZeroMemory(&ans, sizeof(ans));
 
     return ans;
 }

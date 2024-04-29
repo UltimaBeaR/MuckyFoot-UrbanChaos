@@ -38,7 +38,7 @@ void OS_ticks_reset(void);
 //
 // ========================================================
 
-typedef struct OS_Texture;
+struct OS_Texture;
 
 //
 // You can create a texture either from a TGA file or just by
@@ -216,7 +216,7 @@ void OS_transform(
 //
 // ========================================================
 
-typedef struct OS_Buffer;
+struct OS_Buffer;
 
 struct OS_Vert {
     UWORD trans; // Index into the OS_trans array for the transformed point.

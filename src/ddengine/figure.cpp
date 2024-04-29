@@ -4886,7 +4886,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
 
     // Save this for possible restoration later.
     structFIGURE_dhpr_rdata1 FIGURE_dhpr_rdata1_0_copy = FIGURE_dhpr_rdata1[0];
-    structFIGURE_dhpr_data FIGURE_dhpr_data_copy = FIGURE_dhpr_data_copy;
+    structFIGURE_dhpr_data FIGURE_dhpr_data_copy;
 
     ASSERT(iIndex < MAX_NUMBER_D3D_PEOPLE);
     ASSERT((PERSON_NUM_TYPES + 32 + NUM_ROPERS_THINGIES) <= MAX_NUMBER_D3D_PEOPLE);

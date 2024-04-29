@@ -15,7 +15,7 @@
 
 SLONG Arctan(SLONG X, SLONG Y)
 {
-    register SLONG ax, bx;
+    /*register*/ SLONG ax, bx;
 
     ax = X;
     if (ax)

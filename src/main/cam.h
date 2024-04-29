@@ -34,19 +34,11 @@ extern SLONG CAM_lens;
 #define CAM_TYPE_WIDE 4
 #define CAM_TYPE_ZOOM 5
 
-
-
-
-
-
-
 //
 // Processes the camera.
 //
 
 void CAM_process(void);
-
-
 
 //
 // Puts the camera in a good position to watch the given

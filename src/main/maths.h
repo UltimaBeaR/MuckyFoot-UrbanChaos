@@ -14,4 +14,3 @@
 SLONG MATHS_seg_intersect(
     SLONG vx1, SLONG vz1, SLONG vx2, SLONG vz2,
     SLONG wx1, SLONG wz1, SLONG wx2, SLONG wz2);
-

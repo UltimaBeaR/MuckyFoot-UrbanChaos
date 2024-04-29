@@ -61,4 +61,3 @@ typedef struct
 
 void FOG_get_start(void);
 FOG_Info FOG_get_info(void);
-

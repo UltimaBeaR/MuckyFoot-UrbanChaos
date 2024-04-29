@@ -290,4 +290,3 @@ extern DDDriverManager the_manager;
         ZeroMemory(&(s), sizeof(s)); \
         (s).dwSize = sizeof(s);      \
     }
-

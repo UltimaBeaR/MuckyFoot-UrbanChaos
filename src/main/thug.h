@@ -11,4 +11,3 @@ void fn_thug_init(Thing* t_thing);
 void fn_thug_normal(Thing* t_thing);
 
 //---------------------------------------------------------------
-

@@ -291,4 +291,3 @@ inline void LIGHT_get_d3d_colour(LIGHT_Colour col, ULONG* colour, ULONG* specula
     *specular = (whiteout << 0) | (whiteout << 8) | (whiteout << 16);
 }
 #endif
-

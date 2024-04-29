@@ -9,4 +9,3 @@
 //
 
 void RAY_do(void);
-

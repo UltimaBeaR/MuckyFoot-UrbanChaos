@@ -20,4 +20,3 @@ void AA_draw(
     SLONG p1x, SLONG p1y, // 16-bit fixed point.
     SLONG p2x, SLONG p2y,
     SLONG p3x, SLONG p3y);
-

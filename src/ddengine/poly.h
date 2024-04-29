@@ -95,8 +95,7 @@ extern float POLY_screen_height;
 // any one of these flags set => point is off screen
 #define POLY_CLIP_OFFSCREEN (POLY_CLIP_LEFT | POLY_CLIP_RIGHT | POLY_CLIP_TOP | POLY_CLIP_BOTTOM | POLY_CLIP_FAR | POLY_CLIP_NEAR)
 
-struct POLY_Point
-{
+struct POLY_Point {
     float x; //
     float y; // 3D points...
     float z; //
@@ -119,7 +118,6 @@ struct POLY_Point
     inline bool MaybeValid() { return ((clip & (POLY_CLIP_TRANSFORMED | POLY_CLIP_NEAR)) != 0); }
     // NearClip - point is in front of the nearplane
     inline bool NearClip() { return ((clip & POLY_CLIP_NEAR) != 0); }
-
 };
 
 // Does nothing on PC.

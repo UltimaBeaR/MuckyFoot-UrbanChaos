@@ -19,4 +19,3 @@ void WIBBLE_simple(
     UBYTE wibble_g2,
     UBYTE wibble_s1,
     UBYTE wibble_s2);
-

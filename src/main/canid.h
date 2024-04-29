@@ -12,4 +12,3 @@ extern StateFunction CANID_state_function[];
 void CANID_init(Thing* canid);
 void CANID_normal(Thing* canid);
 void CANID_register();
-

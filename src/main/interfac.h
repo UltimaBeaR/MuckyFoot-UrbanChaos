@@ -124,4 +124,3 @@ extern UBYTE keybrd_button_use[16];
 #define KEYBRD_BUTTON_RIGHT 12
 #define KEYBRD_BUTTON_FORWARDS 13
 #define KEYBRD_BUTTON_BACK 14
-

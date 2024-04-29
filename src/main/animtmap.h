@@ -23,4 +23,3 @@ extern void save_animtmaps(void);
 extern void sync_animtmaps(void);
 extern void animate_texture_maps(void);
 extern void load_animtmaps(void);
-

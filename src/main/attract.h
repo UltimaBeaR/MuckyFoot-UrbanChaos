@@ -17,4 +17,3 @@ void ATTRACT_loadscreen_init(void);
 void ATTRACT_loadscreen_draw(SLONG completion); // completion is in 8-bit fixed point from 0 to 256.
 
 //---------------------------------------------------------------
-

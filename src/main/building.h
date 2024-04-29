@@ -372,7 +372,6 @@ extern SLONG next_inside;
 
 // functions
 
-
 extern void offset_buildings(SLONG x, SLONG y, SLONG z);
 extern void create_city(UBYTE flag);
 extern SLONG create_building_prim(UWORD building, SLONG* small_y);

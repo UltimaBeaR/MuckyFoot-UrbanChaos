@@ -27,4 +27,3 @@ Thing* alloc_projectile(UBYTE type);
 void free_projectile(Thing* proj_thing);
 
 //---------------------------------------------------------------
-

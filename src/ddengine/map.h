@@ -35,4 +35,3 @@ void MAP_process(void);
 //
 
 void MAP_draw_onscreen_beacons(void);
-

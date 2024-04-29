@@ -14,4 +14,3 @@ void draw_centre_text_at(float x, float y, CBYTE* message, SLONG font_id, SLONG 
 void show_text(void);
 
 //---------------------------------------------------------------
-

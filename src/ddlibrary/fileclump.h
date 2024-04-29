@@ -26,4 +26,3 @@ private:
     size_t NextOffset; // next offset for writing
     bool ReadOnly; // read-only flag
 };
-

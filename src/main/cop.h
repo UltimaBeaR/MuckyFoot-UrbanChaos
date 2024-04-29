@@ -31,4 +31,3 @@ void fn_cop_init(Thing* t_thing);
 void fn_cop_normal(Thing* t_thing);
 
 //---------------------------------------------------------------
-

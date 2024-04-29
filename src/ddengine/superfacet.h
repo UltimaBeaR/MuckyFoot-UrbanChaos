@@ -28,4 +28,3 @@ SLONG SUPERFACET_draw(SLONG facet);
 //
 
 void SUPERFACET_fini(void);
-

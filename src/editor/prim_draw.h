@@ -16,4 +16,3 @@ extern void draw_a_rot_prim_at(UWORD prim, SLONG x, SLONG y, SLONG z, SLONG twee
 extern void init_matrix33(struct Matrix33* mat);
 extern void matrix_mult33(struct Matrix33* result, struct Matrix33* mat1, struct Matrix33* mat2);
 extern void rotate_obj(SWORD xangle, SWORD yangle, SWORD zangle, Matrix33* r3);
-

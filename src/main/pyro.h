@@ -137,4 +137,3 @@ Pyro* PYRO_get_pyro(Thing* pyro_thing);
 // blast radius
 
 void PYRO_blast_radius(SLONG x, SLONG y, SLONG z, SLONG radius, SLONG strength);
-

@@ -38,4 +38,3 @@ public:
     inline MFPoint GetTopLeft(void) { return TopLeft; }
     inline MFPoint GetBottomRight(void) { return BottomRight; }
 };
-

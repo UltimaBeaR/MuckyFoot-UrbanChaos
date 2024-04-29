@@ -27,4 +27,3 @@ BOOL GetInputDevice(UBYTE type, UBYTE sub_type, bool bActuallyGetOne = TRUE);
 BOOL ReadInputDevice(void);
 
 //---------------------------------------------------------------
-

@@ -14,4 +14,3 @@ THING_INDEX find_target_new(Thing* p_person);
 //
 
 THING_INDEX find_snipe_target(Thing* p_person);
-

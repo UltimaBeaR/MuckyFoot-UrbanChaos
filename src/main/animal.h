@@ -40,7 +40,6 @@ void free_animal(struct Thing* animal_thing);
 
 extern GenusFunctions ANIMAL_functions[ANIMAL_NUMBER];
 
-
 //
 // Creates an animal thing of the given type.  It puts it at the
 // given position on the mapwho and puts it into state STATE_INIT.

@@ -26,4 +26,3 @@ typedef struct
 
 extern AZ_Line AZ_line[];
 extern SLONG AZ_line_upto;
-

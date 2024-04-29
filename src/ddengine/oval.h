@@ -19,4 +19,3 @@ void OVAL_add(
     float elongate = 1.0F,
     float angle = 0.0F,
     SLONG type = OVAL_TYPE_OVAL);
-

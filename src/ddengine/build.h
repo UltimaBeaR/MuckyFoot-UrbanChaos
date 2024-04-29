@@ -16,4 +16,3 @@ void BUILD_draw(Thing* building);
 //
 
 void BUILD_draw_inside(void);
-

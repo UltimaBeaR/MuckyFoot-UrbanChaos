@@ -25,4 +25,3 @@ void build_gamut_table(void);
 void draw_gamut(SLONG x, SLONG y);
 
 //---------------------------------------------------------------
-

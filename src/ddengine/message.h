@@ -26,4 +26,3 @@ void MSG_clear(void);
 //
 
 void MSG_draw(void);
-

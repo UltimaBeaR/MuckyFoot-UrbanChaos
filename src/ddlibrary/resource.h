@@ -1,9 +1,5 @@
 // TODO: надо удалить этот файл
 
-
-
-
-
 //{{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.
 // Used by C:\fallen\DDLibrary\DDlib.rc

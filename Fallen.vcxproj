@@ -200,7 +200,6 @@
     <ClCompile Include="src\ddlibrary\ddmanager.cpp" />
     <ClCompile Include="src\ddlibrary\dimanager.cpp" />
     <ClCompile Include="src\ddlibrary\drive.cpp" />
-    <ClCompile Include="src\ddlibrary\ffmanager.cpp" />
     <ClCompile Include="src\ddlibrary\fileclump.cpp" />
     <ClCompile Include="src\ddlibrary\gdebug.cpp" />
     <ClCompile Include="src\ddlibrary\gdisplay.cpp" />
@@ -239,7 +238,6 @@
     <ClCompile Include="src\main\effect.cpp" />
     <ClCompile Include="src\main\elev.cpp" />
     <ClCompile Include="src\main\enemy.cpp" />
-    <ClCompile Include="src\main\env.cpp" />
     <ClCompile Include="src\main\env2.cpp" />
     <ClCompile Include="src\main\eway.cpp" />
     <ClCompile Include="src\main\fc.cpp" />
@@ -388,7 +386,6 @@
     <ClInclude Include="src\ddlibrary\debug.h" />
     <ClInclude Include="src\ddlibrary\dimanager.h" />
     <ClInclude Include="src\ddlibrary\drive.h" />
-    <ClInclude Include="src\ddlibrary\ffmanager.h" />
     <ClInclude Include="src\ddlibrary\fileclump.h" />
     <ClInclude Include="src\ddlibrary\gdisplay.h" />
     <ClInclude Include="src\ddlibrary\gworkscreen.h" />

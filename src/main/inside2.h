@@ -68,17 +68,3 @@ extern SLONG find_inside_flags(SLONG inside, SLONG x, SLONG z);
 extern SLONG person_slide_inside(SLONG inside, SLONG x1, SLONG y1, SLONG z1, SLONG* x2, SLONG* y2, SLONG* z2);
 extern void stair_teleport_bodge(Thing* p_person);
 extern SLONG find_stair_y(Thing* p_person, SLONG* y1, SLONG x, SLONG y, SLONG z, UWORD* new_floor);
-
-// ========================================================
-//
-// INSIDE NAVIGATION
-//
-// ========================================================
-
-#if 0
-// Never used!
-MAV_Action INSIDE2_mav_enter (Thing *p_person, SLONG inside, UBYTE caps);		// To enter the building with the given inside
-MAV_Action INSIDE2_mav_inside(Thing *p_person, SLONG inside, UBYTE x, UBYTE z);	// Navigating within a floor
-MAV_Action INSIDE2_mav_stair (Thing *p_person, SLONG inside, SLONG new_inside); // Going up the stairs to another floor
-MAV_Action INSIDE2_mav_exit  (Thing *p_person, SLONG inside);					// Exit the building
-#endif

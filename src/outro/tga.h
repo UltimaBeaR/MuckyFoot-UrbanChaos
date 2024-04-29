@@ -41,18 +41,3 @@ Outro_TGA_Info Outro_TGA_load(
     SLONG max_width,
     SLONG max_height,
     Outro_TGA_Pixel* data);
-
-#if 0
-
-//
-// Saves out a tga.
-//
-
-void Outro_TGA_save(
-		const CBYTE *file,
-		SLONG        width,
-		SLONG        height,
-	Outro_TGA_Pixel   *data,
-		SLONG        contains_alpha);	// FALSE => Save without the alpha data.
-
-#endif

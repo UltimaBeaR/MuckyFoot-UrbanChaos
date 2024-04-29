@@ -2,7 +2,6 @@
 // Guy Simmons, 19th February 1998
 
 #include "ddlib.h"
-#include "ffmanager.h"
 
 // TEMP
 DIJOYSTATE the_state;

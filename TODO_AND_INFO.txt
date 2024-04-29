@@ -149,7 +149,12 @@ useful defines
         enables hitting cops (1st level for example)
 
 
-
+    USE_A3D
+        something about sound - probably should delete that
+    BIKE
+        delete
+    
+    ??? something about grappling hook
 
 
 
@@ -271,7 +276,7 @@ graphics init
 TODO
     try to strip out as much unnececary includes as possible in every file (h or cpp)
 
-    remove all #if 0 code (and empty files after that)
+    remove all #if 0 code (and empty files after that) and #else of #if 1
 
     remove qedit code (look for QEDIT_loop and dependencies)
 

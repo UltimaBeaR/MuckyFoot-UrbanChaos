@@ -21,8 +21,7 @@
 #define AA_MAX_SPAN_X 33
 #define AA_MAX_SPAN_Y 33
 
-typedef struct
-{
+struct AA_Span {
     SLONG rhs_min;
     SLONG rhs_max;
 
@@ -30,8 +29,7 @@ typedef struct
     SLONG lhs_max;
 
     SLONG pixel[AA_MAX_SPAN_X];
-
-} AA_Span;
+};
 
 AA_Span AA_span[AA_MAX_SPAN_Y];
 

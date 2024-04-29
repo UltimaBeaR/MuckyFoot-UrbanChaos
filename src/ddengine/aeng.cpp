@@ -3831,16 +3831,15 @@ void AENG_draw_dirt()
 // A bucket list for the pows!
 //
 
-typedef struct aeng_pow {
+struct AENG_Pow {
     SLONG frame;
     float sx;
     float sy;
     float sz;
     float Z;
 
-    struct aeng_pow* next;
-
-} AENG_Pow;
+    struct AENG_Pow* next;
+};
 
 #define AENG_MAX_POWS 256
 

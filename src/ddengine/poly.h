@@ -95,7 +95,7 @@ extern float POLY_screen_height;
 // any one of these flags set => point is off screen
 #define POLY_CLIP_OFFSCREEN (POLY_CLIP_LEFT | POLY_CLIP_RIGHT | POLY_CLIP_TOP | POLY_CLIP_BOTTOM | POLY_CLIP_FAR | POLY_CLIP_NEAR)
 
-typedef struct
+struct POLY_Point
 {
     float x; //
     float y; // 3D points...
@@ -120,7 +120,7 @@ typedef struct
     // NearClip - point is in front of the nearplane
     inline bool NearClip() { return ((clip & POLY_CLIP_NEAR) != 0); }
 
-} POLY_Point;
+};
 
 // Does nothing on PC.
 inline void POLY_flush_local_rot(void)

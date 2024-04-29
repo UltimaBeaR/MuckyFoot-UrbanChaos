@@ -53,13 +53,11 @@ void TEXTURE_load_needed_object(SLONG prim_object);
 // the engine's own use.
 //
 
-typedef struct
-{
+typedef struct SVector_F {
     float X;
     float Y;
     float Z;
-
-} SVector_F;
+};
 
 extern SVector_F AENG_dx_prim_points[];
 

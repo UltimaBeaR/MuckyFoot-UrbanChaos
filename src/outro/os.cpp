@@ -57,16 +57,14 @@ HWND OS_window_handle;
 UBYTE OS_frame_is_fullscreen;
 UBYTE OS_frame_is_hardware;
 
-typedef class
-{
+class OS_Framework {
 public:
     LPDIRECTDRAW4 direct_draw;
     LPDIRECT3DDEVICE3 direct_3d;
 
     LPDIRECTDRAW4 GetDirectDraw() { return direct_draw; }
     LPDIRECT3DDEVICE3 GetD3DDevice() { return direct_3d; }
-
-} OS_Framework;
+};
 
 OS_Framework OS_frame;
 

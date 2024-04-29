@@ -680,20 +680,6 @@ void SUPERFACET_fill_facet_points(
 
             ASSERT(WITHIN(SUPERFACET_index_upto + 4, 0, SUPERFACET_MAX_INDICES - 1));
 
-#if 0
-			// Striplists
-			SUPERFACET_index[SUPERFACET_index_upto + 0] = SUPERFACET_lvert_upto - sc->lvert + 0;
-			SUPERFACET_index[SUPERFACET_index_upto + 1] = SUPERFACET_lvert_upto - sc->lvert + 2;
-			SUPERFACET_index[SUPERFACET_index_upto + 2] = SUPERFACET_lvert_upto - sc->lvert + 1;
-			SUPERFACET_index[SUPERFACET_index_upto + 3] = SUPERFACET_lvert_upto - sc->lvert + 3;
-			SUPERFACET_index[SUPERFACET_index_upto + 4] = 0xffff;
-
-			sc->lvertcount += 4;
-			sc->indexcount += 5;
-
-			SUPERFACET_lvert_upto += 4;
-			SUPERFACET_index_upto += 5;
-#else
             // Lists
             SUPERFACET_index[SUPERFACET_index_upto + 0] = SUPERFACET_lvert_upto - sc->lvert + 0;
             SUPERFACET_index[SUPERFACET_index_upto + 1] = SUPERFACET_lvert_upto - sc->lvert + 2;
@@ -707,7 +693,6 @@ void SUPERFACET_fill_facet_points(
 
             SUPERFACET_lvert_upto += 4;
             SUPERFACET_index_upto += 6;
-#endif
 
             ASSERT(sc->lvert + sc->lvertcount == SUPERFACET_lvert_upto);
             ASSERT(sc->index + sc->indexcount == SUPERFACET_index_upto);
@@ -1220,13 +1205,8 @@ void SUPERFACET_init()
     SUPERFACET_max_lverts = 8192;
 #endif
 
-#if 0
-	// For striplists
-	SUPERFACET_max_indices = SUPERFACET_max_lverts * 5 / 4;
-#else
     // For lists
     SUPERFACET_max_indices = SUPERFACET_max_lverts * 6 / 4;
-#endif
 
     //
     // Allocate memory.
@@ -1282,49 +1262,6 @@ void SUPERFACET_init()
     //
     // This bit of code pre-converts all the suitable facets...
     //
-
-#if 0
-
-	//
-	// Now go through and find 'common' facets.
-	//
-
-	SLONG i;
-
-	DFacet *df;
-
-	for (i = 1; i < next_dfacet; i++)
-	{
-		df = &dfacets[i];
-
-		if (df->FacetFlags & FACET_FLAG_INVISIBLE)
-		{
-			continue;
-		}
-
-		if (df->FacetType != STOREY_TYPE_NORMAL)
-		{
-			continue;
-		}
-
-		if (df->FacetFlags & (FACET_FLAG_BARB_TOP | FACET_FLAG_2SIDED | FACET_FLAG_INSIDE))
-		{
-			continue;
-		}
-
-		if (df->Open)
-		{
-			continue;
-		}
-
-		//
-		// Now convert each of these 'common' facets.
-		//
-
-		SUPERFACET_convert_facet(i);
-	}
-
-#endif
 }
 
 void SUPERFACET_redo_lighting(SLONG facet)
@@ -1389,19 +1326,6 @@ void SUPERFACET_start_frame()
 #endif
 #endif
 
-// #ifdef TARGET_DC
-// extern void POLY_set_local_rotation_none ( void );
-//	POLY_set_local_rotation_none();
-//	//POLY_flush_local_rot();
-// #endif
-#if 0
-	GenerateMMMatrixFromStandardD3DOnes(
-		SUPERFACET_matrix,
-	    &g_matProjection,
-	    //g_matWorld,
-		NULL,
-	    &g_viewData);
-#endif
 #ifdef SUPERFACET_PERFORMANCE
     SUPERFACET_num_gameturns += 1;
 #endif
@@ -1414,17 +1338,6 @@ void SUPERFACET_start_frame()
 
     POLY_flush_local_rot();
 }
-
-#if 0
-//
-// The INDEX buffer we use for the 2-pass calls.
-//
-
-#define SUPERFACET_MAX_2PASS_INDICES (6 * 256) // 256 lit windows per facet maximum...
-
-UWORD SUPERFACET_2pass_index[SUPERFACET_MAX_2PASS_INDICES];
-SLONG SUPERFACET_2pass_index_upto;
-#endif
 
 SLONG SUPERFACET_draw(SLONG facet)
 {
@@ -1484,19 +1397,11 @@ SLONG SUPERFACET_draw(SLONG facet)
     // Do a drawindexprim call per 'call'
     //
 
-    // Some default settings, for later.
-#if 0
-	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
-	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_SRCBLEND,  D3DBLEND_SRCALPHA );
-	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_INVSRCALPHA );
-	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE );
-#else
     // Should do this properly.
     the_display.SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, FALSE);
     the_display.SetRenderState(D3DRENDERSTATE_SRCBLEND, D3DBLEND_SRCALPHA);
     the_display.SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_INVSRCALPHA);
     the_display.SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE);
-#endif
 
     the_display.lp_D3D_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
     the_display.lp_D3D_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
@@ -1677,22 +1582,6 @@ SLONG SUPERFACET_draw(SLONG facet)
                 POLY_flush_local_rot();
             }
         } else {
-
-#if 0
-			//
-			// Setup transform states...?
-			//
-
-			D3DMULTIMATRIX d3dmm =
-			{
-				SUPERFACET_lvert + sc->lvert,
-				SUPERFACET_matrix,
-				NULL,
-				NULL
-			};
-#endif
-
-#if 1
             the_display.lp_D3D_Device->DrawIndexedPrimitive(
                 D3DPT_TRIANGLELIST,
                 D3DFVF_LVERTEX,
@@ -1701,16 +1590,6 @@ SLONG SUPERFACET_draw(SLONG facet)
                 SUPERFACET_index + sc->index,
                 sc->indexcount,
                 0);
-
-#else
-            DrawIndPrimMM(
-                the_display.lp_D3D_Device,
-                D3DFVF_LVERTEX,
-                &d3dmm,
-                sc->lvertcount,
-                SUPERFACET_index + sc->index,
-                sc->indexcount);
-#endif
         }
 
         //
@@ -1722,31 +1601,12 @@ SLONG SUPERFACET_draw(SLONG facet)
             // Create a 2pass index list from this index list.
             //
 
-#if 0
-			SUPERFACET_2pass_index_upto = 0;
-			for (j = 0; j < sc->indexcount; j += 5)
-			{
-				ASSERT(WITHIN(SUPERFACET_2pass_index_upto + 5, 0, SUPERFACET_MAX_2PASS_INDICES - 1));
-
-				SUPERFACET_2pass_index[SUPERFACET_2pass_index_upto + 0] = SUPERFACET_index[sc->index + j + 0];
-				SUPERFACET_2pass_index[SUPERFACET_2pass_index_upto + 1] = SUPERFACET_index[sc->index + j + 1];
-				SUPERFACET_2pass_index[SUPERFACET_2pass_index_upto + 2] = SUPERFACET_index[sc->index + j + 2];
-
-				SUPERFACET_2pass_index[SUPERFACET_2pass_index_upto + 3] = SUPERFACET_index[sc->index + j + 3];
-				SUPERFACET_2pass_index[SUPERFACET_2pass_index_upto + 4] = SUPERFACET_index[sc->index + j + 2];
-				SUPERFACET_2pass_index[SUPERFACET_2pass_index_upto + 5] = SUPERFACET_index[sc->index + j + 1];
-
-				SUPERFACET_2pass_index_upto += 6;
-			}
-#endif
-
             // Switch the modes for the windows.
             the_display.lp_D3D_Device->SetTexture(0, sc->texture_2pass);
             the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
             the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_FOGENABLE, FALSE);
             the_display.lp_D3D_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 
-#if 1
             the_display.lp_D3D_Device->DrawIndexedPrimitive(
                 D3DPT_TRIANGLELIST,
                 D3DFVF_LVERTEX,
@@ -1755,18 +1615,6 @@ SLONG SUPERFACET_draw(SLONG facet)
                 SUPERFACET_index + sc->index,
                 sc->indexcount,
                 0);
-#else
-            the_display.lp_D3D_Device->DrawIndexedPrimitive(
-                D3DPT_TRIANGLELIST,
-                D3DFVF_LVERTEX,
-                SUPERFACET_lvert + sc->lvert,
-                sc->lvertcount,
-                SUPERFACET_2pass_index,
-                SUPERFACET_2pass_index_upto,
-                // SUPERFACET_index + sc->index,
-                // sc->indexcount,
-                0);
-#endif
 
             // And go back to sanity.
             the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, FALSE);

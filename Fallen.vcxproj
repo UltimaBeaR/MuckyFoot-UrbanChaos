@@ -182,7 +182,6 @@
     <ClCompile Include="src\ddengine\polyrenderstate.cpp" />
     <ClCompile Include="src\ddengine\qeng.cpp" />
     <ClCompile Include="src\ddengine\quaternion.cpp" />
-    <ClCompile Include="src\ddengine\ray.cpp" />
     <ClCompile Include="src\ddengine\renderstate.cpp" />
     <ClCompile Include="src\ddengine\shape.cpp" />
     <ClCompile Include="src\ddengine\sky.cpp" />
@@ -368,7 +367,6 @@
     <ClInclude Include="src\ddengine\polypoint.h" />
     <ClInclude Include="src\ddengine\qeng.h" />
     <ClInclude Include="src\ddengine\quaternion.h" />
-    <ClInclude Include="src\ddengine\ray.h" />
     <ClInclude Include="src\ddengine\renderstate.h" />
     <ClInclude Include="src\ddengine\shape.h" />
     <ClInclude Include="src\ddengine\sky.h" />

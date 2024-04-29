@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 extern UBYTE PANEL_scanner_poo; // sets whether you want a poo scanner or not
 
 extern void PANEL_start(void);

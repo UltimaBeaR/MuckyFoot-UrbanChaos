@@ -1,7 +1,10 @@
 //
 // Shadow maps.
 //
+
 #pragma once
+
+#include "../mfstdlib/mfstdlib.h"
 
 //
 // Creates a shadow map of the given person.

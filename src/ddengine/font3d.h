@@ -1,6 +1,10 @@
 
 // THIS IS PANTS!
 
+#pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 #if 0
 
 /************************************************************

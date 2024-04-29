@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 // Set to 0 to remove all crinkle stuff.
 #define SUPERCRINKLES_ENABLED 0
 

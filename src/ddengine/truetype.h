@@ -2,6 +2,10 @@
 //
 // TrueType font handling
 
+#pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 #include "texture.h"
 
 // if this is defined, we use TrueType fonts, otherwise we use normal fonts

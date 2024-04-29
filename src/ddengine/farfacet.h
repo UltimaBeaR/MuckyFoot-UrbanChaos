@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Creates optimised data for drawing farfacets.
 // Call after all facets have been loaded.

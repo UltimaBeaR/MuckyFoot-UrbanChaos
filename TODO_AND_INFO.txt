@@ -269,6 +269,8 @@ TODO
     one .h file for every .cpp file. always import mfstdlib on header level (and other stuff that can be used in specific header)
     try to strip out as much unnececary includes as possible in every file (h or cpp)
 
+    remove all #if 0 code (and empty files after that)
+
 
     remove all editor code
     remove all unused / debug only / experimenting code (check what preprocessor directives can be useful and keep it, but strip out other code)

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Clears all current messages.	You don't have to call this at the
 // start of the program.

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Initialises the map (gets rid of nav beacons... sets up view)
 //

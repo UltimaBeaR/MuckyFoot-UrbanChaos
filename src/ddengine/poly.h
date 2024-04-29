@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 static inline int ftol(float f)
 {
     return (int)f;

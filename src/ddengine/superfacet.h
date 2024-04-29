@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Call at the start of the game_loop()- after everything has
 // been loaded. Sets up memory.

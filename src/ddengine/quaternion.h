@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 class FloatMatrix {
 public:
     float M[3][3];

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // The maximum dimension of a character.
 // Normally the width will be smaller.

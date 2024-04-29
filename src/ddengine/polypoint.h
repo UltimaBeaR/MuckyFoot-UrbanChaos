@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 // we copy U,V using int copies; this is because u,v are uninitialized in
 // a lot of cases.  we can only hope that the driver doesn't read U,V into
 // the FPU because it's not practical to check every single point where a

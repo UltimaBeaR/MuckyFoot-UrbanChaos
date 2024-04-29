@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // This function uses the POLY module, and assumes
 // that all the camera stuff has already been set up.

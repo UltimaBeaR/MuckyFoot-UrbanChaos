@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #include "aeng.h"
 #include "poly.h"
 #include "../ddlibrary/fileclump.h"

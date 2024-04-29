@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #include "../main/game.h"
 #include "../ddlibrary/ddlib.h"
 

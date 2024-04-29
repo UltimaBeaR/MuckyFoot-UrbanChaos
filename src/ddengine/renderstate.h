@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 enum SpecialEffect {
     RS_None, // no special effect
     RS_AlphaPremult, // premultiply vertex colours by alpha and set alpha to 0

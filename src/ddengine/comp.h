@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
 #include "../ddlibrary/tga.h"
 
 //

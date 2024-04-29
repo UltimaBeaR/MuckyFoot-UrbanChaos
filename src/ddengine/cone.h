@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Creates a new cone. (dx,dy,dz) need not be normalised.
 //

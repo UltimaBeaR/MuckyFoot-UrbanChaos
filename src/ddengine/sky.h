@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Needs the screen to have been initialised.
 // if 'star_file' is NULL, then stars are placed randomly, otherwise

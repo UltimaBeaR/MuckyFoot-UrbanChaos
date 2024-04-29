@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 // tried and it is about 33% faster than not using D3D vertex buffers
 #define USE_D3D_VBUF 1 // set to 0 to revert to malloc'd vertex buffers
 

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define SPRITE_SORT_NORMAL 1
 #define SPRITE_SORT_FRONT 2
 

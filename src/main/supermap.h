@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define MAX_FACET_LINK 32000
 
 struct DStorey {

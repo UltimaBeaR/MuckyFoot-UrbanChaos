@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Set up the camera. Make sure the camera has a sensible focus,
 // zoom and mode before you call CAM_process().

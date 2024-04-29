@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // The SHADOW module creates 3bit values for a square-
 // and this is what they mean.

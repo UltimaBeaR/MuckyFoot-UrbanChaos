@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 // JCL - functions and data managing the hierarchy of body parts in people
 
 extern CBYTE* body_part_parent[][2];

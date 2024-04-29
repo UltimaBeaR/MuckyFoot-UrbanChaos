@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Warehouses have their own private MAVigation system and they know
 // where their entrances are.

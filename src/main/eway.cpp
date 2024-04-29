@@ -1,7 +1,6 @@
 //
 // Ugh... the whole game is based on waypoints.
 //
-#include "demo.h"
 #include "game.h"
 #include "cam.h"
 #include "eway.h"

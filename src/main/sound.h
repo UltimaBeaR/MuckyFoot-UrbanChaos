@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #include "structs.h"
 #include "../ddlibrary/mfx.h"
 

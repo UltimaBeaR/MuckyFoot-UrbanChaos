@@ -62,7 +62,6 @@
 #include "music.h"
 #include "night.h"
 #include "grenade.h"
-#include "demo.h"
 
 #include "../ddlibrary/ddlib.h"
 #include "../ddengine/vertexbuffer.h"

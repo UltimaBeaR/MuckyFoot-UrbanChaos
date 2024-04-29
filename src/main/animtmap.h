@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 // defines
 
 #define MAX_TMAP_FRAMES 16

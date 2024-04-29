@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define DRIP_FLAG_PUDDLES_ONLY (1)
 
 //

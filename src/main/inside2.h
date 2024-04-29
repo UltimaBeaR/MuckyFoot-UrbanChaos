@@ -1,6 +1,6 @@
 #pragma once
 
-#include "structs.h"
+#include "../mfstdlib/mfstdlib.h"
 
 //
 // defines

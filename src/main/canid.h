@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 extern StateFunction CANID_state_function[];
 
 void CANID_init(Thing* canid);

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Creates a line-based representation of the current city. Make sure
 // you have already sunken the roads before calling this function.

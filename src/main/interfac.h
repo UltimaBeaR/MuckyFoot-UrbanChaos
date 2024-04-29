@@ -1,8 +1,10 @@
-#pragma once
-
 //
 // Defines
 //
+
+#pragma once
+
+#include "../mfstdlib/mfstdlib.h"
 
 #define INPUT_FORWARDS 0
 #define INPUT_BACKWARDS 1

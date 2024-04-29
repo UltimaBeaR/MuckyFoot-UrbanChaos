@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #ifdef MIKE
 #define MAX_PYROS 32
 #else

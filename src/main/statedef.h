@@ -1,4 +1,7 @@
 #pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 // #define	STATE_LOCAL					5
 // Thing states.
 #define STATE_INIT 0

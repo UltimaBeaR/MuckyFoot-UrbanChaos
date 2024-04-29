@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 struct WMOVE_Point {
     UWORD x;
     SWORD y;

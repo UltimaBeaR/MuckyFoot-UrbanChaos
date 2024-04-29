@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Initialises the heap.
 // Returns a block of memory.

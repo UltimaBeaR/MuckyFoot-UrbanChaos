@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define FLAG_FURN_DRIVING (1 << 0)
 #define FLAG_FURN_WHEEL1_GRIP (1 << 1)
 #define FLAG_FURN_WHEEL2_GRIP (1 << 2)

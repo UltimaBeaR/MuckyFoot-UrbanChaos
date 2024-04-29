@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //---------------------------------------------------------------
 
 void game_attract_mode(void);

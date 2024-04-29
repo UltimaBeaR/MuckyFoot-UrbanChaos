@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //---------------------------------------------------------------
 
 #define MAX_SWITCHES 2 // 10

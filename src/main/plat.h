@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // The platforms linked from the things.
 //

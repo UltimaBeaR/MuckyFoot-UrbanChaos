@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #include "supermap.h"
 #include "inside2.h"
 #include "building.h"

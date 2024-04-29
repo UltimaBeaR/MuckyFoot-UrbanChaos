@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define COP_ANIM_WALK (1)
 #define COP_ANIM_STAND (2)
 #define COP_ANIM_HIT (3)

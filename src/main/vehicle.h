@@ -3,6 +3,9 @@
 // vehicle physics
 
 #pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 #include "state.h"
 
 #define FLAG_VEH_DRIVING (1 << 0)

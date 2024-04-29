@@ -1,7 +1,6 @@
 // Game.cpp
 // Guy Simmons, 17th October 1997
 
-#include "demo.h"
 #include "game.h"
 #include "pap.h"
 #include "attract.h"

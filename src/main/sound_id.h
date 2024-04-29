@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 extern CBYTE* sound_list[];
 
 enum Waves {

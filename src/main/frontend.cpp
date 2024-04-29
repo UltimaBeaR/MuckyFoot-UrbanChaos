@@ -21,7 +21,6 @@
 // On DC, the "Start" button is not allowed to be remapped.
 #define WANT_A_START_JOYSTICK_ITEM defined
 
-#include "demo.h"
 #include "../ddlibrary/ddlib.h"
 #include "frontend.h"
 #include "xlat_str.h"

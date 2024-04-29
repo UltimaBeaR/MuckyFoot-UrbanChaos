@@ -7,6 +7,10 @@
 //  SLONG PQ_better(PQ_Type *a, PQ_Type *b);
 //
 
+#pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Initialises the heap to be empty.
 // Adds an element to the heap

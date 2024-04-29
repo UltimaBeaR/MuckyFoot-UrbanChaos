@@ -7,6 +7,7 @@
 #pragma once
 
 #include "../mfstdlib/mfstdlib.h"
+
 #include "structs.h"
 
 #define MAX_RIBBONS 64

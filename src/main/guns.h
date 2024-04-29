@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define MAX_GUN_AIM 3000 //(3 seconds)
 
 //

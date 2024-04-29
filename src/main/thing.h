@@ -2,6 +2,9 @@
 // Guy Simmons, 15th October 1997.
 
 #pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 #include "game.h"
 #include "drawtype.h"
 #include "vehicle.h"

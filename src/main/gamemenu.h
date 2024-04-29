@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Initialises all the gamemenu stuff. Call at the start of the
 // game loop.

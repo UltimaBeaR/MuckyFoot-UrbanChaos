@@ -2,6 +2,10 @@
 //
 // grenade code
 
+#pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 // initialize system
 void InitGrenades();
 

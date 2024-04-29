@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // The size of the box inside which the floorplan can be.
 // The maximum dimension of any building.

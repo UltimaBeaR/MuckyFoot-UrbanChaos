@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define SAMPLE_FLESH_HIT1 2
 #define SAMPLE_FLESH_HIT2 3
 #define SAMPLE_FLESH_HIT3 4

@@ -6,6 +6,10 @@
 //  Sound Environment -- basically, creating 3d polys for the 3d sound
 //
 
+#pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 void SOUNDENV_precalc(void);
 
 void SOUNDENV_upload(void);

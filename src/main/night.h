@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #include "pap.h"
 
 #define NIGHT_MAX_SLIGHTS 256

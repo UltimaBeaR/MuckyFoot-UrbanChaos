@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define MAX_ANIMALS 6
 
 #define ANIMAL_NONE 0 // zilch, nada

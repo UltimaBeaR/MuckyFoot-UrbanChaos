@@ -4,6 +4,8 @@
 // 14 june 99
 //
 
+#pragma once
+
 #include "../mfstdlib/mfstdlib.h"
 
 /*

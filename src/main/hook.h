@@ -1,7 +1,10 @@
 //
 // A grappling hook.
 //
+
 #pragma once
+
+#include "../mfstdlib/mfstdlib.h"
 
 //
 // Creates the grappling hook lying neatly coiled up on the ground.

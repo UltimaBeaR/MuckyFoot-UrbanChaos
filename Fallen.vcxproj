@@ -411,7 +411,6 @@
     <ClInclude Include="src\editor\prim_draw.h" />
     <ClInclude Include="src\editor\thing.h" />
     <ClInclude Include="src\ledit\ed.h" />
-    <ClInclude Include="src\main\america.h" />
     <ClInclude Include="src\main\animal.h" />
     <ClInclude Include="src\main\animate.h" />
     <ClInclude Include="src\main\animtmap.h" />
@@ -437,7 +436,6 @@
     <ClInclude Include="src\main\controls.h" />
     <ClInclude Include="src\main\cop.h" />
     <ClInclude Include="src\main\darci.h" />
-    <ClInclude Include="src\main\demo.h" />
     <ClInclude Include="src\main\dike.h" />
     <ClInclude Include="src\main\dirt.h" />
     <ClInclude Include="src\main\door.h" />

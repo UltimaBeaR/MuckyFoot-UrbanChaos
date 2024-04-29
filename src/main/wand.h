@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Initialises the wander system. Looks for nice places to walk and
 // sets the PAP_FLAG_WANDER flag.

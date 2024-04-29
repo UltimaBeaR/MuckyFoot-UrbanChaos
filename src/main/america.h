@@ -1,1 +1,0 @@
-// #define	AMERICA	1

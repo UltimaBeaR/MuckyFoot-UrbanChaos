@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define STARTS_START 1
 #define STARTS_EDITOR 2
 #define STARTS_LOAD 3

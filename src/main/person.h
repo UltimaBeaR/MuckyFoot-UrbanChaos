@@ -2,6 +2,9 @@
 // Guy Simmons, 12th January 1998
 
 #pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 #include "structs.h"
 
 //---------------------------------------------------------------

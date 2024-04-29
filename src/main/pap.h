@@ -3,6 +3,9 @@
 //
 
 #pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 // #include	"game.h" //really requires thing.h but thing.h required game.h so lets cut it off at the pass#
 struct Thing;
 

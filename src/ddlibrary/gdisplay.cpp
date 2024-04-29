@@ -2,7 +2,6 @@
 // Guy Simmons, 13th November 1997.
 
 #include "ddlib.h"
-#include "../main/demo.h"
 #include "../main/interfac.h"
 #include "binkclient.h"
 #include "../main/env.h"

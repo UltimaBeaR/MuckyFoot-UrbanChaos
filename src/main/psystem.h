@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define PSYSTEM_MAX_PARTICLES 2048
 
 #include "../mfstdlib/mfstdlib.h"

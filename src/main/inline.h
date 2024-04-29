@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 inline SLONG DIV64(SLONG a, SLONG b)
 {
     /* 64bit divide */

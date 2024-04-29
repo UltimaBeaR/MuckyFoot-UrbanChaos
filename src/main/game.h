@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define DRAW_DIST 22
 
 //---------------------------------------------------------------

@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Returns TRUE if you should exit the game loop...
 //

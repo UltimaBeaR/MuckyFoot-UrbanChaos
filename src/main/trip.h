@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // When x1 == this magic number means the trip wire is deactivated.
 //

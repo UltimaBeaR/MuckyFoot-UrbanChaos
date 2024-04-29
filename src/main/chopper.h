@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define MAX_CHOPPERS 4
 
 #define CHOPPER_NONE 0 // zilch, nada

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define EWAY_MAX_CONDS 128
 #define EWAY_MAX_WAYS 512
 #define EWAY_MAX_EDEFS 150

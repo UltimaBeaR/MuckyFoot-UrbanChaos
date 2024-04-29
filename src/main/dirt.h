@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define DIRT_TYPE_UNUSED 0
 #define DIRT_TYPE_LEAF 1
 #define DIRT_TYPE_CAN 2

@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #define SPECIAL_AMMO_IN_A_PISTOL 15
 #define SPECIAL_AMMO_IN_A_SHOTGUN 8
 #define SPECIAL_AMMO_IN_A_GRENADE 3

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Returns TRUE if vector v intersects vector w
 // If the two lines touch then that counts as an intersection.

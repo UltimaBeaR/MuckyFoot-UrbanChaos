@@ -2,14 +2,6 @@
 
 #include "../mfstdlib/mfstdlib.h"
 
-// DEFINES
-
-// Set this to 1 to enable TomF's new D3D-friendly engine.
-// 0 enables the old engine again.
-// NOTE! There are other versions of this define dotted around in other header
-// files! Make sure they all agree or you'll have grief.
-#define USE_TOMS_ENGINE_PLEASE_BOB 1
-
 //
 // face savetype for primpoint size change
 //
@@ -379,7 +371,6 @@ struct PrimObject {
     UBYTE flag;
 };
 
-#if USE_TOMS_ENGINE_PLEASE_BOB
 
 // A flag that lives in the top bit of wTexturePage.
 #define TEXTURE_PAGE_FLAG_JACKET (1 << 15)
@@ -422,7 +413,6 @@ struct TomsPrimObject {
     UWORD* pwStripIndices; // Pointer to the indices in interrupted strip form. DONT MEMFREE THIS
     float fBoundingSphereRadius; // Guess!
 };
-#endif
 
 struct PrimObjectOld {
     CBYTE ObjectName[32];

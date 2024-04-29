@@ -26,7 +26,7 @@ typedef struct
     UBYTE y;
     UBYTE num;
     UBYTE last; // TRUE => there are no more update structures.
-    IC_Packet ip[];
+    IC_Packet* ip;
 
 } COMP_Update;
 

@@ -27,7 +27,7 @@ typedef struct
 typedef struct
 {
     SLONG size;
-    UBYTE data[];
+    UBYTE* data;
 
 } COMP_Delta;
 

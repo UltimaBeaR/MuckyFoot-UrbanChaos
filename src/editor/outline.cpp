@@ -22,7 +22,7 @@ typedef struct outline_link {
 
 typedef struct outline_outline {
     SLONG max_z;
-    OUTLINE_Link* link[];
+    OUTLINE_Link** link;
 
 } OUTLINE_Outline;
 

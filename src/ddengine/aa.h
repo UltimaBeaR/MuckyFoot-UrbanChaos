@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // The value generated for each pixel is the percentage area of
 // that pixel covered by the triangle. This value is added with

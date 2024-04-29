@@ -2,6 +2,10 @@
 //
 // break timer
 
+#pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 // Interface:
 //
 // Simply call BreakTime(name) at each breakpoint and BreakFrame() after the screen flip call

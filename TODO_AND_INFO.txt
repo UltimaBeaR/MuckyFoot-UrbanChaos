@@ -220,3 +220,73 @@ done
 
     coan source -UBUILD_PSX -UPSX_COMPRESS_LIGHT -UPSX_STERN_REVENGE_BUG_AND_CRAP_DRIVERS -UPSX_NOT_REALLY -UDODGYPSXIFY -UVERSION_PSX -UVERSION_GLIDE --no-transients --filter cpp,c,h,hpp --recurse src
         other psx and glide stuff
+
+
+
+
+===================================================
+
+
+
+files and folders
+    mfstdlib - very basic code (global defines, platform dependencies). I think they reuse it across all games
+
+    ddlibrary - something like engine. Includes graphics, window management, keyboard control
+        gdisplay.h
+            Display class - main graphics rendering class
+
+    ddengine - looks like same as ddlibrary but mabe built on top of ddlibrary. It also has dependencies on main folder
+
+    editor, ledit - some stuff from editor. I tried to strip out all editor stuff but something still exist because of dependencies from other places
+
+    main - main game logic i suppose (biggest folder)
+        main.cpp
+            has entry point - main() function. It uses SetupHost() from ddlibrary which setups winapi stuff (windows, keyboard)
+
+    outro - i think it's special folder related to final mission/missions
+
+
+
+graphics init 
+    OpenDisplay() call from gdisplay.h
+    uses in
+        game_startup() - this calls from main() (not directly)
+
+        QEDIT_loop() - looks like editor only code
+    
+    
+
+
+
+
+
+
+
+===============
+
+TODO
+    pragma once to every file
+    one .h file for every .cpp file. always import mfstdlib on header level (and other stuff that can be used in specific header)
+    try to strip out as much unnececary includes as possible in every file (h or cpp)
+
+
+    remove all editor code
+    remove all unused / debug only / experimenting code (check what preprocessor directives can be useful and keep it, but strip out other code)
+
+    find unused symbols and functions and remove it
+
+    remove asm usage (search for __asm)
+
+    restructure files to better track what depends on what
+
+    abstract out windows platform specific code (windows)
+    abstract out all low level graphics / rendering code
+
+    make support for xbox-like controllers
+
+    replace directx with vulkan/opengl + other libs
+
+    make support for linux and mac
+
+    
+

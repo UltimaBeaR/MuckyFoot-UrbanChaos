@@ -2,7 +2,8 @@
 // Guy Simmons, 24th October 1997.
 
 #pragma once
-#include "engine.h"
+
+#include "../mfstdlib/mfstdlib.h"
 
 //---------------------------------------------------------------
 

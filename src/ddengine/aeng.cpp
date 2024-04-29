@@ -2,11 +2,10 @@
 // Another engine.
 //
 
-#include "../mfstdlib/mfstdlib.h"
+#include "aeng.h"
 #include "../ddlibrary/ddlib.h"
 #include <math.h>
 #include "../main/game.h"
-#include "aeng.h"
 #include "font.h"
 #include "ngamut.h"
 #include "poly.h"
@@ -72,18 +71,12 @@
 #include "oval.h"
 #include "crinkle.h"
 #include "../main/sound.h"
-
 #include "vertexbuffer.h"
-
 #include "breaktimer.h"
 #include "polypoint.h"
-
 #include "../main/grenade.h"
 #include "superfacet.h"
 #include "farfacet.h"
-
-#include "../main/interfac.h"
-
 #include "polypage.h"
 
 #define POLY_set_local_rotation_none() \

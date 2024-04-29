@@ -9,8 +9,6 @@
 //---------------------------------------------------------------
 // All temp stuff, botched in for demo.
 
-#include "../editor/thing.h"
-
 ULONG move_thing(SLONG m_dx, SLONG m_dy, SLONG m_dz, struct MapThing* p_thing);
 
 SLONG calc_height_at(SLONG x, SLONG z);

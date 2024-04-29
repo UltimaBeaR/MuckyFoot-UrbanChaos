@@ -7,7 +7,6 @@
 #include "shape.h"
 #include "../main/night.h"
 #include "matrix.h"
-#include "../editor/prim.h"
 #include "mesh.h"
 #include "../main/game.h"
 

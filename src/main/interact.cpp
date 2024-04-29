@@ -6,8 +6,6 @@
 #include "memory.h"
 #include "ware.h"
 #include "mav.h"
-
-#include "../editor/map.h"
 #include "animate.h"
 #include "fmatrix.h"
 #include "../editor/prim_draw.h"

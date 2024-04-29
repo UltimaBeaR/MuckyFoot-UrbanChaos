@@ -1,5 +1,4 @@
 #include "game.h"
-#include "../editor/map.h"
 #include "animate.h"
 #include "dirt.h"
 #include "fog.h"

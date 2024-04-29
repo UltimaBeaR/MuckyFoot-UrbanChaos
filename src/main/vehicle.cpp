@@ -32,7 +32,6 @@
 #include "interfac.h"
 #include "dirt.h"
 #include "mist.h"
-#include "../editor/prim.h"
 #include "animate.h"
 #include "sound.h"
 #include "barrel.h"

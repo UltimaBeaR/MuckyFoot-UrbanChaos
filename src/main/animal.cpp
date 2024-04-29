@@ -7,7 +7,6 @@
 #include "canid.h"
 #include "statedef.h"
 #include "../ddengine/matrix.h"
-#include "../editor/prim.h"
 #include "../ddengine/figure.h"
 #include "../ddengine/poly.h"
 #include "night.h"

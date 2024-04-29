@@ -29,7 +29,6 @@
 #include "../ddlibrary/net.h"
 #include "bang.h"
 #include "mav.h"
-#include "../editor/extra.h"
 #include "spark.h"
 #include "statedef.h"
 #include "glitter.h"

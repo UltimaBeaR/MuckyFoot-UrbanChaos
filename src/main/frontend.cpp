@@ -724,7 +724,7 @@ RawMenuData raw_menu_data[] = {
     { 0, OT_BUTTON, X_CANCEL, 0, FE_BACK },
 #endif
 
-    { -1, 0, 0, 0 },
+    { UBYTE(-1), 0, 0, 0},
 };
 
 CBYTE menu_choice_yesno[20]; // = { "no\0yes" };

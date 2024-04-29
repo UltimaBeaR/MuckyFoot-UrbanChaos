@@ -223,7 +223,7 @@ void draw_centre_text_at(float x, float y, CBYTE* message, SLONG font_id, SLONG 
             *(message + char_count) = 0;
 
         //		LogText(" draw text message >%s< width %d \n",message,width);
-        draw_text_at((640 - ((SLONG)width)) >> 1, y, message, font_id);
+        draw_text_at(float((640 - ((SLONG)width)) >> 1), y, message, font_id);
         if (!flag)
             break;
 

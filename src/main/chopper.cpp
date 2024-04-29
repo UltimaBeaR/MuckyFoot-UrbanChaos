@@ -154,6 +154,8 @@ found_chopper:
 
         free_draw_mesh(dm);
     }
+
+    return NULL;
 }
 void free_chopper(Thing* p_thing)
 {

@@ -3325,7 +3325,9 @@ void FC_look_at(SLONG cam, UWORD thing_index);
         Keys[KB_P2] = 0;
         if (TO_CHOPPER(1)->ChopperType != CHOPPER_NONE) {
             Thing* pyro;
+
             GameCoord anyoldposn; // dont care, updated by thing
+            ZeroMemory(&anyoldposn, sizeof(anyoldposn));
 
             pyro = PYRO_create(anyoldposn, PYRO_IMMOLATE);
             pyro->Genus.Pyro->victim = TO_CHOPPER(1)->thing;

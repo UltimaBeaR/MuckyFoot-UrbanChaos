@@ -4966,7 +4966,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
 
         // Restore the saved data.
         FIGURE_dhpr_rdata1[0] = FIGURE_dhpr_rdata1_0_copy;
-        FIGURE_dhpr_data_copy = FIGURE_dhpr_data_copy;
     }
 
     // Gets pre-incremented to 0 before use.
@@ -5165,7 +5164,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
             TRACE("Partial person drawn\n");
             // Restore the saved data.
             FIGURE_dhpr_rdata1[0] = FIGURE_dhpr_rdata1_0_copy;
-            FIGURE_dhpr_data_copy = FIGURE_dhpr_data_copy;
             FIGURE_draw_hierarchical_prim_recurse_individual_cull(p_person);
         } else {
             // None of the person is visible. Don't draw anything.

@@ -709,25 +709,25 @@ static void TexBlit(int x1, int y1, int x2, int y2, int dx, int dy, ULONG rgb, U
     int width = (x2 - x1) * scale / 256;
     int height = (y2 - y1) * scale / 256;
 
-    vp->SetSC(dx, dy);
+    vp->SetSC(float(dx), float(dy));
     vp->SetColour(rgb);
     vp->SetSpecular(0xFF000000);
     vp->SetUV(u1, v1);
     vp++;
 
-    vp->SetSC(dx + width, dy);
+    vp->SetSC(float(dx + width), float(dy));
     vp->SetColour(rgb);
     vp->SetSpecular(0xFF000000);
     vp->SetUV(u2, v1);
     vp++;
 
-    vp->SetSC(dx + width, dy + height);
+    vp->SetSC(float(dx + width), float(dy + height));
     vp->SetColour(rgb);
     vp->SetSpecular(0xFF000000);
     vp->SetUV(u2, v2);
     vp++;
 
-    vp->SetSC(dx, dy + height);
+    vp->SetSC(float(dx), float(dy + height));
     vp->SetColour(rgb);
     vp->SetSpecular(0xFF000000);
     vp->SetUV(u1, v2);

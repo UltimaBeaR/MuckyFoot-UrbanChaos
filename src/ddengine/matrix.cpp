@@ -56,15 +56,15 @@ void MATRIX_calc_int(SLONG matrix[9], SLONG yaw, SLONG pitch, SLONG roll)
     // Jan I trust you... but only becuase I've already seen it working!
     //
 
-    matrix[0] = cy * cr + sy * sp * sr;
-    matrix[3] = cy * sr - sy * sp * cr;
-    matrix[6] = sy * cp;
-    matrix[1] = -cp * sr;
-    matrix[4] = cp * cr;
-    matrix[7] = sp;
-    matrix[2] = -sy * cr + cy * sp * sr;
-    matrix[5] = -sy * sr - cy * sp * cr;
-    matrix[8] = cy * cp;
+    matrix[0] = SLONG(cy * cr + sy * sp * sr);
+    matrix[3] = SLONG(cy * sr - sy * sp * cr);
+    matrix[6] = SLONG(sy * cp);
+    matrix[1] = SLONG(-cp * sr);
+    matrix[4] = SLONG(cp * cr);
+    matrix[7] = SLONG(sp);
+    matrix[2] = SLONG(-sy * cr + cy * sp * sr);
+    matrix[5] = SLONG(-sy * sr - cy * sp * cr);
+    matrix[8] = SLONG(cy * cp);
 }
 
 void MATRIX_vector(float vector[3], float yaw, float pitch)

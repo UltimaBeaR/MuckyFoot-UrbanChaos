@@ -19,6 +19,12 @@
 #undef LogText
 #define LogText
 
+struct Thing;
+
+inline THING_INDEX toThingIndex(Thing* thing) {
+    return (THING_INDEX)(ULONG)thing;
+}
+
 typedef SLONG MAPCO8;
 typedef SLONG MAPCO16;
 typedef SLONG MAPCO24;

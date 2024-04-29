@@ -206,25 +206,25 @@ void MENUFONT_DrawFlanged(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLONG alpha
             if (flags & MENUFONT_SINED)
                 for (i = 0; i < 4; i++) {
                     pp[0].X = x;
-                    pp[0].Y = y + (SIN(((x + FONT_TICK) << i) & 2047) >> 13);
-                    pp[1].X = x + width;
-                    pp[1].Y = y + (SIN(((x + width + FONT_TICK) << i) & 2047) >> 13);
+                    pp[0].Y = float(y + (SIN(((x + FONT_TICK) << i) & 2047) >> 13));
+                    pp[1].X = float(x + width);
+                    pp[1].Y = float(y + (SIN(((x + width + FONT_TICK) << i) & 2047) >> 13));
                     pp[2].X = x;
-                    pp[2].Y = y + height;
-                    pp[3].X = x + width;
-                    pp[3].Y = y + height;
+                    pp[2].Y = float(y + height);
+                    pp[3].X = float(x + width);
+                    pp[3].Y = float(y + height);
                     POLY_add_quad(quad, FontPage, FALSE, TRUE);
                 }
             else
                 for (i = 1; i < 4; i++) {
-                    pp[0].X = x + SC((x + (i * 128) + FONT_TICK) << 2);
-                    pp[0].Y = y + SC((x + (i * 194) + FONT_TICK) << 2);
-                    pp[1].X = x + width + CC((x + width + FONT_TICK) << 2);
-                    pp[1].Y = y + SC((x + width + FONT_TICK) << 2);
-                    pp[2].X = x + CC((x + (i * 128) + FONT_TICK) << 2);
-                    pp[2].Y = y + height + SC((x + (i * 194) + FONT_TICK) << 2);
-                    pp[3].X = x + width + CC((x + width - (i * 128) + FONT_TICK) << 2);
-                    pp[3].Y = y + height + CC((x + width + FONT_TICK) << 2);
+                    pp[0].X = float(x + SC((x + (i * 128) + FONT_TICK) << 2));
+                    pp[0].Y = float(y + SC((x + (i * 194) + FONT_TICK) << 2));
+                    pp[1].X = float(x + width + CC((x + width + FONT_TICK) << 2));
+                    pp[1].Y = float(y + SC((x + width + FONT_TICK) << 2));
+                    pp[2].X = float(x + CC((x + (i * 128) + FONT_TICK) << 2));
+                    pp[2].Y = float(y + height + SC((x + (i * 194) + FONT_TICK) << 2));
+                    pp[3].X = float(x + width + CC((x + width - (i * 128) + FONT_TICK) << 2));
+                    pp[3].Y = float(y + height + CC((x + width + FONT_TICK) << 2));
                     POLY_add_quad(quad, FontPage, FALSE, TRUE);
                 }
         }
@@ -260,9 +260,9 @@ void MENUFONT_DrawFutzed(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLONG alpha,
             pp[2].u = FontInfo[*pt].x;
             pp[3].u = FontInfo[*pt].ox;
             pp[0].X = x;
-            pp[1].X = x + width;
+            pp[1].X = float(x + width);
             pp[2].X = x;
-            pp[3].X = x + width;
+            pp[3].X = float(x + width);
 
             uys = FontInfo[*pt].oy - FontInfo[*pt].y;
             uys *= 0.125f; // 1/8               0.0625; // 1/16
@@ -281,12 +281,12 @@ void MENUFONT_DrawFutzed(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLONG alpha,
                 if (j) {
                     //					k=SIN(((i-j)<<3)&2047)>>14;
                     k = rand() % 7;
-                    pp[0].X = x + k;
-                    pp[1].X = x + width + k;
+                    pp[0].X = float(x + k);
+                    pp[1].X = float(x + width + k);
                     //					k=SIN(((i+1-j)<<3)&2047)>>14;
                     k = rand() % 7;
-                    pp[2].X = x + k;
-                    pp[3].X = x + width + k;
+                    pp[2].X = float(x + k);
+                    pp[3].X = float(x + width + k);
                 }
 
                 pp[0].v = pp[1].v = uyc;
@@ -375,12 +375,12 @@ void MENUFONT_Draw(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLONG rgb, UWORD f
                 if (!(flags & MENUFONT_ONLY)) {
                     pp[0].X = x;
                     pp[0].Y = y;
-                    pp[1].X = x + width;
+                    pp[1].X = float(x + width);
                     pp[1].Y = y;
                     pp[2].X = x;
-                    pp[2].Y = y + height;
-                    pp[3].X = x + width;
-                    pp[3].Y = y + height;
+                    pp[2].Y = float(y + height);
+                    pp[3].X = float(x + width);
+                    pp[3].Y = float(y + height);
 
                     POLY_add_quad(quad, FontPage, FALSE, TRUE);
                 }
@@ -688,14 +688,14 @@ float MENUFONT_fadein_char(float x, float y, UBYTE ch, UBYTE fade)
                 expand *= expand;
                 expand *= expand;
                 expand *= expand;
-                bright = expand * 16.0F;
+                bright = SLONG(expand * 16.0F);
 
                 expand *= MENUFONT_FADEIN_MAX_EXPAND;
 
                 SATURATE(bright, 0, 16);
             } else {
                 expand = 1.0F - (MENUFONT_fadein_x - x1) * (1.0F / MENUFONT_FADEIN_LEFT);
-                bright = 255 - expand * 224;
+                bright = SLONG(255 - expand * 224);
                 expand *= expand;
                 expand *= expand;
                 expand *= expand;
@@ -747,7 +747,7 @@ void MENUFONT_fadein_draw(SLONG x, SLONG y, UBYTE fade, CBYTE* msg)
     // Centre the text.
     //
 
-    tx = x;
+    tx = float(x);
 
     if (msg == NULL) {
         msg = "<NULL>";
@@ -762,6 +762,6 @@ void MENUFONT_fadein_draw(SLONG x, SLONG y, UBYTE fade, CBYTE* msg)
     //
 
     for (ch = msg; *ch; ch++) {
-        tx += MENUFONT_fadein_char(tx, y, *ch, fade);
+        tx += MENUFONT_fadein_char(tx, float(y), *ch, fade);
     }
 }

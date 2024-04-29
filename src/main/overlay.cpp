@@ -135,7 +135,7 @@ void arrow_object(Thing* p_special, SLONG dir, SLONG type)
     y = p_special->WorldPos.Y >> 8;
     z = p_special->WorldPos.Z >> 8;
 
-    y += ((GAME_TURN + THING_INDEX(p_special)) << 3) & 63;
+    y += ((GAME_TURN + toThingIndex(p_special)) << 3) & 63;
 
     // add_damage_text(x,y,z, help_text[type]);
     add_damage_text(x, y, z, XLAT_str(help_xlat[type]));

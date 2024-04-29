@@ -9059,7 +9059,8 @@ void AENG_draw_city()
                                     }
                                 }
 
-                                p_thing->Draw.Tweened->Drawn = (UBYTE)SUPERMAP_counter;
+                                // Note: ultimabear: before changes: p_thing->Draw.Tweened->Drawn = (UBYTE)SUPERMAP_counter;
+                                p_thing->Draw.Tweened->Drawn = SUPERMAP_counter[0];
 
                                 if (ControlFlag && allow_debug_keys) {
                                     AENG_world_text(

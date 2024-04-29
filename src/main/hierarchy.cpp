@@ -1,6 +1,6 @@
 #include "game.h"
-#include "Hierarchy.h"
-#include "FMatrix.h"
+#include "hierarchy.h"
+#include "fmatrix.h"
 
 // functions and data for animating people
 

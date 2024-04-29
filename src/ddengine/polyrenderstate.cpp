@@ -2,8 +2,8 @@
 // Drawing polygons with D3D
 //
 
-#include "../MFStdLib/MFStdlib.h"
-#include "../DDLibrary/DDLib.h"
+#include "../mfstdlib/mfstdlib.h"
+#include "../ddlibrary/ddlib.h"
 #include <math.h>
 #include "../main/game.h" //	Guy	-	4 DEMO
 #include "matrix.h"
@@ -11,7 +11,6 @@
 #include "texture.h"
 #include "message.h"
 #include "../main/night.h"
-// #include "../../MuckyBasic/clip.h"
 #include "vertexbuffer.h"
 #include "polypoint.h"
 #include "renderstate.h"

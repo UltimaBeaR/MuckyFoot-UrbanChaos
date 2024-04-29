@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "../DDLibrary/Tga.h"
+#include "../ddlibrary/tga.h"
 
 //
 // The dimensions of the compressed frames.

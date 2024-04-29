@@ -8,7 +8,7 @@
 #include "flamengine.h"
 #include "texture.h"
 #include "poly.h"
-#include "../DDLibrary/DDLib.h"
+#include "../ddlibrary/ddlib.h"
 
 extern D3DTexture TEXTURE_texture[];
 

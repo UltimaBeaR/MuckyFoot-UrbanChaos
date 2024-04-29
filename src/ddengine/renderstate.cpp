@@ -2,8 +2,8 @@
 //
 // RenderState class
 
-#include "../MFStdLib/MFStdlib.h"
-#include "../DDLibrary/DDLib.h"
+#include "../mfstdlib/mfstdlib.h"
+#include "../ddlibrary/ddlib.h"
 #include <math.h>
 #include "poly.h"
 #include "../main/env.h"

@@ -3,8 +3,8 @@
 //
 // Limitations: Currently assumes first joystick
 
-#include "../MFStdLib/MFStdlib.h"
-#include "DIManager.h"
+#include "../mfstdlib/mfstdlib.h"
+#include "dimanager.h"
 
 #if 0
 

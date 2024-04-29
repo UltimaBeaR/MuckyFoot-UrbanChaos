@@ -1,9 +1,9 @@
 // WindProcs.cpp
 // Guy Simmons, 14th November 1997.
 
-#include "DDLib.h"
+#include "ddlib.h"
 // #include	"finaleng.h"
-#include "BinkClient.h"
+#include "binkclient.h"
 #include "../main/music.h"
 #include "../main/game.h"
 

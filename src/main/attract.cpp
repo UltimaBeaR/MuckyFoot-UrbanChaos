@@ -3,10 +3,10 @@
 
 #include "game.h"
 #include "cam.h"
-#include "../DDLibrary/ddlib.h"
-#include "../DDEngine/font2d.h"
-#include "../DDEngine/poly.h"
-#include "../DDEngine/panel.h"
+#include "../ddlibrary/ddlib.h"
+#include "../ddengine/font2d.h"
+#include "../ddengine/poly.h"
+#include "../ddengine/panel.h"
 #include "startscr.h"
 #include "briefing.h"
 #define DEMO
@@ -14,7 +14,7 @@
 #include "env.h"
 #include "overlay.h"
 #include "sound.h"
-#include "../DDLibrary/mfx.h"
+#include "../ddlibrary/mfx.h"
 #include "eway.h"
 #include "interfac.h"
 #include "xlat_str.h"

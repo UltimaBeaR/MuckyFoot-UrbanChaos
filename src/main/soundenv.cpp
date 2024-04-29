@@ -6,7 +6,7 @@
 //  Sound Environment -- basically, creating 3d polys for the 3d sound
 //
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "game.h"
 #include "memory.h"
 #include "soundenv.h"

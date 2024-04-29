@@ -1,6 +1,6 @@
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "game.h"
-#include "../DDLibrary/net.h"
+#include "../ddlibrary/net.h"
 
 UBYTE CNET_network_game;
 UBYTE CNET_i_am_host;

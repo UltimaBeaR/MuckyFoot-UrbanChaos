@@ -3,7 +3,7 @@
 //
 
 #include "game.h"
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include <math.h>
 #include "mist.h"
 #include "pap.h"

@@ -2,7 +2,7 @@
 // Guy Simmons, 12th January 1998
 
 #pragma once
-#include "Structs.h"
+#include "structs.h"
 
 //---------------------------------------------------------------
 

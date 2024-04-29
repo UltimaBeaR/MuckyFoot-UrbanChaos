@@ -3,8 +3,8 @@
 //
 
 #include "../main/game.h"
-#include "../DDLibrary/DDLib.h"
-#include "../DDLibrary/tga.h"
+#include "../ddlibrary/ddlib.h"
+#include "../ddlibrary/tga.h"
 #include "texture.h"
 #include "../main/animtmap.h"
 #include "../main/supermap.h"
@@ -20,7 +20,7 @@
 #include "truetype.h"
 #include "font2d.h"
 #include "../main/env.h"
-#include "../DDLibrary/drive.h"
+#include "../ddlibrary/drive.h"
 #include "../main/attract.h"
 #include "crinkle.h"
 int TEXTURE_create_clump = 0;

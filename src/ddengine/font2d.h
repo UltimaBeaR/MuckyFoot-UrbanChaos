@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "poly.h"
 
 void FONT2D_init(SLONG font_id);

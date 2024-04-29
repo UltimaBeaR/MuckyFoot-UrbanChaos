@@ -18,7 +18,7 @@
 #include "sound.h"
 #include "eway.h"
 #include "psystem.h"
-#include "../DDEngine/poly.h"
+#include "../ddengine/poly.h"
 #include "mav.h"
 #include "wand.h"
 #include "spark.h"

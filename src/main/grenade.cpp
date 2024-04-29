@@ -9,12 +9,12 @@
 #include "psystem.h"
 #include "animate.h"
 #include "dirt.h"
-#include "../DDEngine/poly.h"
-#include "../DDEngine/mesh.h"
+#include "../ddengine/poly.h"
+#include "../ddengine/mesh.h"
 
 #include "grenade.h"
 #include "statedef.h"
-#include "../DDEngine/drawxtra.h"
+#include "../ddengine/drawxtra.h"
 
 // Grenade
 //

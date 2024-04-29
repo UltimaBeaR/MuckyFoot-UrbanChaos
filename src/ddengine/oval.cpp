@@ -3,7 +3,7 @@
 //
 
 #include "../main/game.h"
-#include "../DDLibrary/DDLib.h"
+#include "../ddlibrary/ddlib.h"
 #include "../main/mav.h"
 #include "poly.h"
 #include "oval.h"

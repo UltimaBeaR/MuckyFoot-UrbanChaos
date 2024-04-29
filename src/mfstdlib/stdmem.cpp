@@ -1,7 +1,7 @@
 // StdMem.cpp
 // Guy Simmons, 18th December 1997
 
-#include "MFStdLib.h"
+#include "mfstdlib.h"
 
 #define INITIAL_HEAP_SIZE (8 * 1024 * 1024)
 #define MAXIMUM_HEAP_SIZE 0

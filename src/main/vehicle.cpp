@@ -15,39 +15,39 @@
 #include <math.h>
 
 #include "game.h"
-#include "../DDEngine/matrix.h"
-#include "../DDEngine/poly.h"
-#include "../DDEngine/oval.h"
-#include "../DDLibrary/ddlib.h"
+#include "../ddengine/matrix.h"
+#include "../ddengine/poly.h"
+#include "../ddengine/oval.h"
+#include "../ddlibrary/ddlib.h"
 #include "pap.h"
 #include "fmatrix.h"
 #include "statedef.h"
 #include "pcom.h"
 
-#include "../DDEngine/aeng.h"
-#include "../DDEngine/mesh.h"
+#include "../ddengine/aeng.h"
+#include "../ddengine/mesh.h"
 
 #include "pow.h"
 
 #include "interfac.h"
 #include "dirt.h"
 #include "mist.h"
-#include "../Editor/prim.h"
+#include "../editor/prim.h"
 #include "animate.h"
 #include "sound.h"
 #include "barrel.h"
 #include "interact.h"
 #include "ob.h"
 #include "night.h"
-#include "../DDEngine/drawxtra.h"
+#include "../ddengine/drawxtra.h"
 #include "psystem.h"
 
-#include "../DDLibrary/mfx.h"
+#include "../ddlibrary/mfx.h"
 
 #include "memory.h"
 #include "road.h"
 
-#include "../DDEngine/font2d.h"
+#include "../ddengine/font2d.h"
 
 #if 0
 #define ANNOYINGSCRIBBLECHECK ScribbleCheck()

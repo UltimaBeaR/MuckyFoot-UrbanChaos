@@ -2,14 +2,14 @@
 // Guy Simmons, 17th October 1997.
 
 #include "game.h"
-#include "../DDLibrary/DDLib.h"
+#include "../ddlibrary/ddlib.h"
 #include "../sedit/sedit.h"
-#include "../Ledit/ledit.h"
-#include "../DDEngine/renderstate.h"
-#include "../DDLibrary/Drive.h"
+#include "../ledit/ledit.h"
+#include "../ddengine/renderstate.h"
+#include "../ddlibrary/drive.h"
 
 #ifdef GUY
-#include "GEdit.h"
+#include "gedit.h"
 #endif
 
 #ifndef EXIT_SUCCESS
@@ -18,8 +18,8 @@
 #define EXIT_SUCCESS 1
 #endif
 
-#include "Sound.h"
-#include "Memory.h"
+#include "sound.h"
+#include "memory.h"
 #include "env.h"
 
 /*

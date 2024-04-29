@@ -1,10 +1,10 @@
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "game.h"
 #include "spark.h"
 #include "glitter.h"
 #include "sound.h"
 #include "pap.h"
-#include "../DDLibrary/mfx.h"
+#include "../ddlibrary/mfx.h"
 #include "memory.h"
 
 //

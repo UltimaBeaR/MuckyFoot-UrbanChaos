@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "DDManager.h"
+#include "ddmanager.h"
 
 //---------------------------------------------------------------
 

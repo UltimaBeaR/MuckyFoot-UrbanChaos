@@ -1,7 +1,7 @@
 // Keyboard.cpp
 // Guy Simmons, 11th February 1997.
 
-#include "DDLib.h"
+#include "ddlib.h"
 
 volatile UBYTE AltFlag,
     ControlFlag,

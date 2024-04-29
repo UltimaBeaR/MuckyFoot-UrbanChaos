@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "Structs.h"
-#include "../DDLibrary/MFX.h"
+#include "structs.h"
+#include "../ddlibrary/mfx.h"
 
 #define USE_A3D
 

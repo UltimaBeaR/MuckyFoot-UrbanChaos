@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 
 void CONSOLE_font(CBYTE* fontpath, float scale = 1.0);
 void CONSOLE_draw();

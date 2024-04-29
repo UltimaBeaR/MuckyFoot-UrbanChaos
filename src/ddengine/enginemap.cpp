@@ -2,8 +2,8 @@
 // The new map screen
 //
 
-#include "../MFStdLib/MFStdlib.h"
-#include "../DDLibrary/DDLib.h"
+#include "../mfstdlib/mfstdlib.h"
+#include "../ddlibrary/ddlib.h"
 #include <math.h>
 #include "../main/game.h"
 #include "poly.h"

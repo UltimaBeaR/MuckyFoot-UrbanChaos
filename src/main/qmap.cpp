@@ -3,9 +3,9 @@
 //
 
 #include "game.h"
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "qmap.h"
-#include "../DDEngine/qeng.h"
+#include "../ddengine/qeng.h"
 
 //
 // The actual data declared in the header file...

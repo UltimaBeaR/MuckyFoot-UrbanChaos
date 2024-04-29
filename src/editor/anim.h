@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Prim.h"
+#include "prim.h"
 
 // define s
 #define MAX_CREATURE_TYPES 20

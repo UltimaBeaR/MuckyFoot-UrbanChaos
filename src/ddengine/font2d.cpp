@@ -7,9 +7,9 @@
 
 #include <string>
 #include "font2d.h"
-#include "../DDLibrary/tga.h"
+#include "../ddlibrary/tga.h"
 #include "../main/noserver.h"
-#include "../DDLibrary/DDLib.h"
+#include "../ddlibrary/ddlib.h"
 #include "truetype.h"
 #include "../main/game.h"
 

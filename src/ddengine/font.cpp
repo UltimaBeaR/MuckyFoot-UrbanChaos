@@ -2,8 +2,8 @@
 // Cheapo font stuff...
 //
 
-#include "../MFStdLib/MFStdlib.h"
-#include "../DDLibrary/DDLib.h"
+#include "../mfstdlib/mfstdlib.h"
+#include "../ddlibrary/ddlib.h"
 #include "font.h"
 #include <math.h>
 

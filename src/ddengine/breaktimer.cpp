@@ -2,9 +2,9 @@
 //
 // break timer for timing portions of code
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include <cmath>
-#include "BreakTimer.h"
+#include "breaktimer.h"
 
 // Windows timer access functions
 

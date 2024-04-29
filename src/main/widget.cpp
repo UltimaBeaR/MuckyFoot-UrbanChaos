@@ -7,12 +7,12 @@
 //
 
 #include "widget.h"
-#include "../DDEngine/menufont.h"
-#include "../DDEngine/drawxtra.h"
+#include "../ddengine/menufont.h"
+#include "../ddengine/drawxtra.h"
 #include "sound.h"
-#include "../DDLibrary/MFx.h"
-#include "../DDLibrary/D3DTexture.h"
-#include "../DDLibrary/GDisplay.h"
+#include "../ddlibrary/mfx.h"
+#include "../ddlibrary/d3dtexture.h"
+#include "../ddlibrary/gdisplay.h"
 #include "interfac.h"
 
 #define RECT_LEFT 1

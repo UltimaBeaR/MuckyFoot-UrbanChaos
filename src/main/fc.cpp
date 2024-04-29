@@ -12,7 +12,7 @@
 #include "fc.h"
 #include "statedef.h"
 #include "memory.h"
-#include "../DDEngine/font2d.h"
+#include "../ddengine/font2d.h"
 
 extern UBYTE GAME_cut_scene;
 extern SLONG analogue;

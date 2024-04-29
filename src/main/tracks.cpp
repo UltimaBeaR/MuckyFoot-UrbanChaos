@@ -7,7 +7,7 @@
 #include "game.h"
 #include "tracks.h"
 #include "structs.h"
-#include "../DDEngine/poly.h"
+#include "../ddengine/poly.h"
 #include "person.h"
 #include "puddle.h"
 #include "pap.h"

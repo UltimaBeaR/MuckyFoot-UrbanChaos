@@ -7,8 +7,8 @@
 #include "io.h"
 #include "memory.h"
 
-#include "../Editor/Editor.hpp"
-#include "../Editor/outline.h"
+#include "../editor/editor.hpp"
+#include "../editor/outline.h"
 
 struct DepthStrip edit_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH]; // 2meg
 UWORD tex_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];

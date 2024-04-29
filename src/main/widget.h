@@ -12,7 +12,7 @@
 // i knew you did.
 //
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 
 //----------------------------------------------------------------------------
 // Flags and other misc defines

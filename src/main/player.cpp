@@ -2,8 +2,8 @@
 // Guy Simmons, 5th December 1997.
 
 #include "game.h"
-#include "Darci.h"
-#include "Roper.h"
+#include "darci.h"
+#include "roper.h"
 #include "statedef.h"
 #include "furn.h"
 #include "interfac.h"

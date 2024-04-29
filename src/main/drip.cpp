@@ -2,7 +2,7 @@
 #include "drip.h"
 #include "pap.h"
 #include "psystem.h"
-#include "../DDEngine/poly.h"
+#include "../ddengine/poly.h"
 #include "puddle.h"
 #include "mav.h"
 

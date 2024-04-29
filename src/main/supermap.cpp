@@ -3,11 +3,11 @@
 #include "pap.h"
 #include "inside2.h"
 #include "ob.h"
-#include "../Editor/Editor.hpp"
+#include "../editor/editor.hpp"
 #include "memory.h"
 #include "mav.h"
 #include "noserver.h"
-#include "../DDEngine/texture.h"
+#include "../ddengine/texture.h"
 #include "env.h"
 
 extern UBYTE roper_pickup;

@@ -8,10 +8,10 @@
 #include "mav.h"
 
 // #include	"..\editor\headers\collide.hpp"
-#include "../Editor/map.h"
+#include "../editor/map.h"
 #include "animate.h"
-#include "FMatrix.h"
-#include "../Editor/prim_draw.h"
+#include "fmatrix.h"
+#include "../editor/prim_draw.h"
 /*
 
   actions that cause you to look for a grab face

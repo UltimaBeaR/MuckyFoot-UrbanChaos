@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "FileClump.h"
+#include "fileclump.h"
 
 //
 // The format of a TGA pixel.

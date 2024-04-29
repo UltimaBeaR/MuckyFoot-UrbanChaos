@@ -3,7 +3,7 @@
 
 // The work screen is never used on the DC
 
-#include "DDLib.h"
+#include "ddlib.h"
 
 UBYTE CurrentPalette[256 * 3],
     WorkScreenDepth,

@@ -2,9 +2,9 @@
 // Loads in 32-bit RGBA uncompressed TGAs.
 //
 
-#include "../MFStdLib/MFStdlib.h"
-#include "Tga.h"
-#include "FileClump.h"
+#include "../mfstdlib/mfstdlib.h"
+#include "tga.h"
+#include "fileclump.h"
 
 static FileClump* tclump = NULL;
 static bool writing;

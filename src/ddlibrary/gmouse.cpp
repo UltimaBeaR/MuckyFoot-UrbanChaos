@@ -1,7 +1,7 @@
 // GMouse.cpp
 // Guy Simmons, 11th December 1997.
 
-#include "DDLib.h"
+#include "ddlib.h"
 
 //---------------------------------------------------------------
 

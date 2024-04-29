@@ -7,7 +7,7 @@
 #include "sound.h"
 #include "ob.h"
 #include "supermap.h"
-#include "../Editor/thing.h"
+#include "../editor/thing.h"
 #include "io.h"
 #include "eway.h"
 #include "inside2.h"

@@ -22,8 +22,8 @@
 //
 
 #include "game.h"
-#include "StateDef.h"
-#include "Special.h"
+#include "statedef.h"
+#include "special.h"
 #include "eway.h"
 #include "pcom.h"
 #include "night.h"
@@ -35,7 +35,7 @@
 #include "xlat_str.h"
 #include "sound.h"
 #include "grenade.h"
-#include "../DDEngine/panel.h"
+#include "../ddengine/panel.h"
 
 extern void add_damage_text(SWORD x, SWORD y, SWORD z, CBYTE* text);
 

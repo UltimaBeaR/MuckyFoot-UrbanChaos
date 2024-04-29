@@ -2,8 +2,8 @@
 // Another engine.
 //
 
-#include "../MFStdLib/MFStdlib.h"
-#include "../DDLibrary/DDLib.h"
+#include "../mfstdlib/mfstdlib.h"
+#include "../ddlibrary/ddlib.h"
 #include <math.h>
 #include "../main/game.h"
 #include "aeng.h"
@@ -37,12 +37,11 @@
 #include "sprite.h"
 #include "../main/spark.h"
 #include "../main/glitter.h"
-#include "Text.h" //	Guy.
+#include "text.h" //	Guy.
 #include "cone.h"
 #include "../main/ob.h"
 #include "../main/morph.h"
 #include "../main/trip.h"
-#include "text.h"
 #include "../main/pap.h"
 #include "../main/night.h"
 #include "../main/supermap.h"
@@ -67,7 +66,7 @@
 #include "../main/ware.h"
 #include "../main/statedef.h"
 #include "../main/pow.h"
-#include "../main/FMatrix.h"
+#include "../main/fmatrix.h"
 #include "../main/eway.h"
 #include "../main/env.h"
 #include "../main/animate.h"
@@ -77,7 +76,7 @@
 
 #include "vertexbuffer.h"
 
-#include "BreakTimer.h"
+#include "breaktimer.h"
 #include "polypoint.h"
 
 #include "../main/grenade.h"

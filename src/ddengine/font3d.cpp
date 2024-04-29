@@ -12,9 +12,9 @@
 #include "font3d.h"
 #include <string>
 #include <cmath>
-#include "../DDLibrary/DDLib.h"
+#include "../ddlibrary/ddlib.h"
 #include "matrix.h"
-#include "StdKeybd.h"
+#include "stdkeybd.h"
 #include "poly.h"
 
 const char fontindex[] = "ABCDEFGHIJKLMNOPQRSTUVWYXZ0123456789";

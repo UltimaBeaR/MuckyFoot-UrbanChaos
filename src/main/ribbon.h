@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "../MFStdLib/MFStdlib.h"
-#include "Structs.h"
+#include "../mfstdlib/mfstdlib.h"
+#include "structs.h"
 
 #define MAX_RIBBONS 64
 #define MAX_RIBBON_SIZE 32

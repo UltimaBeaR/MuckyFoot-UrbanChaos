@@ -11,7 +11,7 @@
 #include "pap.h"
 #include "mav.h"
 #include "sound.h"
-#include "../DDLibrary/mfx.h"
+#include "../ddlibrary/mfx.h"
 #include "eway.h"
 #include "memory.h"
 

@@ -3,7 +3,7 @@
 
 #include "game.h"
 #include "statedef.h"
-#include "Switch.h"
+#include "switch.h"
 
 StateFunction switch_functions[] = {
     { SWITCH_NONE, NULL },

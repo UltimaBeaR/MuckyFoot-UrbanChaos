@@ -1,4 +1,4 @@
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "poly.h"
 #include "sprite.h"
 

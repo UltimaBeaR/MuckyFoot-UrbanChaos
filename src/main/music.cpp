@@ -6,7 +6,7 @@
 
 #include "music.h"
 #include "sound.h"
-#include "../DDLibrary/mfx.h"
+#include "../ddlibrary/mfx.h"
 #include "ware.h"
 
 UWORD music_current_wave = 0;

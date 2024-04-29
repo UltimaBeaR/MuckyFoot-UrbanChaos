@@ -13,7 +13,7 @@ void NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit(void);
 void* FastLoadFileSomewhere(MFFileHandle handle, DWORD dwSize);
 
 #include "tga.h"
-#include "FileClump.h"
+#include "fileclump.h"
 
 struct Char {
     SLONG X,

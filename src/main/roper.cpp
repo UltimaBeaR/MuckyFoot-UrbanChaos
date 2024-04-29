@@ -2,14 +2,14 @@
 // Guy Simmons, 4th January 1998
 
 #include "game.h"
-#include "Roper.h"
+#include "roper.h"
 #include "statedef.h"
 #include "animate.h"
 
 //---------------------------------------------------------------
 // All temp stuff, botched in for demo.
 
-#include "../Editor/Thing.h"
+#include "../editor/thing.h"
 
 ULONG move_thing(SLONG m_dx, SLONG m_dy, SLONG m_dz, struct MapThing* p_thing);
 

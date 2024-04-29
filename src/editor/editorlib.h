@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "../MFStdLib/MFStdlib.h"
-#include "../DDLibrary/DDLib.h"
+#include "../mfstdlib/mfstdlib.h"
+#include "../ddlibrary/ddlib.h"
 
 void Time(struct MFTime* the_time);
 

@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "../Editor/Anim.h"
+#include "../editor/anim.h"
 
 //---------------------------------------------------------------
 

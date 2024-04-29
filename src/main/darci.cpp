@@ -2,7 +2,7 @@
 // Guy Simmons, 4th January 1998
 
 #include "game.h"
-#include "Darci.h"
+#include "darci.h"
 #include "animate.h"
 #include "combat.h"
 #include "id.h"

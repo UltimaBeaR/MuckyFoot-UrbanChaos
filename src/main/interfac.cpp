@@ -23,10 +23,10 @@
 #include "memory.h"
 #include "america.h"
 #include "wmove.h"
-#include "../DDEngine/panel.h"
+#include "../ddengine/panel.h"
 #include "env.h"
-#include "../DDLibrary/DDLib.h"
-#include "../DDEngine/poly.h"
+#include "../ddlibrary/ddlib.h"
+#include "../ddengine/poly.h"
 
 UBYTE player_relative;
 

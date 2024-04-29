@@ -1,7 +1,7 @@
 // D3DTexture.cpp
 // Guy Simmons, 29th November 1997.
 
-#include "DDLib.h"
+#include "ddlib.h"
 #include "tga.h"
 
 #ifndef VERIFY

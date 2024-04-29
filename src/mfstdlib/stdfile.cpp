@@ -1,7 +1,7 @@
 // StdFile.cpp
 // Guy Simmons, 18th December 1997.
 
-#include "MFStdLib.h"
+#include "mfstdlib.h"
 
 #define MAX_LENGTH_OF_BASE_PATH 64
 CBYTE cBasePath[MAX_LENGTH_OF_BASE_PATH + 1];

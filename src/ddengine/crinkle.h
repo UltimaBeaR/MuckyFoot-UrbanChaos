@@ -6,7 +6,7 @@
 
 #include "aeng.h"
 #include "poly.h"
-#include "../DDLibrary/fileclump.h"
+#include "../ddlibrary/fileclump.h"
 
 typedef UWORD CRINKLE_Handle;
 

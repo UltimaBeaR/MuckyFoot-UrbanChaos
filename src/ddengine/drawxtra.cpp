@@ -7,9 +7,9 @@
 // drawxtra.cpp -- stuff like the van, helicopter, footprints, etc.
 //
 
-#include "../DDLibrary/DDLib.h"
+#include "../ddlibrary/ddlib.h"
 #include "drawxtra.h"
-#include "../main/FMatrix.h"
+#include "../main/fmatrix.h"
 #include "../main/animate.h"
 #include "mesh.h"
 #include "cone.h"
@@ -25,7 +25,7 @@
 #include "../main/fc.h"
 #include "../main/barrel.h"
 #include "../main/eway.h"
-#include "../DDLibrary/mfx.h"
+#include "../ddlibrary/mfx.h"
 #include "../main/sound.h"
 #include "../main/gamemenu.h"
 

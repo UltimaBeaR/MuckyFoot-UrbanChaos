@@ -2,7 +2,7 @@
 // Direct play stuff.
 //
 
-#include "DDLib.h"
+#include "ddlib.h"
 #include "net.h"
 
 //

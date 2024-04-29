@@ -8,16 +8,16 @@
  *
  */
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "game.h"
 #include "xlat_str.h"
 
-#include "../DDEngine/poly.h"
-#include "../DDLibrary/D3DTexture.h"
-#include "../DDLibrary/GDisplay.h"
-#include "../DDEngine/font3d.h"
-#include "../DDEngine/font2d.h"
-#include "../DDEngine/panel.h"
+#include "../ddengine/poly.h"
+#include "../ddlibrary/d3dtexture.h"
+#include "../ddlibrary/gdisplay.h"
+#include "../ddengine/font3d.h"
+#include "../ddengine/font2d.h"
+#include "../ddengine/panel.h"
 
 extern DIJOYSTATE the_state;
 

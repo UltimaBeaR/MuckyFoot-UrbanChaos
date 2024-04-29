@@ -2,7 +2,7 @@
 // Objects (prims) on the map.
 //
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "game.h"
 #include "pap.h"
 #include "ob.h"
@@ -15,8 +15,8 @@
 #include "sound.h"
 #include "mav.h"
 
-#include "../DDEngine/poly.h"
-#include "../DDEngine/texture.h"
+#include "../ddengine/poly.h"
+#include "../ddengine/texture.h"
 
 OB_Ob* OB_ob; //[OB_MAX_OBS];
 OB_workaround* OB_mapwho; //[OB_SIZE][OB_SIZE];

@@ -2,7 +2,7 @@
 // Message passing to the user.
 //
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "font.h"
 #include "message.h"
 

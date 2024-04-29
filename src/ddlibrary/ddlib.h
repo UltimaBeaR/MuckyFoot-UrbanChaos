@@ -3,17 +3,17 @@
 
 #pragma once
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 
-#include "D3DTexture.h"
-#include "DDManager.h"
-#include "Debug.h"
-#include "DIManager.h"
-#include "GDisplay.h"
-#include "GWorkScreen.h"
-#include "Net.h"
+#include "d3dtexture.h"
+#include "ddmanager.h"
+#include "debug.h"
+#include "dimanager.h"
+#include "gdisplay.h"
+#include "gworkscreen.h"
+#include "net.h"
 
-#include "WindProcs.h"
+#include "windprocs.h"
 
 #include "resource.h"
 

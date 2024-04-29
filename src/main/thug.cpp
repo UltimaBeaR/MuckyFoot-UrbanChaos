@@ -2,8 +2,7 @@
 // Guy Simmons, 8th February 1998.
 
 #include "game.h"
-// #include	"Command.h"
-#include "Thug.h"
+#include "thug.h"
 #include "statedef.h"
 #include "animate.h"
 #include "pap.h"

@@ -3,7 +3,7 @@
 
 #include "game.h"
 // #include	"Command.h"
-#include "Cop.h"
+#include "cop.h"
 #include "statedef.h"
 #include "animate.h"
 

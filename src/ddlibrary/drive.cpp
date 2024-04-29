@@ -2,7 +2,7 @@
 //
 // CD-ROM drives
 
-#include "DDLib.h"
+#include "ddlib.h"
 #include "drive.h"
 #include "../main/env.h"
 

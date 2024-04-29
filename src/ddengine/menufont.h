@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 
 #define MENUFONT_FUTZING (1)
 #define MENUFONT_HALOED (2)

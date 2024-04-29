@@ -3,11 +3,11 @@
 //
 
 #include "game.h"
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "pap.h"
 #include "sm.h"
 #include "inline.h"
-#include "../DDEngine/aeng.h"
+#include "../ddengine/aeng.h"
 
 //
 // The spheres that make up an object.

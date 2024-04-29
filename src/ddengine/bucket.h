@@ -2,7 +2,7 @@
 // Guy Simmons, 24th October 1997.
 
 #pragma once
-#include "Engine.h"
+#include "engine.h"
 
 //---------------------------------------------------------------
 

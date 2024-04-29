@@ -18,8 +18,8 @@
 #include "matrix.h"
 #include "tga.h"
 
-#include "../DDLibrary/ddlib.h"
-#include "../DDLibrary/mfx.h"
+#include "../ddlibrary/ddlib.h"
+#include "../ddlibrary/mfx.h"
 #include "../main/music.h"
 #include "../main/sound_id.h"
 

@@ -2,8 +2,8 @@
 //
 // PolyPoint class, encapsulating a D3DTLVERTEX
 
-#include "../MFStdLib/MFStdlib.h"
-#include "../DDLibrary/DDLib.h"
+#include "../mfstdlib/mfstdlib.h"
+#include "../ddlibrary/ddlib.h"
 #include <math.h>
 #include "poly.h"
 #include "vertexbuffer.h"

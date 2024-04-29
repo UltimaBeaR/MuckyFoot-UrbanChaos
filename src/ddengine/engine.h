@@ -4,11 +4,11 @@
 #pragma once
 
 #include "../main/game.h"
-#include "../DDLibrary/DDLib.h"
+#include "../ddlibrary/ddlib.h"
 
-#include "Gamut.h"
-#include "Bucket.h"
-#include "Message.h"
+#include "gamut.h"
+#include "bucket.h"
+#include "message.h"
 #include <math.h>
 
 //

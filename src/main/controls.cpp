@@ -13,7 +13,7 @@
 #include "shadow.h"
 #include "puddle.h"
 #include "pow.h"
-#include "../DDEngine/panel.h"
+#include "../ddengine/panel.h"
 #include "drip.h"
 #include "cam.h"
 #include "sewer.h"
@@ -41,10 +41,10 @@
 #include "statedef.h"
 #include "combat.h"
 #include "door.h"
-#include "../DDEngine/console.h"
+#include "../ddengine/console.h"
 #include "psystem.h"
 #include "ribbon.h"
-#include "../DDEngine/poly.h"
+#include "../ddengine/poly.h"
 #include "wmove.h"
 #include "balloon.h"
 #include "wand.h"
@@ -54,7 +54,7 @@
 #include "fc.h"
 #include "memory.h"
 #include "ware.h"
-#include "../DDLibrary/MFx.h"
+#include "../ddlibrary/mfx.h"
 #include "cnet.h"
 #include "widget.h"
 #include "save.h"
@@ -64,15 +64,15 @@
 #include "grenade.h"
 #include "demo.h"
 
-#include "../DDLibrary/DDLib.h"
-#include "../DDEngine/vertexbuffer.h"
-#include "../DDEngine/polypoint.h"
-#include "../DDEngine/renderstate.h"
-#include "../DDEngine/polypage.h"
-#include "../DDEngine/font2d.h"
-#include "../DDLibrary/FFManager.h"
-#include "../DDLibrary/ddlib.h"
-#include "../DDEngine/texture.h"
+#include "../ddlibrary/ddlib.h"
+#include "../ddengine/vertexbuffer.h"
+#include "../ddengine/polypoint.h"
+#include "../ddengine/renderstate.h"
+#include "../ddengine/polypage.h"
+#include "../ddengine/font2d.h"
+#include "../ddlibrary/ffmanager.h"
+#include "../ddlibrary/ddlib.h"
+#include "../ddengine/texture.h"
 
 extern SLONG am_i_a_thug(Thing* p_person);
 extern void drop_current_gun(Thing* p_person, SLONG change_anim);
@@ -429,7 +429,7 @@ void parse_console(CBYTE* str)
 // Takes a screen shot of the city from above.
 //
 
-#include "../DDLibrary/tga.h"
+#include "../ddlibrary/tga.h"
 
 TGA_Pixel tga[480][640];
 

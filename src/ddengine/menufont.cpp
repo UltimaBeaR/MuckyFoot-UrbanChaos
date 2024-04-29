@@ -5,8 +5,8 @@
  *
  */
 
-#include "MenuFont.h"
-#include "../DDLibrary/Tga.h"
+#include "menufont.h"
+#include "../ddlibrary/tga.h"
 #include "poly.h"
 #include "../main/noserver.h"
 

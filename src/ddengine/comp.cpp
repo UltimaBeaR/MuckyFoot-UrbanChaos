@@ -2,10 +2,10 @@
 // Movie compression.
 //
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "comp.h"
 #include "ic.h"
-#include "../DDLibrary/tga.h"
+#include "../ddlibrary/tga.h"
 
 //
 // COMP_Delta data structures.  There are as many pan structures as you need

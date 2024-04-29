@@ -2,9 +2,9 @@
 // Image compression.
 //
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "ic.h"
-#include "../DDLibrary/tga.h"
+#include "../ddlibrary/tga.h"
 
 //
 // Converts 24-bit RGB into 5:6:5

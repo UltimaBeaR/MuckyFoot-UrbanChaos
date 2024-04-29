@@ -2,11 +2,11 @@
 // A lower memory map: 100k
 //
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "pap.h"
 #include "game.h"
 #include "mav.h"
-#include "../DDEngine/aeng.h"
+#include "../ddengine/aeng.h"
 #include "inside2.h"
 #include "ns.h"
 #include "ware.h"

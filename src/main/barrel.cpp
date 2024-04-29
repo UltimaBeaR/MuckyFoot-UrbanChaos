@@ -11,12 +11,12 @@
 #include "animate.h"
 #include "pcom.h"
 #include "psystem.h"
-#include "../DDEngine/poly.h"
+#include "../ddengine/poly.h"
 #include "eway.h"
 #include "sound.h"
 #include "pow.h"
 #include "dirt.h"
-#include "../DDEngine/panel.h"
+#include "../ddengine/panel.h"
 
 BARREL_Sphere* BARREL_sphere; //[BARREL_MAX_SPHERES];
 SLONG BARREL_sphere_last; // MARK!!! WTF, you usuall call thing BLAH_blah_upto

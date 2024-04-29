@@ -19,15 +19,15 @@
 #include "fmatrix.h"
 #include "night.h"
 #include "pyro.h"
-#include "../DDEngine/poly.h"
+#include "../ddengine/poly.h"
 #include "psystem.h"
 #include "memory.h"
-#include "../DDLibrary/mfx.h"
+#include "../ddlibrary/mfx.h"
 #include "pow.h"
 #include "mav.h"
 
-#include "../DDLibrary/D3DTexture.h"
-#include "../DDLibrary/GDisplay.h"
+#include "../ddlibrary/d3dtexture.h"
+#include "../ddlibrary/gdisplay.h"
 
 #define TICK_SHIFT_LOWRES (TICK_SHIFT - 2)
 

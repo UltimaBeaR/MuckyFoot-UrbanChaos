@@ -3,12 +3,12 @@
 //
 
 #include "game.h"
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include <stdlib.h>
 #include "hm.h"
 #include <math.h>
-#include "../DDEngine/message.h"
-#include "../DDEngine/matrix.h"
+#include "../ddengine/message.h"
+#include "../ddengine/matrix.h"
 #include "maths.h"
 #include "pap.h"
 #include "memory.h"

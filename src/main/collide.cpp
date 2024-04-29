@@ -1,6 +1,6 @@
 #include "game.h"
 // #include	"..\editor\headers\collide.hpp"
-#include "../Editor/map.h"
+#include "../editor/map.h"
 #include "animate.h"
 #include "dirt.h"
 #include "fog.h"
@@ -15,7 +15,7 @@
 #include "ns.h"
 #include "mav.h"
 #include "build2.h"
-#include "../DDEngine/console.h"
+#include "../ddengine/console.h"
 #include "person.h"
 #include "sound.h"
 #include "interact.h"
@@ -25,7 +25,7 @@
 #include "fc.h"
 #include "memory.h"
 #include "ware.h"
-#include "../DDLibrary/mfx.h"
+#include "../ddlibrary/mfx.h"
 #include "pcom.h"
 
 extern UBYTE cheat;

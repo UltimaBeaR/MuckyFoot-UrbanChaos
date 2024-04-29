@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "../DDLibrary/Tga.h"
+#include "../ddlibrary/tga.h"
 
 //
 // Compresses the given 4x4 block of a TGA using the mad S3 texture compression

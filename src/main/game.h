@@ -15,7 +15,7 @@
 #define THING_INDEX UWORD
 #define COMMON_INDEX UWORD
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #undef LogText
 #define LogText
 
@@ -49,36 +49,36 @@ extern struct MemTable save_table[];
 #define SAVE_TABLE_FACE4 16
 #define SAVE_TABLE_PLATS 45
 
-#include "Structs.h"
-#include "State.h"
+#include "structs.h"
+#include "state.h"
 
 #include "drawtype.h"
 
 #include "building.h"
 #include "bike.h"
-#include "Furn.h"
-#include "Vehicle.h"
+#include "furn.h"
+#include "vehicle.h"
 #include "inline.h"
-#include "Person.h"
-#include "Animal.h"
+#include "person.h"
+#include "animal.h"
 #include "barrel.h"
-#include "Chopper.h"
-#include "Pyro.h"
-#include "Player.h"
-#include "Plat.h"
-#include "Pjectile.h"
-#include "Special.h"
+#include "chopper.h"
+#include "pyro.h"
+#include "player.h"
+#include "plat.h"
+#include "pjectile.h"
+#include "special.h"
 #include "bat.h"
-#include "Switch.h"
+#include "switch.h"
 #include "tracks.h"
-#include "Thing.h"
-#include "Controls.h"
-#include "Map.h"
+#include "thing.h"
+#include "controls.h"
+#include "map.h"
 #include "collide.h"
 #include "interact.h"
 
 #ifdef VERSION_D3D
-#include "../DDEngine/aeng.h"
+#include "../ddengine/aeng.h"
 #endif
 
 //---------------------------------------------------------------

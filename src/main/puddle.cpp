@@ -2,7 +2,7 @@
 // Puddles!
 //
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "game.h" // :-(
 #include "puddle.h"
 #include "mav.h"

@@ -1,5 +1,5 @@
 #include "game.h"
-#include "FMatrix.h"
+#include "fmatrix.h"
 
 #define ULTRA_DEBUG 0
 

@@ -2,8 +2,8 @@
 //
 // metafile class
 
-#include "DDLib.h"
-#include "FileClump.h"
+#include "ddlib.h"
+#include "fileclump.h"
 
 // FileClump
 //

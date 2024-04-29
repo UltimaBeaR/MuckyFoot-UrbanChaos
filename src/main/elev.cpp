@@ -13,7 +13,7 @@
 
 #include "game.h"
 
-#include "../DDLibrary/DDLib.h"
+#include "../ddlibrary/ddlib.h"
 
 #include "eway.h"
 #include "mission.h"
@@ -60,7 +60,7 @@
 #include "playcuts.h"
 #include "grenade.h"
 #include "env.h"
-#include "../DDEngine/panel.h"
+#include "../ddengine/panel.h"
 
 #include "sound.h"
 #ifdef USE_A3D

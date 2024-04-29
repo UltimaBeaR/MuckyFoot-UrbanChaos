@@ -13,7 +13,7 @@
 #include "walkable.h"
 #include "supermap.h"
 #include "memory.h"
-#include "../DDEngine/matrix.h"
+#include "../ddengine/matrix.h"
 
 #define PRIM_MIN_BBOX 0x58
 

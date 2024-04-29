@@ -1,5 +1,5 @@
-#include "../MFStdLib/MFStdlib.h"
-#include "../DDEngine/matrix.h"
+#include "../mfstdlib/mfstdlib.h"
+#include "../ddengine/matrix.h"
 
 #include <math.h>
 

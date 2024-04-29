@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "../MFStdLib/MFStdlib.h"
-#include "Structs.h"
+#include "../mfstdlib/mfstdlib.h"
+#include "structs.h"
 #include "game.h"
 
 // this is how many track slots are available on the given system

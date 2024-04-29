@@ -22,7 +22,7 @@
 // 2f. Unlock everything
 // 3. Draw polygons to blit the text to the screen
 
-#include "../DDLibrary/DDLib.h"
+#include "../ddlibrary/ddlib.h"
 #include "texture.h"
 #include <mbctype.h> // MBCS crap
 #include <mbstring.h> // more MBCS crap

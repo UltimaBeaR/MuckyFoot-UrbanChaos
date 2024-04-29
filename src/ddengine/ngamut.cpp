@@ -2,7 +2,7 @@
 // The gamut.
 //
 
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "ngamut.h"
 
 NGAMUT_Gamut NGAMUT_gamut[NGAMUT_SIZE];

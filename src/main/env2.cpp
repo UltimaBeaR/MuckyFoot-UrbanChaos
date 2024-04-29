@@ -3,10 +3,10 @@
 // ENV stuff #2
 
 #include "game.h"
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "env.h"
-#include "Interfac.h"
-#include "../DDEngine/menufont.h"
+#include "interfac.h"
+#include "../ddengine/menufont.h"
 
 CBYTE inifile[_MAX_PATH];
 CBYTE strbuf[_MAX_PATH];

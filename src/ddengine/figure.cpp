@@ -21,15 +21,15 @@
 #include "math.h"
 #include "../main/interfac.h"
 
-#include "../main/Hierarchy.h" // JCL is gay // MA wears girly shorts // JCL
-#include "Quaternion.h"
+#include "../main/hierarchy.h" // JCL is gay // MA wears girly shorts // JCL
+#include "quaternion.h"
 #include "../main/memory.h"
 
 #include "../main/person.h"
 #include "../main/pcom.h"
 #include "../main/eway.h"
 #include "../main/dirt.h"
-#include "../DDLibrary/DDLib.h"
+#include "../ddlibrary/ddlib.h"
 #include "panel.h"
 
 #include "renderstate.h"

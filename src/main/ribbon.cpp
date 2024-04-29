@@ -6,7 +6,7 @@
 
 #include "game.h"
 #include "ribbon.h"
-#include "../DDEngine/DrawXtra.h"
+#include "../ddengine/drawxtra.h"
 
 static Ribbon Ribbons[MAX_RIBBONS];
 

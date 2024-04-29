@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "DDManager.h"
-#include "D3DTexture.h"
+#include "ddmanager.h"
+#include "d3dtexture.h"
 
 //---------------------------------------------------------------
 
@@ -347,4 +347,3 @@ extern volatile HMENU hDDLibMenu;
 extern volatile HWND hDDLibWindow;
 
 //---------------------------------------------------------------
-

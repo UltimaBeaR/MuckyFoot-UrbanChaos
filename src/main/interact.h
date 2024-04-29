@@ -1,7 +1,7 @@
 #pragma once
 
 #include "building.h"
-#include "Thing.h"
+#include "thing.h"
 
 //
 // Defines

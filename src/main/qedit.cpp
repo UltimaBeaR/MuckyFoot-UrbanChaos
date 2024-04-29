@@ -3,11 +3,11 @@
 //
 
 #include "game.h"
-#include "../MFStdLib/MFStdlib.h"
+#include "../mfstdlib/mfstdlib.h"
 #include "qedit.h"
 #include "qmap.h"
 #include "fmatrix.h"
-#include "../DDEngine/qeng.h"
+#include "../ddengine/qeng.h"
 
 //
 // The focus on the map.

@@ -1,20 +1,20 @@
 // Display.cpp
 // Guy Simmons, 13th November 1997.
 
-#include "DDLib.h"
+#include "ddlib.h"
 #include "../main/demo.h"
 #include "../main/interfac.h"
-#include "BinkClient.h"
+#include "binkclient.h"
 #include "../main/env.h"
 #include "../main/xlat_str.h"
 
-#include "../DDEngine/poly.h"
-#include "../DDEngine/vertexbuffer.h"
-#include "../DDEngine/polypoint.h"
-#include "../DDEngine/renderstate.h"
-#include "../DDEngine/polypage.h"
+#include "../ddengine/poly.h"
+#include "../ddengine/vertexbuffer.h"
+#include "../ddengine/polypoint.h"
+#include "../ddengine/renderstate.h"
+#include "../ddengine/polypage.h"
 #include "gdisplay.h"
-#include "../DDEngine/panel.h"
+#include "../ddengine/panel.h"
 #include "../main/game.h"
 
 //

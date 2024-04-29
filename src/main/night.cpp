@@ -10,7 +10,7 @@
 #include "fmatrix.h"
 #include "heap.h"
 #include "supermap.h"
-#include "../Ledit/ed.h"
+#include "../ledit/ed.h"
 #include "memory.h"
 #include "ware.h"
 #include "mav.h"

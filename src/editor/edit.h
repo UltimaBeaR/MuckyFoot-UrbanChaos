@@ -1,7 +1,7 @@
 #pragma once
 
 #include "primativ.hpp"
-#include "Anim.h"
+#include "anim.h"
 // #include	"Engine.h"
 // DEFINES
 

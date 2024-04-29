@@ -1,7 +1,7 @@
 #define ASYNC_FILE_IO 0
 #define TALK_3D 0
 
-#include "MFX.h"
+#include "mfx.h"
 
 #include "../main/fc.h"
 #include "../main/env.h"

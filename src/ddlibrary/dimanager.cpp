@@ -1,8 +1,8 @@
 // DIManager.cpp
 // Guy Simmons, 19th February 1998
 
-#include "DDLib.h"
-#include "FFManager.h"
+#include "ddlib.h"
+#include "ffmanager.h"
 
 // TEMP
 DIJOYSTATE the_state;

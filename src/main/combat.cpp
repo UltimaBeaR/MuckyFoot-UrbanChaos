@@ -3,14 +3,14 @@
 #include "animate.h"
 #include "statedef.h"
 // #include	"sample.h"
-#include "Sound.h"
+#include "sound.h"
 #include "pap.h"
 #include "pcom.h"
 #include "overlay.h"
-#include "../DDLibrary/mfx.h"
+#include "../ddlibrary/mfx.h"
 #include "eway.h"
 #include "psystem.h"
-#include "../DDEngine/poly.h"
+#include "../ddengine/poly.h"
 #include "dirt.h"
 
 SLONG people_allowed_to_hit_each_other(Thing* p_victim, Thing* p_agressor);

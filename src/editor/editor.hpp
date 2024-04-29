@@ -3,10 +3,10 @@
 
 #pragma once
 
-#include "EditorLib.h"
+#include "editorlib.h"
 #pragma warning(disable : 4244)
-#include "Map.h"
-#include "Edit.h"
+#include "map.h"
+#include "edit.h"
 
 #define EDITOR_NORMAL (1 << 0)
 #define EDITOR_RECORD (1 << 1)

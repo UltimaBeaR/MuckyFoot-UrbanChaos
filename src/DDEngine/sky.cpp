@@ -3,7 +3,7 @@
 //
 
 #include "../MFStdLib/MFStdlib.h"
-#include <DDLib.h>
+#include "../DDLibrary/DDLib.h"
 #include "../main/game.h"
 #include "matrix.h"
 #include "poly.h"

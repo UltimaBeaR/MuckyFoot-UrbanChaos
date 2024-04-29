@@ -1,5 +1,5 @@
 #include "../main/game.h"
-#include <ddlib.h>
+#include "../DDLibrary/DDLib.h"
 
 SLONG mul_y1;
 SLONG mul_y2;

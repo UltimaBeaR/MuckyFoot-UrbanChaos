@@ -7,7 +7,7 @@
 // drawxtra.cpp -- stuff like the van, helicopter, footprints, etc.
 //
 
-#include "DDLib.h"
+#include "../DDLibrary/DDLib.h"
 #include "drawxtra.h"
 #include "FMatrix.h"
 #include "animate.h"

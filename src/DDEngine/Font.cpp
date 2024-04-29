@@ -3,7 +3,7 @@
 //
 
 #include "../MFStdLib/MFStdlib.h"
-#include <DDLib.h>
+#include "../DDLibrary/DDLib.h"
 #include "font.h"
 #include <math.h>
 
@@ -1160,7 +1160,7 @@ SLONG FONT_draw_coloured_char(
         case '&':
             fc = &FONT_punct[FONT_PUNCT_AMPER];
             break;
-        case '£':
+        case 'ï¿½':
             fc = &FONT_punct[FONT_PUNCT_POUND];
             break;
         case '$':

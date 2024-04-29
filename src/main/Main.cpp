@@ -2,7 +2,7 @@
 // Guy Simmons, 17th October 1997.
 
 #include "game.h"
-#include "DDLib.h"
+#include "../DDLibrary/DDLib.h"
 #include "sedit.h"
 #include "ledit.h"
 #include "renderstate.h"

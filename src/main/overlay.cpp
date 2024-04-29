@@ -8,7 +8,7 @@
 #include "mav.h"
 #include "vehicle.h"
 #include "eway.h"
-#include "ddlib.h"
+#include "../DDLibrary/DDLib.h"
 #include "..\ddengine\headers\planmap.h"
 #include "..\ddengine\headers\poly.h"
 #include "font2d.h"

@@ -9,7 +9,7 @@
 //
 // If you don't understand what this means, DON'T FUCK WITH THIS CODE
 
-#include <ddlib.h>
+#include "DDLib.h"
 // #include <windows.h>
 #include <process.h>
 

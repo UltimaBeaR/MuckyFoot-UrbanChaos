@@ -13,7 +13,7 @@
 
 #include "game.h"
 
-#include "ddlib.h"
+#include "../DDLibrary/DDLib.h"
 
 #include "eway.h"
 #include "mission.h"

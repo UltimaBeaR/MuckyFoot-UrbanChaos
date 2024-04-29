@@ -3,7 +3,7 @@
 // PolyPage class - main low-level rendering
 
 #include "../MFStdLib/MFStdlib.h"
-#include <DDLib.h>
+#include "../DDLibrary/DDLib.h"
 #include <math.h>
 #include "poly.h"
 #include "vertexbuffer.h"

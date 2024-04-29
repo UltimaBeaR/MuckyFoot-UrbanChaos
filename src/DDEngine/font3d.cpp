@@ -12,7 +12,7 @@
 #include "font3d.h"
 #include <string>
 #include <cmath>
-#include <DDLib.h>
+#include "../DDLibrary/DDLib.h"
 #include "matrix.h"
 #include "StdKeybd.h"
 #include "poly.h"

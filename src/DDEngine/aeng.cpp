@@ -3,7 +3,7 @@
 //
 
 #include "../MFStdLib/MFStdlib.h"
-#include <DDLib.h>
+#include "../DDLibrary/DDLib.h"
 #include <math.h>
 #include "../main/game.h"
 #include "aeng.h"

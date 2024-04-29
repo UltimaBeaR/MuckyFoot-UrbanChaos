@@ -3,7 +3,7 @@
 // RenderState class
 
 #include "../MFStdLib/MFStdlib.h"
-#include <DDLib.h>
+#include "../DDLibrary/DDLib.h"
 #include <math.h>
 #include "poly.h"
 #include "env.h"

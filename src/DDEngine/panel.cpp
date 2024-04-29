@@ -12,7 +12,7 @@
 #include "statedef.h"
 #include "font2d.h"
 #include "eway.h"
-#include "DDLib.h"
+#include "../DDLibrary/DDLib.h"
 #include "..\ddengine\headers\map.h"
 #include "memory.h"
 #include "mfx.h"

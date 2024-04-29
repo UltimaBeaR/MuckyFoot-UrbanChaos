@@ -4,7 +4,7 @@
 #pragma once
 
 #include "../main/game.h"
-#include "DDLib.h"
+#include "../DDLibrary/DDLib.h"
 
 #include "Gamut.h"
 #include "Bucket.h"

@@ -64,7 +64,7 @@
 #include "grenade.h"
 #include "demo.h"
 
-#include <DDLib.h>
+#include "../DDLibrary/DDLib.h"
 #include "vertexbuffer.h"
 #include "polypoint.h"
 #include "renderstate.h"

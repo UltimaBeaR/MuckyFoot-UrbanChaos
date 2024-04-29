@@ -1,7 +1,7 @@
 //	Text.cpp
 //	Guy Simmons, 17th May 1998.
 
-#include <DDLib.h>
+#include "../DDLibrary/DDLib.h"
 #include "poly.h"
 #include "texture.h"
 #include "vertexbuffer.h"

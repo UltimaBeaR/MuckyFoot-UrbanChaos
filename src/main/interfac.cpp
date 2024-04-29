@@ -25,7 +25,7 @@
 #include "wmove.h"
 #include "panel.h"
 #include "env.h"
-#include "ddlib.h"
+#include "../DDLibrary/DDLib.h"
 #include "poly.h"
 
 UBYTE player_relative;

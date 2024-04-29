@@ -9,7 +9,7 @@
 #include "font2d.h"
 #include "..\ddlibrary\headers\tga.h"
 #include "noserver.h"
-#include <DDLib.h>
+#include "../DDLibrary/DDLib.h"
 #include "truetype.h"
 #include "../main/game.h"
 

@@ -1,5 +1,5 @@
 #include "../MFStdLib/MFStdlib.h"
-#include <DDLib.h>
+#include "../DDLibrary/DDLib.h"
 #include "../main/game.h"
 #include "ray.h"
 #include "poly.h"

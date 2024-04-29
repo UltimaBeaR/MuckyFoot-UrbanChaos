@@ -22,7 +22,7 @@
 #define WANT_A_START_JOYSTICK_ITEM defined
 
 #include "demo.h"
-#include "DDLib.h"
+#include "../DDLibrary/DDLib.h"
 #include "frontend.h"
 #include "xlat_str.h"
 #include "menufont.h"
@@ -739,7 +739,7 @@ CBYTE* menu_brief_names[] = { "briefing leaves darci.tga", "briefing rain darci.
 CBYTE* menu_config_names[] = { "config leaves.tga", "config rain.tga",
     "config snow.tga", "config blood.tga" };
 
-CBYTE frontend_fonttable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!\":;'#$*-()[]\\/?ÈÀÜÖÄÙÚÓÁÉ";
+CBYTE frontend_fonttable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!\":;'#$*-()[]\\/?ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 
 ULONG FRONTEND_leaf_colours[4] = {
     0x665a3a,

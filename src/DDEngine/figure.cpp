@@ -29,7 +29,7 @@
 #include "..\headers\pcom.h"
 #include "..\headers\eway.h"
 #include "..\headers\dirt.h"
-#include "ddlib.h"
+#include "../DDLibrary/DDLib.h"
 #include "panel.h"
 
 #include "renderstate.h"

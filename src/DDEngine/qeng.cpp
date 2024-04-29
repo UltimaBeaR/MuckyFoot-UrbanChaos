@@ -1,5 +1,5 @@
 #include "../MFStdLib/MFStdlib.h"
-#include <ddlib.h>
+#include "../DDLibrary/DDLib.h"
 #include "poly.h"
 #include "qeng.h"
 #include "vertexbuffer.h"

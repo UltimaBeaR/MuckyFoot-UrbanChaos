@@ -412,7 +412,6 @@
     <ClInclude Include="src\Editor\Edit.h" />
     <ClInclude Include="src\Editor\Editor.h" />
     <ClInclude Include="src\Editor\EditorLib.h" />
-    <ClInclude Include="src\Editor\extra.h" />
     <ClInclude Include="src\Editor\map.h" />
     <ClInclude Include="src\Editor\outline.h" />
     <ClInclude Include="src\Editor\Prim.h" />

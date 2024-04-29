@@ -3,7 +3,6 @@
 
 #include "game.h"
 #include "../ddlibrary/ddlib.h"
-#include "../sedit/sedit.h"
 #include "../ledit/ledit.h"
 #include "../ddengine/renderstate.h"
 #include "../ddlibrary/drive.h"

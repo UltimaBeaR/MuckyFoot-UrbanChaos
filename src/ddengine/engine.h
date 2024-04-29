@@ -57,8 +57,6 @@ struct M31 {
     float R[3];
 };
 
-typedef struct M31 M31;
-
 #define UV_X R[0]
 #define UV_Y R[1]
 #define UV_Z R[2]
@@ -118,8 +116,6 @@ struct M33 {
         R1,
         R2;
 };
-
-typedef struct M33 M33;
 
 #define UV_XX R0.R[0]
 #define UV_YX R0.R[1]
@@ -253,8 +249,7 @@ inline void tilt_vector(SLONG tilt, M31* matrix)
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct SVECTOR_F {
     float X,
         Y,
         Z;
@@ -262,32 +257,28 @@ typedef struct
     float RotX; // The view-space coordinates.
     float RotY;
     float RotZ;
+};
 
-} SVECTOR_F;
-
-typedef struct
-{
+struct Coord {
     float X,
         Y,
         Z;
-} Coord;
+};
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct Camera {
     float CameraX,
         CameraY,
         CameraZ;
     SLONG CameraAngle,
         CameraRoll,
         CameraTilt;
-} Camera;
+};
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct Engine {
     float HalfViewHeight,
         HalfViewWidth,
         OriginX,
@@ -299,21 +290,18 @@ typedef struct
     SLONG BucketSize;
     M33 CameraMatrix;
     Coord CameraPos;
-
-} Engine;
+};
 
 extern Engine the_engine;
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct DDEnginePoint {
     float Distance,
         ScrX,
         ScrY,
         ScrZ;
-
-} DDEnginePoint;
+};
 
 struct EnginePointF {
     float ScrX,

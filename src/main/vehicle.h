@@ -18,11 +18,10 @@
 
 // Vehicle structure
 
-typedef struct
-{
+struct Suspension {
     UWORD Compression;
     UWORD Length;
-} Suspension;
+};
 
 // DButtons bits
 
@@ -36,8 +35,7 @@ typedef struct
 #define VEH_SPEED_LIMIT 750 // the speed limit ("35 mph")
 #define VEH_REVERSE_SPEED 300 // the speed limit for reversing
 
-typedef struct
-{
+struct Vehicle {
     DrawTween Draw;
 
     Suspension Spring[4]; // spring data
@@ -90,8 +88,7 @@ typedef struct
     // #ifndef PSX
     SLONG oldX[4], oldZ[4];
     // #endif
-
-} Vehicle;
+};
 
 typedef Vehicle* VehiclePtr;
 
@@ -164,8 +161,7 @@ extern SLONG GetRunoverHP(Thing* p_car, Thing* p_person, SLONG min_hp);
 #define VEH_COL_TYPE_BBOX 0
 #define VEH_COL_TYPE_CYLINDER 1
 
-typedef struct
-{
+struct VEH_Col {
     UWORD type;
     UWORD ob_index; // If this collision came from an OB this is its OB_index and position.
     Thing* veh; // if this collision came from a vehicle or a Balrog, this is a pointer to it
@@ -178,8 +174,7 @@ typedef struct
     SWORD min_z;
     SWORD max_z;
     UWORD radius_or_yaw;
-
-} VEH_Col;
+};
 
 #define VEH_MAX_COL 8
 

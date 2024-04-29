@@ -4,7 +4,7 @@
 
 #pragma once
 
-typedef struct outline_outline OUTLINE_Outline;
+typedef struct OUTLINE_Outline;
 
 //
 // Creates a new outline.

@@ -1815,14 +1815,12 @@ void MAV_create_nodelist_from_pos(UBYTE end_x, UBYTE end_z)
 // The priority queue needs these definitions...
 //
 
-typedef struct
-{
+struct PQ_Type {
     UBYTE x;
     UBYTE z;
     UBYTE score; // The lower the score the better...
     UBYTE length;
-
-} PQ_Type;
+};
 
 #define PQ_HEAP_MAX_SIZE 256
 

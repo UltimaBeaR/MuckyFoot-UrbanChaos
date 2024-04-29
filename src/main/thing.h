@@ -114,8 +114,6 @@ struct Thing {
     THING_INDEX DogPoo2; // SwitchThing;	//	Temporary for building unlock switches.
 };
 
-typedef struct Thing Thing;
-
 extern UWORD* thing_class_head;
 
 //---------------------------------------------------------------

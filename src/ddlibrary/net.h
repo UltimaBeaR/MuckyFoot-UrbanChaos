@@ -65,11 +65,9 @@ SLONG NET_create_session(CBYTE* name, SLONG max_players, CBYTE* my_player_name);
 
 #define NET_NAME_LENGTH 64
 
-typedef struct
-{
+struct NET_Sinfo {
     CBYTE name[NET_NAME_LENGTH];
-
-} NET_Sinfo;
+};
 
 SLONG NET_get_session_number(void);
 NET_Sinfo NET_get_session_info(SLONG session);
@@ -150,8 +148,7 @@ SLONG NET_message_waiting(void);
 #define NET_SYSMESS_LOST_CONNECTION 2
 #define NET_SYSMESS_HOST_QUIT_OUT 3
 
-typedef struct
-{
+struct NET_Message {
     UBYTE player_id;
     UBYTE shit1;
     UWORD shit2;
@@ -173,7 +170,6 @@ typedef struct
 
         } player;
     };
-
-} NET_Message;
+};
 
 void NET_message_get(NET_Message* answer);

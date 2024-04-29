@@ -75,14 +75,12 @@ extern SLONG QMAP_texture_upto;
 #define QMAP_STYLE_WRAP_X (1 << 1)
 #define QMAP_STYLE_WRAP_Y (1 << 2)
 
-typedef struct
-{
+struct QMAP_Style {
     UBYTE size_x;
     UBYTE size_y;
     UWORD flag;
     UWORD index; // Index into the QMAP_texture array.
-
-} QMAP_Style;
+};
 
 #define QMAP_MAX_STYLES 256
 
@@ -93,14 +91,12 @@ extern SLONG QMAP_style_upto;
 // The roads.
 //
 
-typedef struct
-{
+struct QMAP_Road {
     UWORD x;
     UWORD z;
     UBYTE size_x;
     UBYTE size_z;
-
-} QMAP_Road;
+};
 
 #define QMAP_MAX_ROADS 1024
 
@@ -111,8 +107,7 @@ extern SLONG QMAP_road_upto;
 // The cubes.
 //
 
-typedef struct
-{
+struct QMAP_Cube {
     UWORD x;
     UWORD z;
     UBYTE size_x;
@@ -120,8 +115,7 @@ typedef struct
     UBYTE size_z;
     UBYTE flag;
     UWORD style[5];
-
-} QMAP_Cube;
+};
 
 #define QMAP_MAX_CUBES 1024
 
@@ -132,15 +126,13 @@ extern SLONG QMAP_cube_upto;
 // The ground textures.
 //
 
-typedef struct
-{
+struct QMAP_Gtex {
     UWORD x;
     UWORD z;
     UBYTE size_x;
     UBYTE size_z;
     UWORD style;
-
-} QMAP_Gtex;
+};
 
 #define QMAP_MAX_GTEXES 4096
 
@@ -151,8 +143,7 @@ extern SLONG QMAP_gtex_upto;
 // The cables.
 //
 
-typedef struct
-{
+struct QMAP_Cable {
     UWORD x1;
     UWORD z1;
     UWORD x2;
@@ -161,8 +152,7 @@ typedef struct
     UBYTE y2;
     UBYTE flag;
     UBYTE along;
-
-} QMAP_Cable;
+};
 
 #define QMAP_MAX_CABLES 512
 
@@ -182,8 +172,7 @@ extern SLONG QMAP_height_upto;
 // The heightmaps.
 //
 
-typedef struct
-{
+struct QMAP_Hmap {
     UWORD x;
     UWORD z;
     UBYTE size_x;
@@ -199,8 +188,7 @@ typedef struct
     //
 
     UWORD height;
-
-} QMAP_Hmap;
+};
 
 #define QMAP_MAX_HMAPS 64
 
@@ -215,16 +203,14 @@ extern SLONG QMAP_hmap_upto;
 #define QMAP_FENCE_BARBED 2
 #define QMAP_FENCE_WALL 3
 
-typedef struct
-{
+struct QMAP_Fence {
     UBYTE type;
     UBYTE y; // Above the ground.
     UWORD x1;
     UWORD z1;
     UBYTE size_x;
     UBYTE size_z;
-
-} QMAP_Fence;
+};
 
 #define QMAP_MAX_FENCES 1024
 
@@ -236,8 +222,7 @@ extern SLONG QMAP_fence_upto;
 // are automatically allocted to prims aswell.
 //
 
-typedef struct
-{
+struct QMAP_Light {
     UBYTE x;
     UBYTE y;
     UBYTE z;
@@ -245,8 +230,7 @@ typedef struct
     SBYTE green;
     SBYTE blue;
     UBYTE range;
-
-} QMAP_Light;
+};
 
 #define QMAP_MAX_LIGHTS 2048
 
@@ -257,15 +241,13 @@ extern SLONG QMAP_light_upto;
 // The prims.
 //
 
-typedef struct
-{
+struct QMAP_Prim {
     UBYTE x;
     UBYTE y;
     UBYTE z;
     UBYTE yaw;
     UBYTE prim;
-
-} QMAP_Prim;
+};
 
 #define QMAP_MAX_PRIMS 16384
 
@@ -291,8 +273,7 @@ extern SLONG QMAP_all_upto;
 // The map.
 //
 
-typedef struct
-{
+struct QMAP_Map {
     UWORD index_all;
     UWORD index_prim;
 
@@ -305,8 +286,7 @@ typedef struct
     UBYTE num_lights;
 
     UBYTE num_prims;
-
-} QMAP_Map;
+};
 
 extern QMAP_Map QMAP_map[QMAP_MAPSIZE][QMAP_MAPSIZE];
 
@@ -350,8 +330,7 @@ extern QMAP_Map QMAP_map[QMAP_MAPSIZE][QMAP_MAPSIZE];
 // The points.
 //
 
-typedef struct
-{
+struct QMAP_Point {
     UWORD x; // Relative to the mapsquare the point is in (8-bit fixed point)
     SWORD y;
     UWORD z;
@@ -362,8 +341,7 @@ typedef struct
     UBYTE normal;
     UBYTE padding;
     UWORD next;
-
-} QMAP_Point;
+};
 
 #define QMAP_MAX_POINTS 2048
 
@@ -377,14 +355,12 @@ extern UWORD QMAP_point_free;
 #define QMAP_FACE_FLAG_SHADOW1 (1 << 0)
 #define QMAP_FACE_FLAG_SHADOW2 (1 << 1)
 
-typedef struct
-{
+struct QMAP_Face {
     UWORD point[4];
     UWORD texture;
     UWORD flag;
     UWORD next;
-
-} QMAP_Face;
+};
 
 #define QMAP_MAX_FACES 2048
 
@@ -395,23 +371,20 @@ extern UWORD QMAP_face_free;
 // Each height-field square and height-field point.
 //
 
-typedef struct
-{
+struct QMAP_Hsquare {
     UWORD texture;
     UWORD flag;
     SBYTE height;
     UBYTE red;
     UBYTE green;
     UBYTE blue;
-
-} QMAP_Hsquare;
+};
 
 //
 // This is the structure you use to draw a mapsquare.
 //
 
-typedef struct
-{
+struct QMAP_Draw {
     //
     // A 32x32 height-field. It goes up to 33, so you can
     // have the last row of points available.
@@ -428,8 +401,7 @@ typedef struct
 
     UWORD next_point;
     UWORD next_face;
-
-} QMAP_Draw;
+};
 
 //
 // Initialises all the points and faces.

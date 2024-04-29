@@ -11,13 +11,11 @@
 // system.  Ignores the alpha channel of course!
 //
 
-typedef struct
-{
+struct IC_Packet {
     UWORD colour1; // 5:6:5
     UWORD colour2; // 5:6:5
     ULONG bit;
-
-} IC_Packet;
+};
 
 IC_Packet IC_pack(
     TGA_Pixel* tga,

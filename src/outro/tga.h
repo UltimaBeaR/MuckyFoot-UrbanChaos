@@ -8,14 +8,12 @@
 // The format of a TGA pixel.
 //
 
-typedef struct
-{
+struct Outro_TGA_Pixel {
     UBYTE blue;
     UBYTE green;
     UBYTE red;
     UBYTE alpha;
-
-} Outro_TGA_Pixel;
+};
 
 //
 // Info describing the tga.
@@ -25,14 +23,12 @@ typedef struct
 #define TGA_FLAG_ONE_BIT_ALPHA (1 << 1) // Alpha is only 255 or 0
 #define TGA_FLAG_GRAYSCALE (1 << 2) // For all pixels r == g == b.
 
-typedef struct
-{
+struct Outro_TGA_Info {
     SLONG valid;
     SLONG width;
     SLONG height;
     ULONG flag;
-
-} Outro_TGA_Info;
+};
 
 //
 // If the width and height of the tga exceed the maximums, then the tga is not loaded.

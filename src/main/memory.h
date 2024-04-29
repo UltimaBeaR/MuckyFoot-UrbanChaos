@@ -8,8 +8,7 @@
 // The map beacons.
 //
 
-typedef struct
-{
+struct MAP_Beacon {
     UBYTE used;
     UBYTE counter;
     UWORD track_thing;
@@ -19,8 +18,7 @@ typedef struct
     SLONG wx;
     SLONG wz;
     ULONG ticks; // The GetTickCount when we created the beacon. LAZY!
-
-} MAP_Beacon;
+};
 
 #define MAP_MAX_BEACONS 32
 extern MAP_Beacon* MAP_beacon; //[MAP_MAX_BEACONS];

@@ -20,8 +20,7 @@
 #define PUDDLE_TYPE_WHOLE 3
 #define PUDDLE_TYPE_NUMBER 4
 
-typedef struct
-{
+struct PUDDLE_Puddle {
     UWORD x1;
     UWORD z1;
     UWORD x2;
@@ -37,8 +36,7 @@ typedef struct
     UBYTE g2;
     UBYTE s1;
     UBYTE s2;
-
-} PUDDLE_Puddle;
+};
 
 #define PUDDLE_MAX_PUDDLES 256
 
@@ -57,14 +55,12 @@ UBYTE PUDDLE_mapwho[PUDDLE_MAPWHO_SIZE];
 // The uv coordinates of each puddle type.
 //
 
-typedef struct
-{
+struct PUDDLE_Texture {
     SLONG u1;
     SLONG v1;
     SLONG u2;
     SLONG v2;
-
-} PUDDLE_Texture;
+};
 
 PUDDLE_Texture PUDDLE_texture[PUDDLE_TYPE_NUMBER] = {
     { 0, 0, 256, 62 },

@@ -702,15 +702,13 @@ void MAP_draw_dot(
 // The pulses...
 //
 
-typedef struct
-{
+struct MAP_Pulse {
     SLONG life; // 0 => unused
     ULONG colour;
     float wx;
     float wz;
     float radius;
-
-} MAP_Pulse;
+};
 
 #define MAP_MAX_PULSES 16
 

@@ -33,13 +33,11 @@ SLONG CACHE_is_valid(CACHE_Index c_index);
 // Returns the data associated with the cache_index.
 //
 
-typedef struct
-{
+struct CACHE_Info {
     SLONG key;
     void* data;
     SLONG num_bytes;
-
-} CACHE_Info;
+};
 
 CACHE_Info CACHE_get_info(CACHE_Index c_index);
 

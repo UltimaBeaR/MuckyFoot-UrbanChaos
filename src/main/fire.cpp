@@ -11,8 +11,7 @@
 
 #define FIRE_MAX_FLAME_POINTS 4
 
-typedef struct
-{
+struct FIRE_Flame {
     SBYTE dx;
     SBYTE dz;
     UBYTE die;
@@ -24,8 +23,7 @@ typedef struct
 
     UBYTE angle[FIRE_MAX_FLAME_POINTS];
     UBYTE offset[FIRE_MAX_FLAME_POINTS];
-
-} FIRE_Flame;
+};
 
 #define FIRE_MAX_FLAMES 256
 
@@ -36,8 +34,7 @@ SLONG FIRE_flame_free;
 // Fire is a linked list of flames.
 //
 
-typedef struct
-{
+struct FIRE_Fire {
     UBYTE num; // The number of flames this fire has, 0 => the fire is unused.
     UBYTE next; // The flames.
     UBYTE size;
@@ -45,8 +42,7 @@ typedef struct
     UWORD x;
     SWORD y;
     UWORD z;
-
-} FIRE_Fire;
+};
 
 #define FIRE_MAX_FIRE 8
 

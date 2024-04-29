@@ -15,12 +15,10 @@ extern BOOL allow_debug_keys;
 // The actual messages.
 //
 
-typedef struct
-{
+struct MSG_Message {
     SLONG timer;
     CBYTE message[MSG_MAX_LENGTH];
-
-} MSG_Message;
+};
 
 MSG_Message MSG_message[MSG_MAX_MESSAGES];
 SLONG current_message = 0;

@@ -8,16 +8,14 @@
 
 #include "memory.h"
 
-typedef struct
-{
+struct DRIP_Drip {
     UWORD x;
     SWORD y;
     UWORD z;
     UBYTE size;
     UBYTE fade; // 0 => No drip.
     UBYTE flags;
-
-} DRIP_Drip;
+};
 
 #define DRIP_MAX_DRIPS 1024
 

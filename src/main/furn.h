@@ -17,8 +17,7 @@
 // of these structures and decallocates it once it stops.
 //
 
-typedef struct
-{
+struct Furniture {
     SLONG dx;
     SLONG dy;
     SLONG dz;
@@ -52,7 +51,7 @@ typedef struct
 
     UWORD closed_angle;
     UWORD ajar;
-} Furniture;
+};
 
 typedef Furniture* FurniturePtr;
 #define MAX_FURNITURE 10

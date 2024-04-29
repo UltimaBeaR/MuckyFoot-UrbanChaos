@@ -164,56 +164,51 @@ enum MIDASpostProcPosition {
     MIDAS_POST_PROC_LAST
 };
 
-typedef struct
-{
+struct MIDASmoduleInfo {
     char songName[32];
     unsigned songLength;
     unsigned numPatterns;
     unsigned numInstruments;
     unsigned numChannels;
-} MIDASmoduleInfo;
+};
 
-typedef struct
-{
+struct MIDASinstrumentInfo {
     char instName[32];
-} MIDASinstrumentInfo;
+};
 
-typedef struct
-{
+struct MIDASplayStatus {
     unsigned position;
     unsigned pattern;
     unsigned row;
     int syncInfo;
     unsigned songLoopCount;
-} MIDASplayStatus;
+};
 
-typedef struct
-{
+struct MIDASecho {
     unsigned delay; /* milliseconds, 16.16 fixed point */
     int gain; /* gain, 16.16 fixed point */
     int reverseChannels; /* reverse channels? */
     unsigned filterType; /* filter type, MIDASechoFilterTypes */
-} MIDASecho;
+};
 
-typedef struct
-{
+struct MIDASechoSet {
     int feedback; /* feedback, 16.16 fixed point */
     int gain; /* total gain, 16.16 fixed point */
     unsigned numEchoes; /* number of echoes */
     MIDASecho* echoes; /* the echoes */
-} MIDASechoSet;
+};
 
 typedef void(MIDAS_CALL* MIDASpostProcFunction)(void* data,
     unsigned numSamples, void* user);
 
-typedef struct _MIDASpostProcessor {
-    struct _MIDASpostProcessor *next, *prev; /* reserved */
+struct MIDASpostProcessor {
+    struct MIDASpostProcessor *next, *prev; /* reserved */
     void* userData; /* reserved */
     MIDASpostProcFunction floatMono;
     MIDASpostProcFunction floatStereo;
     MIDASpostProcFunction intMono;
     MIDASpostProcFunction intStereo;
-} MIDASpostProcessor;
+};
 
 typedef void* MIDASmodule;
 typedef DWORD MIDASmodulePlayHandle;

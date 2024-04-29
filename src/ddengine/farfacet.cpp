@@ -45,14 +45,12 @@ SLONG FARFACET_index_upto;
 // 2D map.
 //
 
-typedef struct
-{
+struct FARFACET_Square {
     UWORD lvert;
     UWORD lvertcount;
     UWORD index;
     UWORD indexcount;
-
-} FARFACET_Square;
+};
 
 FARFACET_Square FARFACET_square[FARFACET_SIZE][FARFACET_SIZE];
 
@@ -61,8 +59,7 @@ FARFACET_Square FARFACET_square[FARFACET_SIZE][FARFACET_SIZE];
 // outline of each facet.
 //
 
-typedef struct
-{
+struct FARFACET_Outline {
     UBYTE x1;
     SBYTE y1;
     UBYTE z1;
@@ -70,8 +67,7 @@ typedef struct
     UBYTE x2;
     SBYTE y2;
     UBYTE z2;
-
-} FARFACET_Outline;
+};
 
 #define FARFACET_MAX_OUTLINES (8192 / ((32 / FARFACET_RATIO) * (32 / FARFACET_RATIO)) + 256)
 

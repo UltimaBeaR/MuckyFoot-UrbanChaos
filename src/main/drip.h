@@ -42,16 +42,14 @@ void DRIP_process(void);
 // Drawing the drips...
 //
 
-typedef struct
-{
+struct DRIP_Info {
     UWORD x;
     SWORD y;
     UWORD z;
     UBYTE size;
     UBYTE fade; // 255 => opaque, 0 => transparent.
     UBYTE flags;
-
-} DRIP_Info;
+};
 
 void DRIP_get_start(void);
 DRIP_Info* DRIP_get_next(void); // NULL => no more drips.

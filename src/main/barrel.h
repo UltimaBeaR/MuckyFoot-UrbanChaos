@@ -17,8 +17,7 @@
 // Spheres that are moving use two sphere structures...
 //
 
-typedef struct
-{
+struct BARREL_Sphere {
     SLONG x; // -INFINITY => Unused
     SLONG y;
     SLONG z;
@@ -27,8 +26,7 @@ typedef struct
     SLONG dz;
     SWORD still; // The number of gameturns that this sphere has been below a threshold speed.
     UWORD radius; // In the large coordinate system- even thought it is a UWORD!
-
-} BARREL_Sphere;
+};
 
 struct Barrel {
     UBYTE type;

@@ -41,8 +41,7 @@ UBYTE STAIR_roof_height;
 // #define STAIR_FLAG_UP	(1 << 0)	// The staircase goes up
 // #define STAIR_FLAG_DOWN (1 << 1)	// The staircase goes down.
 
-typedef struct
-{
+struct STAIR_Stair {
     UBYTE flag;
     UBYTE up; // The storey you go up to   (if (flag & STAIR_FLAG_UP))
     UBYTE down; // The storey you go down to (if (flag & STAIR_FLAG_DOWN))
@@ -50,8 +49,7 @@ typedef struct
     UBYTE z1;
     UBYTE x2;
     UBYTE z2;
-
-} STAIR_Stair;
+};
 
 #define STAIR_MAX_STAIRS 32
 
@@ -64,8 +62,7 @@ SLONG STAIR_stair_upto;
 
 #define STAIR_MAX_PER_STOREY 3
 
-typedef struct
-{
+struct STAIR_Storey {
     SLONG handle; // How the storey is identified.
     UBYTE opp_x1; // A wall is it good to have a staircase opposite on.
     UBYTE opp_z1;
@@ -74,8 +71,7 @@ typedef struct
     UBYTE height;
     UBYTE stair[STAIR_MAX_PER_STOREY]; // Indices into the STAIR_stair array. 0 => NULL index.
     UBYTE square[STAIR_MAX_SIZE][STAIR_MAX_SIZE / 8];
-
-} STAIR_Storey;
+};
 
 #define STAIR_MAX_STOREYS 32
 
@@ -170,13 +166,11 @@ UBYTE STAIR_get_bit_from_square(UBYTE square[STAIR_MAX_SIZE][STAIR_MAX_SIZE / 8]
 #define STAIR_LINK_T_ENTER 1
 #define STAIR_LINK_T_LEAVE 2
 
-typedef struct
-{
+struct STAIR_Link {
     UBYTE next;
     UBYTE square;
     UWORD pos; // 8-bit fixed point.
-
-} STAIR_Link;
+};
 
 #define STAIR_MAX_LINKS 128
 

@@ -11,8 +11,7 @@
 // Each point of the string.
 //
 
-typedef struct
-{
+struct HOOK_Point {
     SLONG x;
     SLONG y;
     SLONG z;
@@ -20,8 +19,7 @@ typedef struct
     SWORD dy;
     SWORD dz;
     UWORD alive;
-
-} HOOK_Point;
+};
 
 #define HOOK_NUM_POINTS 256
 

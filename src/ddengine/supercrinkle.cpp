@@ -27,11 +27,9 @@ SLONG SUPERCRINKLE_lvert_upto;
 // Colour interpolations for each lvert.
 //
 
-typedef struct
-{
+struct SUPERCRINKLE_Colour {
     UBYTE i[4];
-
-} SUPERCRINKLE_Colour;
+};
 
 #define SUPERCRINKLE_MAX_COLOURS SUPERCRINKLE_MAX_LVERTS
 
@@ -64,8 +62,7 @@ UBYTE SUPERCRINKLE_is_crinkled[512];
 // A supercrinkle!
 //
 
-typedef struct
-{
+struct SUPERCRINKLE_Crinkle {
     UWORD lvert; // Index into the D3DLVERTEX array.
     UWORD num_lverts; // Number of lverts used by this crinkle.
 
@@ -73,8 +70,7 @@ typedef struct
     UWORD num_indices; // for this crinkle.
 
     ULONG hash; // The colours in this crinkle.
-
-} SUPERCRINKLE_Crinkle;
+};
 
 #define SUPERCRINKLE_MAX_CRINKLES 512
 
@@ -84,25 +80,22 @@ SUPERCRINKLE_Crinkle SUPERCRINKLE_crinkle[SUPERCRINKLE_MAX_CRINKLES];
 // A SUPERCRINKLE_Colour
 //
 
-typedef struct
-{
+struct SUPERCRINKLE_Precalc {
     ULONG colour;
     ULONG specular;
-
-} SUPERCRINKLE_Precalc;
+};
 
 //
 // Cached lighting.
 //
 
-typedef struct supercrinkle_cache {
+struct SUPERCRINKLE_Cache {
     ULONG hash;
 
-    struct supercrinkle_cache* next;
+    SUPERCRINKLE_Cache* next;
 
     SUPERCRINKLE_Precalc precalc[2]; // Not really 2!
-
-} SUPERCRINKLE_Cache;
+};
 
 //
 // Three arrays, with different numbers of points... This is about 256k
@@ -181,8 +174,7 @@ void SUPERCRINKLE_load(SLONG crinkle, CBYTE* fname)
     // Temporary buffer for holding points and faces.
     //
 
-    typedef struct
-    {
+    struct SUPERCRINKLE_Point {
         float x;
         float y;
         float z;
@@ -196,23 +188,20 @@ void SUPERCRINKLE_load(SLONG crinkle, CBYTE* fname)
         UBYTE light; // How much darker/brigher this point should be than normal... 128 => Same as before.
         UBYTE padding;
         UWORD duplicate;
-
-    } SUPERCRINKLE_Point;
+    };
 
 #define SUPERCRINKLE_MAX_POINTS 1536
 
     SUPERCRINKLE_Point point[SUPERCRINKLE_MAX_POINTS];
     SLONG point_upto;
 
-    typedef struct
-    {
+    struct SUPERCRINKLE_Face {
         UWORD p[3];
 
         float nx;
         float ny;
         float nz;
-
-    } SUPERCRINKLE_Face;
+    };
 
 #define SUPERCRINKLE_MAX_FACES 512
 

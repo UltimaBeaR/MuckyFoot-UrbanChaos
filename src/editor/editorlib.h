@@ -80,12 +80,11 @@ SLONG FindColour(UBYTE* pal, SLONG r, SLONG g, SLONG b);
 #define DUPLICATE_PIXELS 0x03
 #define FINISHED 0x04
 
-typedef struct
-{
+struct BSprite {
     UBYTE* SpriteData;
     UWORD SpriteHeight;
     UWORD SpriteWidth;
-} BSprite;
+};
 
 extern void (*DrawBSprite)(SLONG x, SLONG y, BSprite* the_sprite);
 extern void (*DrawBSpriteC)(SLONG x, SLONG y, BSprite* the_sprite);

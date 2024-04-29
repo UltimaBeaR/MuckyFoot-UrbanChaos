@@ -10,27 +10,23 @@
 // The format of a TGA pixel.
 //
 
-typedef struct
-{
+struct TGA_Pixel {
     UBYTE blue;
     UBYTE green;
     UBYTE red;
     UBYTE alpha;
-
-} TGA_Pixel;
+};
 
 //
 // Info describing the tga.
 //
 
-typedef struct
-{
+struct TGA_Info {
     SLONG valid;
     SLONG width;
     SLONG height;
     SLONG contains_alpha;
-
-} TGA_Info;
+};
 
 //
 // If the width and height of the tga exceed the maximums, then the tga is not loaded.

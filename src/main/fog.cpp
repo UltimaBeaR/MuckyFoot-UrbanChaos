@@ -22,8 +22,7 @@ void MSG_add(CBYTE* message, ...);
 
 SLONG calc_height_at(SLONG x, SLONG z);
 
-typedef struct
-{
+struct FOG_Fog {
     UBYTE type;
     SBYTE dyaw;
     SWORD yaw;
@@ -32,8 +31,7 @@ typedef struct
     SLONG x;
     SLONG y;
     SLONG z;
-
-} FOG_Fog;
+};
 
 #define FOG_MAX_FOG 2048
 

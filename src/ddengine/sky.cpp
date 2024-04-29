@@ -16,16 +16,14 @@
 #define SKY_STAR_T_BRIGHT 3
 #define SKY_STAR_T_PLANET 4
 
-typedef struct
-{
+struct SKY_Star {
     UBYTE colour;
     UBYTE spread;
     UWORD shit;
     float yaw;
     float pitch;
     float vector[3];
-
-} SKY_Star;
+};
 
 #define SKY_MAX_STARS 4096
 
@@ -36,12 +34,10 @@ SLONG SKY_star_upto;
 // Each cloud texture...
 //
 
-typedef struct
-{
+struct SKY_Texture {
     float u1, v1;
     float u2, v2;
-
-} SKY_Texture;
+};
 
 #define SKY_NUM_TEXTURES 5
 
@@ -53,8 +49,7 @@ SKY_Texture SKY_texture[SKY_NUM_TEXTURES] = {
     { 0.000F, 0.648F, 1.000F, 1.000F }
 };
 
-typedef struct
-{
+struct SKY_Cloud {
     UBYTE texture;
     UBYTE flip; // 1 => Reflect the cloud texture in u.
     UBYTE width;
@@ -62,8 +57,7 @@ typedef struct
     float yaw;
     float pitch;
     float dyaw;
-
-} SKY_Cloud;
+};
 
 #define SKY_NUM_CLOUDS 200
 

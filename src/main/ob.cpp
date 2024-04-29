@@ -37,14 +37,12 @@ OB_Info OB_return;
 // The damaged fire hydrants.
 //
 
-typedef struct
-{
+struct OB_Hydrant {
     UWORD life; // 0 => Unused.
     UWORD index;
     UWORD x;
     UWORD z;
-
-} OB_Hydrant;
+};
 
 #define OB_MAX_HYDRANTS 4
 

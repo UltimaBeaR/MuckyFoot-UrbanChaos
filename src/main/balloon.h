@@ -8,16 +8,14 @@
 // The points of a balloon.
 //
 
-typedef struct
-{
+struct BALLOON_Point {
     SLONG x;
     SLONG y;
     SLONG z;
     SLONG dx;
     SLONG dy;
     SLONG dz;
-
-} BALLOON_Point;
+};
 
 #define BALLOON_POINTS_PER_BALLOON 4
 
@@ -26,16 +24,14 @@ typedef struct
 #define BALLOON_TYPE_RED 2
 #define BALLOON_TYPE_NUMBER 3
 
-typedef struct
-{
+struct BALLOON_Balloon {
     UBYTE type;
     UBYTE next; // The next balloon in the linked list of balloons attached to this person.
     UWORD yaw; // 0xffff => This balloon is unused.
     UWORD pitch;
     UWORD thing; // The thing this balloon is attached to.
     BALLOON_Point bp[BALLOON_POINTS_PER_BALLOON];
-
-} BALLOON_Balloon;
+};
 
 #define BALLOON_MAX_BALLOONS 32
 

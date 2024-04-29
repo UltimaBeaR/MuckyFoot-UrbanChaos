@@ -11,13 +11,11 @@
 // Each of the letters
 //
 
-typedef struct
-{
+struct FONT_Letter {
     float u;
     float v;
     float uwidth;
-
-} FONT_Letter;
+};
 
 #define FONT_LETTER_HEIGHT 21
 

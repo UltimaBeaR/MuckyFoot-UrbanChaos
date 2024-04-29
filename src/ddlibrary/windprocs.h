@@ -7,8 +7,7 @@
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct ChangeDDInfo {
     DDDriverInfo *DriverCurrent,
         *DriverNew;
 
@@ -17,7 +16,7 @@ typedef struct
 
     DDModeInfo *ModeCurrent,
         *ModeNew;
-} ChangeDDInfo;
+};
 
 //---------------------------------------------------------------
 

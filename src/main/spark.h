@@ -27,8 +27,7 @@ void SPARK_init(void);
 #define SPARK_FLAG_DART_ABOUT (1 << 5)
 #define SPARK_FLAG_STILL (SPARK_FLAG_CLAMP_X | SPARK_FLAG_CLAMP_Y | SPARK_FLAG_CLAMP_Z)
 
-typedef struct
-{
+struct SPARK_Pinfo {
     UBYTE type;
     UBYTE flag;
     UBYTE padding;
@@ -41,8 +40,7 @@ typedef struct
 
     THING_INDEX person; // The limb to use.
     UWORD limb;
-
-} SPARK_Pinfo;
+};
 
 void SPARK_create(
     SPARK_Pinfo* point1,
@@ -79,8 +77,7 @@ void SPARK_process(void);
 
 #define SPARK_MAX_POINTS 5
 
-typedef struct
-{
+struct SPARK_Info {
     SLONG num_points;
     ULONG colour;
     SLONG size;
@@ -88,8 +85,7 @@ typedef struct
     SLONG x[SPARK_MAX_POINTS];
     SLONG y[SPARK_MAX_POINTS];
     SLONG z[SPARK_MAX_POINTS];
-
-} SPARK_Info;
+};
 
 void SPARK_get_start(UBYTE xmin, UBYTE xmax, UBYTE z);
 SPARK_Info* SPARK_get_next(void); // NULL => No more sparks...

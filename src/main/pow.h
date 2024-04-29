@@ -8,8 +8,7 @@
 // A single element of an explosion.
 //
 
-typedef struct
-{
+struct POW_Sprite {
     UBYTE next;
     UBYTE frame; // Which frame of animation it is on...
     UBYTE frame_speed; // How fast it moves between frames.
@@ -21,8 +20,7 @@ typedef struct
     SWORD dy;
     SWORD dz;
     UWORD frame_counter; // Countdown to going onto next frame.
-
-} POW_Sprite;
+};
 
 #define POW_MAX_SPRITES 256
 
@@ -33,8 +31,7 @@ extern UBYTE POW_sprite_free;
 // An explosion.
 //
 
-typedef struct
-{
+struct POW_Pow {
     UBYTE type;
     UBYTE next;
     UBYTE sprite; // Index into the linked list of sprites for this POW
@@ -49,8 +46,7 @@ typedef struct
     UBYTE flag;
     UBYTE time_warp;
     UWORD padding;
-
-} POW_Pow;
+};
 
 #define POW_MAX_POWS 32
 

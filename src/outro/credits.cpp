@@ -225,7 +225,7 @@ CBYTE* CREDITS_eidos_france[] = {
     NULL,
 
     "~BResponsable localisation",
-    "\tStéphan Gonizzi", // This has got an accent
+    "\tStï¿½phan Gonizzi", // This has got an accent
     NULL,
 
     "~BResponsable RP",
@@ -240,7 +240,7 @@ CBYTE* CREDITS_eidos_france[] = {
     "\tAround the Word, Paris",
     NULL,
 
-    "~BEnregistrement des voix françaises", // This has got an accent in it!
+    "~BEnregistrement des voix franï¿½aises", // This has got an accent in it!
     "\tLe Lotus Rose, Paris",
     "!"
 };
@@ -257,7 +257,7 @@ CBYTE* CREDITS_eidos_france[] = {
         NULL,
 
         "~BLocalisation Manager",
-        "\tStéphan Gonizzi",
+        "\tStï¿½phan Gonizzi",
         NULL,
 
         "~BPR Manager",
@@ -293,10 +293,10 @@ CBYTE* CREDITS_eidos_germany[] = {
     NULL,
 
     "~BQA-Manager",
-    "Sören Winterfeldt", // Accent!
+    "Sï¿½ren Winterfeldt", // Accent!
     NULL,
 
-    "~BÜbersetzung", // Accent!
+    "~Bï¿½bersetzung", // Accent!
     "\tViolet Media, Isabel Sterner",
     NULL,
 
@@ -360,12 +360,10 @@ CBYTE* CREDITS_bands[] = {
 // The credits grouped into sections.
 //
 
-typedef struct
-{
+struct CREDITS_Section {
     CBYTE* title;
     CBYTE** line;
-
-} CREDITS_Section;
+};
 
 #define CREDITS_NUM_SECTIONS 7
 

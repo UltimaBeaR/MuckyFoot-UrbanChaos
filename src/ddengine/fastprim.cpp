@@ -57,8 +57,7 @@ D3DMATRIX* FASTPRIM_matrix;
 
 #define FASTPRIM_CALL_FLAG_SELF_ILLUM (1 << 0)
 
-typedef struct
-{
+struct FASTPRIM_Call {
     UWORD flag;
     UWORD type;
 
@@ -68,8 +67,7 @@ typedef struct
     UWORD indexcount;
 
     LPDIRECT3DTEXTURE2 texture;
-
-} FASTPRIM_Call;
+};
 
 #define FASTPRIM_MAX_CALLS 512
 
@@ -83,13 +81,11 @@ SLONG FASTPRIM_call_upto;
 #define FASTPRIM_PRIM_FLAG_CACHED (1 << 0)
 #define FASTPRIM_PRIM_FLAG_INVALID (1 << 1) // This prim cannot be converted for some reason.
 
-typedef struct
-{
+struct FASTPRIM_Prim {
     UWORD flag;
     UWORD call_index;
     UWORD call_count;
-
-} FASTPRIM_Prim;
+};
 
 #define FASTPRIM_MAX_PRIMS 256
 

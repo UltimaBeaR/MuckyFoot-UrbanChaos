@@ -370,13 +370,11 @@ void PANEL_draw_number(float x, float y, UBYTE digit) // 0 <= digit <= 9... Not 
     }
 }
 
-typedef struct
-{
+struct PANEL_Store {
     float time;
     float x;
     float y;
-
-} PANEL_Store;
+};
 
 #define PANEL_MAX_STORES 8
 
@@ -846,15 +844,13 @@ void PANEL_draw_compass_to(SLONG dx,SLONG dy)
 
 #define PANEL_IC_NUMBER 46
 
-typedef struct
-{
+struct PANEL_Ic {
     float u1;
     float v1;
     float u2;
     float v2;
     SLONG page;
-
-} PANEL_Ic;
+};
 
 #define PIC(uv) ((uv) / 256.0F)
 
@@ -1076,13 +1072,11 @@ void PANEL_funky_quad(
 // The funky hearbeat. A circular buffer.
 //
 
-typedef struct
-{
+struct PANEL_Beat {
     float x; // Normalised from  0 to 1
     float y; // Normalised from -1 to 1
     ULONG colour;
-
-} PANEL_Beat;
+};
 
 #define PANEL_NUM_BEATS 32
 
@@ -1368,15 +1362,13 @@ void PANEL_do_heartbeat(SLONG which, float stamina, SLONG death)
 #define PANEL_AMMO_GRENADE 3
 #define PANEL_AMMO_NUMBER 4
 
-typedef struct
-{
+struct PANEL_Ammo {
     float width;
     float height;
     SLONG size_group;
     SLONG page_group;
     SLONG page_one;
-
-} PANEL_Ammo;
+};
 
 PANEL_Ammo PANEL_ammo[PANEL_AMMO_NUMBER] = {
     { 5.0F,
@@ -1410,8 +1402,7 @@ PANEL_Ammo PANEL_ammo[PANEL_AMMO_NUMBER] = {
 // Ammo that has been used up getting tossed off the screen.
 //
 
-typedef struct
-{
+struct PANEL_Toss {
     UWORD used;
     UWORD type;
     float x;
@@ -1419,8 +1410,7 @@ typedef struct
     float angle;
     float dx;
     float dy;
-
-} PANEL_Toss;
+};
 
 #define PANEL_MAX_TOSSES 8
 
@@ -1650,13 +1640,11 @@ void PANEL_new_face(
     // The position of the faces on each page given in 32 pixel steps.
     //
 
-    typedef struct
-    {
+    struct PANEL_Face {
         UBYTE page;
         UBYTE u;
         UBYTE v;
-
-    } PANEL_Face;
+    };
 
     PANEL_Face face_large[PANEL_FACE_NUMBER] = {
         { 0, 4, 4 }, // Radio
@@ -1891,14 +1879,12 @@ void PANEL_new_face(
 
 // The French actually has a 257-character message. Grrrr.
 #define PANEL_TEXT_MAX_LENGTH 300
-typedef struct
-{
+struct PANEL_Text {
     Thing* who; // Who is saying the message. NULL => computer message
     CBYTE text[PANEL_TEXT_MAX_LENGTH + 2];
     SLONG delay; // 0 => unused.
     SLONG turns; // The number of turns this message has been alive for.
-
-} PANEL_Text;
+};
 
 #define PANEL_MAX_TEXTS 8 // Power of 2 please!
 
@@ -2493,15 +2479,13 @@ SLONG PANEL_fadeout_finished()
 #define PANEL_LSPRITE_KNIFE 14
 #define PANEL_LSPRITE_NUMBER 15
 
-typedef struct
-{
+struct PANEL_Lsprite {
     SLONG page;
     float u1;
     float v1;
     float u2;
     float v2;
-
-} PANEL_Lsprite;
+};
 
 /*
 PANEL_Lsprite PANEL_lsprite[PANEL_LSPRITE_NUMBER] =

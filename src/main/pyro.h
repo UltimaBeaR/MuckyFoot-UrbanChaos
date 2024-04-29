@@ -44,8 +44,7 @@
 #define PYRO_FLAGS_SMOKE 8 // thick bonfire smoke
 #define PYRO_FLAGS_STATIC 16 // not attached to a moving object
 
-typedef struct
-{
+struct Pyro {
     UWORD Flags; // pyro flags
     UBYTE PyroType; // firewall, bonfire, etc
     UBYTE dlight; // dynamic light as appropriate
@@ -60,26 +59,23 @@ typedef struct
     SLONG soundid; // might make this a byte index later
     SWORD Timer1; // was in thing
     UWORD Dummy;
-} Pyro;
+};
 
-typedef struct
-{
+struct RadPoint {
     SLONG x, y, z, flags;
-} RadPoint;
+};
 
-typedef struct
-{
+struct PyrPoint {
     UWORD radius, delta;
-} PyrPoint;
+};
 
-typedef struct
-{
+struct Pyrex {
     UWORD Flags; // pyro flags
     UBYTE PyroType; // firewall, bonfire, etc
     UBYTE padding;
     Thing* thing; // points at its thing. ooer.
     PyrPoint points[17]; // 8 bottom rung, 8 top run, 1 centre
-} Pyrex;
+};
 
 typedef Pyro* PyroPtr;
 

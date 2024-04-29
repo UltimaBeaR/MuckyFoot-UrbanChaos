@@ -38,8 +38,7 @@
 #define NS_HI_FLAG_LOCKTOP (1 << 6) // Private!
 #define NS_HI_FLAG_TOPUSED (1 << 7) // Private!
 
-typedef struct
-{
+struct NS_Hi {
     //
     // In eighth map-squares: From 32 squares below ground...
     // 'bot' should be on map-square boundaries.
@@ -53,8 +52,7 @@ typedef struct
                  // No water allowed on rock.
 
     UBYTE packed; // 5:3 FLAGS : TYPE
-
-} NS_Hi;
+};
 
 extern NS_Hi NS_hi[PAP_SIZE_HI][PAP_SIZE_HI];
 
@@ -64,12 +62,10 @@ extern NS_Hi NS_hi[PAP_SIZE_HI][PAP_SIZE_HI];
 // used for the sewer memory not the lighting...
 //
 
-typedef struct
-{
+struct NS_Texture {
     UBYTE u[4];
     UBYTE v[4];
-
-} NS_Texture;
+};
 
 #define NS_MAX_TEXTURES 256
 
@@ -85,11 +81,9 @@ extern SLONG NS_texture_upto;
 // The page number to use: the number of .TGA file.
 //
 
-typedef struct
-{
+struct NS_Page {
     UWORD page;
-
-} NS_Page;
+};
 
 #define NS_PAGE_ROCK 0
 #define NS_PAGE_SEWER 1
@@ -104,8 +98,7 @@ extern NS_Page NS_page[NS_PAGE_NUMBER];
 // Waterfalls...
 //
 
-typedef struct
-{
+struct NS_Fall {
     UBYTE x;
     UBYTE z;
     SBYTE dx; // Vector from where the water is coming from.
@@ -114,33 +107,27 @@ typedef struct
     UBYTE bot;
     UBYTE counter;
     UBYTE next;
-
-} NS_Fall;
+};
 
 #define NS_MAX_FALLS 32
 
 extern NS_Fall NS_fall[NS_MAX_FALLS];
 extern UBYTE NS_fall_free;
 
-typedef struct
-{
+struct NS_Point {
     UBYTE x; // (x << 3, z << 3) relative to the lo-res mapsquare.
     UBYTE z;
     UBYTE y; // In eighth map-squares from 32 squares below ground...
     UBYTE bright; // No coloured lighting...
+};
 
-} NS_Point;
-
-typedef struct
-{
+struct NS_Face {
     UBYTE p[4];
     UBYTE page; // Rock/stone/brick...
     UBYTE texture;
+};
 
-} NS_Face;
-
-typedef struct
-{
+struct NS_Cache {
     UBYTE next;
     UBYTE used;
     UBYTE map_x;
@@ -150,8 +137,7 @@ typedef struct
     UWORD num_faces; // Face memory starts immediately after point memory.
     UBYTE fall; // Any waterfalls that happen to be in this square.
     UBYTE padding;
-
-} NS_Cache;
+};
 
 #define NS_MAX_CACHES 128
 
@@ -168,8 +154,7 @@ extern UBYTE NS_cache_free;
 #define NS_ST_TYPE_BRIDGE 3
 #define NS_ST_TYPE_PLATFORM 4
 
-typedef struct
-{
+struct NS_St {
     UBYTE type;
     UBYTE next;
 
@@ -194,8 +179,7 @@ typedef struct
 
         } ladder;
     };
-
-} NS_St;
+};
 
 #define NS_MAX_STS 64
 
@@ -206,8 +190,7 @@ extern UBYTE NS_st_free;
 // Each lo-res mapsquare.
 //
 
-typedef struct
-{
+struct NS_Lo {
     UBYTE cache;
     UBYTE st; // Linked list of sewer things above this mapsquare.
 
@@ -219,8 +202,7 @@ typedef struct
     UBYTE light_x; // (x << 3, z << 3) relative to the lo-res mapsquare.
     UBYTE light_z; // 0 => No light.
     UBYTE light_y; // In eighth map-squares from 32 squares below ground.
-
-} NS_Lo;
+};
 
 extern NS_Lo NS_lo[PAP_SIZE_LO][PAP_SIZE_LO];
 

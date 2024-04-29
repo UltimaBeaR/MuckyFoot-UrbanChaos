@@ -32,14 +32,12 @@ static CBYTE status_text[_MAX_PATH];
 // The messages at specific place on the screen.
 //
 
-typedef struct
-{
+struct CONSOLE_Mess {
     SLONG delay; // (delay == 0) => Don't display message.
     SLONG x;
     SLONG y;
     CBYTE mess[CONSOLE_WIDTH];
-
-} CONSOLE_Mess;
+};
 
 #define CONSOLE_MAX_MESSES 16
 

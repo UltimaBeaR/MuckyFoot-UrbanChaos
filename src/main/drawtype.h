@@ -35,8 +35,7 @@
 // structs
 //
 
-typedef struct
-{
+struct DrawTween {
     UBYTE TweakSpeed;
     SBYTE Locked; // which frame if any is locked in place
     UBYTE FrameIndex;
@@ -59,18 +58,16 @@ typedef struct
     UBYTE Drawn; // game turn last drawn
     UBYTE MeshID;
     UBYTE PersonID;
-} DrawTween;
+};
 
-typedef struct
-{
+struct DrawMesh {
     UWORD Angle;
     UWORD Roll;
     UWORD Tilt;
     UWORD ObjectId;
     CACHE_Index Cache; // ubyte
     UBYTE Hm; // 255 => NULL
-
-} DrawMesh;
+};
 
 //
 // Functions

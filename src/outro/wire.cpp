@@ -32,15 +32,13 @@ SLONG WIRE_now;
 // The box we use as the zbuffer hack.
 //
 
-typedef struct
-{
+struct WIRE_Point {
     float x;
     float y;
     float z;
 
     OS_Vert ov;
-
-} WIRE_Point;
+};
 
 #define WIRE_NUM_POINTS 8
 

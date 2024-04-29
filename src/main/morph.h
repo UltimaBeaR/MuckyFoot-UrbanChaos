@@ -21,13 +21,11 @@ void MORPH_load(void);
 #define MORPH_PIGEON_HEADCOCK 0
 #define MORPH_NUMBER 2
 
-typedef struct
-{
+struct MORPH_Point {
     SWORD x;
     SWORD y;
     SWORD z;
-
-} MORPH_Point;
+};
 
 MORPH_Point* MORPH_get_points(SLONG morph);
 SLONG MORPH_get_num_points(SLONG morph);

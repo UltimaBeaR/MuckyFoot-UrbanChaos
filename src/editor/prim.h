@@ -507,8 +507,7 @@ void revert_to_prim_status(void);
 // Returns the info for each prim.
 //
 
-typedef struct
-{
+struct PrimInfo {
     SLONG minx; // The bounding rectangle of the prim.
     SLONG miny;
     SLONG minz;
@@ -522,8 +521,7 @@ typedef struct
     SLONG cogz;
 
     SLONG radius; // The bounding sphere about the origin.
-
-} PrimInfo;
+};
 
 PrimInfo* get_prim_info(SLONG prim);
 

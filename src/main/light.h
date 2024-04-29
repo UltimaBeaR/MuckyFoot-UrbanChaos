@@ -10,8 +10,7 @@
 // A structure that describes a light.
 //
 
-typedef struct
-{
+struct LIGHT_Save {
     SLONG x;
     SLONG y;
     SLONG z;
@@ -22,8 +21,7 @@ typedef struct
     UBYTE type;
     UBYTE param;
     UWORD dummy;
-
-} LIGHT_Save;
+};
 
 //
 // A light colour.
@@ -31,13 +29,11 @@ typedef struct
 
 #if LIGHT_COLOURED
 
-typedef struct
-{
+struct LIGHT_Colour {
     UBYTE red;
     UBYTE green;
     UBYTE blue;
-
-} LIGHT_Colour;
+};
 
 #else
 
@@ -64,8 +60,7 @@ typedef UBYTE LIGHT_Colour;
 // function takes a copy of it.
 //
 
-typedef struct
-{
+struct LIGHT_Map {
     SLONG width;
     SLONG height;
 
@@ -73,8 +68,7 @@ typedef struct
     (SLONG x, SLONG z); // 0 <= x < width, 0 <= z < height
     LIGHT_Colour (*get_light)(SLONG x, SLONG z);
     void (*set_light)(SLONG x, SLONG z, LIGHT_Colour light);
-
-} LIGHT_Map;
+};
 
 void LIGHT_set_hf(LIGHT_Map* map);
 

@@ -12,19 +12,17 @@
 #define OUTLINE_LINK_TYPE_START 0
 #define OUTLINE_LINK_TYPE_END 1
 
-typedef struct outline_link {
+struct OUTLINE_Link {
     SLONG x;
     SLONG type;
 
-    struct outline_link* next;
+    struct OUTLINE_Link* next;
+};
 
-} OUTLINE_Link;
-
-typedef struct outline_outline {
+struct OUTLINE_Outline {
     SLONG max_z;
     OUTLINE_Link** link;
-
-} OUTLINE_Outline;
+};
 
 OUTLINE_Outline* OUTLINE_create(SLONG num_z_squares)
 {

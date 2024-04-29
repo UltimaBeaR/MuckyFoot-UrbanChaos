@@ -8,11 +8,9 @@
 // Doors in the process of opening or closing.
 //
 
-typedef struct
-{
+struct DOOR_Door {
     UWORD facet; // NULL => Unused.
-
-} DOOR_Door;
+};
 
 #define DOOR_MAX_DOORS 4
 

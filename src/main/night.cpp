@@ -347,13 +347,11 @@ void NIGHT_slight_delete_all()
 // Lampost lights
 //
 
-typedef struct
-{
+struct NIGHT_Llight {
     UWORD x;
     SWORD y;
     UWORD z;
-
-} NIGHT_Llight;
+};
 
 #define NIGHT_MAX_LLIGHTS 16
 
@@ -364,14 +362,12 @@ SLONG NIGHT_llight_upto;
 // Lights the given lo-res mapsquare.
 //
 
-typedef struct
-{
+struct NIGHT_Precalc {
     SLONG nx;
     SLONG ny;
     SLONG nz;
     SLONG height;
-
-} NIGHT_Precalc;
+};
 
 typedef NIGHT_Precalc NIGHT_Preblock[PAP_BLOCKS];
 
@@ -984,16 +980,14 @@ void NIGHT_get_facet_info(
 // Lights the given prim.
 //
 
-typedef struct
-{
+struct NIGHT_Point {
     SLONG x;
     SLONG y;
     SLONG z;
     SLONG nx;
     SLONG ny;
     SLONG nz;
-
-} NIGHT_Point;
+};
 
 #define NIGHT_MAX_POINTS (HEAP_PAD_SIZE / sizeof(NIGHT_Point))
 

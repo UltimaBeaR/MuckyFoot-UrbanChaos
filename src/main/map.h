@@ -40,8 +40,7 @@
 
 #define FLOOR_HEIGHT_SHIFT (3)
 
-typedef struct
-{
+struct MapElement {
     LIGHT_Colour Colour;
     SBYTE AltNotUsedAnyMore;
     UWORD FlagsNotUsedAnyMore;
@@ -49,20 +48,18 @@ typedef struct
         TextureNotUsedAnyMore;
     SWORD Walkable;
     THING_INDEX MapWho;
-} MapElement; // 14 bytes for pc
+}; // 14 bytes for pc
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct CodedTexture {
     UWORD X : 3;
     UWORD Y : 3;
     UWORD Page : 4;
     UWORD Rot : 2;
     UWORD Flip : 2;
     UWORD Size : 2;
-
-} CodedTexture;
+};
 
 //---------------------------------------------------------------
 

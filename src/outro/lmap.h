@@ -11,7 +11,7 @@
 // A lightmap...
 //
 
-typedef struct lmap_lmap LMAP_Lmap;
+typedef lmap_lmap LMAP_Lmap;
 
 //
 // Creates a new lightmap.  Resolution should be a sensible power of

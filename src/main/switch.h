@@ -23,8 +23,7 @@
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct Switch {
     COMMON(SwitchType)
 
     UBYTE ScanMode;
@@ -35,7 +34,7 @@ typedef struct
         Height,
         Radius,
         Width;
-} Switch;
+};
 
 typedef Switch* SwitchPtr;
 

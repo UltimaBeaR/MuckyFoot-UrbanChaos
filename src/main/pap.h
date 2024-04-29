@@ -62,15 +62,13 @@ struct Thing;
 
 #define PAP_LO_FLAG_WAREHOUSE (1 << 0) // This lo-res mapsquare has square that are inside a warehouse
 
-typedef struct
-{
+struct PAP_Lo {
     UWORD MapWho;
     SWORD Walkable; // +ve normal prim_face4, -ve is special roof quad
     UWORD ColVectHead; // don't need this, it could be -ve mapwho
     SBYTE water; // The height of any water in this mapsquare.
     UBYTE Flag;
-
-} PAP_Lo;
+};
 
 // extern PAP_Lo PAP_lo[PAP_SIZE_LO][PAP_SIZE_LO];
 
@@ -78,14 +76,12 @@ typedef struct
 // The hi-res map.
 //
 
-typedef struct
-{
+struct PAP_Hi {
     UWORD Texture; // 3 spare bits here
     UWORD Flags; // full but some sewer stuff that could go perhaps
     SBYTE Alt;
     SBYTE Height; // padding; // better find something to do with this 16K
-
-} PAP_Hi;
+};
 
 typedef PAP_Lo MEM_PAP_Lo[PAP_SIZE_LO];
 typedef PAP_Hi MEM_PAP_Hi[PAP_SIZE_HI];

@@ -67,11 +67,9 @@ CBYTE* GAMEMENU_level_lost_reason;
 // Each of the menus.
 //
 
-typedef struct
-{
+struct GAMEMENU_Menu {
     UBYTE word[8]; // word[0] is the title, the rest are the menus.
-
-} GAMEMENU_Menu;
+};
 
 GAMEMENU_Menu GAMEMENU_menu[GAMEMENU_MENU_TYPE_NUMBER] = {
     { NULL },

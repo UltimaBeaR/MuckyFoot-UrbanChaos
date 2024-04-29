@@ -96,8 +96,7 @@
 
 #define PTIME(p) (p->Genus.Person->GTimer)
 
-typedef struct
-{
+struct Person {
     COMMON(PersonType)
 
     UBYTE Action;
@@ -234,8 +233,7 @@ typedef struct
     UBYTE SlideOdd; // A counter for how many consecutive gameturns this person has slid along something that isn't a wall or fence.
 
     GameCoord GunMuzzle;
-
-} Person;
+};
 
 //
 // how skillful this enemy is

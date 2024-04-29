@@ -176,34 +176,30 @@ static inline int ftol(float f)
 // Globally useful structures.
 //
 
-typedef struct {
+struct Point3d {
     float x, y, z;
-} Point3d;
-typedef struct {
+};
+struct Point2d {
     float x, y;
-} Point2d;
-typedef struct {
+};
+struct Pointhf {
     float x, z;
-} Pointhf;
-typedef struct {
+};
+struct Pointuv {
     float u, v;
-} Pointuv;
+};
 
-typedef struct
-{
+struct Direction {
     float yaw;
     float pitch;
     float roll;
+};
 
-} Direction;
-
-typedef struct
-{
+struct Colour {
     UBYTE r;
     UBYTE g;
     UBYTE b;
-
-} Colour;
+};
 
 //
 // Fast approximation to sqrt(x*x + y*y)

@@ -290,12 +290,10 @@ CBYTE* PCOM_move_state_name[] = {
 THING_INDEX PCOM_gang_person[PCOM_MAX_GANG_PEOPLE];
 SLONG PCOM_gang_person_upto;
 
-typedef struct
-{
+struct PCOM_Gang {
     UBYTE index;
     UBYTE number;
-
-} PCOM_Gang;
+};
 
 #define PCOM_MAX_GANGS 16
 

@@ -23,8 +23,7 @@
 #define IMP_SIDED_SINGLE 1
 #define IMP_SIDED_DOUBLE 2
 
-typedef struct
-{
+struct IMP_Mat {
     float r;
     float g;
     float b;
@@ -46,11 +45,9 @@ typedef struct
     OS_Texture* ot_bneg; // For 1 - the bumpmap.
 
     OS_Buffer* ob;
+};
 
-} IMP_Mat;
-
-typedef struct
-{
+struct IMP_Vert {
     float x;
     float y;
     float z;
@@ -61,23 +58,19 @@ typedef struct
 
     float lu;
     float lv;
+};
 
-} IMP_Vert;
-
-typedef struct
-{
+struct IMP_Tvert {
     float u;
     float v;
-
-} IMP_Tvert;
+};
 
 //
 // Only faces of the same smoothing group with the same material
 // and the same uvs share vertices.
 //
 
-typedef struct
-{
+struct IMP_Svert {
     float u;
     float v;
 
@@ -116,8 +109,7 @@ typedef struct
 
     float du;
     float dv;
-
-} IMP_Svert;
+};
 
 #define IMP_FACE_FLAG_EDGE (1 << 0)
 #define IMP_FACE_FLAG_EDGE_A (1 << 0)
@@ -126,8 +118,7 @@ typedef struct
 #define IMP_FACE_FLAG_QUADDED (1 << 3) // This face is part of a quad.
 #define IMP_FACE_FLAG_BACKFACE (1 << 4) // EXTRA FLAG! Not set by the importer...
 
-typedef struct
-{
+struct IMP_Face {
     UWORD v[3]; // Index into the vertex array.
     UWORD t[3]; // index into the texture vertex array.
     UWORD s[3]; // Index into the shared vertex array.
@@ -146,46 +137,38 @@ typedef struct
     float dxdv;
     float dydv;
     float dzdv;
-
-} IMP_Face;
+};
 
 //
 // Using the edge flags exported from MAX to find quads.
 //
 
-typedef struct
-{
+struct IMP_Quad {
     UWORD v[4];
-
-} IMP_Quad;
+};
 
 //
 // The edges of the mesh. Which vertices they are between and the
 // face that lies on each edge.
 //
 
-typedef struct
-{
+struct IMP_Edge {
     UWORD v1;
     UWORD v2;
     UWORD f1;
     UWORD f2; // 0xffff => The edge belongs to only one face.
-
-} IMP_Edge;
+};
 
 //
 // All the visible edges of the mesh.
 //
 
-typedef struct
-{
+struct IMP_Line {
     UWORD v1;
     UWORD v2;
+};
 
-} IMP_Line;
-
-typedef struct
-{
+struct IMP_Mesh {
     SLONG valid;
     CBYTE name[32];
     SLONG num_mats;
@@ -223,8 +206,7 @@ typedef struct
 
     IMP_Vert* old_vert;
     IMP_Svert* old_svert;
-
-} IMP_Mesh;
+};
 
 IMP_Mesh IMP_load(CBYTE* fname, float scale = 1.0F);
 

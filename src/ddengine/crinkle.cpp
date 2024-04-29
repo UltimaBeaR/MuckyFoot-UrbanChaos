@@ -33,14 +33,12 @@ void DontDoAnythingWithThis(DWORD blibble)
 // The points.
 //
 
-typedef struct
-{
+struct CRINKLE_Point {
     float vec1; // From point 0 to point 1
     float vec2; // From point 0 to point 2
     float vec3; // 0-1 cross 0-2
     UBYTE c[4]; // How much of each points corner's colour this point takes.
-
-} CRINKLE_Point;
+};
 
 #if DISABLE_CRINKLES
 #define CRINKLE_MAX_POINTS 1
@@ -55,11 +53,9 @@ SLONG CRINKLE_point_upto;
 // The faces.
 //
 
-typedef struct
-{
+struct CRINKLE_Face {
     UWORD point[3]; // Index in the CRINKLE_point array
-
-} CRINKLE_Face;
+};
 
 #define CRINKLE_MAX_FACES 8192
 
@@ -70,15 +66,13 @@ SLONG CRINKLE_face_upto;
 // The crinkles.
 //
 
-typedef struct
-{
+struct CRINKLE_Crinkle {
     SLONG num_points;
     SLONG num_faces;
 
     CRINKLE_Point* point;
     CRINKLE_Face* face;
-
-} CRINKLE_Crinkle;
+};
 
 #define CRINKLE_MAX_CRINKLES 256
 

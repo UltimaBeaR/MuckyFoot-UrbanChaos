@@ -25,8 +25,7 @@
 #define DIRT_TYPE_SNOW 15
 #define DIRT_TYPE_NUMBER 16
 
-typedef struct
-{
+struct DIRT_Dirt {
     UBYTE type;
     UBYTE owner;
     UBYTE flag;
@@ -74,8 +73,7 @@ typedef struct
     SWORD dx;
     SWORD dy; // dy is now shifted up TICK_SHIFT bits to allow for frame-rate independent gravity ;)
     SWORD dz;
-
-} DIRT_Dirt;
+};
 
 //
 // Removes all dirt.
@@ -224,8 +222,7 @@ extern DIRT_Dirt DIRT_dirt[DIRT_MAX_DIRT];
 #define DIRT_FLAG_HIT_FLOOR (1 << 1)
 #define DIRT_FLAG_DELETE_OK (1 << 2)
 
-typedef struct
-{
+struct DIRT_Info {
     UBYTE type;
     UBYTE held; // For PRIM types. This prim is being held.
     UBYTE morph1;
@@ -242,8 +239,7 @@ typedef struct
     SLONG dx;
     SLONG dy;
     SLONG dz;
-
-} DIRT_Info;
+};
 
 SLONG DIRT_get_info(SLONG which, DIRT_Info* ans);
 

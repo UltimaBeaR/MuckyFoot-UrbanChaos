@@ -36,17 +36,16 @@ void SMAP_bike(
 // pointer. There is not a copy of the first point at the end of the linked list.
 //
 
-typedef struct smap_link {
+struct SMAP_Link {
     float wx;
     float wy;
     float wz;
     float u;
     float v;
 
-    struct smap_link* next;
+    struct SMAP_Link* next;
 
     ULONG clip; // Private!
-
-} SMAP_Link;
+};
 
 SMAP_Link* SMAP_project_onto_poly(SVector_F poly[], SLONG num_points); // poly must be planar.

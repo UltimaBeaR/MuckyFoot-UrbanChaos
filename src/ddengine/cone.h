@@ -25,13 +25,11 @@ void CONE_create(
 // Clips the last created cone with the given planar polygon.
 //
 
-typedef struct
-{
+struct CONE_Poly {
     float x;
     float y;
     float z;
-
-} CONE_Poly;
+};
 
 void CONE_clip(
     CONE_Poly p[],

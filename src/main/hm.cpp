@@ -67,8 +67,7 @@ static inline float qdist(float x, float y, float z)
 // Each hypermatter point.
 //
 
-typedef struct
-{
+struct HM_Point {
     float x;
     float y;
     float z;
@@ -76,22 +75,19 @@ typedef struct
     float dy;
     float dz;
     float mass; // How much gravity we apply to this point.
-
-} HM_Point;
+};
 
 //
 // An edge connecting two points for fast force calculations
 // between pairs of points.
 //
 
-typedef struct
-{
+struct HM_Edge {
     UWORD p1;
     UWORD p2;
     UBYTE len; // Index into the length squared array...
     UBYTE shit;
-
-} HM_Edge;
+};
 
 typedef UWORD HM_Index; // Index into the point[] array or NULL if there is no point here.
 
@@ -100,13 +96,11 @@ typedef UWORD HM_Index; // Index into the point[] array or NULL if there is no p
 // position of three prim points relative to an origin.
 //
 
-typedef struct
-{
+struct HM_Mesh {
     UWORD origin;
     UWORD p[3];
     float along[3];
-
-} HM_Mesh;
+};
 
 //
 // When a point enters a cube of hypermatter belonging to a different object,
@@ -114,7 +108,7 @@ typedef struct
 // each point.
 //
 
-typedef struct hm_bump {
+struct HM_Bump {
     //
     // The point that has entered the other object.
     //
@@ -157,22 +151,20 @@ typedef struct hm_bump {
     // The next structure in the linked list
     //
 
-    struct hm_bump* next;
-} HM_Bump;
+    struct HM_Bump* next;
+};
 
 //
 // An edge that a hypermatter object collides with.
 //
 
-typedef struct
-{
+struct HM_Col {
     ULONG consider; // 1 bit for each point, on if that point is worth considering...
 
     float x1, z1;
     float x2, z2;
     float len;
-
-} HM_Col;
+};
 
 //
 // Each hypermatter object.
@@ -181,8 +173,7 @@ typedef struct
 #define HM_MAX_SIZES 256
 #define HM_COLS_PER_OBJECT 64
 
-typedef struct
-{
+struct HM_Object {
     UBYTE used;
     UBYTE shit;
     UWORD prim;
@@ -225,8 +216,7 @@ typedef struct
     float bounciness;
     float friction;
     float damping;
-
-} HM_Object;
+};
 
 #define HM_MAX_OBJECTS 8
 

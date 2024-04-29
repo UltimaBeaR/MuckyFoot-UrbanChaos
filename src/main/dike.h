@@ -4,8 +4,7 @@
 
 #pragma once
 
-typedef struct
-{
+struct DIKE_Dike {
     //
     // The front wheel
     //
@@ -71,8 +70,7 @@ typedef struct
 
     UWORD yaw;
     UWORD pitch;
-
-} DIKE_Dike;
+};
 
 #define DIKE_MAX_DIKES 8
 

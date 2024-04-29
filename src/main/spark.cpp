@@ -11,8 +11,7 @@
 // The points at the start and end of each spark.
 //
 
-typedef struct
-{
+struct SPARK_Point {
     UBYTE type;
     UBYTE flag;
     UBYTE dist;
@@ -34,11 +33,9 @@ typedef struct
             UWORD limb;
         } Peep;
     };
+};
 
-} SPARK_Point;
-
-typedef struct
-{
+struct SPARK_Spark {
     UBYTE used;
     UBYTE die;
     UBYTE num_points;
@@ -49,8 +46,7 @@ typedef struct
     UBYTE useless_padding;
 
     SPARK_Point point[4];
-
-} SPARK_Spark;
+};
 
 #define SPARK_MAX_SPARKS 32
 

@@ -149,11 +149,9 @@ void WMOVE_get_pos(
     case CLASS_VEHICLE:
 
     {
-        typedef struct
-        {
+        struct WMOVE_Tri {
             UBYTE p[3];
-
-        } WMOVE_Tri;
+        };
 
         const static WMOVE_Tri tri_van[1] = {
             { { 1, 2, 21 } }

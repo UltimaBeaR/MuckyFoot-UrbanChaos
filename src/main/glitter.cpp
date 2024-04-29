@@ -9,8 +9,7 @@
 #define GLITTER_SPARK_LIFE (32)
 #define GLITTER_SPARK_GRAVITY (-2)
 
-typedef struct
-{
+struct GLITTER_Spark {
     UWORD x;
     SWORD y;
     UWORD z;
@@ -20,8 +19,7 @@ typedef struct
     UBYTE next; // The next spark in the linked list.
     UBYTE die;
     UBYTE useless_padding;
-
-} GLITTER_Spark;
+};
 
 #define GLITTER_MAX_SPARKS 128
 
@@ -32,8 +30,7 @@ UBYTE GLITTER_spark_free;
 // The collections of sparks.
 //
 
-typedef struct
-{
+struct GLITTER_Glitter {
     UBYTE flag;
     UBYTE spark; // The linked list of sparks.
     UBYTE next; // On this mapwho.
@@ -42,8 +39,7 @@ typedef struct
     UBYTE red;
     UBYTE green;
     UBYTE blue;
-
-} GLITTER_Glitter;
+};
 
 #define GLITTER_MAX_GLITTER 32
 

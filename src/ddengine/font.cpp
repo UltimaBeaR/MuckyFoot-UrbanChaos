@@ -40,12 +40,10 @@
 #define xxxx_ 0x1e
 #define xxxxx 0x1f
 
-typedef struct
-{
+struct FONT_Char {
     UBYTE bit[FONT_HEIGHT];
     UBYTE width;
-
-} FONT_Char;
+};
 
 //
 // Capital letters.
@@ -1287,8 +1285,7 @@ SLONG FONT_draw(SLONG x, SLONG y, CBYTE* fmt, ...)
 CBYTE FONT_buffer[FONT_BUFFER_SIZE];
 CBYTE* FONT_buffer_upto;
 
-typedef struct
-{
+struct FONT_Message {
     SLONG x;
     SLONG y;
     UBYTE r;
@@ -1296,8 +1293,7 @@ typedef struct
     UBYTE b;
     UBYTE s;
     CBYTE* m;
-
-} FONT_Message;
+};
 
 #define FONT_MAX_MESSAGES 256
 

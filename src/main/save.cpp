@@ -68,8 +68,7 @@ FILE* SAVE_open()
 UBYTE skip = SAVE_SKIP;
 UBYTE skip_class_none = SAVE_SKIP_CLASS_NONE;
 
-typedef struct
-{
+struct SAVE_Person {
     UBYTE type;
     UBYTE yaw;
     SBYTE health;
@@ -83,30 +82,24 @@ typedef struct
     UBYTE ware;
     UBYTE drop;
     UWORD onface;
+};
 
-} SAVE_Person;
-
-typedef struct
-{
+struct SAVE_Person_extra {
     UBYTE Type;
     UBYTE Person;
     UWORD Thing;
     UWORD DrawTween;
+};
 
-} SAVE_Person_extra;
-
-typedef struct
-{
+struct SAVE_Special_extra {
     UBYTE Type;
     UBYTE Pad;
     UWORD Thing;
     UWORD Special;
     UWORD DrawMesh;
+};
 
-} SAVE_Special_extra;
-
-typedef struct
-{
+struct SAVE_just_vehicle {
     UBYTE Type;
     UBYTE Yaw;
     UWORD Thing;
@@ -115,18 +108,15 @@ typedef struct
     UWORD z;
     UWORD driver;
     UWORD passenger;
+};
 
-} SAVE_just_vehicle;
-
-typedef struct
-{
+struct SAVE_Vehicle_extra {
     UBYTE Type;
     UBYTE Pad;
     UWORD Thing;
     UWORD Vehicle;
     UWORD DrawMesh;
-
-} SAVE_Vehicle_extra;
+};
 
 //
 // Saves out a person thing structure. Returns FALSE on failure.

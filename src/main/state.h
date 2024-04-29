@@ -6,19 +6,17 @@
 struct Thing;
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct StateFunction {
     UBYTE State;
     void (*StateFn)(Thing*);
-} StateFunction;
+};
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct GenusFunctions {
     UBYTE Genus;
     StateFunction* StateFunctions;
-} GenusFunctions;
+};
 
 //---------------------------------------------------------------
 

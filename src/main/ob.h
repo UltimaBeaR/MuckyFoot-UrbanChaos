@@ -25,20 +25,17 @@
 
 // structures
 
-typedef struct
-{
+struct OB_Mapwho {
     UWORD index : 11;
     UWORD num : 5;
-
-} OB_Mapwho;
+};
 
 //
 // Info about the objects in lo-res mapwho square (x,z). The array is
 // terminated by the prim being zero.
 //
 
-typedef struct
-{
+struct OB_Info {
     UWORD prim; // 0 => No more info.
     UWORD x;
     SWORD y;
@@ -51,15 +48,13 @@ typedef struct
     UBYTE InsideIndex;
     UBYTE Room;
     UBYTE flags;
-
-} OB_Info;
+};
 
 //
 // The objects.
 //
 
-typedef struct
-{
+struct OB_Ob {
     SWORD y;
     UBYTE x;
     UBYTE z;
@@ -67,8 +62,7 @@ typedef struct
     UBYTE yaw;
     UBYTE flags;
     UBYTE InsideIndex;
-
-} OB_Ob;
+};
 
 //
 // Data

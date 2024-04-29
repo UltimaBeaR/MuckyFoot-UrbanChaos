@@ -15,8 +15,7 @@
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct Player {
     COMMON(PlayerType)
 
     ULONG Input;
@@ -45,8 +44,7 @@ typedef struct
 
     struct Thing *CameraThing,
         *PlayerPerson;
-
-} Player;
+};
 
 typedef Player* PlayerPtr;
 

@@ -56,13 +56,12 @@
 #define SPECIAL_GROUP_AMMO 5
 #define SPECIAL_GROUP_COOKIE 6
 
-typedef struct
-{
+struct SPECIAL_Info {
     CBYTE* name; // Why not eh?
     UBYTE prim;
     UBYTE group;
 
-} SPECIAL_Info;
+};
 
 extern SPECIAL_Info SPECIAL_info[SPECIAL_NUM_TYPES];
 
@@ -73,8 +72,7 @@ extern SPECIAL_Info SPECIAL_info[SPECIAL_NUM_TYPES];
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct Special {
     COMMON(SpecialType)
 
     THING_INDEX NextSpecial,
@@ -99,8 +97,7 @@ typedef struct
 
     UWORD counter;
     UWORD timer; // The countdown timer for grenades. 16*20 ticks per second.
-
-} Special;
+};
 
 typedef Special* SpecialPtr;
 

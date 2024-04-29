@@ -24,13 +24,12 @@ UBYTE HEAP_heap[HEAP_SIZE];
 // The free list is sorted by size.
 //
 
-typedef struct heap_free {
+struct HEAP_Free {
     UBYTE* start;
     UBYTE* end;
     SLONG size;
-    struct heap_free* next;
-
-} HEAP_Free;
+    struct HEAP_Free* next;
+};
 
 HEAP_Free* HEAP_free;
 

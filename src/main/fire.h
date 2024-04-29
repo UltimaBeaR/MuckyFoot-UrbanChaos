@@ -49,8 +49,7 @@ void FIRE_process(void);
 // In other words, it is a triangle strip!
 //
 
-typedef struct
-{
+struct FIRE_Point {
     SLONG x;
     SLONG y;
     SLONG z;
@@ -58,15 +57,12 @@ typedef struct
     UBYTE v;
     UBYTE alpha;
     UBYTE shit;
+};
 
-} FIRE_Point;
-
-typedef struct
-{
+struct FIRE_Info {
     SLONG num_points;
     FIRE_Point* point;
-
-} FIRE_Info;
+};
 
 void FIRE_get_start(UBYTE z, UBYTE x_min, UBYTE x_max);
 FIRE_Info* FIRE_get_next(void); // NULL => No more fire here.

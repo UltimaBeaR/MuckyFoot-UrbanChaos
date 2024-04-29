@@ -46,8 +46,7 @@ void FOG_process(void);
 #define FOG_TYPE_NO_MORE 4 // There is no more fog to draw.
 #define FOG_TYPE_UNUSED 4
 
-typedef struct
-{
+struct FOG_Info {
     UBYTE type;
     UBYTE trans; // Transparency. 0 => more transparent.
     UWORD size; // Radius.
@@ -56,8 +55,7 @@ typedef struct
     SLONG x;
     SLONG y;
     SLONG z;
-
-} FOG_Info;
+};
 
 void FOG_get_start(void);
 FOG_Info FOG_get_info(void);

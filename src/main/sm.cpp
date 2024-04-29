@@ -13,8 +13,7 @@
 // The spheres that make up an object.
 //
 
-typedef struct
-{
+struct SM_Sphere {
     SLONG x;
     SLONG y;
     SLONG z;
@@ -23,8 +22,7 @@ typedef struct
     SLONG dz;
     SLONG radius;
     SLONG mass;
-
-} SM_Sphere;
+};
 
 #define SM_MAX_SPHERES 1024
 
@@ -35,13 +33,11 @@ SLONG SM_sphere_upto;
 // The elastic connections between spheres.
 //
 
-typedef struct
-{
+struct SM_Link {
     UWORD sphere1;
     UWORD sphere2;
     SLONG dist; // Distance squared...
-
-} SM_Link;
+};
 
 #define SM_MAX_LINKS 1024
 
@@ -52,8 +48,7 @@ SLONG SM_link_upto;
 // An object.
 //
 
-typedef struct
-{
+struct SM_Object {
     UWORD sphere_index;
     UWORD sphere_num;
     UWORD link_index;
@@ -61,8 +56,7 @@ typedef struct
     SLONG jellyness;
     SLONG resolution;
     SLONG density;
-
-} SM_Object;
+};
 
 #define SM_MAX_OBJECTS 16
 

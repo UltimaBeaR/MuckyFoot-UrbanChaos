@@ -54,8 +54,7 @@ void PUDDLE_process(void);
 // in the given range.
 //
 
-typedef struct
-{
+struct PUDDLE_Info {
     SLONG x1;
     SLONG z1;
     SLONG u1; // 0 to 256
@@ -75,8 +74,7 @@ typedef struct
     UBYTE puddle_s1;
     UBYTE puddle_s2;
     UWORD rotate_uvs; // Rotate the uvs relative to the xzs
-
-} PUDDLE_Info;
+};
 
 void PUDDLE_get_start(UBYTE z_map, UBYTE x_map_min, UBYTE x_map_max);
 PUDDLE_Info* PUDDLE_get_next(void);

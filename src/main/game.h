@@ -165,16 +165,13 @@ extern struct MemTable save_table[];
 #define DETAIL_RAIN (1 << 7)
 
 // Game structure.
-typedef struct
-{
+struct ENGINE_Col {
     UBYTE red;
     UBYTE green;
     UBYTE blue;
+};
 
-} ENGINE_Col;
-
-typedef struct
-{
+struct Game {
     SLONG GameState,
         GameTurn,
         GameFlags,
@@ -270,8 +267,7 @@ typedef struct
 
     UBYTE DarciDeadCivWarnings;
     UBYTE padding[2];
-
-} Game;
+};
 
 extern Game the_game;
 

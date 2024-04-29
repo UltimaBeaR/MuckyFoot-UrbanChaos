@@ -4,18 +4,13 @@
 
 #pragma once
 
-// #include	"c:\fallen\headers\memory.h"
-
-typedef struct
-{
+struct WMOVE_Point {
     UWORD x;
     SWORD y;
     UWORD z;
+};
 
-} WMOVE_Point;
-
-typedef struct
-{
+struct WMOVE_Face {
     UWORD face4; // Index into the prim_faces4[] array for the walkable face.
 
     //
@@ -27,8 +22,7 @@ typedef struct
 
     UWORD thing; // The thing that this face is attached to.
     UWORD number; // If a thing has more than one face associated with it, this is the number of the face.
-
-} WMOVE_Face;
+};
 
 #define RWMOVE_MAX_FACES 192
 #define WMOVE_MAX_FACES (save_table[SAVE_TABLE_WMOVE].Maximum)

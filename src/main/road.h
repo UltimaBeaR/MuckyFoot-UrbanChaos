@@ -8,14 +8,12 @@
 // The wander system for vehicles.
 //
 
-typedef struct
-{
+struct ROAD_Node {
     UBYTE x;
     UBYTE z;
 
     UBYTE c[4]; // Other nodes connected to this one.
-
-} ROAD_Node;
+};
 
 #define ROAD_MAX_NODES 256
 

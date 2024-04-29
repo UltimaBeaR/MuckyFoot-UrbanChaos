@@ -134,12 +134,10 @@ void MATRIX_rotate_about_its_z(float* matrix, float angle);
 // Convert a matrix into its equivalent yaw, pitch and roll.
 //
 
-typedef struct
-{
+struct Direction {
     float yaw;
     float pitch;
     float roll;
-
-} Direction;
+};
 
 Direction MATRIX_find_angles(float matrix[9]);

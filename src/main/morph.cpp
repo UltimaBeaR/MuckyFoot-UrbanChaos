@@ -24,12 +24,10 @@ CBYTE* MORPH_filename[MORPH_NUMBER] = {
 MORPH_Point MORPH_point[MORPH_MAX_POINTS];
 SLONG MORPH_point_upto;
 
-typedef struct
-{
+struct MORPH_Morph {
     UWORD num_points;
     UWORD index;
-
-} MORPH_Morph;
+};
 
 MORPH_Morph MORPH_morph[MORPH_NUMBER];
 

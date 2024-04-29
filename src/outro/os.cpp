@@ -386,8 +386,7 @@ void OS_joy_poll(void)
 // The pixel formats for each of our OS_TEXTURE_FORMATs
 //
 
-typedef struct
-{
+struct OS_Tformat {
     SLONG valid;
 
     DDPIXELFORMAT ddpf;
@@ -401,8 +400,7 @@ typedef struct
     SLONG shift_g;
     SLONG shift_b;
     SLONG shift_a;
-
-} OS_Tformat;
+};
 
 OS_Tformat OS_tformat[OS_TEXTURE_FORMAT_NUMBER];
 
@@ -410,7 +408,7 @@ OS_Tformat OS_tformat[OS_TEXTURE_FORMAT_NUMBER];
 // Our texture pages.
 //
 
-typedef struct os_texture {
+struct OS_Texture {
     CBYTE name[_MAX_PATH];
     UBYTE format;
     UBYTE inverted;
@@ -421,8 +419,7 @@ typedef struct os_texture {
     LPDIRECT3DTEXTURE2 ddtx;
 
     OS_Texture* next;
-
-} OS_Texture;
+};
 
 //
 // They are stored in a linked list and dynamically allocated.
@@ -1720,19 +1717,17 @@ SLONG OS_process_messages()
 // Valid devices.
 //
 
-typedef struct
-{
-	D3DEnum_DriverInfo *driver;
-	D3DEnum_DeviceInfo *device;
-	D3DEnum_ModeInfo   *mode;		// NULL => Use windowed mode.
-
-} OS_Mode;
+struct OS_Mode {
+    D3DEnum_DriverInfo* driver;
+    D3DEnum_DeviceInfo* device;
+    D3DEnum_ModeInfo* mode; // NULL => Use windowed mode.
+};
 
 #define OS_MAX_MODES 16
 
 OS_Mode OS_mode[OS_MAX_MODES];
-SLONG   OS_mode_upto;
-SLONG   OS_mode_sel;
+SLONG OS_mode_upto;
+SLONG OS_mode_sel;
 
 //
 // Finds the valid devices from the D3DEnumerated choice and set
@@ -1741,141 +1736,122 @@ SLONG   OS_mode_sel;
 
 void OS_mode_init()
 {
-	SLONG i;
+    SLONG i;
 
-	D3DEnum_DriverInfo *vi;
-	D3DEnum_DeviceInfo *ci;
-	D3DEnum_ModeInfo   *mi; 	// NULL => Use windowed mode.
+    D3DEnum_DriverInfo* vi;
+    D3DEnum_DeviceInfo* ci;
+    D3DEnum_ModeInfo* mi; // NULL => Use windowed mode.
 
-	OS_mode_upto = 0;
-	OS_mode_sel  = 0;
+    OS_mode_upto = 0;
+    OS_mode_sel = 0;
 
-	SLONG lookfor640x480;
-	SLONG lookfor512x384;
+    SLONG lookfor640x480;
+    SLONG lookfor512x384;
 
-	//
-	// Find all valid modes.
-	//
+    //
+    // Find all valid modes.
+    //
 
-	for (vi = D3DEnum_GetFirstDriver(); vi; vi = vi->pNext)
-	{
-		for (ci = vi->pFirstDevice; ci; ci = ci->pNext)
-		{
-			if (ci->bIsHardware)
-			{
-				//
-				// Found a hardware device.
-				//
+    for (vi = D3DEnum_GetFirstDriver(); vi; vi = vi->pNext) {
+        for (ci = vi->pFirstDevice; ci; ci = ci->pNext) {
+            if (ci->bIsHardware) {
+                //
+                // Found a hardware device.
+                //
 
-				if (WITHIN(OS_mode_upto, 0, OS_MAX_MODES - 1))
-				{
-					OS_mode[OS_mode_upto].driver = vi;
-					OS_mode[OS_mode_upto].device = ci;
-					OS_mode[OS_mode_upto].mode   = NULL;
+                if (WITHIN(OS_mode_upto, 0, OS_MAX_MODES - 1)) {
+                    OS_mode[OS_mode_upto].driver = vi;
+                    OS_mode[OS_mode_upto].device = ci;
+                    OS_mode[OS_mode_upto].mode = NULL;
 
 #ifdef NDEBUG
-					lookfor512x384 = FALSE;//(vi != D3DEnum_GetFirstDriver());
-					lookfor640x480 = TRUE;
+                    lookfor512x384 = FALSE; //(vi != D3DEnum_GetFirstDriver());
+                    lookfor640x480 = TRUE;
 #else
-					lookfor512x384 = FALSE;
-					lookfor640x480 = !ci->bWindowed;
+                    lookfor512x384 = FALSE;
+                    lookfor640x480 = !ci->bWindowed;
 #endif
 
-					if (lookfor512x384)
-					{
-						//
-						// Look for the first 512x384 mode.
-						//
+                    if (lookfor512x384) {
+                        //
+                        // Look for the first 512x384 mode.
+                        //
 
-						for (mi = ci->pFirstMode; mi; mi = mi->pNext)
-						{
-							if (mi->ddsd.dwWidth  == 512 &&
-								mi->ddsd.dwHeight == 384)
-							{
-								OS_mode[OS_mode_upto].mode = mi;
+                        for (mi = ci->pFirstMode; mi; mi = mi->pNext) {
+                            if (mi->ddsd.dwWidth == 512 && mi->ddsd.dwHeight == 384) {
+                                OS_mode[OS_mode_upto].mode = mi;
 
-								//
-								// We already have our mode.
-								//
+                                //
+                                // We already have our mode.
+                                //
 
-								lookfor640x480 = FALSE;
+                                lookfor640x480 = FALSE;
 
-								break;
-							}
-						}
-					}
+                                break;
+                            }
+                        }
+                    }
 
-					if (lookfor640x480)
-					{
-						//
-						// Look for the first 640x480 mode.
-						//
+                    if (lookfor640x480) {
+                        //
+                        // Look for the first 640x480 mode.
+                        //
 
-						for (mi = ci->pFirstMode; mi; mi = mi->pNext)
-						{
-							if (mi->ddsd.dwWidth  == 640 &&
-								mi->ddsd.dwHeight == 480)
-							{
-								OS_mode[OS_mode_upto].mode = mi;
+                        for (mi = ci->pFirstMode; mi; mi = mi->pNext) {
+                            if (mi->ddsd.dwWidth == 640 && mi->ddsd.dwHeight == 480) {
+                                OS_mode[OS_mode_upto].mode = mi;
 
-								break;
-							}
-						}
-					}
+                                break;
+                            }
+                        }
+                    }
 
-					if (OS_mode[OS_mode_upto].mode == NULL)
-					{
-						//
-						// Make sure this device support windowed mode!
-						//
+                    if (OS_mode[OS_mode_upto].mode == NULL) {
+                        //
+                        // Make sure this device support windowed mode!
+                        //
 
-						if (OS_mode[OS_mode_upto].device->bWindowed)
-						{
-							//
-							// We are ok.
-							//
-						}
-						else
-						{
-							//
-							// Use the first available mode.
-							//
+                        if (OS_mode[OS_mode_upto].device->bWindowed) {
+                            //
+                            // We are ok.
+                            //
+                        } else {
+                            //
+                            // Use the first available mode.
+                            //
 
-							OS_mode[OS_mode_upto].mode = OS_mode[OS_mode_upto].device->pFirstMode;
-						}
-					}
+                            OS_mode[OS_mode_upto].mode = OS_mode[OS_mode_upto].device->pFirstMode;
+                        }
+                    }
 
-					OS_mode_upto += 1;
-				}
-			}
-		}
-	}
+                    OS_mode_upto += 1;
+                }
+            }
+        }
+    }
 
 #ifndef NDEBUG
 
-	//
-	// In debug build choose the first windowed mode.
-	//
+    //
+    // In debug build choose the first windowed mode.
+    //
 
-	for (i = 0; i < OS_mode_upto; i++)
-	{
-		if (OS_mode[i].device->bWindowed)
-		{
-			OS_mode_sel = i;
-		}
-	}
+    for (i = 0; i < OS_mode_upto; i++) {
+        if (OS_mode[i].device->bWindowed) {
+            OS_mode_sel = i;
+        }
+    }
 
 #else
 
-	//
-	// In release build choose the last mode.
-	//
+    //
+    // In release build choose the last mode.
+    //
 
-	OS_mode_sel = OS_mode_upto - 1;
+    OS_mode_sel = OS_mode_upto - 1;
 
 #endif
 }
-
 
 //
 // Adds the modes for the current selection to the combo box.
@@ -1883,53 +1859,49 @@ void OS_mode_init()
 
 void OS_mydemo_setup_mode_combo(HWND combo_handle, SLONG mode)
 {
-	SLONG index;
+    SLONG index;
 
-	ASSERT(WITHIN(mode, 0, OS_mode_upto - 1));
+    ASSERT(WITHIN(mode, 0, OS_mode_upto - 1));
 
-	//
-	// Clear all old modes.
-	//
+    //
+    // Clear all old modes.
+    //
 
-	SendMessage(combo_handle, CB_RESETCONTENT, 0, 0);
+    SendMessage(combo_handle, CB_RESETCONTENT, 0, 0);
 
-	//
-	// Add each mode.
-	//
+    //
+    // Add each mode.
+    //
 
-	D3DEnum_ModeInfo *mi;
+    D3DEnum_ModeInfo* mi;
 
-	if (OS_mode[mode].device->bWindowed)
-	{
-		index = SendMessage(combo_handle, CB_ADDSTRING, 0, (LPARAM) "In a window");
+    if (OS_mode[mode].device->bWindowed) {
+        index = SendMessage(combo_handle, CB_ADDSTRING, 0, (LPARAM) "In a window");
 
-		SendMessage(combo_handle, CB_SETITEMDATA, (WPARAM) index, (LPARAM) NULL);
+        SendMessage(combo_handle, CB_SETITEMDATA, (WPARAM)index, (LPARAM)NULL);
 
-		if (NULL == OS_mode[mode].mode)
-		{
-			//
-			// This is the current selection.
-			//
+        if (NULL == OS_mode[mode].mode) {
+            //
+            // This is the current selection.
+            //
 
-			SendMessage(combo_handle, CB_SETCURSEL, index, 0);
-		}
-	}
+            SendMessage(combo_handle, CB_SETCURSEL, index, 0);
+        }
+    }
 
-	for (mi = OS_mode[mode].device->pFirstMode; mi; mi = mi->pNext)
-	{
-		index = SendMessage(combo_handle, CB_ADDSTRING, 0, (LPARAM) mi->strDesc);
+    for (mi = OS_mode[mode].device->pFirstMode; mi; mi = mi->pNext) {
+        index = SendMessage(combo_handle, CB_ADDSTRING, 0, (LPARAM)mi->strDesc);
 
-		SendMessage(combo_handle, CB_SETITEMDATA, (WPARAM) index, (LPARAM) mi);
+        SendMessage(combo_handle, CB_SETITEMDATA, (WPARAM)index, (LPARAM)mi);
 
-		if (mi == OS_mode[mode].mode)
-		{
-			//
-			// This is the current selection.
-			//
+        if (mi == OS_mode[mode].mode) {
+            //
+            // This is the current selection.
+            //
 
-			SendMessage(combo_handle, CB_SETCURSEL, index, 0);
-		}
-	}
+            SendMessage(combo_handle, CB_SETCURSEL, index, 0);
+        }
+    }
 }
 
 //
@@ -1940,120 +1912,115 @@ void OS_mydemo_setup_mode_combo(HWND combo_handle, SLONG mode)
 #define OS_MYDEMO_EXIT 2
 
 BOOL CALLBACK OS_mydemo_proc(
-				HWND   dialog_handle,
-				UINT   message_type,
-				WPARAM param_w,
-				LPARAM param_l)
+    HWND dialog_handle,
+    UINT message_type,
+    WPARAM param_w,
+    LPARAM param_l)
 {
-	SLONG i;
-	SLONG d;
-	SLONG res;
-	SLONG index;
+    SLONG i;
+    SLONG d;
+    SLONG res;
+    SLONG index;
 
-	RECT rect;
+    RECT rect;
 
-	HWND combo_handle;
+    HWND combo_handle;
 
-	D3DEnum_DriverInfo *vi;
-	D3DEnum_DeviceInfo *ci;
+    D3DEnum_DriverInfo* vi;
+    D3DEnum_DeviceInfo* ci;
 
-	switch(message_type)
-	{
-		case WM_INITDIALOG:
+    switch (message_type) {
+    case WM_INITDIALOG:
 
-			//
-			// Fill out the list boxes with the correct values.  First find
-			// all compatible
-			//
+        //
+        // Fill out the list boxes with the correct values.  First find
+        // all compatible
+        //
 
-			combo_handle = GetDlgItem(dialog_handle, IDC_COMBO_DRIVER);
+        combo_handle = GetDlgItem(dialog_handle, IDC_COMBO_DRIVER);
 
-			for (i = 0; i < OS_mode_upto; i++)
-			{
-				SendMessage(combo_handle, CB_ADDSTRING, 0, (LPARAM) OS_mode[i].driver->strDesc);
-			}
+        for (i = 0; i < OS_mode_upto; i++) {
+            SendMessage(combo_handle, CB_ADDSTRING, 0, (LPARAM)OS_mode[i].driver->strDesc);
+        }
 
-			//
-			// Set the current selection.
-			//
+        //
+        // Set the current selection.
+        //
 
-			SendMessage(combo_handle, CB_SETCURSEL, OS_mode_sel, 0);
+        SendMessage(combo_handle, CB_SETCURSEL, OS_mode_sel, 0);
 
-			//
-			// Add the modes for the current selection.
-			//
+        //
+        // Add the modes for the current selection.
+        //
 
-			combo_handle = GetDlgItem(dialog_handle, IDC_COMBO_MODE);
+        combo_handle = GetDlgItem(dialog_handle, IDC_COMBO_MODE);
 
-			OS_mydemo_setup_mode_combo(combo_handle, OS_mode_sel);
+        OS_mydemo_setup_mode_combo(combo_handle, OS_mode_sel);
 
-			return TRUE;
+        return TRUE;
 
-		case WM_COMMAND:
+    case WM_COMMAND:
 
-			switch(LOWORD(param_w))
-			{
-				case IDOK:
-					EndDialog(dialog_handle, OS_MYDEMO_RUN);
-					return TRUE;
+        switch (LOWORD(param_w)) {
+        case IDOK:
+            EndDialog(dialog_handle, OS_MYDEMO_RUN);
+            return TRUE;
 
-				case IDCANCEL:
-					EndDialog(dialog_handle, OS_MYDEMO_EXIT);
-					return TRUE;
+        case IDCANCEL:
+            EndDialog(dialog_handle, OS_MYDEMO_EXIT);
+            return TRUE;
 
-				case IDC_COMBO_DRIVER:
+        case IDC_COMBO_DRIVER:
 
-					switch(HIWORD(param_w))
-					{
-						case CBN_SELCHANGE:
-							
-							//
-							// Change the list of modes.
-							//
+            switch (HIWORD(param_w)) {
+            case CBN_SELCHANGE:
 
-							OS_mode_sel = SendMessage((HWND) param_l, CB_GETCURSEL, 0, 0);
+                //
+                // Change the list of modes.
+                //
 
-							ASSERT(WITHIN(OS_mode_sel, 0, OS_mode_upto - 1));
+                OS_mode_sel = SendMessage((HWND)param_l, CB_GETCURSEL, 0, 0);
 
-							OS_mydemo_setup_mode_combo(
-								GetDlgItem(dialog_handle, IDC_COMBO_MODE),
-								OS_mode_sel);
+                ASSERT(WITHIN(OS_mode_sel, 0, OS_mode_upto - 1));
 
-							break;
-					}
-					
-					break;
+                OS_mydemo_setup_mode_combo(
+                    GetDlgItem(dialog_handle, IDC_COMBO_MODE),
+                    OS_mode_sel);
 
-				case IDC_COMBO_MODE:
+                break;
+            }
 
-					switch(HIWORD(param_w))
-					{
-						case CBN_SELCHANGE:
-							
-							//
-							// Update the current mode.
-							//
+            break;
 
-							index = SendMessage((HWND) param_l, CB_GETCURSEL, 0, 0);
+        case IDC_COMBO_MODE:
 
-							ASSERT(WITHIN(OS_mode_sel, 0, OS_mode_upto - 1));
+            switch (HIWORD(param_w)) {
+            case CBN_SELCHANGE:
 
-							OS_mode[OS_mode_sel].mode = (D3DEnum_ModeInfo * /* We hope */) SendMessage((HWND) param_l, CB_GETITEMDATA, (WPARAM) index, 0);
+                //
+                // Update the current mode.
+                //
 
-							break;
-					}
-					
-					break;
-			}
+                index = SendMessage((HWND)param_l, CB_GETCURSEL, 0, 0);
 
-			break;
+                ASSERT(WITHIN(OS_mode_sel, 0, OS_mode_upto - 1));
 
-		case WM_CLOSE:
-			EndDialog(dialog_handle, OS_MYDEMO_EXIT);
-			return TRUE;
-	}
+                OS_mode[OS_mode_sel].mode = (D3DEnum_ModeInfo* /* We hope */)SendMessage((HWND)param_l, CB_GETITEMDATA, (WPARAM)index, 0);
 
-	return FALSE;
+                break;
+            }
+
+            break;
+        }
+
+        break;
+
+    case WM_CLOSE:
+        EndDialog(dialog_handle, OS_MYDEMO_EXIT);
+        return TRUE;
+    }
+
+    return FALSE;
 }
 
 #endif
@@ -2780,8 +2747,7 @@ void OS_show()
 // Our flexible vertex format.
 //
 
-typedef struct
-{
+struct OS_Flert {
     float sx;
     float sy;
     float sz;
@@ -2792,8 +2758,7 @@ typedef struct
     float tv1;
     float tu2;
     float tv2;
-
-} OS_Flert;
+};
 
 #define OS_FLERT_FORMAT (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_SPECULAR | D3DFVF_TEX2)
 
@@ -2803,7 +2768,7 @@ typedef struct
 //
 // ========================================================
 
-typedef struct os_buffer {
+struct OS_Buffer {
     SLONG num_flerts;
     SLONG num_indices;
 
@@ -2814,8 +2779,7 @@ typedef struct os_buffer {
     UWORD* index;
 
     OS_Buffer* next;
-
-} OS_Buffer;
+};
 
 OS_Buffer* OS_buffer_free;
 

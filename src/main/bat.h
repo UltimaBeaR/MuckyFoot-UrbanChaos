@@ -14,8 +14,7 @@
 #define BAT_TYPE_BALROG 3
 #define BAT_TYPE_BANE 4
 
-typedef struct
-{
+struct Bat {
     UBYTE type;
     UBYTE health;
     UBYTE state;
@@ -32,8 +31,7 @@ typedef struct
     SLONG dx;
     SLONG dy;
     SLONG dz;
-
-} Bat;
+};
 
 typedef Bat* BatPtr;
 

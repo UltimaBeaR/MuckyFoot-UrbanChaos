@@ -182,12 +182,10 @@ SLONG TEXTURE_page_splash;
 #define TEXTURE_ENABLE_DC_PACKING 0
 #define TEXTURE_DC_PACK_POS_WHOLE_PAGE 42
 
-typedef struct
-{
+struct TEXTURE_DC_Pack {
     UBYTE page;
     UBYTE pos; // 0 - 8 or TEXTURE_DC_PACK_POS_WHOLE_PAGE
-
-} TEXTURE_DC_Pack;
+};
 
 TEXTURE_DC_Pack TEXTURE_DC_pack[256];
 

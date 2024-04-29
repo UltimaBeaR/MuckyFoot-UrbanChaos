@@ -632,15 +632,14 @@ void ScoresDraw(void)
         CBYTE code[32];
 
         {
-            typedef struct
-            {
+            struct Mime {
                 CBYTE* level_fname;
                 CBYTE* level_name;
                 SLONG mins;
                 SLONG secs;
                 CBYTE* who;
 
-            } Mime; // A mucky time!
+            }; // A mucky time!
 
 #if 0
 // Times that shipped with the PC. Or was it the PSX?

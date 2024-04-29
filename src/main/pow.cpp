@@ -55,13 +55,11 @@ UBYTE POW_mapwho[PAP_SIZE_LO];
 #define POW_SPAWN_FLAG_UPPER (1 << 2) // Only swawn children above yourself
 #define POW_SPAWN_FLAG_FAR_OFF (1 << 3) // Spawn children far away (not for use with POW_SPAWN_FLAG_MIDDLE!)
 
-typedef struct
-{
+struct POW_Spawn {
     UWORD when; // Spawn this pow with the life of the parent gets lower than this value. NULL => NA
     UBYTE type;
     UBYTE flag;
-
-} POW_Spawn;
+};
 
 //
 // The characteristics of each explosion type.
@@ -74,8 +72,7 @@ typedef struct
 
 #define POW_TYPE_MAX_SPAWN 3
 
-typedef struct
-{
+struct POW_Type {
     unsigned int arrange : 2;
     unsigned int speed : 2;
     unsigned int density : 2;
@@ -85,8 +82,7 @@ typedef struct
 
     UWORD life;
     POW_Spawn spawn[POW_TYPE_MAX_SPAWN];
-
-} POW_Type;
+};
 
 POW_Type POW_type[POW_TYPE_NUMBER] = {
     // Unused...

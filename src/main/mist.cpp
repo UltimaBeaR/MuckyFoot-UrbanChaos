@@ -23,30 +23,26 @@
 
 SLONG calc_height_at(SLONG x, SLONG z);
 
-typedef struct
-{
+struct MIST_Point {
     float u; // Offset from base u.
     float v; // Offset from base v.
     float du;
     float dv;
-
-} MIST_Point;
+};
 
 #define MIST_MAX_POINTS 4096
 
 MIST_Point MIST_point[MIST_MAX_POINTS];
 SLONG MIST_point_upto;
 
-typedef struct
-{
+struct MIST_Mist {
     UBYTE type;
     UBYTE detail;
     UWORD p_index;
     SLONG height;
     SLONG x1, z1;
     SLONG x2, z2;
-
-} MIST_Mist;
+};
 
 #define MIST_MAX_MIST 8
 

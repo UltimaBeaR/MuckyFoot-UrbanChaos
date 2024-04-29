@@ -8,8 +8,7 @@
 // The camera.
 //
 
-typedef struct
-{
+struct FC_Cam {
     //
     // What the camera is looking at.
     //
@@ -53,8 +52,7 @@ typedef struct
     SLONG toonear_roll;
     SLONG toonear_focus_yaw;
     SLONG smooth_transition;
-
-} FC_Cam;
+};
 
 #define FC_MAX_CAMS 2
 

@@ -12,13 +12,11 @@
 
 void FONT2D_init(SLONG font_id);
 
-typedef struct
-{
+struct FONT2D_Letter {
     float u;
     float v;
     SLONG width; // Width is in pixels. Divide by 256.0F to get width in texture coords.
-
-} FONT2D_Letter;
+};
 
 //
 // Draws the letter and returns the width of the letter in pixels.

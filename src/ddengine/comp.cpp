@@ -13,22 +13,18 @@
 // COMP_Update is the last one.
 //
 
-typedef struct
-{
+struct COMP_Pan {
     UBYTE num;
     UBYTE pan;
+};
 
-} COMP_Pan;
-
-typedef struct
-{
+struct COMP_Update {
     UBYTE x;
     UBYTE y;
     UBYTE num;
     UBYTE last; // TRUE => there are no more update structures.
     IC_Packet* ip;
-
-} COMP_Update;
+};
 
 //
 // Memory for a tga.

@@ -5,8 +5,7 @@
 #pragma once
 
 // Note: ultimabear: used in night.cpp as struct for loading game format file for initializing light stuff. It's not editor-only stuff, so mabe better to rename it and move to night.cpp
-typedef struct
-{
+struct ED_Light {
     UBYTE range;
     SBYTE red;
     SBYTE green;
@@ -19,5 +18,4 @@ typedef struct
     SLONG x;
     SLONG y;
     SLONG z;
-
-} ED_Light;
+};

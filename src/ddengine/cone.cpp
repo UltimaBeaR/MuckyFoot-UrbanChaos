@@ -26,15 +26,13 @@ float CONE_end_z;
 // The points around the base of the cone.
 //
 
-typedef struct
-{
+struct CONE_Point {
     float x;
     float y;
     float z;
     ULONG colour;
     POLY_Point pp;
-
-} CONE_Point;
+};
 
 #define CONE_MAX_POINTS 64
 

@@ -35,15 +35,13 @@ UBYTE NET_local_player;
 // All the players.
 //
 
-typedef struct
-{
+struct NET_Player {
     UBYTE used;
     UBYTE player_id;
     UWORD shit;
     // DPID  dpid;
     CBYTE name[NET_NAME_LENGTH];
-
-} NET_Player;
+};
 
 #define NET_MAX_PLAYERS 32
 

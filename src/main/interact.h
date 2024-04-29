@@ -41,8 +41,7 @@ extern struct GameKeyFrameChunk anim_chunk[MAX_ANIM_CHUNKS];
 // The bounding boxes of the animating prims.
 //
 
-typedef struct
-{
+struct AnimPrimBbox {
     SLONG minx;
     SLONG miny;
     SLONG minz;
@@ -50,8 +49,7 @@ typedef struct
     SLONG maxx;
     SLONG maxy;
     SLONG maxz;
-
-} AnimPrimBbox;
+};
 
 extern AnimPrimBbox anim_prim_bbox[MAX_ANIM_CHUNKS];
 

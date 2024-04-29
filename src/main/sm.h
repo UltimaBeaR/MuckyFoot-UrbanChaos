@@ -36,15 +36,13 @@ void SM_process(void);
 // Drawing the sphere matter just involves drawing lots of spheres.
 //
 
-typedef struct
-{
+struct SM_Info {
     SLONG x;
     SLONG y;
     SLONG z;
     SLONG radius;
     ULONG colour;
-
-} SM_Info;
+};
 
 void SM_get_start(void);
 SM_Info* SM_get_next(void);

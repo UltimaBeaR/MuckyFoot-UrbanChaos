@@ -10,8 +10,7 @@
 #define ANIMAL_CANID 1 // dogs, wolves, coyotes and other 4-legged freaks
 #define ANIMAL_NUMBER 2
 
-typedef struct
-{
+struct Animal {
     Thing* target; // chasing, barking
     UWORD counter; // random delays etc
     UWORD dist; // generically useful when pathfinding, chasing, etc
@@ -25,9 +24,8 @@ typedef struct
     UBYTE extra; // animal-specific
     UBYTE padding;
     //	DrawTween *dts[10];		// body parts;
-} Animal;
+};
 
-// typedef struct Animal Animal;
 typedef Animal* AnimalPtr;
 
 void init_animals(void);

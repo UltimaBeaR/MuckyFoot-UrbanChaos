@@ -18,18 +18,14 @@
 // Our types.
 //
 
-typedef struct
-{
+struct COMP_Frame {
     TGA_Pixel p[COMP_SIZE][COMP_SIZE]; // Access (y,x)!
+};
 
-} COMP_Frame;
-
-typedef struct
-{
+struct COMP_Delta {
     SLONG size;
     UBYTE* data;
-
-} COMP_Delta;
+};
 
 //
 // Loads a frame in from a .TGA file. Returns TRUE on success.

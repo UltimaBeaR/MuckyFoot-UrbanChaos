@@ -20,8 +20,7 @@
 
 #define WARE_MAX_DOORS 4
 
-typedef struct
-{
+struct WARE_Ware {
     struct
     {
         UBYTE out_x;
@@ -44,8 +43,7 @@ typedef struct
     UWORD rooftex; // Index into the WARE_rooftex array for the roof-top textures of the warehouse
     UBYTE ambience; // Sets the ambience sound to play while inside the warehouse
     UBYTE padding; // Upto 32 bytes?
-
-} WARE_Ware;
+};
 
 #define WARE_MAX_WARES 32
 

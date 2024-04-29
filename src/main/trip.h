@@ -14,8 +14,7 @@
 // The trip-wires.
 //
 
-typedef struct
-{
+struct TRIP_Wire {
     UBYTE along;
     UBYTE wait;
     UWORD counter;
@@ -24,8 +23,7 @@ typedef struct
     UWORD z1;
     UWORD x2;
     UWORD z2;
-
-} TRIP_Wire;
+};
 
 #define TRIP_MAX_WIRES 32
 
@@ -75,8 +73,7 @@ void TRIP_deactivate(UBYTE tripwire);
 // Drawing the trip-wires.
 //
 
-typedef struct
-{
+struct TRIP_Info {
     SLONG y;
     SLONG x1;
     SLONG z1;
@@ -85,8 +82,7 @@ typedef struct
     UWORD counter;
     UBYTE along; // How far along the beam is stopped due to someone being in the way.
     UBYTE padding;
-
-} TRIP_Info;
+};
 
 void TRIP_get_start(void);
 TRIP_Info* TRIP_get_next(void); // Returns NULL if there are no more trips left.

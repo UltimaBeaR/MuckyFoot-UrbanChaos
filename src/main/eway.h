@@ -73,7 +73,7 @@
 #define EWAY_COND_MOVE_RADIUS_DIR 40 // A thing (arg1) in radius pointing in roughtly the right direction.
 #define EWAY_COND_AFTER_FIRST_GAMETURN 41 // TRUE from the second gameturn onwards.
 
-typedef struct eway_conddef {
+struct EWAY_Conddef {
     UBYTE type; // EWAY_COND_*
     UBYTE negate; // TRUE => negate the output of this condition.
 
@@ -84,42 +84,34 @@ typedef struct eway_conddef {
     // For boolean conditions only.
     //
 
-    struct eway_conddef* bool_arg1;
-    struct eway_conddef* bool_arg2;
-
-} EWAY_Conddef;
+    struct EWAY_Conddef* bool_arg1;
+    struct EWAY_Conddef* bool_arg2;
+};
 
 //
 // The conditions.
 //
 
-typedef struct
-{
+struct EWAY_Stay {
     UWORD type;
     UWORD arg;
+};
 
-} EWAY_Stay;
-
-typedef struct
-{
+struct EWAY_Cond {
     UBYTE type;
     UBYTE negate;
     UWORD arg1;
     UWORD arg2;
+};
 
-} EWAY_Cond;
-
-typedef struct
-{
+struct EWAY_Do {
     UBYTE type;
     UBYTE subtype;
     UWORD arg1;
     UWORD arg2;
+};
 
-} EWAY_Do;
-
-typedef struct
-{
+struct EWAY_Way {
     UWORD id;
     UBYTE colour;
     UBYTE group;
@@ -136,8 +128,7 @@ typedef struct
     EWAY_Cond ec;
     EWAY_Stay es;
     EWAY_Do ed;
-
-} EWAY_Way;
+};
 
 // ========================================================
 //
@@ -254,8 +245,7 @@ typedef struct
 #define EWAY_MESSAGE_WHO_STREETNAME 0xffff
 #define EWAY_MESSAGE_WHO_TUTORIAL 0xfffe
 
-typedef struct
-{
+struct EWAY_Edef {
     UBYTE pcom_ai;
     UBYTE pcom_move;
     UBYTE pcom_has; // look in pcom.h for the PCOM_HAS #defines
@@ -268,8 +258,7 @@ typedef struct
     UWORD ai_other; // For bodyguards and assasins, this is the ID of the waypoint that creates the
                     // person you are to protect/kill.  For fight test dummies it is a bitfield for
                     // what makes that person die.
-
-} EWAY_Edef;
+};
 
 extern EWAY_Cond* EWAY_cond; //[EWAY_MAX_CONDS];
 extern EWAY_Way* EWAY_way; //[EWAY_MAX_WAYS];

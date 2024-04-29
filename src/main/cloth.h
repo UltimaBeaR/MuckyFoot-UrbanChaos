@@ -78,26 +78,22 @@ UBYTE CLOTH_get_first(UBYTE lo_map_x, UBYTE lo_map_z);
 // and normals.
 //
 
-typedef struct
-{
+struct CLOTH_Drawp {
     float x;
     float y;
     float z;
     float nx; // (nx,ny,nz) is normalised
     float ny;
     float nz;
+};
 
-} CLOTH_Drawp;
-
-typedef struct
-{
+struct CLOTH_Info {
     UBYTE type;
     UBYTE next; // The next cloth in the linked list hanging of the mapsquare.
     UWORD padding;
     ULONG colour;
 
     CLOTH_Drawp p[CLOTH_WIDTH * CLOTH_HEIGHT];
-
-} CLOTH_Info;
+};
 
 CLOTH_Info* CLOTH_get_info(UBYTE cloth);

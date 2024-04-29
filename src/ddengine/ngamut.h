@@ -15,12 +15,10 @@
 // The gamut for squares.
 //
 
-typedef struct
-{
+struct NGAMUT_Gamut {
     SLONG xmin;
     SLONG xmax;
-
-} NGAMUT_Gamut;
+};
 
 extern NGAMUT_Gamut NGAMUT_gamut[NGAMUT_SIZE];
 extern SLONG NGAMUT_xmin;

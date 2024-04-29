@@ -50,21 +50,19 @@ typedef signed short SWORD;
 typedef unsigned long ULONG;
 typedef signed long SLONG;
 
-typedef struct
-{
+struct MFPoint {
     SLONG X,
         Y;
-} MFPoint;
+};
 
-typedef struct
-{
+struct MFRect {
     SLONG Left,
         Top,
         Right,
         Bottom,
         Width,
         Height;
-} MFRect;
+};
 
 //---------------------------------------------------------------
 // MF Standard includes.

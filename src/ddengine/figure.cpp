@@ -359,16 +359,16 @@ struct EdgeList {
     Abstract: Source code for Index List Optimizer
 -------------------------------------------------------------------*/
 
-typedef struct tagIndexTri {
+struct INDEXTRISTRUCT {
     int v1, v2, v3;
     int done;
-} INDEXTRISTRUCT;
+};
 
-typedef struct tagIndexVert {
+struct INDEXVERTSTRUCT {
     WORD wIndex; // Index of this vertex
     int nShareCount; // Number of triangles sharing this vertex
     int rgSharedTris[30]; // Array of triangles that share this vertex
-} INDEXVERTSTRUCT;
+};
 
 class MSMesh {
 private:
@@ -6622,16 +6622,14 @@ float FIGURE_reflect_height;
 // The points used to create the reflection.
 //
 
-typedef struct
-{
+struct FIGURE_Rpoint {
     union {
         float distance;
         ULONG clip;
     };
 
     POLY_Point pp;
-
-} FIGURE_Rpoint;
+};
 
 #define FIGURE_MAX_RPOINTS 256
 

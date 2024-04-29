@@ -45,22 +45,18 @@
 // facet and how many quads use each page...
 //
 
-typedef struct
-{
+struct FACET_Pageinfo {
     UWORD page;
     UWORD quads;
-
-} FACET_Pageinfo;
+};
 
 #define FACET_MAX_PAGEINFO_PER_FACET 32
 
-typedef struct
-{
+struct FACET_Facetinfo {
     UBYTE done;
     UBYTE num_pages;
     FACET_Pageinfo page[FACET_MAX_PAGEINFO_PER_FACET];
-
-} FACET_Facetinfo;
+};
 
 #define FACET_MAX_FACETINFO 4096
 

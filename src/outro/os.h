@@ -38,7 +38,7 @@ void OS_ticks_reset(void);
 //
 // ========================================================
 
-typedef struct os_texture OS_Texture;
+typedef struct OS_Texture;
 
 //
 // You can create a texture either from a TGA file or just by
@@ -183,8 +183,7 @@ extern float OS_cam_view_matrix[9];
 // Transformed points.
 //
 
-typedef struct
-{
+struct OS_Trans {
     float x;
     float y;
     float z;
@@ -194,8 +193,7 @@ typedef struct
     float Z;
 
     ULONG clip;
-
-} OS_Trans;
+};
 
 #define OS_MAX_TRANS 8192
 
@@ -218,10 +216,9 @@ void OS_transform(
 //
 // ========================================================
 
-typedef struct os_buffer OS_Buffer;
+typedef struct OS_Buffer;
 
-typedef struct
-{
+struct OS_Vert {
     UWORD trans; // Index into the OS_trans array for the transformed point.
     UWORD index; // Before you add any OS_Verts to a buffer make sure they all have this field set to NULL
     float u1;
@@ -230,8 +227,7 @@ typedef struct
     float v2;
     ULONG colour;
     ULONG specular;
-
-} OS_Vert;
+};
 
 //
 // Returns a new buffer to which you can add triangles.

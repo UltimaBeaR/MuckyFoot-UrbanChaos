@@ -35,7 +35,7 @@ extern Plat* PLAT_plat; //[PLAT_MAX_PLATS];
 // So we can have a pointer from the thing structure.
 //
 
-typedef struct Plat* PlatPtr;
+typedef Plat* PlatPtr;
 
 extern SLONG PLAT_plat_upto;
 

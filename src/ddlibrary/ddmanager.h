@@ -30,12 +30,11 @@
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct CallbackInfo {
     BOOL Result; // Success/Failure
     DWORD Count; // Current count
     void* Extra; // Current Driver/Device/Etc.
-} CallbackInfo;
+};
 
 //---------------------------------------------------------------
 

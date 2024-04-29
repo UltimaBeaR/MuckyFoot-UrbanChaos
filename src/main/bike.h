@@ -19,8 +19,7 @@
 // So we dont have to have to BIKE Genus in the header file.
 //
 
-typedef struct
-{
+struct BIKE_Bike {
     UWORD yaw;
     UWORD pitch;
 
@@ -75,11 +74,10 @@ typedef struct
     SWORD SlideTimer;
     UBYTE dirt; // If the bike is kicking up dirt...
     UBYTE padding;
-
-} BIKE_Bike;
+};
 
 // struct bike_bike;
-// typedef struct bike_bike BIKE_Bike;
+
 typedef BIKE_Bike* BikePtr;
 
 #define BIKE_MAX_BIKES 2 // 8
@@ -126,14 +124,12 @@ void BIKE_set_parked(Thing* p_bike);
 // How to steer a bike.
 //
 
-typedef struct
-{
+struct BIKE_Control {
     SBYTE steer;
     SBYTE accel;
     SBYTE brake;
     UBYTE wheelie;
-
-} BIKE_Control;
+};
 
 BIKE_Control BIKE_control_get(Thing* p_bike);
 void BIKE_control_set(Thing* p_bike, BIKE_Control bc);
@@ -154,8 +150,7 @@ SLONG BIKE_get_speed(Thing* p_bike);
 // Bike drawing info
 //
 
-typedef struct
-{
+struct BIKE_Drawinfo {
     UWORD yaw;
     UWORD pitch;
     UWORD roll;
@@ -170,8 +165,7 @@ typedef struct
     SWORD back_y;
     UWORD back_z;
     UWORD back_rot;
-
-} BIKE_Drawinfo;
+};
 
 BIKE_Drawinfo BIKE_get_drawinfo(Thing* p_bike);
 

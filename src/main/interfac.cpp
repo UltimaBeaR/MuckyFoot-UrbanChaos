@@ -4804,12 +4804,11 @@ ULONG apply_button_input_fight(Thing* p_player, Thing* p_person, ULONG input)
 /*
 #define MAX_CAR_INPUT 1024
 
-typedef struct
+struct CAR_Input
 {
-        SLONG dx;
-        SLONG dz;
-
-} CAR_Input;
+    SLONG dx;
+    SLONG dz;
+};
 
 CAR_Input car_input[MAX_CAR_INPUT];
 SLONG     car_input_upto;

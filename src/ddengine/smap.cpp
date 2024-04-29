@@ -145,8 +145,7 @@ SLONG SMAP_res_v;
 // The points.
 //
 
-typedef struct
-{
+struct SMAP_Point {
     float along_u;
     float along_v;
     float along_n;
@@ -157,8 +156,7 @@ typedef struct
 
     SLONG u; // Coordinates on the bitmap in fixed-point 16.
     SLONG v;
-
-} SMAP_Point;
+};
 
 #define SMAP_MAX_POINTS 2048
 

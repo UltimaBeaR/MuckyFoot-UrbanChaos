@@ -41,14 +41,12 @@ SLONG calc_angle(SLONG dx, SLONG dz);
 // Where all the trees are.
 //
 
-typedef struct
-{
+struct DIRT_Tree {
     UWORD x;
     UWORD z;
     UBYTE inrange;
     UBYTE padding;
-
-} DIRT_Tree;
+};
 
 #define DIRT_MAX_TREES 64
 

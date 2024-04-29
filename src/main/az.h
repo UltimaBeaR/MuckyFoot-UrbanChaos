@@ -14,15 +14,13 @@
 #define AZ_LINE_TYPE_FENCE 2
 #define AZ_LINE_TYPE_NUMBER 3
 
-typedef struct
-{
+struct AZ_Line {
     UBYTE type;
     UBYTE x1;
     UBYTE z1;
     UBYTE x2;
     UBYTE z2;
-
-} AZ_Line;
+};
 
 extern AZ_Line AZ_line[];
 extern SLONG AZ_line_upto;

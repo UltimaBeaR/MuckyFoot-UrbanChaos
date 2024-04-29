@@ -7,12 +7,11 @@
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct GameCoord {
     SLONG X,
         Y,
         Z;
-} GameCoord;
+};
 
 struct SVector {
     SLONG X, Y, Z;
@@ -40,14 +39,12 @@ struct MiniTextureBits {
     UWORD Size : 2;
 };
 
-typedef struct
-{
+struct MAV_Action {
     UBYTE action;
     UBYTE dir;
     UBYTE dest_x;
     UBYTE dest_z;
-
-} MAV_Action;
+};
 
 //---------------------------------------------------------------
 

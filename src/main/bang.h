@@ -28,8 +28,7 @@ void BANG_process(void);
 // should be black. The primitive should be additively blended.
 //
 
-typedef struct
-{
+struct BANG_Info {
     SLONG x;
     SLONG y;
     SLONG z;
@@ -41,5 +40,4 @@ typedef struct
     UBYTE green;
     UBYTE blue;
     UBYTE frame;
-
-} BANG_Info;
+};

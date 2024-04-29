@@ -11,11 +11,9 @@
 // This array is indexed by the MAV_nav[] array
 //
 
-typedef struct
-{
+struct MAV_Opt {
     UBYTE opt[4]; // The options for moving in each direction.
-
-} MAV_Opt;
+};
 
 #define MAV_MAX_OPTS 1024 // don't change this!!!
 

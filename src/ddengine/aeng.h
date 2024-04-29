@@ -53,7 +53,7 @@ void TEXTURE_load_needed_object(SLONG prim_object);
 // the engine's own use.
 //
 
-typedef struct SVector_F {
+struct SVector_F {
     float X;
     float Y;
     float Z;

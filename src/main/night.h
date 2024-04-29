@@ -14,8 +14,7 @@
 // The static lights.
 //
 
-typedef struct
-{
+struct NIGHT_Slight {
     SWORD y;
     UBYTE x; // I'm grabbing myself the top bit
     UBYTE z; //  of these for flags of some sort (inside or something)
@@ -23,18 +22,15 @@ typedef struct
     SBYTE green;
     SBYTE blue;
     UBYTE radius;
-
-} NIGHT_Slight;
+};
 
 extern NIGHT_Slight* NIGHT_slight; //[NIGHT_MAX_SLIGHTS];
 extern SLONG NIGHT_slight_upto;
 
-typedef struct
-{
+struct NIGHT_Smap {
     UBYTE index;
     UBYTE number;
-
-} NIGHT_Smap;
+};
 
 typedef NIGHT_Smap NIGHT_Smap_2d[PAP_SIZE_LO];
 
@@ -47,8 +43,7 @@ extern NIGHT_Smap_2d* NIGHT_smap; //[PAP_SIZE_LO][PAP_SIZE_LO];
 #define NIGHT_DLIGHT_FLAG_USED (1 << 0)
 #define NIGHT_DLIGHT_FLAG_REMOVE (1 << 1) // Will be removed next gameturn.
 
-typedef struct
-{
+struct NIGHT_Dlight {
     UWORD x;
     SWORD y;
     UWORD z;
@@ -58,8 +53,7 @@ typedef struct
     UBYTE radius;
     UBYTE next;
     UBYTE flag;
-
-} NIGHT_Dlight;
+};
 
 #define NIGHT_MAX_DLIGHTS 64
 
@@ -69,13 +63,11 @@ extern NIGHT_Dlight* NIGHT_dlight; //[NIGHT_MAX_DLIGHTS];
 // Coloured lighting.
 //
 
-typedef struct
-{
+struct NIGHT_Colour {
     UBYTE red;
     UBYTE green;
     UBYTE blue;
-
-} NIGHT_Colour;
+};
 
 #define get_red(col) (((col) >> 10) & 0x3f)
 #define get_green(col) (((col) >> 5) & 0x1f)
@@ -105,16 +97,14 @@ typedef struct
 #define NIGHT_SQUARE_FLAG_WARE (1 << 1)
 #define NIGHT_SQUARE_FLAG_DELETEME (1 << 2)
 
-typedef struct
-{
+struct NIGHT_Square {
     UBYTE next;
     UBYTE flag;
     UBYTE lo_map_x;
     UBYTE lo_map_z;
     NIGHT_Colour* colour;
     ULONG sizeof_colour; // In bytes.
-
-} NIGHT_Square;
+};
 
 #define NIGHT_MAX_SQUARES 256
 
@@ -133,15 +123,13 @@ extern UBYTE NIGHT_cache[PAP_SIZE_LO][PAP_SIZE_LO];
 // The cached lighting for dfacets.
 //
 
-typedef struct
-{
+struct NIGHT_Dfcache {
     UBYTE next;
     UBYTE counter;
     UWORD dfacet;
     NIGHT_Colour* colour;
     UWORD sizeof_colour;
-
-} NIGHT_Dfcache;
+};
 
 #define NIGHT_MAX_DFCACHES 256
 
@@ -376,16 +364,14 @@ NIGHT_Colour NIGHT_get_light_at(
 // (not including the ambient light)
 //
 
-typedef struct
-{
+struct NIGHT_Found {
     SLONG r; // (r,g,b) falling on the point.
     SLONG g;
     SLONG b;
     SLONG dx; // Normalised vector from the point to the light (256 long)
     SLONG dy;
     SLONG dz;
-
-} NIGHT_Found;
+};
 
 #define NIGHT_MAX_FOUND 4
 

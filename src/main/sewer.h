@@ -60,8 +60,7 @@ SLONG SEWER_calc_height_at(SLONG x, SLONG z);
 #define SEWER_PAGE_WATER 3
 #define SEWER_PAGE_NUMBER 4
 
-typedef struct
-{
+struct SEWER_Face {
     SLONG x[4];
     SLONG y[4];
     SLONG z[4];
@@ -70,8 +69,7 @@ typedef struct
     ULONG c[4];
 
     UBYTE page; // The sewer page... NOT the texturepage!
-
-} SEWER_Face;
+};
 
 void SEWER_get_start(SLONG x, SLONG z);
 SEWER_Face* SEWER_get_next(void); // NULL => there are no more faces.

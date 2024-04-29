@@ -15,17 +15,14 @@ void HM_init(void);
 // that start with a header followed by an array
 //
 
-typedef struct
-{
+struct HM_Header {
     SLONG version; // Must be set to 1
     SLONG num_primgrids; // The number of prim grids.
-
-} HM_Header;
+};
 
 #define HM_MAX_RES 8
 
-typedef struct
-{
+struct HM_Primgrid {
     UBYTE prim;
     UBYTE x_res;
     UBYTE y_res;
@@ -38,8 +35,7 @@ typedef struct
     float x_dgrav;
     float y_dgrav;
     float z_dgrav;
-
-} HM_Primgrid;
+};
 
 void HM_load(CBYTE* fname);
 

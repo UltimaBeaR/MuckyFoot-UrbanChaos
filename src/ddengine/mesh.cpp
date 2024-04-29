@@ -40,23 +40,20 @@ static inline float frand(void)
     return ans;
 }
 
-typedef struct
-{
+struct MESH_Crumple {
     float dx;
     float dy;
     float dz;
-
-} MESH_Crumple;
+};
 
 #define MESH_NUM_CRUMPLES 5
 #define MESH_NUM_CRUMPVALS 8
 
 MESH_Crumple MESH_crumple[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS];
 
-typedef struct
-{
+struct MESH_Crumple2 {
     SBYTE dx, dy, dz;
-} MESH_Crumple2;
+};
 
 #if CALC_CAR_CRUMPLE
 MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6];
@@ -1769,27 +1766,22 @@ void MESH_draw_morph(
 // The reflected-object data structures.
 //
 
-typedef struct
-{
+struct MESH_Point {
     float x;
     float y;
     float z;
     SLONG fade;
+};
 
-} MESH_Point;
-
-typedef struct
-{
+struct MESH_Face {
     UWORD p[3];
     float u[3];
     float v[3];
     UWORD page;
     UWORD padding;
+};
 
-} MESH_Face;
-
-typedef struct
-{
+struct MESH_Reflection {
     SLONG calculated;
 
     SLONG max_points;
@@ -1800,8 +1792,7 @@ typedef struct
 
     MESH_Point* mp;
     MESH_Face* mf;
-
-} MESH_Reflection;
+};
 
 #define MESH_MAX_REFLECTIONS 256
 
@@ -1946,8 +1937,7 @@ void MESH_add_face(
 // clockwise (or anti-clockwise) order.
 //
 
-typedef struct
-{
+struct MESH_Add {
     float x;
     float y;
     float z;
@@ -1955,8 +1945,7 @@ typedef struct
     float v;
     float fade; // 0 - 255 indicating how deep the point is under water.
     SLONG index; // Dont worry about this field when calling MESH_add_poly()
-
-} MESH_Add;
+};
 
 #define MESH_MAX_ADD 256
 

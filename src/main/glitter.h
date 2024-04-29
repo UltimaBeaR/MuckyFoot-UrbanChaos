@@ -51,8 +51,7 @@ void GLITTER_process(void);
 // Each sparkle is a line segment...
 //
 
-typedef struct
-{
+struct GLITTER_Info {
     SLONG x1;
     SLONG y1;
     SLONG z1;
@@ -60,8 +59,7 @@ typedef struct
     SLONG y2;
     SLONG z2;
     ULONG colour;
-
-} GLITTER_Info;
+};
 
 void GLITTER_get_start(UBYTE xmin, UBYTE xmax, UBYTE z);
 GLITTER_Info* GLITTER_get_next(void);

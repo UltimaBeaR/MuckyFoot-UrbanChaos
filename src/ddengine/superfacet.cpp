@@ -78,8 +78,7 @@ SLONG SUPERFACET_free_range_end;
 bool m_bShowDebuggingInfo = FALSE;
 #endif
 
-typedef struct
-{
+struct SUPERFACET_Call {
     UBYTE flag; // TRUE => this call is in use.
     UBYTE dir; // The direction of the facet...
     UWORD quads; // The number of quads this call draws.
@@ -92,8 +91,7 @@ typedef struct
 
     LPDIRECT3DTEXTURE2 texture;
     LPDIRECT3DTEXTURE2 texture_2pass; // For the 2-pass textures...
-
-} SUPERFACET_Call;
+};
 
 #define SUPERFACET_MAX_CALLS 2048
 
@@ -108,12 +106,10 @@ SLONG SUPERFACET_max_facets;
 
 #define SUPERFACET_MAX_FACETS SUPERFACET_max_facets
 
-typedef struct
-{
+struct SUPERFACET_Facet {
     UWORD call; // Index into the SUPERFACET_call[] array
     UWORD num;
-
-} SUPERFACET_Facet;
+};
 
 SUPERFACET_Facet* SUPERFACET_facet;
 

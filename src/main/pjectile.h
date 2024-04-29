@@ -12,11 +12,9 @@
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct Projectile {
     COMMON(ProjectileType)
-
-} Projectile;
+};
 
 typedef Projectile* ProjectilePtr;
 

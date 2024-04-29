@@ -19,8 +19,7 @@
 #define CHOPPER_substate_homing 5
 #define CHOPPER_substate_patrolling 6
 
-typedef struct
-{
+struct Chopper {
     Thing* thing; // points at its thing. ooer.
     Thing* target; // tracks this thing.
     GameCoord home; // copter's home -- keeps close to here if asked
@@ -44,8 +43,7 @@ typedef struct
     UBYTE since_takeoff; // How long in the air since takeoff.
 
     UBYTE padding; // padding
-
-} Chopper;
+};
 
 typedef Chopper* ChopperPtr;
 

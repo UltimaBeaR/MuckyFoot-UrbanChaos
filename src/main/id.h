@@ -47,8 +47,7 @@ void ID_set_get_type_func(SLONG (*get_type)(SLONG id, SLONG block));
 #define ID_STAIR_TYPE_MIDDLE 2
 #define ID_STAIR_TYPE_TOP 3
 
-typedef struct
-{
+struct ID_Stair {
     UBYTE type;
     UBYTE id;
     UWORD shit;
@@ -65,8 +64,7 @@ typedef struct
     UBYTE z1;
     UBYTE x2;
     UBYTE z2;
-
-} ID_Stair;
+};
 
 #define ID_STOREY_TYPE_HOUSE_GROUND 1
 #define ID_STOREY_TYPE_HOUSE_UPPER 2
@@ -196,15 +194,13 @@ SLONG ID_get_face_texture(SLONG face,
 // Drawing the furniture inside a building...
 //
 
-typedef struct
-{
+struct ID_Finfo {
     SLONG x;
     SLONG y;
     SLONG z;
     UWORD prim;
     UWORD yaw;
-
-} ID_Finfo;
+};
 
 SLONG ID_get_num_furn(void);
 ID_Finfo* ID_get_furn(SLONG number); // Starting from zero.
@@ -279,33 +275,27 @@ SLONG ID_collide_2d(
 // Returns the position of all the inside walls and all the rooms.
 //
 
-typedef struct
-{
+struct ID_Wallinfo {
     UBYTE door[4]; // 255 => No door along this wall, else the number of
                    // the block with a door in it.
     SLONG x1;
     SLONG z1;
     SLONG x2;
     SLONG z2;
+};
 
-} ID_Wallinfo;
-
-typedef struct
-{
+struct ID_Roominfo {
     SLONG x; // A position inside the room.
     SLONG z;
     CBYTE* what; // A string describing the room.
+};
 
-} ID_Roominfo;
-
-typedef struct
-{
+struct ID_Stairinfo {
     SLONG x1; // The two squares that contain the staircase.
     SLONG z1;
     SLONG x2;
     SLONG z2;
-
-} ID_Stairinfo;
+};
 
 void ID_editor_start_get_rooms(void);
 void ID_editor_start_get_walls(void);

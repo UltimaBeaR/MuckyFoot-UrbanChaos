@@ -17,13 +17,11 @@
 // building index and where you should be inside the building.
 //
 
-typedef struct
-{
+struct ENTER_Okay {
     SLONG dbuilding; // The dbuilding index.
     UBYTE map_x;
     UBYTE map_z;
-
-} ENTER_Okay;
+};
 
 ENTER_Okay ENTER_can_i(THING_INDEX me);
 

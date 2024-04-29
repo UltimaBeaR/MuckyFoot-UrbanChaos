@@ -700,13 +700,11 @@ SLONG NS_scratch_origin_z;
 // When we add a point it is lit from this light.
 //
 
-typedef struct
-{
+struct NS_Slight {
     SLONG x;
     SLONG y;
     SLONG z;
-
-} NS_Slight;
+};
 
 #define NS_MAX_SLIGHTS 9
 
@@ -952,14 +950,12 @@ void NS_cache_create_floors(UBYTE mx, UBYTE mz)
     // Sort the bottom squares in order of height.
     //
 
-    typedef struct
-    {
+    struct Bsquare {
         UBYTE x;
         UBYTE z;
 
         UBYTE bot; // The bot height of square (x,z) (optimisation only)
-
-    } Bsquare;
+    };
 
 #define MAX_BSQUARES 16
 

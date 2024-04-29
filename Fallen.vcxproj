@@ -166,7 +166,6 @@
     <ClCompile Include="src\ddengine\flamengine.cpp" />
     <ClCompile Include="src\ddengine\font.cpp" />
     <ClCompile Include="src\ddengine\font2d.cpp" />
-    <ClCompile Include="src\ddengine\font3d.cpp" />
     <ClCompile Include="src\ddengine\gamut.cpp" />
     <ClCompile Include="src\ddengine\ic.cpp" />
     <ClCompile Include="src\ddengine\matrix.cpp" />
@@ -353,7 +352,6 @@
     <ClInclude Include="src\ddengine\flamengine.h" />
     <ClInclude Include="src\ddengine\font.h" />
     <ClInclude Include="src\ddengine\font2d.h" />
-    <ClInclude Include="src\ddengine\font3d.h" />
     <ClInclude Include="src\ddengine\gamut.h" />
     <ClInclude Include="src\ddengine\ic.h" />
     <ClInclude Include="src\ddengine\map.h" />

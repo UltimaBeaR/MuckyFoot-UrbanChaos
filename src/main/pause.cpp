@@ -15,7 +15,6 @@
 #include "../ddengine/poly.h"
 #include "../ddlibrary/d3dtexture.h"
 #include "../ddlibrary/gdisplay.h"
-#include "../ddengine/font3d.h"
 #include "../ddengine/font2d.h"
 #include "../ddengine/panel.h"
 
@@ -29,9 +28,6 @@ extern DIJOYSTATE the_state;
 #define NORMAL_COLOUR 0xff9f9f
 #define SELECT_COLOUR 0xffffff
 
-#if 0
-static Font3D font("data\\font3d\\all\\",0.25);
-#endif
 static SWORD selected;
 
 #define PAUSED_KEY_START (1 << 0)

@@ -471,43 +471,6 @@ NIGHT_Colour* MESH_draw_guts(
     ULONG fade,
     SLONG crumple = 0)
 {
-
-#if 0
-	if (crumple == 0 || crumple == -1)
-	{
-		if (FASTPRIM_draw(
-				prim,
-				float(at_x),
-				float(at_y),
-				float(at_z),
-				matrix,
-				lpc))
-		{
-			PrimObject *po = &prim_objects[prim];
-
-			if (lpc)
-			{
-				lpc += po->EndPoint - po->StartPoint;
-			}
-			
-			return lpc;
-		}
-	}
-#endif
-
-    /*
-
-    static highlight = 0;
-
-    if (Keys[KB_LBRACE])
-    {
-            Keys[KB_LBRACE] = 0;
-
-            highlight += 1;
-    }
-
-    */
-
     SLONG i;
 
     SLONG sp;
@@ -742,16 +705,6 @@ NIGHT_Colour* MESH_draw_guts(
                 pp->colour = default_colour;
                 pp->specular = default_specular;
             }
-
-            //			POLY_fadeout_point(pp);
-            //			use_global_cloud(&pp->colour);
-            //			pp->colour&=0xffffff;
-            //			pp->colour|=fade;
-
-#if 0 // colour-code crumple zones red, green, blue, black
-			static ULONG colours[5] = {0, 0xFF0000, 0x00FF00, 0x0000FF, 0x000000 };
-			if (car_crumples[*assign])	pp->colour = colours[car_crumples[*assign]] | fade;
-#endif
 
 #ifdef MESH_SHOW_MOUSE_POINT
 

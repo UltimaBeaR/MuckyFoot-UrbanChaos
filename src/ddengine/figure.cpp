@@ -109,9 +109,6 @@ void FIGURE_draw_prim_tween_person_only(
 // Now enabled only on a cheat!
 // #define HIGH_REZ_PEOPLE_PLEASE_BOB
 
-
-
-
 // Useful.
 #define ALIGNED_STATIC_ARRAY(def, name, number, mytype, align)                        \
     static char c##name##mytype##align##StaticArray[align + number * sizeof(mytype)]; \
@@ -317,7 +314,6 @@ void BuildMMLightingTable(Pyro* p, DWORD colour_and = 0xffffffff)
 
     LOG_EXIT(Figure_Build_Table)
 }
-
 
 struct EdgeList {
     WORD wPt1, wPt2;
@@ -623,7 +619,6 @@ BOOL MSOptimizeIndexedList(WORD* pwIndices, int nTriangles)
 
     return TRUE;
 }
-
 
 SLONG get_steam_rand(void)
 {
@@ -1057,7 +1052,6 @@ UWORD jacket_lookup[4][8] = {
 
 };
 
-
 // A huge number!!!!
 #define MAX_NUMBER_D3D_PRIMS MAX_PRIM_OBJECTS
 TomsPrimObject D3DObj[MAX_NUMBER_D3D_PRIMS];
@@ -1418,7 +1412,6 @@ void FIGURE_TPO_init_3d_object(TomsPrimObject* pPrimObj /*, int iThrashIndex = 0
 
 #define MAX_VERTS 1024
 #define MAX_INDICES (MAX_VERTS * 4)
-
 
     TPO_pVert = (D3DVERTEX*)MemAlloc(MAX_VERTS * sizeof(D3DVERTEX));
     ASSERT(TPO_pVert != NULL);
@@ -1954,7 +1947,6 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject* pPrimObj, int iThrashIndex = 0)
 
                     // And that's that material fully done.
 
-
                     WORD* pSrcIndex;
 
                     TRACE("Optimise");
@@ -2168,7 +2160,6 @@ void FIGURE_generate_D3D_object(SLONG prim)
     // And clean it all up.
     FIGURE_TPO_finish_3d_object(pPrimObj);
 }
-
 
 void FIGURE_draw_prim_tween(
     SLONG prim,
@@ -2577,7 +2568,6 @@ no_muzzle_calcs:
         return;
     } else {
 
-
         if (!MM_bLightTableAlreadySetUp) {
 
             Pyro* p = NULL;
@@ -2672,9 +2662,7 @@ no_muzzle_calcs:
         MM_pNormal[3] = vTemp.z * fNormScale;
 
         LOG_EXIT(Figure_Build_Matrices)
-
     }
-
 
 #if 1
 
@@ -2834,7 +2822,7 @@ no_muzzle_calcs:
 
 #endif
 
-//			ASSERT ( SUCCEEDED ( hres ) );  //triggers all the time when inside on start of RTA
+            //			ASSERT ( SUCCEEDED ( hres ) );  //triggers all the time when inside on start of RTA
 
             LOG_EXIT(Figure_DrawIndPrimMM)
 
@@ -3081,20 +3069,6 @@ no_muzzle_calcs:
     }
 
 #endif
-
-
-    // Not done yet.
-
-    if (!MM_bLightTableAlreadySetUp) {
-#if 0
-		// Clean up after ourselves.
-		MM_pcFadeTable = NULL;
-		MM_pcFadeTableTint = NULL;
-		MM_pMatrix = NULL;
-		MM_Vertex = NULL;
-		MM_pNormal = NULL;
-#endif
-    }
 
     LOG_EXIT(Figure_Draw_Prim_Tween)
 }
@@ -3593,7 +3567,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
 
     LOG_ENTER(Figure_Draw_Hierarchical)
 
-
     f1 = p_person->Draw.Tweened->CurrentFrame->Flags;
     f2 = p_person->Draw.Tweened->NextFrame->Flags;
 
@@ -3647,13 +3620,8 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
         // Meshes have not been created yet - do so.
 
         // Set up the object.
-#if 0
-		// Use thrash slot 1 because the gun may bump it out later if it's
-		// in slot 0!
-		FIGURE_TPO_init_3d_object ( pPrimObj, 1 );
-#else
         FIGURE_TPO_init_3d_object(pPrimObj);
-#endif
+
         int iTPOPartNumber = 0;
 
         recurse_level = 0;
@@ -3706,15 +3674,10 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
             }
         }
 
-#if 0
-		// Compile the whole object now.
-		FIGURE_TPO_finish_3d_object ( pPrimObj );
-#else
         // Compile the whole object now.
         // Use thrash slot 1 because the gun may bump it out later if it's
         // in slot 0!
         FIGURE_TPO_finish_3d_object(pPrimObj, 1);
-#endif
 
         // Restore the saved data.
         FIGURE_dhpr_rdata1[0] = FIGURE_dhpr_rdata1_0_copy;
@@ -3800,29 +3763,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
 
                                 // Why does the DC hate GOTOs so much.
                                 if (bDrawMuzzleFlash) {
-#if 0
-								FIGURE_draw_prim_tween( prim, 
-														FIGURE_dhpr_data.world_pos->M[0],
-														FIGURE_dhpr_data.world_pos->M[1],
-														FIGURE_dhpr_data.world_pos->M[2],
-														FIGURE_dhpr_data.tween,
-													   &FIGURE_dhpr_data.ae1[FIGURE_dhpr_rdata1[recurse_level].part_number],
-													   &FIGURE_dhpr_data.ae2[FIGURE_dhpr_rdata1[recurse_level].part_number],
-														FIGURE_dhpr_data.world_mat,
-														FIGURE_dhpr_data.dx+dx,
-														FIGURE_dhpr_data.dy+dy,
-														FIGURE_dhpr_data.dz+dz,
-														FIGURE_dhpr_data.colour, 
-														FIGURE_dhpr_data.specular,
-														FIGURE_dhpr_rdata1[recurse_level].parent_base_mat,
-														FIGURE_dhpr_rdata1[recurse_level].parent_base_pos,
-														FIGURE_dhpr_rdata1[recurse_level].parent_current_mat,
-														FIGURE_dhpr_rdata1[recurse_level].parent_current_pos,
-													   &FIGURE_dhpr_rdata2[recurse_level].end_mat,
-													   &FIGURE_dhpr_rdata2[recurse_level].end_pos,
-														p_person,
-														FIGURE_dhpr_rdata1[recurse_level].part_number);
-#else
+
                                     // Muzzle flashes are always drawn "normally"
                                     FIGURE_draw_prim_tween_person_only(
                                         prim,
@@ -3832,34 +3773,9 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
                                         FIGURE_dhpr_data.dz + dz,
                                         recurse_level,
                                         p_person);
-#endif
                                 }
                             }
 
-#if 0
-						FIGURE_draw_prim_tween(
-												255+(p_person->Draw.Tweened->PersonID>>5), 
-												FIGURE_dhpr_data.world_pos->M[0],
-												FIGURE_dhpr_data.world_pos->M[1],
-												FIGURE_dhpr_data.world_pos->M[2],
-												FIGURE_dhpr_data.tween,
-											   &FIGURE_dhpr_data.ae1[FIGURE_dhpr_rdata1[recurse_level].part_number],
-											   &FIGURE_dhpr_data.ae2[FIGURE_dhpr_rdata1[recurse_level].part_number],
-												FIGURE_dhpr_data.world_mat,
-												FIGURE_dhpr_data.dx+dx,
-												FIGURE_dhpr_data.dy+dy,
-												FIGURE_dhpr_data.dz+dz,
-												FIGURE_dhpr_data.colour, 
-												FIGURE_dhpr_data.specular,
-												FIGURE_dhpr_rdata1[recurse_level].parent_base_mat,
-												FIGURE_dhpr_rdata1[recurse_level].parent_base_pos,
-												FIGURE_dhpr_rdata1[recurse_level].parent_current_mat,
-												FIGURE_dhpr_rdata1[recurse_level].parent_current_pos,
-											   &FIGURE_dhpr_rdata2[recurse_level].end_mat,
-											   &FIGURE_dhpr_rdata2[recurse_level].end_pos,
-												p_person,
-												FIGURE_dhpr_rdata1[recurse_level].part_number);
-#else
                             // Weapons are always drawn "normally"
                             FIGURE_draw_prim_tween_person_only(
                                 255 + (p_person->Draw.Tweened->PersonID >> 5),
@@ -3869,7 +3785,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
                                 FIGURE_dhpr_data.dz + dz,
                                 recurse_level,
                                 p_person);
-#endif
                         }
                     }
             }
@@ -3961,7 +3876,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
 
     tex_page_offset = p_person->Genus.Person->pcom_colour & 0x3;
 
-
     ASSERT(MM_bLightTableAlreadySetUp);
 
     // The wonderful NEW system!
@@ -4023,14 +3937,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
         extern D3DMATRIX g_matWorld;
 
         PolyPage* pa = &(POLY_Page[wRealPage]);
-#if 0
-		// Near-plane culling! Must implement!
 
-		// Not sure if I'm using character_scalef correctly...
-		ASSERT ( ( character_scalef < 1.2f ) && ( character_scalef > 0.8f ) );
-		ASSERT ( !pa->RS.NeedsSorting() && ( FIGURE_alpha == 255 ) );
-		if ( ( ( ( g_matWorld._43 * 32768.0f ) - ( pPrimObj->fBoundingSphereRadius * character_scalef ) ) > ( POLY_ZCLIP_PLANE * 32768.0f ) ) )
-#endif
         {
             // Non-alpha path.
             if (wPage & TEXTURE_PAGE_FLAG_TINT) {
@@ -4114,18 +4021,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
             //			ASSERT ( SUCCEEDED ( hres ) );  //triggers all the time when inside on start of RTA
             LOG_EXIT(Figure_DrawIndPrimMM)
         }
-#if 0
-		else
-		{
-			// Alpha/clipped path - do with standard non-MM calls.
-			// FIXME. Needs to be done.
-
-			// Actually, the fast-accept works very well, and it's only when the camera somehow gets REALLY close
-			// that this happens. And actually a pop-reject seems a bit better than a clip. Certainly
-			// there is no visually "right" thing to do. So leave it for now until someone complains. ATF.
-			//TRACE ( "Tried to draw an alpha/clipped prim!" );
-		}
-#endif
 
         // Next material
         pVertex += pMat->wNumVertices;
@@ -4173,7 +4068,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
 
     LOG_ENTER(Figure_Draw_Hierarchical)
 
-
     f1 = p_person->Draw.Tweened->CurrentFrame->Flags;
     f2 = p_person->Draw.Tweened->NextFrame->Flags;
 
@@ -4209,29 +4103,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
                 body_part = FIGURE_dhpr_data.body_def->BodyPart[iPartNumber];
                 rot_mat = FIGURE_dhpr_data.world_mat;
 
-#if 0
-				FIGURE_draw_prim_tween( FIGURE_dhpr_data.start_object + body_part, //FIGURE_dhpr_data.body_def->BodyPart[FIGURE_dhpr_rdata1[recurse_level].part_number],
-										FIGURE_dhpr_data.world_pos->M[0],
-										FIGURE_dhpr_data.world_pos->M[1],
-										FIGURE_dhpr_data.world_pos->M[2],
-										FIGURE_dhpr_data.tween,
-									   &FIGURE_dhpr_data.ae1[pDHPR1->part_number],
-									   &FIGURE_dhpr_data.ae2[pDHPR1->part_number],
-										rot_mat,
-										FIGURE_dhpr_data.dx+dx,
-										FIGURE_dhpr_data.dy+dy,
-										FIGURE_dhpr_data.dz+dz,
-										FIGURE_dhpr_data.colour, //limb==PART_JACKET?jacket_col:(limb==PART_TROUSERS?leg_col:FIGURE_dhpr_data.colour), 
-										FIGURE_dhpr_data.specular,
-										FIGURE_dhpr_rdata1[recurse_level].parent_base_mat,
-										FIGURE_dhpr_rdata1[recurse_level].parent_base_pos,
-										FIGURE_dhpr_rdata1[recurse_level].parent_current_mat,
-										FIGURE_dhpr_rdata1[recurse_level].parent_current_pos,
-									   &FIGURE_dhpr_rdata2[recurse_level].end_mat,
-									   &FIGURE_dhpr_rdata2[recurse_level].end_pos,
-									    p_person,
-									    FIGURE_dhpr_rdata1[recurse_level].part_number);
-#else
                 FIGURE_draw_prim_tween_person_only(
                     FIGURE_dhpr_data.start_object + body_part, // FIGURE_dhpr_data.body_def->BodyPart[FIGURE_dhpr_rdata1[recurse_level].part_number],
                     // FIGURE_dhpr_data.world_pos->M[0],
@@ -4256,7 +4127,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
                     p_person
                     // FIGURE_dhpr_rdata1[recurse_level].part_number
                 );
-#endif
 
                 //
                 // draw a weapon in hand
@@ -4297,29 +4167,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
 
                                 // Why does the DC hate GOTOs so much.
                                 if (bDrawMuzzleFlash) {
-#if 0
-								FIGURE_draw_prim_tween( prim, 
-														FIGURE_dhpr_data.world_pos->M[0],
-														FIGURE_dhpr_data.world_pos->M[1],
-														FIGURE_dhpr_data.world_pos->M[2],
-														FIGURE_dhpr_data.tween,
-													   &FIGURE_dhpr_data.ae1[FIGURE_dhpr_rdata1[recurse_level].part_number],
-													   &FIGURE_dhpr_data.ae2[FIGURE_dhpr_rdata1[recurse_level].part_number],
-														FIGURE_dhpr_data.world_mat,
-														FIGURE_dhpr_data.dx+dx,
-														FIGURE_dhpr_data.dy+dy,
-														FIGURE_dhpr_data.dz+dz,
-														FIGURE_dhpr_data.colour, 
-														FIGURE_dhpr_data.specular,
-														FIGURE_dhpr_rdata1[recurse_level].parent_base_mat,
-														FIGURE_dhpr_rdata1[recurse_level].parent_base_pos,
-														FIGURE_dhpr_rdata1[recurse_level].parent_current_mat,
-														FIGURE_dhpr_rdata1[recurse_level].parent_current_pos,
-													   &FIGURE_dhpr_rdata2[recurse_level].end_mat,
-													   &FIGURE_dhpr_rdata2[recurse_level].end_pos,
-														p_person,
-														FIGURE_dhpr_rdata1[recurse_level].part_number);
-#else
                                     // Muzzle flashes are always drawn "normally"
                                     FIGURE_draw_prim_tween_person_only(
                                         prim,
@@ -4345,34 +4192,9 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
                                         p_person
                                         // FIGURE_dhpr_rdata1[recurse_level].part_number
                                     );
-#endif
                                 }
                             }
 
-#if 0
-						FIGURE_draw_prim_tween(
-												255+(p_person->Draw.Tweened->PersonID>>5), 
-												FIGURE_dhpr_data.world_pos->M[0],
-												FIGURE_dhpr_data.world_pos->M[1],
-												FIGURE_dhpr_data.world_pos->M[2],
-												FIGURE_dhpr_data.tween,
-											   &FIGURE_dhpr_data.ae1[FIGURE_dhpr_rdata1[recurse_level].part_number],
-											   &FIGURE_dhpr_data.ae2[FIGURE_dhpr_rdata1[recurse_level].part_number],
-												FIGURE_dhpr_data.world_mat,
-												FIGURE_dhpr_data.dx+dx,
-												FIGURE_dhpr_data.dy+dy,
-												FIGURE_dhpr_data.dz+dz,
-												FIGURE_dhpr_data.colour, 
-												FIGURE_dhpr_data.specular,
-												FIGURE_dhpr_rdata1[recurse_level].parent_base_mat,
-												FIGURE_dhpr_rdata1[recurse_level].parent_base_pos,
-												FIGURE_dhpr_rdata1[recurse_level].parent_current_mat,
-												FIGURE_dhpr_rdata1[recurse_level].parent_current_pos,
-											   &FIGURE_dhpr_rdata2[recurse_level].end_mat,
-											   &FIGURE_dhpr_rdata2[recurse_level].end_pos,
-												p_person,
-												FIGURE_dhpr_rdata1[recurse_level].part_number);
-#else
                             // Weapons are always drawn "normally"
                             FIGURE_draw_prim_tween_person_only(
                                 255 + (p_person->Draw.Tweened->PersonID >> 5),
@@ -4398,7 +4220,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
                                 p_person
                                 // FIGURE_dhpr_rdata1[recurse_level].part_number
                             );
-#endif
                         }
                     }
             }
@@ -4407,27 +4228,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
         // and do children
 
         if (body_part_children[iPartNumber][pDHPR1->current_child_number] != -1) {
-
-#if 0
-			FIGURE_dhpr_rdata1[recurse_level + 1].current_child_number = 0;
-
-			// really only need to do these next 3 lines once...
-			FIGURE_dhpr_rdata1[recurse_level].pos.M[0] = FIGURE_dhpr_data.ae1[FIGURE_dhpr_rdata1[recurse_level].part_number].OffsetX;
-			FIGURE_dhpr_rdata1[recurse_level].pos.M[1] = FIGURE_dhpr_data.ae1[FIGURE_dhpr_rdata1[recurse_level].part_number].OffsetY;
-			FIGURE_dhpr_rdata1[recurse_level].pos.M[2] = FIGURE_dhpr_data.ae1[FIGURE_dhpr_rdata1[recurse_level].part_number].OffsetZ;
-			ASSERT ( FIGURE_dhpr_rdata1[recurse_level].part_number >= 0 );
-			ASSERT ( FIGURE_dhpr_rdata1[recurse_level].part_number <= 14 );
-			FIGURE_dhpr_rdata1[recurse_level + 1].part_number = body_part_children[FIGURE_dhpr_rdata1[recurse_level].part_number][FIGURE_dhpr_rdata1[recurse_level].current_child_number];
-			CMatrix33 tmat;
-			GetCMatrix(&FIGURE_dhpr_data.ae1[FIGURE_dhpr_rdata1[recurse_level].part_number], &tmat);
-			FIGURE_dhpr_rdata1[recurse_level + 1].parent_base_mat = &tmat;
-			FIGURE_dhpr_rdata1[recurse_level + 1].parent_base_pos = &FIGURE_dhpr_rdata1[recurse_level].pos;
-			FIGURE_dhpr_rdata1[recurse_level + 1].parent_current_mat = &FIGURE_dhpr_rdata2[recurse_level].end_mat;
-			FIGURE_dhpr_rdata1[recurse_level + 1].parent_current_pos = &FIGURE_dhpr_rdata2[recurse_level].end_pos;
-			FIGURE_dhpr_rdata1[recurse_level + 1].current_child_number = 0;
-
-			FIGURE_dhpr_rdata1[recurse_level].current_child_number ++ ;
-#else
             // Broken up, or the compiler gets very confused.
             // structFIGURE_dhpr_rdata1 *pDHPR1	= FIGURE_dhpr_rdata1 + recurse_level;
             structFIGURE_dhpr_rdata1* pDHPR1Inc = FIGURE_dhpr_rdata1 + recurse_level + 1;
@@ -4451,7 +4251,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
             pDHPR1Inc->current_child_number = 0;
 
             pDHPR1->current_child_number++;
-#endif
             recurse_level++;
         } else {
             recurse_level--;
@@ -4473,7 +4272,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
     SLONG civ_flag = 0, legs, body, shoes, face, hands, pelvis;
     // SLONG limb;
     struct Matrix33* rot_mat;
-
 
     LOG_ENTER(Figure_Draw_Hierarchical)
 
@@ -4887,22 +4685,9 @@ void FIGURE_draw(Thing* p_thing)
 
     LOG_EXIT(Figure_NIGHT_Find)
 
-
     ASSERT(!MM_bLightTableAlreadySetUp);
 
     // Set up some data for the MM rendering thing.
-
-#if 0
-//#define ALIGNED_STATIC_ARRAY(name,number,mytype,align)														\
-//	static char c##name##mytype##align##StaticArray [ align + number * sizeof ( mytype ) ];						\
-//	name = (mytype *)( ( (DWORD)c##name##mytype##align##StaticArray + (align-1) ) & ~(align-1) )
-
-	ALIGNED_STATIC_ARRAY ( MM_pcFadeTable, 128, D3DCOLOR, 4 );
-	ALIGNED_STATIC_ARRAY ( MM_pcFadeTableTint, 128, D3DCOLOR, 4 );
-	ALIGNED_STATIC_ARRAY ( MM_pMatrix, 1, D3DMATRIX, 32 );
-	ALIGNED_STATIC_ARRAY ( MM_Vertex, 4, D3DVERTEX, 32 );
-	ALIGNED_STATIC_ARRAY ( MM_pNormal, 4, float, 8 );
-#endif
 
     // #undef ALIGNED_STATIC_ARRAY
 
@@ -4917,7 +4702,6 @@ void FIGURE_draw(Thing* p_thing)
     BuildMMLightingTable(p, 0);
 
     MM_bLightTableAlreadySetUp = TRUE;
-
 
     //
     // Draw each body part.
@@ -4999,13 +4783,6 @@ void FIGURE_draw(Thing* p_thing)
     // Clean up after ourselves.
     ASSERT(MM_bLightTableAlreadySetUp);
     MM_bLightTableAlreadySetUp = FALSE;
-#if 0
-	MM_pcFadeTable = NULL;
-	MM_pcFadeTableTint = NULL;
-	MM_pMatrix = NULL;
-	MM_Vertex = NULL;
-	MM_pNormal = NULL;
-#endif
 
     //
     // In case this thing ain't a person...
@@ -6191,7 +5968,6 @@ bool FIGURE_draw_prim_tween_person_only_just_set_matrix(
 
 no_muzzle_calcs:
 
-
     ASSERT(MM_bLightTableAlreadySetUp);
 
     ASSERT(!WITHIN(prim, 261, 263));
@@ -6235,13 +6011,6 @@ no_muzzle_calcs:
 
         // Now make up the matrices.
 
-#if 0
-		// Officially correct version.
-		DWORD dwWidth = g_viewData.dwWidth >> 1;
-		DWORD dwHeight = g_viewData.dwHeight >> 1;
-		DWORD dwX = g_viewData.dwX;
-		DWORD dwY = g_viewData.dwY;
-#else
         // Version that knows about the letterbox mode hack.
         extern DWORD g_dw3DStuffHeight;
         extern DWORD g_dw3DStuffY;
@@ -6249,7 +6018,6 @@ no_muzzle_calcs:
         DWORD dwHeight = g_dw3DStuffHeight >> 1;
         DWORD dwX = g_viewData.dwX;
         DWORD dwY = g_dw3DStuffY;
-#endif
 
         // Set up the matrix.
         D3DMATRIX* pmat = &(MMBodyParts_pMatrix[iMatrixNum]);
@@ -6506,18 +6274,6 @@ void FIGURE_draw_prim_tween_person_only(
     fmatrix[7] = float(mat_final.M[2][1]) * (1.0F / 32768.0F);
     fmatrix[8] = float(mat_final.M[2][2]) * (1.0F / 32768.0F);
 
-#if 0
-	imatrix[0] = mat_final.M[0][0] * 2;
-	imatrix[1] = mat_final.M[0][1] * 2;
-	imatrix[2] = mat_final.M[0][2] * 2;
-	imatrix[3] = mat_final.M[1][0] * 2;
-	imatrix[4] = mat_final.M[1][1] * 2;
-	imatrix[5] = mat_final.M[1][2] * 2;
-	imatrix[6] = mat_final.M[2][0] * 2;
-	imatrix[7] = mat_final.M[2][1] * 2;
-	imatrix[8] = mat_final.M[2][2] * 2;
-#endif
-
     LOG_ENTER(Figure_Set_Rotation)
 
     POLY_set_local_rotation(
@@ -6574,7 +6330,6 @@ void FIGURE_draw_prim_tween_person_only(
     //	x=pp->x*256; y=pp->y*256; z=pp->z*256;
 
 no_muzzle_calcs:
-
 
     ASSERT(MM_bLightTableAlreadySetUp);
 
@@ -6721,13 +6476,6 @@ no_muzzle_calcs:
 
         // Now make up the matrices.
 
-#if 0
-		// Officially correct version.
-		DWORD dwWidth = g_viewData.dwWidth >> 1;
-		DWORD dwHeight = g_viewData.dwHeight >> 1;
-		DWORD dwX = g_viewData.dwX;
-		DWORD dwY = g_viewData.dwY;
-#else
         // Version that knows about the letterbox mode hack.
         extern DWORD g_dw3DStuffHeight;
         extern DWORD g_dw3DStuffY;
@@ -6735,7 +6483,7 @@ no_muzzle_calcs:
         DWORD dwHeight = g_dw3DStuffHeight >> 1;
         DWORD dwX = g_viewData.dwX;
         DWORD dwY = g_dw3DStuffY;
-#endif
+
         MM_pMatrix[0]._11 = 0.0f;
         MM_pMatrix[0]._12 = matTemp._11 * (float)dwWidth + matTemp._14 * (float)(dwX + dwWidth);
         MM_pMatrix[0]._13 = matTemp._12 * -(float)dwHeight + matTemp._14 * (float)(dwY + dwHeight);
@@ -6876,17 +6624,6 @@ no_muzzle_calcs:
             LOG_EXIT(Figure_Set_RenderState)
             LOG_ENTER(Figure_DrawIndPrimMM)
 
-#if 0
-			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
-					D3DPT_TRIANGLELIST,
-					D3DFVF_VERTEX,
-					(void *)&d3dmm,
-					pMat->wNumVertices,
-					pwStripIndices,
-					pMat->wNumStripIndices,
-					D3DDP_MULTIMATRIX );
-			//TRACE("Drew %i vertices, %i indices\n", (int)( pMat->wNumVertices ), (int)( pMat->wNumStripIndices ) );
-#else
             // Use platform-independent version.
 
             HRESULT hres;
@@ -6911,7 +6648,6 @@ no_muzzle_calcs:
                     pMat->wNumStripIndices);
                 // TRACE ( "F4" );
             }
-#endif
 
 #else
 

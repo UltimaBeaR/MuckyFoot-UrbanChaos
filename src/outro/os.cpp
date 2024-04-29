@@ -549,47 +549,6 @@ void OS_calculate_mask_and_shift(
     ULONG bitmask,
     SLONG* mask,
     SLONG* shift);
-#if 0
-{
-	SLONG i;
-	SLONG b;
-	SLONG num_bits  =  0;
-	SLONG first_bit = -1;
-
-	for (i = 0, b = 1; i < 32; i++, b <<= 1)
-	{
-		if (bitmask & b)
-		{
-			num_bits += 1;
-
-			if (first_bit == -1)
-			{
-				//
-				// We have found the first bit.
-				//
-
-				first_bit = i;
-			}
-		}
-	}
-
-	ASSERT(first_bit != -1 && num_bits != 0);
-
-	*mask  = 8 - num_bits;
-	*shift = first_bit;
-
-	if (*mask < 0)
-	{
-		//
-		// More than 8 bits per colour component? May
-		// as well support it!
-		//
-
-		*shift -= *mask;
-		*mask   =  0;
-	}
-}
-#endif
 
 OS_Texture* OS_texture_create(CBYTE* fname, SLONG invert)
 {

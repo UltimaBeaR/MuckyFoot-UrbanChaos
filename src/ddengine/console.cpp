@@ -11,7 +11,6 @@
 #include "poly.h"
 #include "../ddlibrary/d3dtexture.h"
 #include "../ddlibrary/gdisplay.h"
-// #include "font3d.h"
 #include "font2d.h"
 #include "panel.h"
 #include <winsock.h>

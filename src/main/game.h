@@ -23,7 +23,8 @@
 
 struct Thing;
 
-inline THING_INDEX toThingIndex(Thing* thing) {
+inline THING_INDEX toThingIndex(Thing* thing)
+{
     return (THING_INDEX)(ULONG)thing;
 }
 

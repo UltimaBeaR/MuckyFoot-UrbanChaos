@@ -715,7 +715,7 @@ RawMenuData raw_menu_data[] = {
     { 0, OT_BUTTON, X_CANCEL, 0, FE_BACK },
 #endif
 
-    { UBYTE(-1), 0, 0, 0},
+    { UBYTE(-1), 0, 0, 0 },
 };
 
 CBYTE menu_choice_yesno[20]; // = { "no\0yes" };
@@ -2275,8 +2275,7 @@ void FRONTEND_MissionHierarchy(CBYTE* script)
                         // Found the mission!
                         //
 
-                        if (order < best_score)
-                        {
+                        if (order < best_score) {
                             best_score = order;
 
                             //
@@ -2307,25 +2306,10 @@ void FRONTEND_MissionHierarchy(CBYTE* script)
     }
     FileCloseScript();
 
-#if 1
     if (!IsEnglish) {
         // Never show breakout in French.
         mission_hierarchy[secretIDbreakout] = 0;
     }
-#else
-
-    // If Estate of Emergency has been done, and the secret environment var is set, then
-    // expose Breakout to the world....
-    // Also, you have to be playing in English. Sorry.
-    if (IsEnglish && ((mission_hierarchy[estateID] & 2) != 0) && ENV_get_value_number("cheat_driving_bronze", 0, "")) {
-        // Hurrah!
-        mission_hierarchy[secretIDbreakout] |= 4;
-    } else {
-        // Nope - not yet.
-        mission_hierarchy[secretIDbreakout] = 0;
-    }
-
-#endif
 
     MemFree(text);
     MFdelete(mdata);
@@ -3441,7 +3425,6 @@ void FRONTEND_display()
 
     // DumpTracies();
 
-#if 1
     LPDIRECT3DDEVICE3 dev = the_display.lp_D3D_Device;
     HRESULT hres;
 
@@ -3458,7 +3441,6 @@ void FRONTEND_display()
     vp.dvMinZ = 0.0f;
     vp.dvMaxZ = 1.0f;
     hres = the_display.lp_D3D_Viewport->SetViewport2(&vp);
-#endif
 
     the_display.lp_D3D_Viewport->Clear(1, &the_display.ViewportRect, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET);
 

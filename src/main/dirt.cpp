@@ -532,8 +532,7 @@ void DIRT_set_focus(
             mx = cx >> PAP_SHIFT_HI;
             mz = cz >> PAP_SHIFT_HI;
 
-            if (PAP_on_map_hi(mx, mz) && ((world_type == WORLD_TYPE_SNOW) || !(PAP_2HI(mx, mz).Flags & PAP_FLAG_HIDDEN)) && !(MAV_SPARE(mx, mz) & MAV_SPARE_FLAG_WATER) && !(MAV_SPARE(mx + 1, mz) & MAV_SPARE_FLAG_WATER) && !(MAV_SPARE(mx - 1, mz) & MAV_SPARE_FLAG_WATER) && !(MAV_SPARE(mx, mz + 1) & MAV_SPARE_FLAG_WATER) && !(MAV_SPARE(mx, mz - 1) & MAV_SPARE_FLAG_WATER))
-            {
+            if (PAP_on_map_hi(mx, mz) && ((world_type == WORLD_TYPE_SNOW) || !(PAP_2HI(mx, mz).Flags & PAP_FLAG_HIDDEN)) && !(MAV_SPARE(mx, mz) & MAV_SPARE_FLAG_WATER) && !(MAV_SPARE(mx + 1, mz) & MAV_SPARE_FLAG_WATER) && !(MAV_SPARE(mx - 1, mz) & MAV_SPARE_FLAG_WATER) && !(MAV_SPARE(mx, mz + 1) & MAV_SPARE_FLAG_WATER) && !(MAV_SPARE(mx, mz - 1) & MAV_SPARE_FLAG_WATER)) {
                 //				DebugText(" dirt valid cx %d cz %d \n",cx,cz);
                 //
                 // This is an okay place for a new bit of dirt.  What type shall

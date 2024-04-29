@@ -188,4 +188,3 @@ Outro_TGA_Info Outro_TGA_load(
 
     return ans;
 }
-

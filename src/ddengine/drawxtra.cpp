@@ -1251,7 +1251,6 @@ void PYRO_draw_pyro(Thing* p_pyro)
                         x = SIN(iAngle + (Random() & 127)) >> 3;
                         z = COS(iAngle + (Random() & 127)) >> 3;
 
-
                         PARTICLE_Add(pyro->thing->WorldPos.X, pyro->thing->WorldPos.Y, pyro->thing->WorldPos.Z,
                             x, (Random() & 0xff), z,
                             POLY_PAGE_FLAMES2, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,

@@ -3658,8 +3658,6 @@ void EWAY_process_camera(void)
             EWAY_cam_lock = INFINITY;
         }
 
-#if 1
-
         dyaw = look_yaw - EWAY_cam_yaw;
         dyaw &= (2048 << 8) - 1;
 
@@ -3672,49 +3670,6 @@ void EWAY_process_camera(void)
         EWAY_cam_yaw += dyaw >> 5;
         EWAY_cam_last_dyaw = dyaw;
 
-#else
-
-        //
-        // The yaw is interpolated.
-        //
-
-        SLONG along;
-        SLONG whole_dist;
-        SLONG along_dist;
-
-        dx = (EWAY_cam_x >> 8) - (EWAY_cam_last_x >> 8);
-        dz = (EWAY_cam_y >> 8) - (EWAY_cam_last_y >> 8);
-        dz = (EWAY_cam_z >> 8) - (EWAY_cam_last_z >> 8);
-
-        along_dist = QDIST3(abs(dx), abs(dy), abs(dz));
-
-        dx = ew_go->x - (EWAY_cam_last_x >> 8);
-        dy = ew_go->y - (EWAY_cam_last_y >> 8);
-        dz = ew_go->z - (EWAY_cam_last_z >> 8);
-
-        whole_dist = QDIST3(abs(dx), abs(dy), abs(dz));
-
-        if (whole_dist <= 0x140) {
-            along = 0;
-        } else if (along_dist < 0xa0) {
-            along = 0;
-        } else if (along_dist > whole_dist - 0xa0) {
-            along = 2048;
-        } else {
-            along = (along_dist - 0xa0 << 11) / (whole_dist - 0x140);
-        }
-
-        dyaw = look_yaw - EWAY_cam_last_yaw;
-        dyaw &= (2048 << 8) - 1;
-
-        if (dyaw > (1024 << 8)) {
-            dyaw -= 2048 << 8;
-        }
-
-        EWAY_cam_yaw = EWAY_cam_last_yaw + (dyaw * along >> 11);
-        EWAY_cam_yaw &= (2048 << 8) - 1;
-
-#endif
     } else {
         SLONG max_dangle = 200 << 8;
 
@@ -3874,12 +3829,10 @@ void EWAY_process_conversation(void)
 
         EWAY_conv_skip = 50;
 
-
         PANEL_new_text(
             TO_THING(EWAY_conv_person_a),
             EWAY_conv_timer * 10 - 500,
             str);
-
 
         //
         // Make our two people say stuff.
@@ -4259,12 +4212,10 @@ void EWAY_set_active(EWAY_Way* ew)
 
                     // HACK: JDW - Add waypoint number to start of messages
 
-
                     PANEL_new_text(
                         TO_THING(EWAY_used_thing),
                         time,
                         EWAY_mess[ew->ed.arg1]);
-
 
                     if (person_ok_for_conversation(TO_THING(EWAY_used_thing))) {
                         PCOM_make_people_talk_to_eachother(
@@ -4303,12 +4254,10 @@ void EWAY_set_active(EWAY_Way* ew)
                             talk_thing = who_says;
                             EWAY_talk((ew->yaw << 8) + ew->index);
 
-
                             PANEL_new_text(
                                 who_says,
                                 time,
                                 EWAY_mess[ew->ed.arg1]);
-
 
                             if (who_says && who_says != NET_PERSON(0)) {
                                 if (person_ok_for_conversation(who_says)) {

@@ -123,8 +123,8 @@ LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam)
     }
     // No ,down.
     else {
-      // oops ... the level editor needs autorepeat keys
-      // better get Mark to fix his own bugs from now on
+        // oops ... the level editor needs autorepeat keys
+        // better get Mark to fix his own bugs from now on
         key_turn[key_code] = game_turn;
         Keys[key_code] = 1;
         LastKey = key_code;

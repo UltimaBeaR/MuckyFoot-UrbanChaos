@@ -2269,7 +2269,7 @@ SLONG ELEV_game_init(
     loading_screen_active = FALSE;
 
     EWAY_process(); // pre process map, stick it here Or we get stack overflow
-//	MUSIC_WORLD=(Random()%6)+1;
+    //	MUSIC_WORLD=(Random()%6)+1;
 
     ELEV_game_init_common(fname_map, fname_lighting, fname_citsez, fname_level);
 

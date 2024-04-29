@@ -3056,8 +3056,6 @@ file_error:;
     return FALSE;
 }
 
-#if 1 // TEST_DC
-
 //
 // Dreamcast load/save games...
 //
@@ -3304,8 +3302,6 @@ void save_dreamcast_wad(CBYTE* fname)
         convert_index_to_pointers();
     }
 }
-
-#endif // TEST_DC
 
 // #ifdef TARGET_DC
 #if TEST_DC

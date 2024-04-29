@@ -1415,7 +1415,6 @@ SLONG SUPERFACET_draw(SLONG facet)
     the_display.lp_D3D_Device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     the_display.lp_D3D_Device->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-
     // Using DrawIndPrim all the time, not MM.
     // Means we don't have to clip.
 
@@ -1622,8 +1621,6 @@ SLONG SUPERFACET_draw(SLONG facet)
             the_display.lp_D3D_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
         }
     }
-
-
 
     return TRUE;
 }

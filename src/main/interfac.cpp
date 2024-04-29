@@ -2536,7 +2536,6 @@ void process_analogue_movement(Thing* p_thing, SLONG input)
     }
 }
 
-#if 1
 // New, clean style!
 SLONG player_turn_left_right(Thing* p_thing, SLONG input)
 {
@@ -2646,10 +2645,10 @@ SLONG player_turn_left_right(Thing* p_thing, SLONG input)
     // It's simple - lean is proportional to velocity times turn.
     // Also damp the lean, or it looks silly :-)
 
-// Just coz you don't like it, doesn't mean you need to rewrite the whole thing.
-// Especially when it means Darci leans fully even if only slightly
-// turning, which means she looks like a twat.
-// #ifdef	MIKE_I_DONT_LIKE_IT_DISKETT
+    // Just coz you don't like it, doesn't mean you need to rewrite the whole thing.
+    // Especially when it means Darci leans fully even if only slightly
+    // turning, which means she looks like a twat.
+    // #ifdef	MIKE_I_DONT_LIKE_IT_DISKETT
 
     SWORD wDesiredRoll = (wTurn * p_thing->Velocity) >> 2;
 
@@ -2719,170 +2718,6 @@ SLONG player_turn_left_right(Thing* p_thing, SLONG input)
 
     return 0;
 }
-
-#else
-
-SLONG player_turn_left_right(Thing* p_thing, SLONG input)
-{
-
-    SLONG da = 94;
-
-    // use a static counter (only one player) and increase delta angle linearly
-    static SLONG s_da = 16;
-
-    {
-        SLONG joy_dx;
-        SLONG turn_speed;
-        SLONG max_speed;
-
-        joy_dx = GET_JOYX(input);
-        turn_speed = (abs(joy_dx) - 30) >> 3;
-        max_speed = (abs(joy_dx) - 30);
-
-        if ((input & INPUT_MASK_LEFT) || (input & INPUT_MASK_RIGHT)) {
-            da = s_da;
-            if (s_da < max_speed)
-                s_da += turn_speed;
-        } else {
-            s_da = 16;
-        }
-    }
-
-    if (p_thing->State == STATE_JUMPING)
-        da = 12;
-
-    if (p_thing->SubState == SUB_STATE_RUNNING_HIT_WALL)
-        return (1);
-
-    if (p_thing->Genus.Person->Action == ACTION_SIDE_STEP) {
-        return 1;
-    }
-
-    if (mouse_input) {
-        da = (-MouseDX * TICK_RATIO) >> TICK_SHIFT;
-        if (p_thing->SubState == SUB_STATE_CRAWLING || p_thing->SubState == SUB_STATE_RUNNING_SKID_STOP) {
-            if (da > 32)
-                da = 32;
-            else if (da < -32)
-                da = -32;
-        }
-        if (p_thing->State == STATE_JUMPING) {
-            if (da > 12)
-                da = 12;
-            else if (da < -12)
-                da = -12;
-        }
-
-        p_thing->Draw.Tweened->Angle = (p_thing->Draw.Tweened->Angle + da) & 2047;
-    } else {
-        if (input & INPUT_MASK_LEFT) {
-            if (p_thing->SubState == SUB_STATE_SIDLE) {
-                set_person_step_right(p_thing);
-                return 1;
-
-            } else if (p_thing->State != STATE_SEARCH) {
-                if (p_thing->SubState == SUB_STATE_RUNNING) {
-                    SLONG max_da = 14 + (abs(p_thing->Draw.Tweened->Roll) / 3);
-                    if (da > max_da) {
-                        da = max_da;
-                    }
-
-                    /*
-
-                                                            if(p_thing->Velocity>8)
-                                                            {
-
-
-                                                                    da/=(p_thing->Velocity)>>4;
-                                                            }
-                    */
-                }
-                da = (da * TICK_RATIO) >> TICK_SHIFT;
-
-                if (p_thing->SubState == SUB_STATE_CRAWLING || p_thing->SubState == SUB_STATE_RUNNING_SKID_STOP)
-                    da >>= 1;
-
-                //						if(p_thing->Genus.Person->pcom_ai_counter<TURN_TIMER)
-                p_thing->Draw.Tweened->Angle = (p_thing->Draw.Tweened->Angle + da) & 2047;
-                if (p_thing->Velocity > 10 && p_thing->SubState == SUB_STATE_RUNNING) {
-                    p_thing->Draw.Tweened->DRoll = (p_thing->Velocity - 9) >> 1;
-                }
-
-                if (p_thing->State == STATE_IDLE && !is_person_crouching(p_thing)) {
-                    p_thing->Draw.Tweened->DRoll = -1;
-                    if (p_thing->Genus.Person->AnimType != ANIM_TYPE_ROPER)
-                        if (p_thing->Draw.Tweened->CurrentAnim != ANIM_ROTATE_L) {
-                            set_anim(p_thing, ANIM_ROTATE_L);
-                            p_thing->Genus.Person->pcom_ai_counter = 0;
-
-                            //								lock_to_compass(p_thing);
-                        } else {
-                            p_thing->Genus.Person->pcom_ai_counter += da;
-                            if (p_thing->Genus.Person->pcom_ai_counter > TURN_TIMER) {
-                                p_thing->Draw.Tweened->DRoll = 0; // tell fn_person_idle to finish off spin anim
-                            }
-                        }
-                }
-            }
-
-        } else if (input & INPUT_MASK_RIGHT) {
-            //				if(p_thing->Genus.Person->Action == ACTION_SIDE_STEP)
-            if (p_thing->SubState == SUB_STATE_SIDLE) {
-                set_person_step_left(p_thing);
-                return 1;
-
-            } else if (p_thing->State != STATE_SEARCH) {
-                if (p_thing->SubState == SUB_STATE_RUNNING) {
-                    SLONG max_da = 14 + (abs(p_thing->Draw.Tweened->Roll) / 3);
-                    if (da > max_da) {
-                        da = max_da;
-                    }
-                }
-                /*
-                                                        if(p_thing->Velocity>8)
-                                                        {
-
-
-                                                                da/=(p_thing->Velocity)>>4;
-                                                        }
-                */
-
-                da = (da * TICK_RATIO) >> TICK_SHIFT;
-
-                if (p_thing->SubState == SUB_STATE_CRAWLING || p_thing->SubState == SUB_STATE_RUNNING_SKID_STOP)
-                    da >>= 1;
-
-                //						if(p_thing->Genus.Person->pcom_ai_counter<TURN_TIMER)
-                p_thing->Draw.Tweened->Angle = (p_thing->Draw.Tweened->Angle - da) & 2047;
-
-                // if(p_thing->Velocity>10)
-                if (p_thing->Velocity > 10 && p_thing->SubState == SUB_STATE_RUNNING) {
-                    p_thing->Draw.Tweened->DRoll = -((p_thing->Velocity - 9) >> 1);
-                }
-                //						if(p_thing->State==STATE_IDLE)
-                if (p_thing->State == STATE_IDLE && !is_person_crouching(p_thing)) {
-                    p_thing->Draw.Tweened->DRoll = 1;
-                    if (p_thing->Genus.Person->AnimType != ANIM_TYPE_ROPER)
-                        if (p_thing->Draw.Tweened->CurrentAnim != ANIM_ROTATE_R) {
-                            //								lock_to_compass(p_thing);
-                            set_anim(p_thing, ANIM_ROTATE_R);
-                            p_thing->Genus.Person->pcom_ai_counter = 0;
-                        } else {
-                            p_thing->Genus.Person->pcom_ai_counter += da;
-                            if (p_thing->Genus.Person->pcom_ai_counter > TURN_TIMER) {
-                                p_thing->Draw.Tweened->DRoll = 0; // tell fn_person_idle to finish off spin anim
-                            }
-                        }
-                }
-            }
-        } else {
-            p_thing->Genus.Person->pcom_ai_counter = 0;
-        }
-    }
-    return (0);
-}
-
-#endif
 
 void player_apply_move(Thing* p_thing, ULONG input)
 {

@@ -371,7 +371,6 @@ struct PrimObject {
     UBYTE flag;
 };
 
-
 // A flag that lives in the top bit of wTexturePage.
 #define TEXTURE_PAGE_FLAG_JACKET (1 << 15)
 #define TEXTURE_PAGE_FLAG_OFFSET (1 << 14)

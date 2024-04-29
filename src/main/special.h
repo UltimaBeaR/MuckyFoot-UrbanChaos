@@ -62,7 +62,6 @@ struct SPECIAL_Info {
     CBYTE* name; // Why not eh?
     UBYTE prim;
     UBYTE group;
-
 };
 
 extern SPECIAL_Info SPECIAL_info[SPECIAL_NUM_TYPES];

@@ -979,8 +979,7 @@ void FARFACET_draw(
 
                 // React to the fog distance change.
                 extern SLONG CurDrawDistance;
-                if (dprod * 2.5f < (float)CurDrawDistance)
-                {
+                if (dprod * 2.5f < (float)CurDrawDistance) {
                     continue;
                 }
 

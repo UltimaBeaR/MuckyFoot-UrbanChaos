@@ -109,9 +109,6 @@ void FIGURE_draw_prim_tween_person_only(
 // Now enabled only on a cheat!
 // #define HIGH_REZ_PEOPLE_PLEASE_BOB
 
-#ifdef HIGH_REZ_PEOPLE_PLEASE_BOB
-bool m_bPleaseInflatePeople = FALSE;
-#endif
 
 #if USE_TOMS_ENGINE_PLEASE_BOB
 
@@ -1423,17 +1420,10 @@ void FIGURE_TPO_init_3d_object(TomsPrimObject* pPrimObj /*, int iThrashIndex = 0
     ASSERT(TPO_iNumPrims == 0);
 
     // Temporary space that gets freed at the end.
-#ifdef HIGH_REZ_PEOPLE_PLEASE_BOB
-
-#define MAX_VERTS 4096
-#define MAX_INDICES (MAX_VERTS * 4)
-
-#else
 
 #define MAX_VERTS 1024
 #define MAX_INDICES (MAX_VERTS * 4)
 
-#endif
 
     TPO_pVert = (D3DVERTEX*)MemAlloc(MAX_VERTS * sizeof(D3DVERTEX));
     ASSERT(TPO_pVert != NULL);
@@ -1969,270 +1959,6 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject* pPrimObj, int iThrashIndex = 0)
 
                     // And that's that material fully done.
 
-#ifdef HIGH_REZ_PEOPLE_PLEASE_BOB
-
-                    // Do they need inflating?
-                    if (m_bPleaseInflatePeople) {
-
-                        TRACE("Inflate");
-                        // Make a list of all edges.
-
-                        // At most 3 edges per tri.
-                        EdgeList* pEdgeList = (EdgeList*)MemAlloc(sizeof(EdgeList) * pMaterial->wNumListIndices);
-                        ASSERT(pEdgeList != NULL);
-                        if (pEdgeList == NULL) {
-                            DeadAndBuried(0x0000001f);
-                        }
-
-                        // Add the edges.
-                        int iNumEdges = 0;
-                        WORD* pSrcIndex = pFirstListIndex;
-                        WORD wI1, wI2, wI3, wI4;
-                        for (UWORD i = pMaterial->wNumListIndices / 3; i > 0; i--) {
-                            wI1 = pSrcIndex[0];
-                            wI2 = pSrcIndex[1];
-                            wI3 = pSrcIndex[2];
-                            wI4 = pSrcIndex[0];
-
-                            for (int j = 0; j < 3; j++) {
-                                // Look for edge wI1, wI2.
-                                bool bFound = FALSE;
-                                for (int k = 0; k < iNumEdges; k++) {
-                                    if (((pEdgeList[k].wPt1 == wI1) && (pEdgeList[k].wPt2 == wI2)) || ((pEdgeList[k].wPt1 == wI2) && (pEdgeList[k].wPt2 == wI1))) {
-                                        // Found the edge.
-                                        bFound = TRUE;
-                                        break;
-                                    }
-                                }
-                                if (!bFound) {
-                                    // Make the edge.
-                                    EdgeList* pEdgeCur = &(pEdgeList[iNumEdges]);
-                                    pEdgeCur->wPt1 = wI1;
-                                    pEdgeCur->wPt2 = wI2;
-                                    iNumEdges++;
-                                }
-
-                                // Next edge.
-                                wI1 = wI2;
-                                wI2 = wI3;
-                                wI3 = wI4;
-                            }
-
-                            pSrcIndex += 3;
-                        }
-
-                        // Now scan the edges, creating the midpoints.
-                        EdgeList* pEdgeCur = pEdgeList;
-                        for (int i = 0; i < iNumEdges; i++) {
-                            D3DVERTEX *pvertMid, *pvert1, *pvert2;
-
-                            pvert1 = &pFirstVertex[pEdgeCur->wPt1];
-                            pvert2 = &pFirstVertex[pEdgeCur->wPt2];
-                            pEdgeCur->wMidPt = pMaterial->wNumVertices;
-                            pvertMid = TPO_pCurVertex;
-
-                            // Make the midpoint.
-                            D3DVECTOR vPos1, vPos2;
-                            vPos1.x = pvert1->x;
-                            vPos1.y = pvert1->y;
-                            vPos1.z = pvert1->z;
-                            vPos2.x = pvert2->x;
-                            vPos2.y = pvert2->y;
-                            vPos2.z = pvert2->z;
-                            D3DVECTOR vNorm1, vNorm2;
-                            vNorm1.x = pvert1->nx;
-                            vNorm1.y = pvert1->ny;
-                            vNorm1.z = pvert1->nz;
-                            vNorm2.x = pvert2->nx;
-                            vNorm2.y = pvert2->ny;
-                            vNorm2.z = pvert2->nz;
-
-                            // The edge's vector.
-                            D3DVECTOR vEdge = vPos1 - vPos2;
-                            D3DVECTOR vAvNorm = vNorm1 + vNorm2;
-
-                            float fLenAvNorm = Magnitude(vAvNorm);
-                            if (fLenAvNorm < 0.00001f) {
-                                // Panic.
-                                vAvNorm = vNorm1;
-                            } else {
-                                vAvNorm *= (1.0f / fLenAvNorm);
-                            }
-
-                            // Find the normal to the edge.
-                            D3DVECTOR vNormToEdge = CrossProduct(vEdge, vAvNorm);
-                            vNormToEdge = CrossProduct(vNormToEdge, vEdge);
-
-                            float fLenNormToEdge = Magnitude(vNormToEdge);
-                            if (fLenNormToEdge < 0.00001f) {
-                                // Panic.
-                                vNormToEdge = vNorm1;
-                            } else {
-                                vNormToEdge *= (1.0f / fLenNormToEdge);
-                            }
-
-                            // Find the new midpoint.
-                            // Adjust lambda until it's a "nice" value.
-                            D3DVECTOR vPos3;
-                            if (fLenAvNorm < 0.75f * 2.0f) {
-                                // No curve - just make it flat.
-                                vPos3 = (vPos1 + vPos2) * 0.5;
-                            } else {
-                                // Curve.
-                                const float fLambda = 0.15f;
-                                vPos3 = (vPos1 + vPos2) * 0.5 + ((fLambda * DotProduct((vNorm1 - vNorm2), vEdge)) * vAvNorm);
-                            }
-
-#if 0
-							// And find the new mid normal.
-							// This is theoretically more "correct", but tends to give unstable behaviour.
-							D3DVECTOR vNorm3 = ( 2 * vNormToEdge ) - vAvNorm;
-#elif 0
-                            // Much more stable, but produces nasty edges.
-                            D3DVECTOR vNorm3 = vAvNorm;
-#elif 0
-                            // A compromise between the two.
-                            D3DVECTOR vNorm3 = vNormToEdge;
-#else
-                            // A blend of above, but hopefully more stable.
-                            D3DVECTOR vNorm3 = (4 * vNormToEdge) - vAvNorm;
-#endif
-
-                            float fLenNorm3 = Magnitude(vNorm3);
-                            if (fLenNorm3 < 0.00001f) {
-                                // Panic.
-                                vNorm3 = vNorm1;
-                            } else {
-                                vNorm3 *= (1.0f / fLenNorm3);
-                            }
-
-                            pvertMid->x = vPos3.x;
-                            pvertMid->y = vPos3.y;
-                            pvertMid->z = vPos3.z;
-                            pvertMid->nx = vNorm3.x;
-                            pvertMid->ny = vNorm3.y;
-                            pvertMid->nz = vNorm3.z;
-
-                            pvertMid->tu = (pvert1->tu + pvert2->tu) * 0.5f;
-                            pvertMid->tv = (pvert1->tv + pvert2->tv) * 0.5f;
-                            // pvertMid->dif = ( ( ( pvert1->dif & 0xfefefefe ) >> 1 ) + ( ( pvert2->dif & 0xfefefefe ) >> 1 ) );
-                            // pvertMid->spec = ( ( ( pvert1->spec & 0xfefefefe ) >> 1 ) + ( ( pvert2->spec & 0xfefefefe ) >> 1 ) );
-
-                            // This must be done after setting the rest up, since it blats the 12th byte of the vertex.
-                            // Just pick either of the vertices - in theory they should all be the same.
-                            SET_MM_INDEX((*pvertMid), GET_MM_INDEX(*pvert1));
-
-                            // Add it officially.
-                            TPO_pCurVertex++;
-                            pMaterial->wNumVertices++;
-                            TPO_iNumVertices++;
-                            ASSERT(TPO_iNumVertices < MAX_VERTS);
-
-                            if (TPO_iNumVertices >= MAX_VERTS) {
-                                DeadAndBuried(0xffffffff);
-                            }
-
-#ifdef DEBUG
-                            if (m_iMaxNumVertsUsed < TPO_iNumVertices) {
-                                // ASSERT ( TPO_iNumVertices < 256 );
-                                m_iMaxNumVertsUsed = TPO_iNumVertices;
-                            }
-#endif
-
-                            pEdgeCur++;
-                        }
-
-                        // Now scan all the tris, find their edges, and carve them up into 4 tris.
-                        // If we scan the list backwards, we can use the same list.
-
-                        // Add the new indices first, then work out what they are.
-                        int iNewNumListIndices = TPO_iNumListIndices + 3 * pMaterial->wNumListIndices;
-                        int iNewMatNumListIndices = 4 * pMaterial->wNumListIndices;
-                        TPO_pCurListIndex += 3 * pMaterial->wNumListIndices;
-                        ASSERT(iNewNumListIndices < MAX_INDICES);
-
-                        if (iNewNumListIndices >= MAX_INDICES) {
-                            DeadAndBuried(0x07ff07ff);
-                        }
-
-#ifdef DEBUG
-                        if (m_iMaxNumIndicesUsed < iNewNumListIndices) {
-                            m_iMaxNumIndicesUsed = iNewNumListIndices;
-                        }
-#endif
-
-                        pSrcIndex = pFirstListIndex + pMaterial->wNumListIndices;
-                        WORD* pDstIndex = pFirstListIndex + iNewMatNumListIndices;
-                        WORD wMid[3];
-                        for (UWORD i = pMaterial->wNumListIndices / 3; i > 0; i--) {
-                            pSrcIndex -= 3;
-                            pDstIndex -= 3 * 4;
-
-                            wI1 = pSrcIndex[0];
-                            wI2 = pSrcIndex[1];
-                            wI3 = pSrcIndex[2];
-                            wI4 = pSrcIndex[0];
-                            for (int j = 0; j < 3; j++) {
-                                // Look for edge wI1, wI2.
-                                for (int k = 0; k < iNumEdges; k++) {
-                                    if (((pEdgeList[k].wPt1 == wI1) && (pEdgeList[k].wPt2 == wI2)) || ((pEdgeList[k].wPt1 == wI2) && (pEdgeList[k].wPt2 == wI1))) {
-                                        // Found the edge - store the midpoint.
-                                        wMid[j] = pEdgeList[k].wMidPt;
-                                        break;
-                                    }
-                                }
-                                //ASSERT(k != iNumEdges);
-
-                                // Next edge.
-                                wI1 = wI2;
-                                wI2 = wI3;
-                                wI3 = wI4;
-                            }
-
-                            ASSERT(wI1 < pMaterial->wNumVertices);
-                            ASSERT(wI2 < pMaterial->wNumVertices);
-                            ASSERT(wI3 < pMaterial->wNumVertices);
-                            ASSERT(wMid[0] < pMaterial->wNumVertices);
-                            ASSERT(wMid[1] < pMaterial->wNumVertices);
-                            ASSERT(wMid[2] < pMaterial->wNumVertices);
-
-                            // OK, so we now create 4 tris from wI1-3 and wMid[0-2].
-                            // wMid[0] will be between wI1 and wI2
-                            // wMid[1] will be between wI2 and wI3
-                            // wMid[2] will be between wI3 and wI1
-
-                            // Copy these, coz the very last 4 tris overwrites them.
-                            WORD wSrcIndex0 = pSrcIndex[0];
-                            WORD wSrcIndex1 = pSrcIndex[1];
-                            WORD wSrcIndex2 = pSrcIndex[2];
-
-                            pDstIndex[0 * 3 + 0] = wSrcIndex0;
-                            pDstIndex[0 * 3 + 1] = wMid[0];
-                            pDstIndex[0 * 3 + 2] = wMid[2];
-
-                            pDstIndex[1 * 3 + 0] = wSrcIndex1;
-                            pDstIndex[1 * 3 + 1] = wMid[1];
-                            pDstIndex[1 * 3 + 2] = wMid[0];
-
-                            pDstIndex[2 * 3 + 0] = wSrcIndex2;
-                            pDstIndex[2 * 3 + 1] = wMid[2];
-                            pDstIndex[2 * 3 + 2] = wMid[1];
-
-                            pDstIndex[3 * 3 + 0] = wMid[0];
-                            pDstIndex[3 * 3 + 1] = wMid[1];
-                            pDstIndex[3 * 3 + 2] = wMid[2];
-                        }
-
-                        ASSERT(pSrcIndex == pDstIndex);
-
-                        TPO_iNumListIndices = iNewNumListIndices;
-                        pMaterial->wNumListIndices = iNewMatNumListIndices;
-
-                        // Inflation done!
-                        MemFree(pEdgeList);
-                    }
-
-#endif // #ifdef HIGH_REZ_PEOPLE_PLEASE_BOB
 
                     WORD* pSrcIndex;
 
@@ -2395,24 +2121,6 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject* pPrimObj, int iThrashIndex = 0)
     pcBlock += TPO_iNumStripIndices * sizeof(UWORD);
 
     ASSERT((DWORD)pcBlock < (DWORD)pPrimObj->pwListIndices + dwTotalSize);
-
-#if 0
-	//void *pPermanentVerts = MemAlloc ( 32 + TPO_iNumVertices * sizeof ( D3DVERTEX ) );
-	pPermanentVerts  = (void *)( ( (DWORD)pPermanentVerts + 31 ) & ~31 );
-	ASSERT ( pPermanentVerts != NULL );
-	memcpy ( pPermanentVerts, TPO_pVert, TPO_iNumVertices * sizeof ( D3DVERTEX ) );
-	pPrimObj->pD3DVertices = pPermanentVerts;
-
-	//UWORD *pPermanentIndices = (UWORD *)MemAlloc ( TPO_iNumListIndices * sizeof ( UWORD ) );
-	ASSERT ( pPermanentIndices != NULL );
-	memcpy ( pPermanentIndices, TPO_pListIndices, TPO_iNumListIndices * sizeof ( UWORD ) );
-	pPrimObj->pwListIndices = pPermanentIndices;
-
-	//pPermanentIndices = (UWORD *)MemAlloc ( TPO_iNumStripIndices * sizeof ( UWORD ) );
-	ASSERT ( pPermanentIndices != NULL );
-	memcpy ( pPermanentIndices, TPO_pStripIndices, TPO_iNumStripIndices * sizeof ( UWORD ) );
-	pPrimObj->pwStripIndices = pPermanentIndices;
-#endif
 
     // Free the temporary spaces.
     MemFree(TPO_piVertexLinks);
@@ -2769,36 +2477,6 @@ void FIGURE_draw_prim_tween(
     //	x=pp->x*256; y=pp->y*256; z=pp->z*256;
 
 no_muzzle_calcs:
-
-#if USE_TOMS_ENGINE_PLEASE_BOB
-
-    if (!MM_bLightTableAlreadySetUp) {
-
-#if 0
-
-		// Set it up then.
-		ASSERT ( MM_pcFadeTable == NULL );
-		ASSERT ( MM_pcFadeTableTint == NULL );
-		ASSERT ( MM_pMatrix == NULL );
-		ASSERT ( MM_Vertex == NULL );
-		ASSERT ( MM_pNormal == NULL );
-		// Set up some data for the MM rendering thing if it's not already been done.
-
-//	#define ALIGNED_STATIC_ARRAY(name,number,mytype,align)														\
-//		static char c##name##mytype##align##StaticArray [ align + number * sizeof ( mytype ) ];					\
-//		name = (mytype *)( ( (DWORD)c##name##mytype##align##StaticArray + (align-1) ) & ~(align-1) )
-
-		ALIGNED_STATIC_ARRAY ( MM_pcFadeTable, 128, D3DCOLOR, 4 );
-		ALIGNED_STATIC_ARRAY ( MM_pcFadeTableTint, 128, D3DCOLOR, 4 );
-		ALIGNED_STATIC_ARRAY ( MM_pMatrix, 1, D3DMATRIX, 32 );
-		ALIGNED_STATIC_ARRAY ( MM_Vertex, 4, D3DVERTEX, 32 );
-		ALIGNED_STATIC_ARRAY ( MM_pNormal, 4, float, 8 );
-
-#endif
-    }
-
-#endif
-
     if (WITHIN(prim, 261, 263)) {
         //
         // This is a muzzle flash! They don't have any lighting!
@@ -2958,13 +2636,6 @@ no_muzzle_calcs:
 
         // Now make up the matrices.
 
-#if 0
-		// Officially correct version.
-		DWORD dwWidth = g_viewData.dwWidth >> 1;
-		DWORD dwHeight = g_viewData.dwHeight >> 1;
-		DWORD dwX = g_viewData.dwX;
-		DWORD dwY = g_viewData.dwY;
-#else
         // Version that knows about the letterbox mode hack.
         extern DWORD g_dw3DStuffHeight;
         extern DWORD g_dw3DStuffY;
@@ -2972,7 +2643,7 @@ no_muzzle_calcs:
         DWORD dwHeight = g_dw3DStuffHeight >> 1;
         DWORD dwX = g_viewData.dwX;
         DWORD dwY = g_dw3DStuffY;
-#endif
+
         MM_pMatrix[0]._11 = 0.0f;
         MM_pMatrix[0]._12 = matTemp._11 * (float)dwWidth + matTemp._14 * (float)(dwX + dwWidth);
         MM_pMatrix[0]._13 = matTemp._12 * -(float)dwHeight + matTemp._14 * (float)(dwY + dwHeight);
@@ -3209,17 +2880,6 @@ no_muzzle_calcs:
             LOG_EXIT(Figure_Set_RenderState)
             LOG_ENTER(Figure_DrawIndPrimMM)
 
-#if 0
-			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
-					D3DPT_TRIANGLELIST,
-					D3DFVF_VERTEX,
-					(void *)&d3dmm,
-					pMat->wNumVertices,
-					pwStripIndices,
-					pMat->wNumStripIndices,
-					D3DDP_MULTIMATRIX );
-			//TRACE("Drew %i vertices, %i indices\n", (int)( pMat->wNumVertices ), (int)( pMat->wNumStripIndices ) );
-#else
             // Use platform-independent version.
 
             HRESULT hres;
@@ -3244,7 +2904,6 @@ no_muzzle_calcs:
                     pMat->wNumStripIndices);
                 // TRACE ( "F4" );
             }
-#endif
 
 #else
 
@@ -3274,33 +2933,7 @@ no_muzzle_calcs:
 #endif
 
 //			ASSERT ( SUCCEEDED ( hres ) );  //triggers all the time when inside on start of RTA
-#if 0
-			// Can we have 4x polys for free? Oh go on....
-			hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
-					D3DPT_TRIANGLELIST,
-					D3DFVF_VERTEX,
-					(void *)&d3dmm,
-					pMat->wNumVertices,
-					pwStripIndices,
-					pMat->wNumStripIndices,
-					D3DDP_MULTIMATRIX );
-			hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
-					D3DPT_TRIANGLELIST,
-					D3DFVF_VERTEX,
-					(void *)&d3dmm,
-					pMat->wNumVertices,
-					pwStripIndices,
-					pMat->wNumStripIndices,
-					D3DDP_MULTIMATRIX );
-			hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
-					D3DPT_TRIANGLELIST,
-					D3DFVF_VERTEX,
-					(void *)&d3dmm,
-					pMat->wNumVertices,
-					pwStripIndices,
-					pMat->wNumStripIndices,
-					D3DDP_MULTIMATRIX );
-#endif
+
             LOG_EXIT(Figure_DrawIndPrimMM)
 
         } else {
@@ -4649,23 +4282,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
 
     LOG_ENTER(Figure_Draw_Hierarchical)
 
-#ifdef HIGH_REZ_PEOPLE_PLEASE_BOB
-    // Do I need to toggle inflation?
-    extern int g_iCheatNumber;
-    // Well, 0x10f1a7e sort of spells "inflate" :-)
-    if (g_iCheatNumber == 0x10f1a7e) {
-        if (m_bPleaseInflatePeople) {
-            CONSOLE_text("Looks like the inflation is wearing off now D'arci.");
-            m_bPleaseInflatePeople = FALSE;
-        } else {
-            CONSOLE_text("The Illinois Enema Bandit has inflated everyone D'arci!");
-            m_bPleaseInflatePeople = TRUE;
-        }
-        // And rebuild all prims.
-        FIGURE_clean_all_LRU_slots();
-        g_iCheatNumber = 0;
-    }
-#endif
 
     f1 = p_person->Draw.Tweened->CurrentFrame->Flags;
     f2 = p_person->Draw.Tweened->NextFrame->Flags;
@@ -5249,23 +4865,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
 
     LOG_ENTER(Figure_Draw_Hierarchical)
 
-#ifdef HIGH_REZ_PEOPLE_PLEASE_BOB
-    // Do I need to toggle inflation?
-    extern int g_iCheatNumber;
-    // Well, 0x10f1a7e sort of spells "inflate" :-)
-    if (g_iCheatNumber == 0x10f1a7e) {
-        if (m_bPleaseInflatePeople) {
-            CONSOLE_text("Looks like the inflation is wearing off now D'arci.");
-            m_bPleaseInflatePeople = FALSE;
-        } else {
-            CONSOLE_text("The Illinois Enema Bandit has inflated everyone D'arci!");
-            m_bPleaseInflatePeople = TRUE;
-        }
-        // And rebuild all prims.
-        FIGURE_clean_all_LRU_slots();
-        g_iCheatNumber = 0;
-    }
-#endif
 
     f1 = p_person->Draw.Tweened->CurrentFrame->Flags;
     f2 = p_person->Draw.Tweened->NextFrame->Flags;
@@ -5567,23 +5166,6 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing* p_person)
     // SLONG limb;
     struct Matrix33* rot_mat;
 
-#ifdef HIGH_REZ_PEOPLE_PLEASE_BOB
-    // Do I need to toggle inflation?
-    extern int g_iCheatNumber;
-    // Well, 0x10f1a7e sort of spells "inflate" :-)
-    if (g_iCheatNumber == 0x10f1a7e) {
-        if (m_bPleaseInflatePeople) {
-            CONSOLE_text("Looks like the inflation is wearing off now D'arci.");
-            m_bPleaseInflatePeople = FALSE;
-        } else {
-            CONSOLE_text("The Illinois Enema Bandit has inflated everyone D'arci!");
-            m_bPleaseInflatePeople = TRUE;
-        }
-        // And rebuild all prims.
-        FIGURE_clean_all_LRU_slots();
-        g_iCheatNumber = 0;
-    }
-#endif
 
     LOG_ENTER(Figure_Draw_Hierarchical)
 

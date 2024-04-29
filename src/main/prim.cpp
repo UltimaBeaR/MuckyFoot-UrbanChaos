@@ -1,6 +1,4 @@
 
-// #include	"Editor.hpp"
-
 #include "game.h"
 // #include	"engine.h"
 // #include	"trig.h"

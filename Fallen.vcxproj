@@ -410,13 +410,13 @@
     <ClInclude Include="src\DDLibrary\WindProcs.h" />
     <ClInclude Include="src\Editor\Anim.h" />
     <ClInclude Include="src\Editor\Edit.h" />
-    <ClInclude Include="src\Editor\Editor.hpp" />
+    <ClInclude Include="src\Editor\Editor.h" />
     <ClInclude Include="src\Editor\EditorLib.h" />
     <ClInclude Include="src\Editor\extra.h" />
     <ClInclude Include="src\Editor\map.h" />
     <ClInclude Include="src\Editor\outline.h" />
     <ClInclude Include="src\Editor\Prim.h" />
-    <ClInclude Include="src\Editor\Primativ.hpp" />
+    <ClInclude Include="src\Editor\Primativ.h" />
     <ClInclude Include="src\Editor\prim_draw.h" />
     <ClInclude Include="src\Editor\Thing.h" />
     <ClInclude Include="src\main\america.h" />

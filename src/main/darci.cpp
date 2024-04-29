@@ -6,7 +6,6 @@
 #include "animate.h"
 #include "combat.h"
 #include "id.h"
-// #include	"c:\fallen\editor\headers\collide.hpp"
 // #include	"c:\fallen\editor\headers\map.h"
 #include "statedef.h"
 #include "enter.h"

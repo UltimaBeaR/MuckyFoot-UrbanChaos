@@ -1,5 +1,4 @@
 #include "game.h"
-// #include	"..\editor\headers\collide.hpp"
 #include "../editor/map.h"
 #include "animate.h"
 #include "dirt.h"

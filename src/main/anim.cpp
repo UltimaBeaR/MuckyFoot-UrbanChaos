@@ -77,8 +77,6 @@ SAVE INGAME
  psx_tex_xy -> 2000   tot 914468 (1000)
 */
 
-// #include	"Editor.hpp"
-
 #include "stdio.h"
 #include "game.h"
 // #include	"engine.h"

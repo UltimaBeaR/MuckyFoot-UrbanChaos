@@ -1,6 +1,6 @@
 #pragma once
 
-#include "primativ.hpp"
+#include "primativ.h"
 #include "anim.h"
 // #include	"Engine.h"
 // DEFINES

@@ -7,7 +7,7 @@
 #include "io.h"
 #include "memory.h"
 
-#include "../editor/editor.hpp"
+#include "../editor/editor.h"
 #include "../editor/outline.h"
 
 struct DepthStrip edit_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH]; // 2meg
@@ -23,7 +23,7 @@ SLONG insert_collision_vect(SLONG x1, SLONG y1, SLONG z1, SLONG x2, SLONG y2, SL
 {
     return 0;
 }
-// psx#include	"c:\fallen\editor\headers\Editor.hpp"
+
 // #include	"c:\fallen\editor\headers\engine.h"
 // #include	"engine.h"
 // #include	"math.h"

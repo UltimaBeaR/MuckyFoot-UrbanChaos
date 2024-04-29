@@ -3,7 +3,7 @@
 #include "pap.h"
 #include "inside2.h"
 #include "ob.h"
-#include "../editor/editor.hpp"
+#include "../editor/editor.h"
 #include "memory.h"
 #include "mav.h"
 #include "noserver.h"

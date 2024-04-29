@@ -2,7 +2,7 @@
 // Functions for helping with the outline of shapes on grids.
 //
 
-#include "editor.hpp"
+#include "editor.h"
 #include "../mfstdlib/mfstdlib.h"
 
 //

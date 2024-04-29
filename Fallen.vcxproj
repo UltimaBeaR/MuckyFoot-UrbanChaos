@@ -557,7 +557,6 @@
     <ClInclude Include="src\outro\slap.h" />
     <ClInclude Include="src\outro\Tga.h" />
     <ClInclude Include="src\outro\wire.h" />
-    <ClInclude Include="src\sedit\es.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

@@ -50,7 +50,6 @@
 #include "../main/ns.h"
 #include "../main/cloth.h"
 #include "facet.h"
-// #include "c:\fallen\sedit\headers\es.h"
 #include "ic.h"
 #include "comp.h"
 #include "../main/cam.h"

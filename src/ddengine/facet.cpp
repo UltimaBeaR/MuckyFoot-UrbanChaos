@@ -10,7 +10,6 @@
 #include "../main/pap.h"
 #include "math.h"
 #include "../main/ns.h"
-#include "../sedit/es.h"
 #include "../main/memory.h"
 #include "texture.h"
 #include "polypage.h"

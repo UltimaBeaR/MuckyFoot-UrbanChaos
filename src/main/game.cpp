@@ -43,7 +43,6 @@
 #include "cloth.h"
 #include "ns.h"
 #include "supermap.h"
-#include "../sedit/es.h"
 #include "build2.h"
 #include "eway.h"
 #include "elev.h"

@@ -547,7 +547,6 @@
     <ClInclude Include="src\outro\lmap.h" />
     <ClInclude Include="src\outro\matrix.h" />
     <ClInclude Include="src\outro\mf.h" />
-    <ClInclude Include="src\outro\midasdll.h" />
     <ClInclude Include="src\outro\os.h" />
     <ClInclude Include="src\outro\slap.h" />
     <ClInclude Include="src\outro\tga.h" />

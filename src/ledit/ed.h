@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 // Note: ultimabear: used in night.cpp as struct for loading game format file for initializing light stuff. It's not editor-only stuff, so mabe better to rename it and move to night.cpp
 struct ED_Light {
     UBYTE range;

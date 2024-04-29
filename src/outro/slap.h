@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Initialises the SLAPPER with a new bitmap. It does not clear the bitmap!
 //

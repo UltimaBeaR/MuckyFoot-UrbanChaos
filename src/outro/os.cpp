@@ -23,8 +23,6 @@
 #include "../main/music.h"
 #include "../main/sound_id.h"
 
-// #include "midasdll.h"
-
 //
 // The entrypoint into the actual game.
 //

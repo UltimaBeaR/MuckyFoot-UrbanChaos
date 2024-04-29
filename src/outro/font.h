@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Loads in the font texture and calculates the uv's of the letters.
 //

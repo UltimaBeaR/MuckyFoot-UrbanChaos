@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Every key has a byte flag to say whether it is on or off.
 //

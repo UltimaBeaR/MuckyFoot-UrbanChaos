@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // Turn off the warning about [] arrays at the end of structures.
 //

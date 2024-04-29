@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 // ========================================================
 //
 // WINDOWS AND MISCELLANEOUS STUFF

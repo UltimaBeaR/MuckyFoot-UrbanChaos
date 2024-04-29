@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //
 // The position of the camera. Only read from these vars.
 //

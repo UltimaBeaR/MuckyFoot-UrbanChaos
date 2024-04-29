@@ -2,6 +2,10 @@
 //
 // handles CD-ROM drives
 
+#pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 void LocateCDROM(void);
 
 char* GetCDPath(void);

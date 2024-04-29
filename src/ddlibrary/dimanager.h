@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 //---------------------------------------------------------------
 
 #define MOUSE DIDEVTYPE_MOUSE

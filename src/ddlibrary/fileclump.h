@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 // FileClump
 //
 // a bunch of files stored in a metafile

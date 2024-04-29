@@ -2,6 +2,10 @@
 //
 // asynchronous file loading for Win95
 
+#pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 // InitAsyncFile
 //
 // initialize

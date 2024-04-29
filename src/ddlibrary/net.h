@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 // ========================================================
 //
 // Initialising and releasing all the DirectPlay stuff...

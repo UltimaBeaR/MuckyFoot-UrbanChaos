@@ -398,8 +398,6 @@
     <ClInclude Include="src\ddlibrary\gworkscreen.h" />
     <ClInclude Include="src\ddlibrary\mfx.h" />
     <ClInclude Include="src\ddlibrary\net.h" />
-    <ClInclude Include="src\ddlibrary\qsmanager.h" />
-    <ClInclude Include="src\ddlibrary\resource.h" />
     <ClInclude Include="src\ddlibrary\tga.h" />
     <ClInclude Include="src\ddlibrary\windprocs.h" />
     <ClInclude Include="src\editor\anim.h" />

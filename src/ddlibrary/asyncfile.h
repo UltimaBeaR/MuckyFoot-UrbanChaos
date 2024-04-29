@@ -2,6 +2,10 @@
 //
 // asynchronous file loading
 
+#pragma once
+
+#include "../mfstdlib/mfstdlib.h"
+
 // InitAsyncFile
 //
 // initialize

@@ -3,7 +3,10 @@
 //
 // Limitations: Currently assumes first joystick
 
+#pragma once
+
 #include "../mfstdlib/mfstdlib.h"
+
 #include "dimanager.h"
 
 #if 0

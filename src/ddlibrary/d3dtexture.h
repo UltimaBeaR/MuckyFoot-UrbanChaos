@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 // Call after doing lots of loading.
 void NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit(void);
 

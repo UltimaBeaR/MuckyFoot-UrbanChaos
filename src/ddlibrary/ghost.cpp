@@ -9,6 +9,9 @@
 #define PAUSE (1 << 0)
 #define PAUSE_ACK (1 << 1)
 
+#define IDI_ICON2 200
+#define IDR_MAIN_ACCELERATOR 115
+
 int iGlobalWinMode;
 DWORD ShellID;
 HACCEL hDDLibAccel;

@@ -6,7 +6,6 @@
 #include "../main/fc.h"
 #include "../main/env.h"
 #include "../main/demo.h"
-#include "resource.h"
 #include <cmath>
 
 #include "drive.h"

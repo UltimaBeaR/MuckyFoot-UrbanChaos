@@ -539,8 +539,6 @@
     <ClInclude Include="src\main\wmove.h" />
     <ClInclude Include="src\main\xlat_str.h" />
     <ClInclude Include="src\Ledit\ed.h" />
-    <ClInclude Include="src\Ledit\gi.h" />
-    <ClInclude Include="src\Ledit\ledit.h" />
     <ClInclude Include="src\outro\Always.h" />
     <ClInclude Include="src\outro\back.h" />
     <ClInclude Include="src\outro\cam.h" />

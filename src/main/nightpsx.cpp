@@ -12,4 +12,3 @@
 #include "shadow.h"
 #include "supermap.h"
 #include "ware.h"
-#include "../ledit/ed.h"

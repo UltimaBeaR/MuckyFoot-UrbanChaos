@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "night.h"
+#include "../main/night.h"
 
 //
 // If a prim face has its FACE_FLAG_TINTED flag set, then

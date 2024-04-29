@@ -78,7 +78,7 @@ extern struct MemTable save_table[];
 #include "interact.h"
 
 #ifdef VERSION_D3D
-#include "aeng.h"
+#include "../DDEngine/aeng.h"
 #endif
 
 //---------------------------------------------------------------

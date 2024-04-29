@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "ob.h"
+#include "../main/ob.h"
 
 //
 // Draws a semi-sphere whose edge is black and whose colour in the

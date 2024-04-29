@@ -17,17 +17,17 @@
 #include "pcom.h"
 #include "animate.h"
 #include "fmatrix.h"
-#include "..\headers\night.h"
+#include "night.h"
 #include "pyro.h"
-#include "poly.h"
+#include "../DDEngine/poly.h"
 #include "psystem.h"
 #include "memory.h"
-#include "mfx.h"
+#include "../DDLibrary/mfx.h"
 #include "pow.h"
 #include "mav.h"
 
-#include "..\DDLibrary\headers\D3DTexture.h"
-#include "..\DDLibrary\headers\GDisplay.h"
+#include "../DDLibrary/D3DTexture.h"
+#include "../DDLibrary/GDisplay.h"
 
 #define TICK_SHIFT_LOWRES (TICK_SHIFT - 2)
 

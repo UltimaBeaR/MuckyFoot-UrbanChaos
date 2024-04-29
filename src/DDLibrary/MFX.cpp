@@ -3,9 +3,9 @@
 
 #include "MFX.h"
 
-#include "..\headers\fc.h"
-#include "..\headers\env.h"
-#include "..\headers\demo.h"
+#include "../main/fc.h"
+#include "../main/env.h"
+#include "../main/demo.h"
 #include "resource.h"
 #include <cmath>
 

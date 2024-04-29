@@ -3,7 +3,7 @@
 // vehicle physics
 
 #pragma once
-#include "../Headers/State.h"
+#include "State.h"
 
 #define FLAG_VEH_DRIVING (1 << 0)
 #define FLAG_VEH_WHEEL1_GRIP (1 << 1)

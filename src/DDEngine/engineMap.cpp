@@ -9,11 +9,11 @@
 #include "poly.h"
 #include "text.h"
 #include "texture.h"
-#include "mav.h"
+#include "../main/mav.h"
 #include "menufont.h"
 #include "matrix.h"
-#include "memory.h"
-#include "fc.h"
+#include "../main/memory.h"
+#include "../main/fc.h"
 #include "font2d.h"
 
 extern CBYTE* EWAY_get_mess(SLONG index);

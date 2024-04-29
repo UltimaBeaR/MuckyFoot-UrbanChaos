@@ -17,14 +17,14 @@
 #include "pow.h"
 #include "puddle.h"
 #include "drip.h"
-#include "mfx.h"
+#include "../DDLibrary/mfx.h"
 #include "fc.h"
-#include "poly.h"
+#include "../DDEngine/poly.h"
 #include "sound.h"
 #include "grenade.h"
-#include "polypage.h"
-#include "drawxtra.h"
-#include "font2d.h"
+#include "../DDEngine/polypage.h"
+#include "../DDEngine/drawxtra.h"
+#include "../DDEngine/font2d.h"
 
 //----------------------------------------------------------------------------
 // DEFINES

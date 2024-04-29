@@ -10,13 +10,13 @@
 #include "poly.h"
 #include "texture.h"
 #include "message.h"
-#include "night.h"
+#include "../main/night.h"
 // #include "../../MuckyBasic/clip.h"
 #include "vertexbuffer.h"
 #include "polypoint.h"
 #include "renderstate.h"
 #include "polypage.h"
-#include "env.h"
+#include "../main/env.h"
 
 extern RenderState DefRenderState;
 extern PolyPage POLY_Page[POLY_NUM_PAGES];

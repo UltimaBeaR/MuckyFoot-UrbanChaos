@@ -6,7 +6,7 @@
 #include "../MFStdLib/MFStdlib.h"
 #include "env.h"
 #include "Interfac.h"
-#include "menufont.h"
+#include "../DDEngine/menufont.h"
 
 CBYTE inifile[_MAX_PATH];
 CBYTE strbuf[_MAX_PATH];

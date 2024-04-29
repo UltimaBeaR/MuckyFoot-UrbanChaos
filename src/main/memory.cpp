@@ -24,7 +24,7 @@
 #include "playcuts.h"
 #include "eway.h"
 #include "statedef.h"
-#include "poly.h"
+#include "../DDEngine/poly.h"
 #include "sound.h"
 
 #define NEW_LEVELS 1

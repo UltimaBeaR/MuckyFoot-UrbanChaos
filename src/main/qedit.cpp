@@ -7,7 +7,7 @@
 #include "qedit.h"
 #include "qmap.h"
 #include "fmatrix.h"
-#include "..\ddengine\headers\qeng.h"
+#include "../DDEngine/qeng.h"
 
 //
 // The focus on the map.

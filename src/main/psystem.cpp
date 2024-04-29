@@ -9,7 +9,7 @@
 #include "psystem.h"
 #include "mav.h"
 #include "FMatrix.h"
-#include "..\DDEngine\Headers\poly.h"
+#include "../DDEngine/poly.h"
 #include "animate.h"
 #include "interact.h"
 #include "sound.h"

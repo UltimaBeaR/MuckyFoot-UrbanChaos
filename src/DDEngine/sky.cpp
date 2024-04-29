@@ -9,7 +9,7 @@
 #include "poly.h"
 #include "aeng.h"
 #include <math.h>
-#include "cam.h"
+#include "../main/cam.h"
 
 #define SKY_STAR_T_DIM 1
 #define SKY_STAR_T_MEDIUM 2

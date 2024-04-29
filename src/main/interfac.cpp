@@ -1,5 +1,5 @@
 #include "game.h"
-#include "..\headers\interfac.h"
+#include "interfac.h"
 #include "animate.h"
 #include "statedef.h"
 #include "person.h"
@@ -23,10 +23,10 @@
 #include "memory.h"
 #include "america.h"
 #include "wmove.h"
-#include "panel.h"
+#include "../DDEngine/panel.h"
 #include "env.h"
 #include "../DDLibrary/DDLib.h"
-#include "poly.h"
+#include "../DDEngine/poly.h"
 
 UBYTE player_relative;
 

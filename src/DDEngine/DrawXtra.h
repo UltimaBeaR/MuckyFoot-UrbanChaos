@@ -11,8 +11,8 @@
 
 #include "../MFStdLib/MFStdlib.h"
 #include "../main/game.h"
-#include "thing.h"
-#include "ribbon.h"
+#include "../main/thing.h"
+#include "../main/ribbon.h"
 
 #define BLOOM_GLOW_ALWAYS 1
 #define BLOOM_LENSFLARE 2

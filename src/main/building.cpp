@@ -1,14 +1,14 @@
 
 #include "game.h"
 #include "shadow.h"
-#include "..\headers\animtmap.h"
+#include "animtmap.h"
 #include "pap.h"
 #include "supermap.h"
 #include "io.h"
 #include "memory.h"
 
-#include "..\editor\headers\Editor.hpp"
-#include "..\editor\headers\outline.h"
+#include "../Editor/Editor.hpp"
+#include "../Editor/outline.h"
 
 struct DepthStrip edit_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH]; // 2meg
 UWORD tex_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];

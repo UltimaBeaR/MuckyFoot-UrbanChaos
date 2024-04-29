@@ -35,7 +35,7 @@
 #include "io.h"
 #include "pow.h"
 #include "build2.h"
-#include "es.h"
+#include "../sedit/es.h"
 #include "ns.h"
 #include "road.h"
 #include "mav.h"
@@ -60,7 +60,7 @@
 #include "playcuts.h"
 #include "grenade.h"
 #include "env.h"
-#include "panel.h"
+#include "../DDEngine/panel.h"
 
 #include "sound.h"
 #ifdef USE_A3D

@@ -4,13 +4,13 @@
 
 #include "../main/game.h"
 #include "../DDLibrary/DDLib.h"
-#include "pap.h"
+#include "../main/pap.h"
 #include "poly.h"
 #include "polypoint.h"
 #include "polypage.h"
-#include "night.h"
-#include "supermap.h"
-#include "memory.h"
+#include "../main/night.h"
+#include "../main/supermap.h"
+#include "../main/memory.h"
 #include "matrix.h"
 #include <math.h>
 

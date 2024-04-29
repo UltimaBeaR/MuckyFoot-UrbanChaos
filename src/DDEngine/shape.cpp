@@ -2,12 +2,12 @@
 #include "../DDLibrary/DDLib.h"
 #include <math.h>
 #include "aeng.h"
-#include "..\headers\balloon.h"
+#include "../main/balloon.h"
 #include "poly.h"
 #include "shape.h"
-#include "night.h"
+#include "../main/night.h"
 #include "matrix.h"
-#include "..\editor\headers\prim.h"
+#include "../Editor/prim.h"
 #include "mesh.h"
 #include "../main/game.h"
 

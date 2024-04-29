@@ -2,19 +2,19 @@
 // Guy Simmons, 13th November 1997.
 
 #include "DDLib.h"
-#include "..\headers\demo.h"
-#include "..\headers\interfac.h"
+#include "../main/demo.h"
+#include "../main/interfac.h"
 #include "BinkClient.h"
-#include "..\headers\env.h"
-#include "..\headers\xlat_str.h"
+#include "../main/env.h"
+#include "../main/xlat_str.h"
 
-#include "poly.h"
-#include "vertexbuffer.h"
-#include "polypoint.h"
-#include "renderstate.h"
-#include "polypage.h"
+#include "../DDEngine/poly.h"
+#include "../DDEngine/vertexbuffer.h"
+#include "../DDEngine/polypoint.h"
+#include "../DDEngine/renderstate.h"
+#include "../DDEngine/polypage.h"
 #include "gdisplay.h"
-#include "panel.h"
+#include "../DDEngine/panel.h"
 #include "../main/game.h"
 
 //

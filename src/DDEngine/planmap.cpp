@@ -3,8 +3,8 @@
 #include <math.h>
 #include "aeng.h"
 #include "../main/game.h"
-#include "..\headers\pap.h"
-#include "..\headers\road.h"
+#include "../main/pap.h"
+#include "../main/road.h"
 #include "planmap.h"
 
 #define EDGE_LEFT (1 << 0)

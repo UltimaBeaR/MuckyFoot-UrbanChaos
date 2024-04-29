@@ -9,7 +9,7 @@
 #include "pap.h"
 #include "ns.h"
 #include "fc.h"
-#include "mfx.h"
+#include "../DDLibrary/mfx.h"
 #include "statedef.h"
 #include "ware.h"
 #include "frontend.h"

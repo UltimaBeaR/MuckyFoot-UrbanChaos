@@ -5,10 +5,10 @@
 #include "game.h"
 #include "../MFStdLib/MFStdlib.h"
 #include <stdlib.h>
-#include <hm.h>
+#include "hm.h"
 #include <math.h>
-#include "..\ddengine\headers\message.h"
-#include "..\ddengine\headers\matrix.h"
+#include "../DDEngine/message.h"
+#include "../DDEngine/matrix.h"
 #include "maths.h"
 #include "pap.h"
 #include "memory.h"

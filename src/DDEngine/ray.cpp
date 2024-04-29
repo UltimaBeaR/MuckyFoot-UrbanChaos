@@ -3,7 +3,7 @@
 #include "../main/game.h"
 #include "ray.h"
 #include "poly.h"
-#include "inline.h"
+#include "../main/inline.h"
 #include <math.h>
 
 #if 0 // Intel C compiler barfs

@@ -6,7 +6,7 @@
 #include "../DDLibrary/DDLib.h"
 #include <math.h>
 #include "poly.h"
-#include "env.h"
+#include "../main/env.h"
 
 #include "renderstate.h"
 

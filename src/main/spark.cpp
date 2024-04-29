@@ -4,7 +4,7 @@
 #include "glitter.h"
 #include "sound.h"
 #include "pap.h"
-#include "mfx.h"
+#include "../DDLibrary/mfx.h"
 #include "memory.h"
 
 //

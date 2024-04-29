@@ -7,7 +7,7 @@
 #include "pap.h"
 #include "sm.h"
 #include "inline.h"
-#include "..\ddengine\headers\aeng.h"
+#include "../DDEngine/aeng.h"
 
 //
 // The spheres that make up an object.

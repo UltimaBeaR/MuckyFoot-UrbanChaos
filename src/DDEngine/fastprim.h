@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "night.h"
+#include "../main/night.h"
 
 //
 // Initialises memory.

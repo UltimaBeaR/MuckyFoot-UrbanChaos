@@ -8,7 +8,7 @@
 #include "polypoint.h"
 #include "polypage.h"
 #include "fastprim.h"
-#include "memory.h"
+#include "../main/memory.h"
 #include "texture.h"
 #include "matrix.h"
 

@@ -4,7 +4,7 @@
 #pragma once
 
 #include "../MFStdLib/MFStdlib.h"
-#include "..\ddlibrary\headers\DDLib.h"
+#include "../DDLibrary/DDLib.h"
 
 void Time(struct MFTime* the_time);
 

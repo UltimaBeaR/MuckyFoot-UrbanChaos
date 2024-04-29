@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "..\headers\qmap.h"
+#include "../main/qmap.h"
 
 //
 // Once at the start of the whole program.

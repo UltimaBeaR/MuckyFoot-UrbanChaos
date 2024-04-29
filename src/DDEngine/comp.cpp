@@ -5,7 +5,7 @@
 #include "../MFStdLib/MFStdlib.h"
 #include "comp.h"
 #include "ic.h"
-#include "tga.h"
+#include "../DDLibrary/tga.h"
 
 //
 // COMP_Delta data structures.  There are as many pan structures as you need

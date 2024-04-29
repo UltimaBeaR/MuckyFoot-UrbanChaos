@@ -4,7 +4,7 @@
 
 #include "../MFStdLib/MFStdlib.h"
 #include "ic.h"
-#include "tga.h"
+#include "../DDLibrary/tga.h"
 
 //
 // Converts 24-bit RGB into 5:6:5

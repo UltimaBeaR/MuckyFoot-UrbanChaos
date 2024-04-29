@@ -5,7 +5,7 @@
 #include "game.h"
 #include "pow.h"
 #include "fmatrix.h"
-#include "panel.h"
+#include "../DDEngine/panel.h"
 
 //
 // Our data structures.

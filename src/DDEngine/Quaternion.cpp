@@ -2,7 +2,7 @@
 
 #include "../main/game.h"
 #include "Quaternion.h"
-#include "..\headers\fmatrix.h"
+#include "../main/fmatrix.h"
 
 void QUATERNION_BuildTweenInteger(struct Matrix33* dest, struct CMatrix33* cm1, struct CMatrix33* cm2, SLONG tween);
 

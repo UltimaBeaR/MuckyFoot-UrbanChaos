@@ -5,10 +5,10 @@
 #include "../main/game.h"
 #include "smap.h"
 #include "aa.h"
-#include "..\headers\person.h"
-#include "..\headers\fmatrix.h"
+#include "../main/person.h"
+#include "../main/fmatrix.h"
 #include "matrix.h"
-#include "memory.h"
+#include "../main/memory.h"
 #include <math.h>
 
 // ========================================================

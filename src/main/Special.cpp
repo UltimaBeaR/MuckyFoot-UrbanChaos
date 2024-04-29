@@ -35,7 +35,7 @@
 #include "xlat_str.h"
 #include "sound.h"
 #include "grenade.h"
-#include "..\ddengine\headers\panel.h"
+#include "../DDEngine/panel.h"
 
 extern void add_damage_text(SWORD x, SWORD y, SWORD z, CBYTE* text);
 

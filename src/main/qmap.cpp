@@ -5,7 +5,7 @@
 #include "game.h"
 #include "../MFStdLib/MFStdlib.h"
 #include "qmap.h"
-#include "..\ddengine\headers\qeng.h"
+#include "../DDEngine/qeng.h"
 
 //
 // The actual data declared in the header file...

@@ -29,7 +29,7 @@
 
 #include "truetype.h"
 #include "polypoint.h"
-#include "env.h"
+#include "../main/env.h"
 
 #define ANTIALIAS_BY_HAND 1 // antialias by hand?
 #define AA_SIZE (ANTIALIAS_BY_HAND ? 2 : 1) // multiplier

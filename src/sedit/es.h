@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "pap.h"
+#include "../main/pap.h"
 
 //
 // The map we edit, load and save.

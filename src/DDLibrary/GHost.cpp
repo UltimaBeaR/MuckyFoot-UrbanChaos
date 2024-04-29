@@ -2,7 +2,7 @@
 // Guy Simmons, 20th November 1997.
 
 #include "DDLib.h"
-#include "..\headers\Sound.h"
+#include "../main/Sound.h"
 #include "mfx.h"
 
 #define PAUSE_TIMEOUT 500

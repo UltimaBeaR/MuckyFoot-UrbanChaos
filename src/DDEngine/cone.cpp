@@ -5,10 +5,10 @@
 #include "../main/game.h"
 #include "poly.h"
 #include "cone.h"
-#include "pap.h"
-#include "supermap.h"
+#include "../main/pap.h"
+#include "../main/supermap.h"
 #include <math.h>
-#include "memory.h"
+#include "../main/memory.h"
 
 //
 // The origin of the cone.

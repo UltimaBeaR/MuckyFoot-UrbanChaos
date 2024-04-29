@@ -11,9 +11,9 @@
 #include "wmove.h"
 #include "animate.h"
 #include "psystem.h"
-#include "panel.h"
-#include "poly.h"
-#include "drawxtra.h"
+#include "../DDEngine/panel.h"
+#include "../DDEngine/poly.h"
+#include "../DDEngine/drawxtra.h"
 
 Plat* PLAT_plat; //[PLAT_MAX_PLATS];
 SLONG PLAT_plat_upto;

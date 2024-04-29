@@ -7,7 +7,7 @@
 #include "pap.h"
 #include "mav.h"
 #include "elev.h"
-#include "texture.h"
+#include "../DDEngine/texture.h"
 
 #include "memory.h"
 

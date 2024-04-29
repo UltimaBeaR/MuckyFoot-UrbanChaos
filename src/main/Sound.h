@@ -4,7 +4,7 @@
 #pragma once
 
 #include "Structs.h"
-#include "MFX.h"
+#include "../DDLibrary/MFX.h"
 
 #define USE_A3D
 
@@ -51,7 +51,6 @@ void SOUND_Curious(Thing* p_thing);
 UBYTE SOUND_Gender(Thing* p_thing);
 
 // SLONG	SOUND_Range(SLONG start, SLONG end);
-
 
 inline SLONG SOUND_Range(SLONG start, SLONG end)
 {

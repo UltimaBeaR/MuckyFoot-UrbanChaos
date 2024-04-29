@@ -7,28 +7,28 @@
 #include "poly.h"
 #include "figure.h"
 #include "sprite.h"
-#include "..\headers\fmatrix.h"
-#include "..\headers\mav.h"
-#include "..\headers\interact.h"
-#include "night.h"
-#include "shadow.h"
+#include "../main/fmatrix.h"
+#include "../main/mav.h"
+#include "../main/interact.h"
+#include "../main/night.h"
+#include "../main/shadow.h"
 #include "matrix.h"
-#include "animate.h"
+#include "../main/animate.h"
 #include "mesh.h"
-#include "dirt.h"
+#include "../main/dirt.h"
 #include "texture.h"
 
 #include "math.h"
-#include "interfac.h"
+#include "../main/interfac.h"
 
-#include "Hierarchy.h" // JCL is gay // MA wears girly shorts // JCL
+#include "../main/Hierarchy.h" // JCL is gay // MA wears girly shorts // JCL
 #include "Quaternion.h"
-#include "memory.h"
+#include "../main/memory.h"
 
-#include "..\headers\person.h"
-#include "..\headers\pcom.h"
-#include "..\headers\eway.h"
-#include "..\headers\dirt.h"
+#include "../main/person.h"
+#include "../main/pcom.h"
+#include "../main/eway.h"
+#include "../main/dirt.h"
 #include "../DDLibrary/DDLib.h"
 #include "panel.h"
 
@@ -36,7 +36,7 @@
 #include "poly.h"
 #include "polypage.h"
 
-#include "psystem.h"
+#include "../main/psystem.h"
 
 #define LOG_ENTER(x) \
     {                \

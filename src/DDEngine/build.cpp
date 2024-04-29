@@ -5,9 +5,9 @@
 #include "../main/game.h"
 #include "aeng.h"
 #include "poly.h"
-#include "light.h"
+#include "../main/light.h"
 #include "build.h"
-#include "memory.h"
+#include "../main/memory.h"
 
 LIGHT_Colour LIGHT_building_point[RMAX_PRIM_POINTS];
 LIGHT_Colour LIGHT_amb_colour;

@@ -15,8 +15,8 @@
 #include "sound.h"
 #include "mav.h"
 
-#include "..\ddengine\headers\poly.h"
-#include "..\ddengine\headers\texture.h"
+#include "../DDEngine/poly.h"
+#include "../DDEngine/texture.h"
 
 OB_Ob* OB_ob; //[OB_MAX_OBS];
 OB_workaround* OB_mapwho; //[OB_SIZE][OB_SIZE];

@@ -4,7 +4,7 @@
 
 #include "game.h"
 #include "collide.h"
-#include "..\headers\pcom.h"
+#include "pcom.h"
 #include "eway.h"
 #include "mav.h"
 #include "statedef.h"
@@ -19,12 +19,12 @@
 #include "guns.h"
 #include "animate.h"
 #include "ware.h"
-#include "mfx.h"
+#include "../DDLibrary/mfx.h"
 #include "cnet.h"
 #include "fc.h"
 #include "ob.h"
 #include "spark.h"
-#include "panel.h"
+#include "../DDEngine/panel.h"
 
 #include "memory.h"
 extern UBYTE stealth_debug;

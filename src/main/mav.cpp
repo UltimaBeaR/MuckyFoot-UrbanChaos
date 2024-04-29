@@ -4,7 +4,7 @@
 
 #include "game.h"
 #include "mav.h"
-#include "..\ddengine\headers\aeng.h"
+#include "../DDEngine/aeng.h"
 #include "pap.h"
 #include "supermap.h"
 #include "walkable.h"

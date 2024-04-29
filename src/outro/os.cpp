@@ -18,10 +18,10 @@
 #include "matrix.h"
 #include "tga.h"
 
-#include "..\ddlibrary\headers\ddlib.h"
-#include "..\ddlibrary\headers\mfx.h"
-#include "..\headers\music.h"
-#include "..\headers\sound_id.h"
+#include "../DDLibrary/ddlib.h"
+#include "../DDLibrary/mfx.h"
+#include "../main/music.h"
+#include "../main/sound_id.h"
 
 // #include "midasdll.h"
 

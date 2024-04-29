@@ -6,9 +6,9 @@
  */
 
 #include "MenuFont.h"
-#include "tga.h"
+#include "../DDLibrary/Tga.h"
 #include "poly.h"
-#include "..\headers\noserver.h"
+#include "../main/noserver.h"
 
 CharData FontInfo[256];
 CBYTE FontName[_MAX_PATH];
@@ -554,7 +554,7 @@ void MENUFONT_MergeLower()
     for (c = 'a'; c <= 'z'; c++) {
         FontInfo[c] = FontInfo[c - 32];
     }
-    /*	for (c='à';c<='ý';c++) {
+    /*	for (c='ï¿½';c<='ï¿½';c++) {
               FontInfo[c]=FontInfo[c-32];
             }*/
     for (c = 224; c <= 252; c++) {

@@ -12,12 +12,12 @@
 #include "game.h"
 #include "xlat_str.h"
 
-#include "..\ddengine\headers\poly.h"
-#include "..\DDLibrary\headers\D3DTexture.h"
-#include "..\DDLibrary\headers\GDisplay.h"
-#include "..\ddengine\headers\font3d.h"
-#include "..\ddengine\headers\font2d.h"
-#include "..\ddengine\headers\panel.h"
+#include "../DDEngine/poly.h"
+#include "../DDLibrary/D3DTexture.h"
+#include "../DDLibrary/GDisplay.h"
+#include "../DDEngine/font3d.h"
+#include "../DDEngine/font2d.h"
+#include "../DDEngine/panel.h"
 
 extern DIJOYSTATE the_state;
 

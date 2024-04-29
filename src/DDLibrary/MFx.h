@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../MFStdLib/MFStdlib.h"
-#include "structs.h"
-#include "thing.h"
+#include "../main/structs.h"
+#include "../main/thing.h"
 
 #define MFX_LOOPED (1) // loop the wave infinitely
 #define MFX_MOVING (2) // update the source's coords automatically

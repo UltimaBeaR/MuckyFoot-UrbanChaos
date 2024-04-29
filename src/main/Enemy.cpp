@@ -4,7 +4,7 @@
 #include "game.h"
 #include "person.h"
 #include "animate.h"
-#include "..\Editor\Headers\Thing.h"
+#include "../Editor/Thing.h"
 
 // extern KeyFrame			*darci_array[100],*roper_array[100];
 

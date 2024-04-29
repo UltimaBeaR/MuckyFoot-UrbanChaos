@@ -4,7 +4,7 @@
 
 #include "../main/game.h"
 #include "../DDLibrary/DDLib.h"
-#include "mav.h"
+#include "../main/mav.h"
 #include "poly.h"
 #include "oval.h"
 

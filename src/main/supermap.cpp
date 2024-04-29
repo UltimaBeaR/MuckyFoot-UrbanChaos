@@ -1,14 +1,14 @@
 #include "game.h"
-#include "..\headers\supermap.h"
-#include "..\headers\pap.h"
-#include "..\headers\inside2.h"
-#include "..\headers\ob.h"
-#include "..\editor\headers\Editor.hpp"
+#include "supermap.h"
+#include "pap.h"
+#include "inside2.h"
+#include "ob.h"
+#include "../Editor/Editor.hpp"
 #include "memory.h"
 #include "mav.h"
 #include "noserver.h"
-#include "..\ddengine\headers\texture.h"
-#include "..\headers\env.h"
+#include "../DDEngine/texture.h"
+#include "env.h"
 
 extern UBYTE roper_pickup;
 

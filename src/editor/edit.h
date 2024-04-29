@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #include "primativ.h"
 #include "anim.h"
 // #include	"Engine.h"

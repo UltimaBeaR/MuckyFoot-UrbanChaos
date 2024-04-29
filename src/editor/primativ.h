@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 class EdRect {
 private:
 public:

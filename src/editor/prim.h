@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 // DEFINES
 
 // Set this to 1 to enable TomF's new D3D-friendly engine.

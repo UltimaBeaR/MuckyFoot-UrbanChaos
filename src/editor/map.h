@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #undef ELE_SIZE
 
 // defs

@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../mfstdlib/mfstdlib.h"
+
 #include "editorlib.h"
 #pragma warning(disable : 4244)
 #include "map.h"

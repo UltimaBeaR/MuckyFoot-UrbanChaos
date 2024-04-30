@@ -276,8 +276,6 @@ graphics init
 TODO
     try to strip out as much unnececary includes as possible in every file (h or cpp)
 
-    remove all #if 0 code (and empty files after that) and #else of #if 1
-
     remove qedit code (look for QEDIT_loop and dependencies)
 
 
@@ -293,11 +291,12 @@ TODO
     abstract out windows platform specific code (windows)
     abstract out all low level graphics / rendering code
 
-    make support for xbox-like controllers
-
+    make support for xbox-like gamepad
     replace directx with vulkan/opengl + other libs
-
     make support for linux and mac
+        opengl + gamepad could be made using sdl2 lib, it's crossplatform
+
+    
 
     
 

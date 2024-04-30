@@ -1,63 +1,36 @@
-# MuckyFoot-UrbanChaos
+# Experimenting with Urban Chaos game
 
-This is a snapshot of (the 1999 PC/PSX/DreamCast game) Urban Chaos source code recently retreived from an old SourceSafe backup pulled from an old MuckyFoot server.
+[Original readme](/README_ORIGINAL.md)
 
-The games source code is in the fallen directory (the working title for Urban Chaos)
+## Build:
 
-At the time it was compiled with Visual Studio 6 I believe and possibly DirectX 6 and is entirey written in c (despite using cpp files).
-(I notice also some Glide code in there) I have succesfully loaded the projects with VS2013 though. 
+### Prerequisites
+* Windows (tested on windows 11)
 
-There is also source code for the psx version, and maybe even the Dream Cast port.
+* Visual Studio 2022 with c++ packages
 
-Urban Chaos had its own map editor and animation keyframe editor, these ran if I remember correctly under a window system 
-implemented by Guy Simmons, the code is included in the Editor folder
+* vcpkg (package manager for c++). Installation below:
+* * `git clone https://github.com/microsoft/vcpkg.git` to some folder (should be global, not local to game) for example `C:\vcpkg`
+* * run `bootstrap-vcpkg.bat` from this folder to initialize it
+* * run `.\vcpkg.exe integrate install` from this folder to integrate it to visual studio
 
-MFlib1 and MFStdLib are some generic libraries shared across Urban Chaos and possibly Startopia
-MuckyBasic is a inhouse scripting language written by Mark Adami
-Thrust is a side project by Mark Adami
+Open Fallen.sln and rebuild Fallen project. It should download vcpkg packages on first build to `./vcpkg_installed` folder.
 
-Note no data is included, and the source data used by the editor/Engine is likely somewhat different to the data used by the final disk image 
-(all though much of it is probably identical)
+Game build will be in `./Debug` folder from project root.
 
-I am making this code public mainly out of historical interest, I doubt theres anything of any actual use to anyone, allthough people do 
-occasionally still ask me about data formats so they can dig them out themsleves now...
+## Debug/Run:
 
+Game resource files are needed to run the game.
 
-*BrainDump*
+Get the game from somewhere (you need windows version) and copy game files to `./Debug` folder. Copy all contents except top-level `.exe` and `.dll` files (these files would be overwritten by build).
 
-I tried compiling the code, but theres a lot of errors..
+I used steam version, files are here on my pc - `C:\Program Files (x86)\Steam\steamapps\common\Urban Chaos`
 
-We used DirectX before it did hardware vertex transforms, at some point VertexBuffers came along and I seem to recall Eddie Edwards implementing their use.
+To run this from ide under debug mode you should add following to your `Fallen.vcxproj.user` file inside of Project tag:
+```
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)\Debug</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+```
 
-a prim is simply a mesh (lampost etc)
-
-There is no soft skinning characters are seperate meshes
-
-The floor is a heightmap with a vertical offset possible for the kerbs see pap.h
-
-The building meshes were created on the fly from wall data that could generate N stories high of side wall building.cpp
-
-Fence meshes and fire escape meshes were similarily created on the fly
-
-The editor allowed placement of waypoints and control code for ai. as well as map creation
-
-The data set was limited to run on a 1 Meg Playstation1 (PSX)
-
-Theres code for features that never shipped like a motorbike and a grappling hook with rope physics, also once 
-mav is the sequel to nav, it handles mavigation :)
-
-I also had a tendency to increment the letter of a file type with new versions so map.h eventually became pap.h (much of the code was written with a 8.3 filename restriction)
-
-yes we had pee physics
-
-Thing could be considered a cpp base class
-
-MapWho is a bullfrog thing, essentially a 2d spatial array that objects in the world attach themselves to as a linked list for fast spatial lookups
-
-once upon a time the building all had procedural internals, also sewer systems..
-
-
-
-
-
-Mike Diskett

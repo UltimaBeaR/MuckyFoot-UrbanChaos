@@ -5,3 +5,4 @@
 *.VC.opendb
 *.vcxproj.user
 /CppDepend*
+/vcpkg_installed

@@ -3,7 +3,6 @@
 //
 
 #include "game.h"
-#include "../mfstdlib/mfstdlib.h"
 #include "pap.h"
 #include "sm.h"
 #include "inline.h"

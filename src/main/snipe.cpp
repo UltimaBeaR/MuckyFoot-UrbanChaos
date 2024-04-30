@@ -2,7 +2,6 @@
 // Snipe rifle-mode stuff
 //
 
-#include "../mfstdlib/mfstdlib.h"
 #include "game.h"
 #include "guns.h"
 #include "snipe.h"

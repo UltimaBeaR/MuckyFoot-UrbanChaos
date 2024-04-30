@@ -2,7 +2,6 @@
 // Sky...
 //
 
-#include "../mfstdlib/mfstdlib.h"
 #include "../ddlibrary/ddlib.h"
 #include "../main/game.h"
 #include "matrix.h"

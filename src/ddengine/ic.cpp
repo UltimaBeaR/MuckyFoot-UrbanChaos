@@ -2,7 +2,6 @@
 // Image compression.
 //
 
-#include "../mfstdlib/mfstdlib.h"
 #include "ic.h"
 #include "../ddlibrary/tga.h"
 

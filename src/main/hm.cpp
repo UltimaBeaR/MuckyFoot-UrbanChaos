@@ -3,7 +3,6 @@
 //
 
 #include "game.h"
-#include "../mfstdlib/mfstdlib.h"
 #include <stdlib.h>
 #include "hm.h"
 #include <math.h>

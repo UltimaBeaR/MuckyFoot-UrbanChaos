@@ -3,7 +3,6 @@
 //
 
 #include "game.h"
-#include "../mfstdlib/mfstdlib.h"
 #include "qedit.h"
 #include "qmap.h"
 #include "fmatrix.h"

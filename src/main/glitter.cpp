@@ -1,5 +1,4 @@
 #include "game.h"
-#include "../mfstdlib/mfstdlib.h"
 #include "glitter.h"
 
 //

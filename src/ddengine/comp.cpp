@@ -2,7 +2,6 @@
 // Movie compression.
 //
 
-#include "../mfstdlib/mfstdlib.h"
 #include "comp.h"
 #include "ic.h"
 #include "../ddlibrary/tga.h"

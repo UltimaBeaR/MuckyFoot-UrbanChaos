@@ -2,7 +2,6 @@
 // The new map screen
 //
 
-#include "../mfstdlib/mfstdlib.h"
 #include "../ddlibrary/ddlib.h"
 #include <math.h>
 #include "../main/game.h"

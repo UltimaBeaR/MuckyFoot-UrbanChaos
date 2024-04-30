@@ -1,5 +1,4 @@
 // samplmanager.c.h
-// mfstdlib.h
 
 // reference thingno
 //  sample index

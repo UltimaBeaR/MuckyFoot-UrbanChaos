@@ -5,7 +5,6 @@
 
 #include "cnet.h"
 #include "sound.h"
-#include "../mfstdlib/mfstdlib.h"
 #include "pap.h"
 #include "ns.h"
 #include "fc.h"

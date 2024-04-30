@@ -3,7 +3,6 @@
 //
 
 #include "editor.h"
-#include "../mfstdlib/mfstdlib.h"
 
 //
 // An outline.

@@ -2,7 +2,6 @@
 // Objects (prims) on the map.
 //
 
-#include "../mfstdlib/mfstdlib.h"
 #include "game.h"
 #include "pap.h"
 #include "ob.h"

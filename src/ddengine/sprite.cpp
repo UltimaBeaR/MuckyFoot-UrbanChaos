@@ -1,4 +1,3 @@
-#include "../mfstdlib/mfstdlib.h"
 #include "poly.h"
 #include "sprite.h"
 

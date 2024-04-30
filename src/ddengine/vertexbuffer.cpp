@@ -2,7 +2,6 @@
 //
 // Vertex buffer stuff (DX6)
 
-#include "../mfstdlib/mfstdlib.h"
 #include "../ddlibrary/ddlib.h"
 #include <math.h>
 #include "console.h"

@@ -1,4 +1,3 @@
-#include "../mfstdlib/mfstdlib.h"
 #include "../ddlibrary/ddlib.h"
 #include "poly.h"
 #include "qeng.h"

@@ -1,4 +1,3 @@
-#include "../mfstdlib/mfstdlib.h"
 #include "game.h"
 #include "../ddlibrary/net.h"
 

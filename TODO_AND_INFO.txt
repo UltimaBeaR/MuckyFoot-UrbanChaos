@@ -5,31 +5,11 @@
 
 
 all defines
-    _WIN32: unconfigured
-    WIN32: unconfigured
-    DIRECTINPUT_VERSION: unconfigured
     NDEBUG: unconfigured
-    ASSERT: unconfigured
-    ASSERT(e): unconfigured
-    min: unconfigured
-    max: unconfigured
     DEBUG: unconfigured
-    HEAP_DEBUGGING_PLEASE_BOB: unconfigured
-    BREAKTIMER: unconfigured
-    USE_W_FOG_PLEASE_BOB: unconfigured
-    WE_NEED_POLYBUFFERS_PLEASE_BOB: transient
-    TEX_EMBED: unconfigured
-    USE_D3D_VBUF: unconfigured
-    _DEBUG: unconfigured
-    SUPERCRINKLES_ENABLED: transient
-    USE_D3D_VBUF: transient
-    DISABLE_CRINKLES: transient
-    FINAL: unconfigured
-    MIN3: unconfigured
-    MAX3: unconfigured
-    _DEBUG_POO: unconfigured
     DOG_POO: unconfigured
     MAKE_THEM_FACE_THE_CAMERA: unconfigured
+    TEX_EMBED: unconfigured
     TARGET: unconfigured
     NEW_FLOOR: unconfigured
     STRIP_STATS: unconfigured
@@ -39,11 +19,15 @@ all defines
     BIKE: unconfigured
     DRAW_THIS_DEBUG_STUFF: unconfigured
     NO_MORE_BALLOONS: unconfigured
+    _DEBUG: unconfigured
     NO_MORE_BALLOONS_NOW: unconfigured
     WE_WANT_TO_DRAW_THE_TEXTURE_SHADOW_PAGE: unconfigured
     ARGH: unconfigured
     werrr: unconfigured
     SEWERS: unconfigured
+    BREAKTIMER: unconfigured
+    DISABLE_CRINKLES: transient
+    FINAL: unconfigured
     LIMIT_TOTAL_PYRO_SPRITES_PLEASE_BOB: unconfigured
     FACETINFO: transient
     UNUSED_WIRE_CUTTERS: unconfigured
@@ -54,91 +38,6 @@ all defines
     DO_SUPERFACETS_PLEASE_BOB: unconfigured
     FARFACET_USE_INDEXED_LISTS: transient
     FASTPRIM_PERFORMANCE: unconfigured
-    HIGH_REZ_PEOPLE_PLEASE_BOB: unconfigured
-    USE_TOMS_ENGINE_PLEASE_BOB: unconfigured
-    SHOW_ME_FIGURE_DEBUGGING_PLEASE_BOB: unconfigured
-    DTRACE: unconfigured
-    DRAW_WHOLE_PERSON_AT_ONCE: unconfigured
-    FEEDBACK: unconfigured
-    NO_SERVER: unconfigured
-    TRUETYPE: unconfigured
-    CALC_CAR_CRUMPLE: transient
-    MESH_SHOW_MOUSE_POINT: unconfigured
-    BODGE_MY_PANELS_PLEASE_BOB: unconfigured
-    OLD_CAM: unconfigured
-    USE_D3D_VBUF: unconfigured
-    NO_CLIPPING_TO_THE_SIDES_PLEASE_BOB: transient
-    WE_NEED_POLYBUFFERS_PLEASE_BOB: unconfigured
-    WIREFRAME: transient
-    VERIFY_SORT: transient
-    CAM_OLD: unconfigured
-    SUPERCRINKLES_ENABLED: unconfigured
-    SUPERFACET_PERFORMANCE: transient
-    SHOW_ME_SUPERFACET_DEBUGGING_PLEASE_BOB: unconfigured
-    TESSELATE_DEGREE: transient
-    TEXTURE_ENABLE_DC_PACKING: transient
-    ANTIALIAS_BY_HAND: transient
-    QMDX_H: unconfigured
-    APSTUDIO_INVOKED: unconfigured
-    APSTUDIO_READONLY_SYMBOLS: unconfigured
-    VERIFY: unconfigured
-    MAD_AM_I: unconfigured
-    _RELEASE: unconfigured
-    ASYNC_FILE_IO: transient
-    BOGUS_TGAS_PLEASE_BOB: unconfigured
-    DOWNSAMPLE_PLEASE_BOB_AMOUNT: unconfigured
-    ULTRA_COMPRESSED_ANIMATIONS: unconfigured
-    USE_TOMS_ENGINE_PLEASE_BOB: transient
-    VERSION_D3D: unconfigured
-    USE_A3D: transient
-    LIGHT_COLOURED: transient
-    POLY_FADEOUT_START: unconfigured
-    MIKE: unconfigured
-    DEMO: transient
-    NEW_FRONTEND: transient
-    OBEY_SCRIPT: unconfigured
-    VERSION_DEMO: unconfigured
-    THIS_IS_A_LOS_TEST: unconfigured
-    WE_NEED_THE_NUMBER_KEYS: unconfigured
-    WE_WANNA_TEST_THE_LOS_STUFF: unconfigured
-    WE_WANT_WIND: unconfigured
-    WE_WANT_SOME_BOLLOCKS_OLD_WIND_SOUND_FX_THATS_BEEN_OBSOLETE_FOR_OVER_A_YEAR: unconfigured
-    WE_WANT_MANUAL_WIND_ASWELL: unconfigured
-    WE_WANT_SHITTY_PANTS_WIND: unconfigured
-    POO: unconfigured
-    ULTRA_DEBUG: transient
-    VERSION_GERMAN: unconfigured
-    VERSION_FRENCH: unconfigured
-    VERIFY_PLAYBACK: transient
-    TIMEOUT_DEMO: transient
-    GUY: unconfigured
-    EXIT_SUCCESS: unconfigured
-    USE_A3D: unconfigured
-    SHOW_ANIM_NUMS: unconfigured
-    UNUSED: unconfigured
-    DARCI_HITS_COPS: unconfigured
-    ROPER_EVER_ARRESTS_AGAIN: unconfigured
-    WE_WANT_THE_SURFING_THAT_BREAKS_WHEN_YOU_PRESS_C: unconfigured
-    NOT_SETUP_IN_PROJECTILE: unconfigured
-    WE_WANT_TO_TURN_AND_PUT_OUR_BACK_TO_THE_WALL: unconfigured
-    MAKE_FPM_TRACK_ENEMY: transient
-    I_WAS_MAKING_SURE_OF_IT: unconfigured
-    SAVE_A_FEW_MORE_BYTES: unconfigured
-    OLD_DOG_POO_OF_A_SYSTEM_OR_IS_IT: unconfigured
-    FUNNY_FANNY: unconfigured
-    OLD_METHOD_THAT_LETS_YOU_GET_RIGHT_TO_THE_EDGE_OF_NOGO_SQUARES: unconfigured
-    ANIM_PRIM: unconfigured
-    ANIM_PRIMS: unconfigured
-    MARKS_EXTRA_DEBUG: unconfigured
-    DIKE_DIST_SHIFT: transient
-    BEHEAD: unconfigured
-    GET_RID_OF_THE_BLOODY_MIST: unconfigured
-    MATTS_BUGGY_VERSION: unconfigured
-    UNFINISHED: unconfigured
-    MARKS_MACHINE: unconfigured
-    MARKS_PRIVATE_VERSION: unconfigured
-    VERSION_NTSC: unconfigured
-    WANT_A_KEYBOARD_ITEM: transient
 
 
 
@@ -274,27 +173,41 @@ graphics init
 ===============
 
 TODO
-    try to strip out as much unnececary includes as possible in every file (h or cpp)
+    find what symbols are needed and setup number of configurations to test compilation using them in order to see when i cut out something wrong
 
+    remove all unused / debug only / experimenting code
+    find unused symbols and functions and remove it
+    remove all editor code
     remove qedit code (look for QEDIT_loop and dependencies)
 
+    try to strip out as much unnececary includes as possible in every file (h or cpp)
+        * maby i already removed some nececcary code which is only invoked under specific ifdef defines, i should check it later and get that code back if that's the case
 
-    remove all editor code
-    remove all unused / debug only / experimenting code (check what preprocessor directives can be useful and keep it, but strip out other code)
+    
 
-    find unused symbols and functions and remove it
+
+    
+
 
     remove asm usage (search for __asm)
+        so code could be compiled for arm as well
 
     restructure files to better track what depends on what
+        * not sure it is needed, as it will make harder for comparing code base to previous versions (for restoring some removed code)
 
-    abstract out windows platform specific code (windows)
-    abstract out all low level graphics / rendering code
+    SDL2 (making game crossplatform)
+        make window initialization using sdl, and throw out windows specific init code.
+            Window initialization
+            Input handling (just keyboard at first)
+            File system handling
+        
+        make support for xbox/ps gamepad using sdl gamepad.
+            See removed psx code for implementation details.
+            Also see removed analog moving (it has been removed by Kai. SLONG	analogue=0; in interfac.cpp)
 
-    make support for xbox-like gamepad
-    replace directx with vulkan/opengl + other libs
-    make support for linux and mac
-        opengl + gamepad could be made using sdl2 lib, it's crossplatform
+        at first - use original direct3d/directdraw calls using sdl's window handle.
+        Next - replace original direct3d calls with some sort of direct3d to opengl mapping library.
+        Next - rewrite whole rendering stuff to opengl 4.1 (maby some rendering code abstraction will be needed)
 
     
 

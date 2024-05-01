@@ -22,7 +22,6 @@
 #define FARFACET_SIZE (PAP_SIZE_LO / FARFACET_RATIO)
 
 // Set to 1 to use DrawIndPrim, rather than the MM stuff.
-#define FARFACET_USE_INDEXED_LISTS 1
 
 //
 // Where we store the lverts.
@@ -632,14 +631,9 @@ void FARFACET_create_square(SLONG square_x, SLONG square_z)
         v1 = FARFACET_find_vertex(fs, fo->x1, fo->y1, fo->z1);
         v2 = FARFACET_find_vertex(fs, fo->x1, fo->y2, fo->z1);
 
-#if FARFACET_USE_INDEXED_LISTS
         // Do nothing.
         SLONG v1prev = v1;
         SLONG v2prev = v2;
-#else
-        FARFACET_add_index(fs, v1);
-        FARFACET_add_index(fs, v2);
-#endif
 
         for (i = 0; i < strip_upto; i++) {
             fo = &FARFACET_outline[strip[i]];
@@ -647,7 +641,6 @@ void FARFACET_create_square(SLONG square_x, SLONG square_z)
             v1 = FARFACET_find_vertex(fs, fo->x2, fo->y1, fo->z2);
             v2 = FARFACET_find_vertex(fs, fo->x2, fo->y2, fo->z2);
 
-#if FARFACET_USE_INDEXED_LISTS
             FARFACET_add_index(fs, v1prev);
             FARFACET_add_index(fs, v2prev);
             FARFACET_add_index(fs, v1);
@@ -656,15 +649,8 @@ void FARFACET_create_square(SLONG square_x, SLONG square_z)
             FARFACET_add_index(fs, v2);
             v1prev = v1;
             v2prev = v2;
-#else
-            FARFACET_add_index(fs, v1);
-            FARFACET_add_index(fs, v2);
-#endif
         }
 
-#if !FARFACET_USE_INDEXED_LISTS
-        FARFACET_add_index(fs, -1); // End of a strip...
-#endif
     }
 }
 
@@ -679,11 +665,7 @@ void FARFACET_init()
     FARFACET_lvert_buffer = (D3DLVERTEX*)malloc(sizeof(D3DLVERTEX) * FARFACET_lvert_max + 31);
     FARFACET_lvert = (D3DLVERTEX*)((SLONG(FARFACET_lvert_buffer) + 31) & ~0x1f);
 
-#if FARFACET_USE_INDEXED_LISTS
     FARFACET_index_max = FARFACET_lvert_max * 5 / 4;
-#else
-    FARFACET_index_max = FARFACET_lvert_max * 6 / 4;
-#endif
     FARFACET_index_upto = 0;
     FARFACET_index = (UWORD*)malloc(sizeof(UWORD) * FARFACET_index_max);
 
@@ -908,15 +890,7 @@ void FARFACET_draw(
     matMyProj._43 *= MY_PROJ_MATRIX_SCALE;
     matMyProj._44 *= MY_PROJ_MATRIX_SCALE;
 
-#if FARFACET_USE_INDEXED_LISTS
     (the_display.lp_D3D_Device)->SetTransform(D3DTRANSFORMSTATE_PROJECTION, &matMyProj);
-#else
-    GenerateMMMatrixFromStandardD3DOnes(
-        FARFACET_matrix,
-        &matMyProj,
-        NULL,
-        &g_viewData);
-#endif
 
 #ifdef DEBUG
     the_display.SetRenderState(D3DRENDERSTATE_FOGENABLE, FALSE);
@@ -985,7 +959,6 @@ void FARFACET_draw(
 
                 FARFACET_num_squares_drawn += 1;
 
-#if FARFACET_USE_INDEXED_LISTS
                 the_display.DrawIndexedPrimitive(
                     D3DPT_TRIANGLELIST,
                     D3DFVF_LVERTEX,
@@ -994,24 +967,6 @@ void FARFACET_draw(
                     FARFACET_index + fs->index,
                     fs->indexcount,
                     D3DDP_DONOTUPDATEEXTENTS);
-#else
-                D3DMULTIMATRIX d3dmm = {
-                    FARFACET_lvert + fs->lvert,
-                    FARFACET_matrix,
-                    NULL,
-                    NULL
-                };
-
-                // TRACE ( "S2" );
-                DrawIndPrimMM(
-                    the_display.lp_D3D_Device,
-                    D3DFVF_LVERTEX,
-                    &d3dmm,
-                    fs->lvertcount,
-                    FARFACET_index + fs->index,
-                    fs->indexcount);
-                // TRACE ( "F2" );
-#endif
             }
         }
 
@@ -1025,10 +980,8 @@ void FARFACET_draw(
 
     FARFACET_default_renderstate.SetChanged();
 
-#if FARFACET_USE_INDEXED_LISTS
     // Restore the projection matrix.
     (the_display.lp_D3D_Device)->SetTransform(D3DTRANSFORMSTATE_PROJECTION, &g_matProjection);
-#endif
 }
 
 void FARFACET_fini()

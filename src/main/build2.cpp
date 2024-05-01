@@ -4,10 +4,6 @@
 #include "ob.h"
 #include "memory.h"
 
-#ifdef _DEBUG
-#define FACET_REMOVAL_TEST // if defined, still put removed facets into the map
-#endif
-
 void calc_ladder_ends(SLONG* x1, SLONG* z1, SLONG* x2, SLONG* z2)
 {
     SLONG dx, dz;
@@ -517,7 +513,6 @@ void process_building(SLONG build)
 
     for (c0 = p_build->StartFacet; c0 < p_build->EndFacet; c0++) {
         // only process if not marked as invisible
-#ifndef FACET_REMOVAL_TEST
         if (dfacets[c0].FacetFlags & FACET_FLAG_INVISIBLE) {
             if (dbuildings[dfacets[c0].Building].Type == BUILDING_TYPE_CRATE_IN) {
                 //
@@ -528,7 +523,6 @@ void process_building(SLONG build)
                 continue;
             }
         }
-#endif
         process_facet(c0);
     }
 }

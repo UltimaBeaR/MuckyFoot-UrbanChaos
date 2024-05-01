@@ -29,7 +29,7 @@ coan source ^
 -UNEW_FLOOR ^
 -USTRIP_STATS ^
 -UMIKES_UNUSED_AUTOMATIC_FLOOR_TEXTURE_GROUPER ^
--UTOMS_TEST_FIXUP_CODE ^
+-DTOMS_TEST_FIXUP_CODE=yes ^
 -UFAST_EDDIE ^
 -UBIKE ^
 -UDRAW_THIS_DEBUG_STUFF ^
@@ -40,16 +40,16 @@ coan source ^
 -Uwerrr ^
 -USEWERS ^
 -UBREAKTIMER ^
--UDISABLE_CRINKLES ^
+-DDISABLE_CRINKLES=0 ^
 -ULIMIT_TOTAL_PYRO_SPRITES_PLEASE_BOB ^
--UFACETINFO ^
+-DFACETINFO ^
 -UUNUSED_WIRE_CUTTERS ^
 -UFACET_REMOVAL_TEST ^
 -UUNUSED_WIRECUTTERS ^
 -UQUICK_FACET ^
 -UWE_WANT_TO_DRAW_THESE_FACET_LINES ^
 -UDO_SUPERFACETS_PLEASE_BOB ^
--UFARFACET_USE_INDEXED_LISTS ^
+-DFARFACET_USE_INDEXED_LISTS=1 ^
 -UFASTPRIM_PERFORMANCE ^
 -UTARGET_DC ^
 -UPSX ^
@@ -63,71 +63,6 @@ coan source ^
 -UEDITOR ^
 --no-transients --filter cpp,c,h,hpp --recurse src
 
-
-
-
-
-
-
-
-coan config flags. not everything applied is written here :(
-    don't touch (don't pass it to coan)
-        NDEBUG
-        _DEBUG
-        FINAL
-        DARCI_HITS_COPS
-    
-    keep and inline
-        -DTEX_EMBED
-        -DVERSION_D3D
-
-    Other
-        -UDOG_POO
-        -UMAKE_THEM_FACE_THE_CAMERA
-        -UTARGET
-        -UNEW_FLOOR
-        -USTRIP_STATS
-        -UMIKES_UNUSED_AUTOMATIC_FLOOR_TEXTURE_GROUPER
-        -UTOMS_TEST_FIXUP_CODE
-        -UFAST_EDDIE
-        -UBIKE
-        -UDRAW_THIS_DEBUG_STUFF
-        -UNO_MORE_BALLOONS
-        -UNO_MORE_BALLOONS_NOW
-        -UWE_WANT_TO_DRAW_THE_TEXTURE_SHADOW_PAGE
-        -UARGH
-        -Uwerrr
-        -USEWERS
-        -UBREAKTIMER
-        -UDISABLE_CRINKLES
-        -ULIMIT_TOTAL_PYRO_SPRITES_PLEASE_BOB
-        -UFACETINFO
-        -UUNUSED_WIRE_CUTTERS
-        -UFACET_REMOVAL_TEST
-        -UUNUSED_WIRECUTTERS
-        -UQUICK_FACET
-        -UWE_WANT_TO_DRAW_THESE_FACET_LINES
-        -UDO_SUPERFACETS_PLEASE_BOB
-        -UFARFACET_USE_INDEXED_LISTS
-        -UFASTPRIM_PERFORMANCE
-
-    dreamcast platform
-        -UTARGET_DC
-
-    ps1 platform
-        -UPSX
-        -UBUILD_PSX
-        -UPSX_COMPRESS_LIGHT
-        -UPSX_STERN_REVENGE_BUG_AND_CRAP_DRIVERS
-        -UPSX_NOT_REALLY
-        -UDODGYPSXIFY
-        -UVERSION_PSX
-
-    glide platform
-        -UVERSION_GLIDE
-
-    editor
-        -UEDITOR
 
 
 

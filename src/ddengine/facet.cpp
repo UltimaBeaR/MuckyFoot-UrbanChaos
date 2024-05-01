@@ -37,8 +37,6 @@
     {                                  \
     }
 
-#define FACETINFO
-#ifdef FACETINFO
 
 //
 // This is code to count the number of texture pages used in each
@@ -68,7 +66,6 @@ FACET_Facetinfo FACET_facetinfo[FACET_MAX_FACETINFO];
 
 SLONG FACET_facetinfo_current;
 
-#endif
 
 float FACET_direction_matrix[9];
 
@@ -212,94 +209,6 @@ void set_facet_seed(SLONG seed)
 //	 3  a c   2
 #define GAP_HEIGHT 96.0
 #define GAP_WIDTH_PERC 0.2
-#ifdef UNUSED_WIRE_CUTTERS
-void draw_fence_gap(POLY_Point* quad[4], SLONG page, SLONG along, float sx, float sy, float sz, float dx, float dy, float dz)
-{
-    POLY_Point* pp;
-    POLY_Point ppb[3];
-    float a_f;
-    float mx, my, mz, du;
-    POLY_Point* g_quad[4];
-    POLY_Point* g_tri[3];
-
-    a_f = (float)(along & 0xff);
-
-    a_f *= 1.0 / 256.0;
-
-    if (a_f < GAP_WIDTH_PERC)
-        a_f = GAP_WIDTH_PERC;
-
-    if (a_f > 1.0 - GAP_WIDTH_PERC)
-        a_f = 1.0 - GAP_WIDTH_PERC;
-
-    du = (quad[2]->u - quad[3]->u); // 1 or -1 ?
-
-    mx = sx + dx * a_f;
-    my = sy + dy * a_f;
-    mz = sz + dz * a_f;
-
-    dx *= GAP_WIDTH_PERC;
-    dy *= GAP_WIDTH_PERC;
-    dz *= GAP_WIDTH_PERC;
-
-    pp = &ppb[0];
-
-    POLY_transform(mx - dx, my - dy, mz - dz, pp);
-    if (pp->MaybeValid()) {
-        pp->colour = quad[3]->colour;
-        pp->specular = quad[3]->specular;
-        pp->u = quad[3]->u + du * (a_f - GAP_WIDTH_PERC);
-        pp->v = quad[3]->v;
-    }
-    pp++;
-
-    POLY_transform(mx, my - dy + GAP_HEIGHT, mz, pp);
-    if (pp->MaybeValid()) {
-        pp->colour = quad[3]->colour;
-        pp->specular = quad[3]->specular;
-        pp->u = a_f;
-        pp->v = quad[3]->v - (GAP_HEIGHT / 512.0);
-        //		pp->u=mu;
-        //		pp->v=mv;
-    }
-    pp++;
-
-    POLY_transform(mx + dx, my - dy, mz + dz, pp);
-    if (pp->MaybeValid()) {
-        pp->colour = quad[3]->colour;
-        pp->specular = quad[3]->specular;
-        pp->u = quad[3]->u + du * (a_f + GAP_WIDTH_PERC);
-        //		pp->u=a_f+du;//GAP_WIDTH_PERC;
-        pp->v = quad[3]->v;
-    }
-    pp++;
-
-    //   1        0
-    //		 b
-    //	 3  a c   2
-
-    g_quad[0] = quad[0];
-    g_quad[1] = &ppb[1];
-    g_quad[2] = quad[2];
-    g_quad[3] = &ppb[2];
-
-    if (POLY_valid_quad(g_quad))
-        POLY_add_quad(g_quad, page, 0); // 1 means perform a backface cull
-
-    g_quad[0] = &ppb[1];
-    g_quad[1] = quad[1];
-    g_quad[2] = &ppb[0];
-    g_quad[3] = quad[3];
-    if (POLY_valid_quad(g_quad))
-        POLY_add_quad(g_quad, page, 0); // 1 means perform a backface cull
-
-    g_tri[0] = quad[0];
-    g_tri[1] = quad[1];
-    g_tri[2] = &ppb[1];
-    if (POLY_valid_triangle(g_tri))
-        POLY_add_triangle(g_tri, page, 0); // 1 means perform a backface cull
-}
-#endif
 
 // texture_quad
 //
@@ -1335,7 +1244,7 @@ static void MakeFacetPoints(float sx, float sy, float sz, float dx, float dz, fl
 
                 // POLY_fadeout_point(pp);
 
-#if defined(FACET_REMOVAL_TEST) || defined(_DEBUG)
+#if defined(_DEBUG)
 
                 // colour invisible facets red
                 if (invisible) {
@@ -1398,7 +1307,7 @@ static void MakeFacetPointsFence(float sx, float sy, float sz, float dx, float d
 
                 // POLY_fadeout_point(pp);
 
-#if defined(FACET_REMOVAL_TEST) || defined(_DEBUG)
+#if defined(_DEBUG)
 
                 // colour invisible facets red
                 if (invisible) {
@@ -1635,9 +1544,7 @@ inline void FillFacetPointsCommon(SLONG count, ULONG base_row, SLONG foundation,
     SLONG row1 = FacetRows[base_row];
     SLONG row2 = FacetRows[base_row + 1];
 
-#ifdef FACETINFO
     FACET_Facetinfo* ff;
-#endif
 
     SLONG c0;
     for (c0 = 0; c0 < row2 - row1 - 1; c0++) {
@@ -1652,7 +1559,6 @@ inline void FillFacetPointsCommon(SLONG count, ULONG base_row, SLONG foundation,
             SLONG page;
             page = texture_quad(quad, dstyles[style_index], c0, count);
 
-#ifdef FACETINFO
 
             if (FACET_facetinfo[FACET_facetinfo_current].done) {
                 //
@@ -1683,7 +1589,6 @@ inline void FillFacetPointsCommon(SLONG count, ULONG base_row, SLONG foundation,
             found_page1:;
             }
 
-#endif
 
             if (block_height != 256.0f) {
                 float fTemp = (float)block_height * (1.0f / 256.0f);
@@ -1836,7 +1741,6 @@ inline void FillFacetPointsCommon(SLONG count, ULONG base_row, SLONG foundation,
             // push on the random number generator.
             //
 
-#ifdef FACETINFO
 
             SLONG page;
             page = texture_quad(quad, dstyles[style_index], c0, count);
@@ -1870,15 +1774,9 @@ inline void FillFacetPointsCommon(SLONG count, ULONG base_row, SLONG foundation,
             found_page2:;
             }
 
-#else
-
-            facet_rand();
-
-#endif
         }
     }
     for (; c0 < count; c0++) {
-#ifdef FACETINFO
 
         SLONG page;
         page = texture_quad(quad, dstyles[style_index], c0, count);
@@ -1912,11 +1810,6 @@ inline void FillFacetPointsCommon(SLONG count, ULONG base_row, SLONG foundation,
         found_page3:;
         }
 
-#else
-
-        facet_rand();
-
-#endif
     }
 
     LOG_EXIT(Facet_FillFacetPoints)
@@ -2047,9 +1940,6 @@ void FACET_draw_rare(SLONG facet, UBYTE alpha)
     SLONG reverse_textures = 0;
     SLONG style_index_offset = 1;
     SLONG style_index_step = 2;
-#ifdef UNUSED_WIRECUTTERS
-    SLONG fence_gap, fence_gap_compare; // GAME_TURN&0xff;
-#endif
     SLONG flipx = 0;
 
 #define MAX_SHAKE 32
@@ -2100,16 +1990,9 @@ void FACET_draw_rare(SLONG facet, UBYTE alpha)
         return;
     }
 
-#ifdef QUICK_FACET
-    draw_quick_facet(p_facet);
-    return;
-#endif
 
 //	if(facet==114 || facet==115 || facet==2037 ||facet==2036)
 //		return;
-#ifdef UNUSED_WIRECUTTERS
-    fence_gap = get_fence_hole(p_facet);
-#endif
 
     if (INDOORS_DBUILDING == p_facet->Building && INDOORS_INDEX)
         inside_clip = 1;
@@ -2146,21 +2029,6 @@ void FACET_draw_rare(SLONG facet, UBYTE alpha)
     // Should we bother drawing this facet?
     //
 
-#ifdef FACET_REMOVAL_TEST
-
-    // test
-    //
-    // normally only show invisible facets; press F to
-    // remove invisible and show visible ones
-
-    if (Keys[KB_F] && p_facet->Invisible) {
-        return;
-    }
-    if (!Keys[KB_F] && !p_facet->Invisible) {
-        return;
-    }
-
-#endif
 
     if ((p_facet->FacetType == STOREY_TYPE_FENCE || p_facet->FacetType == STOREY_TYPE_FENCE_FLAT || p_facet->FacetType == STOREY_TYPE_FENCE_BRICK || p_facet->FacetType == STOREY_TYPE_INSIDE ||
             //		 p_facet->FacetType == STOREY_TYPE_OINSIDE      ||
@@ -2179,22 +2047,6 @@ void FACET_draw_rare(SLONG facet, UBYTE alpha)
         //
 
         // #define WE_WANT_TO_DRAW_THESE_FACET_LINES 1
-#if WE_WANT_TO_DRAW_THESE_FACET_LINES
-
-        AENG_world_line_infinite(
-            p_facet->X[0],
-            p_facet->Y[0],
-            p_facet->Z[0],
-            128,
-            0x00ffff00,
-            p_facet->X[1],
-            p_facet->Y[1],
-            p_facet->Z[1],
-            0,
-            0x00444488,
-            TRUE);
-
-#endif
 
         return;
     } else {
@@ -3006,9 +2858,6 @@ void FACET_draw_rare(SLONG facet, UBYTE alpha)
 
         sy = 0;
 
-#ifdef UNUSED_WIRECUTTERS
-        fence_gap_compare = fence_gap * (count - 1);
-#endif
         y = sy;
 
         while (hf <= 1) {
@@ -3351,39 +3200,6 @@ void FACET_draw(SLONG facet, UBYTE alpha)
     // Fog works, and Mark says he's done the glowing windows. Hooray!
     // #define DO_SUPERFACETS_PLEASE_BOB defined
 
-#ifdef DO_SUPERFACETS_PLEASE_BOB
-    if (p_facet->Open) {
-        //
-        // Don't cache facets that open and close!
-        //
-    } else {
-        if (SUPERFACET_draw(facet)) {
-            p_facet->FacetFlags &= ~FACET_FLAG_DLIT;
-
-            return;
-        }
-
-        p_facet->FacetFlags &= ~FACET_FLAG_DLIT;
-
-        /*
-
-
-
-        if ( ( ( clip_or & POLY_CLIP_NEAR ) == 0)
-#ifdef DEBUG
-                && bPleaseDoSuperFacets
-#endif
-                )
-        {
-                if (SUPERFACET_draw(facet))
-                {
-                        return;
-                }
-        }
-
-        */
-    }
-#endif
 
     //
     // Draw the facet.
@@ -3526,9 +3342,7 @@ void FACET_draw(SLONG facet, UBYTE alpha)
         style_index_step = 1;
     }
 
-#ifdef FACETINFO
     FACET_facetinfo_current = facet;
-#endif
 
     ASSERT(reverse_textures == 0);
 
@@ -3550,10 +3364,8 @@ void FACET_draw(SLONG facet, UBYTE alpha)
         //					style_index++;
     }
 
-#ifdef FACETINFO
     ASSERT(WITHIN(FACET_facetinfo_current, 0, FACET_MAX_FACETINFO - 1));
     FACET_facetinfo[FACET_facetinfo_current].done = TRUE;
-#endif
 
     LOG_EXIT(Facet_draw_main)
     return;
@@ -4100,36 +3912,6 @@ void FACET_draw_walkable_old(SLONG build)
                 quad[3] = &POLY_buffer[p3];
 
                 if (POLY_valid_quad(quad)) {
-#if DRAW_THIS_DEBUG_STUFF
-
-                    {
-                        //
-                        // Draw the slide-edges
-                        //
-
-                        SLONG ei;
-
-                        UBYTE point_order[4] = { 0, 1, 3, 2 };
-
-                        for (ei = 0; ei < 4; ei++) {
-                            if (p_f4->FaceFlags & (FACE_FLAG_SLIDE_EDGE << ei)) {
-                                AENG_world_line(
-                                    prim_points[p_f4->Points[point_order[(ei + 0) & 0x3]]].X,
-                                    prim_points[p_f4->Points[point_order[(ei + 0) & 0x3]]].Y,
-                                    prim_points[p_f4->Points[point_order[(ei + 0) & 0x3]]].Z,
-                                    32,
-                                    0xffffff,
-                                    prim_points[p_f4->Points[point_order[(ei + 1) & 0x3]]].X,
-                                    prim_points[p_f4->Points[point_order[(ei + 1) & 0x3]]].Y,
-                                    prim_points[p_f4->Points[point_order[(ei + 1) & 0x3]]].Z,
-                                    32,
-                                    0xffffff,
-                                    TRUE);
-                            }
-                        }
-                    }
-
-#endif
 
                     if (p_f4->DrawFlags & POLY_FLAG_TEXTURED) {
                         quad[0]->u = float(p_f4->UV[0][0] & 0x3f) * (1.0F / 32.0F);

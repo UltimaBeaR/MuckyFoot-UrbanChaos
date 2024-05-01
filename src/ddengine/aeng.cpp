@@ -2169,57 +2169,6 @@ void AENG_draw_bangs()
 {
     float u_mid;
     float v_mid;
-#ifdef DOG_POO
-    SLONG z;
-
-    BANG_Info* bi;
-
-    for (z = NGAMUT_point_zmin; z <= NGAMUT_point_zmax; z++) {
-        BANG_get_start(
-            NGAMUT_point_gamut[z].xmin,
-            NGAMUT_point_gamut[z].xmax,
-            z);
-
-        while (bi = BANG_get_next()) {
-            u_mid = (1.0F / 8.0F) + (1.0F / 4.0F) * float(bi->frame & 0x3);
-            v_mid = (1.0F / 8.0F) + (1.0F / 4.0F) * float(bi->frame >> 2);
-
-#ifdef MAKE_THEM_FACE_THE_CAMERA
-
-            //
-            // Always make it face the camera.
-            //
-
-            float dx = AENG_cam_x - float(bi->x);
-            float dy = AENG_cam_y - float(bi->y);
-            float dz = AENG_cam_z - float(bi->z);
-
-            float len = sqrt(dx * dx + dy * dy + dz * dz);
-
-            dx = dx * (256.0F / len);
-            dy = dy * (256.0F / len);
-            dz = dz * (256.0F / len);
-
-#endif
-
-            SHAPE_semisphere_textured(
-                bi->x,
-                bi->y,
-                bi->z,
-                bi->dx,
-                bi->dy,
-                bi->dz,
-                bi->radius,
-                u_mid,
-                v_mid,
-                1.0F / 8.0F,
-                POLY_PAGE_BANG,
-                bi->red,
-                bi->green,
-                bi->blue);
-        }
-    }
-#endif
 }
 
 //
@@ -2228,108 +2177,6 @@ void AENG_draw_bangs()
 
 void AENG_draw_cloth(void)
 {
-#ifdef DOG_POO
-    SLONG i;
-
-    SLONG x;
-    SLONG z;
-
-    UBYTE cloth;
-
-    CLOTH_Info* ci;
-
-    POLY_Point pp[CLOTH_WIDTH * CLOTH_HEIGHT];
-
-    //
-    // Our lighting normal for each point. The normal's length is less
-    // than one so the dprod will always be in range. The normal from
-    // the CLOTH module is only approximately of length 1.0!
-    //
-
-    static float light_x = 0.55F;
-    static float light_y = 0.55F;
-    static float light_z = 0.55F;
-
-    float dprod;
-
-    SLONG bright;
-    SLONG r;
-    SLONG g;
-    SLONG b;
-
-    SLONG base_r;
-    SLONG base_g;
-    SLONG base_b;
-
-    SLONG px;
-    SLONG py;
-
-    POLY_Point* quad[4];
-
-    for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++) {
-        for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++) {
-            for (cloth = CLOTH_get_first(x, z); cloth; cloth = ci->next) {
-                ci = CLOTH_get_info(cloth);
-
-                base_r = (ci->colour >> 16) & 0xff;
-                base_g = (ci->colour >> 8) & 0xff;
-                base_b = (ci->colour >> 0) & 0xff;
-
-                //
-                // Transform all the points.
-                //
-
-                for (i = 0; i < CLOTH_WIDTH * CLOTH_HEIGHT; i++) {
-                    POLY_transform(
-                        ci->p[i].x,
-                        ci->p[i].y,
-                        ci->p[i].z,
-                        &pp[i]);
-
-                    if (!pp[i].MaybeValid()) {
-                        goto abandon_this_cloth;
-                    }
-
-                    //
-                    // Light the point.
-                    //
-
-                    dprod = light_x * ci->p[i].nx + light_y * ci->p[i].ny + light_z * ci->p[i].nz;
-
-                    dprod = fabs(dprod);
-                    bright = SLONG(dprod * 255.0F);
-
-                    r = bright * base_r >> 8;
-                    g = bright * base_g >> 8;
-                    b = bright * base_b >> 8;
-
-                    pp[i].colour = (r << 16) | (g << 8) | (b << 0);
-                    pp[i].specular = 0xff000000;
-                    pp[i].u = 0.0F;
-                    pp[i].v = 0.0F;
-                }
-
-                //
-                // Create all the faces.
-                //
-
-                for (px = 0; px < CLOTH_WIDTH - 1; px++)
-                    for (py = 0; py < CLOTH_HEIGHT - 1; py++) {
-                        quad[0] = &pp[CLOTH_INDEX(px + 0, py + 0)];
-                        quad[1] = &pp[CLOTH_INDEX(px + 1, py + 0)];
-                        quad[2] = &pp[CLOTH_INDEX(px + 0, py + 1)];
-                        quad[3] = &pp[CLOTH_INDEX(px + 1, py + 1)];
-
-                        if (POLY_valid_quad(quad)) {
-                            POLY_add_quad(quad, POLY_PAGE_COLOUR, FALSE);
-                        }
-                    }
-
-            abandon_this_cloth:;
-            }
-        }
-    }
-#endif
 }
 
 //
@@ -2610,7 +2457,6 @@ void AENG_draw_dirt()
             // Fix the uv's for texture paging.
             //
 
-#ifdef TEX_EMBED
 
             if (world_type == WORLD_TYPE_SNOW) {
                 pp = &POLY_Page[POLY_PAGE_SNOWFLAKE];
@@ -2626,7 +2472,6 @@ void AENG_draw_dirt()
             AENG_dirt_uvlookup[i].u = AENG_dirt_uvlookup[i].u * pp->m_UScale + pp->m_UOffset;
             AENG_dirt_uvlookup[i].v = AENG_dirt_uvlookup[i].v * pp->m_VScale + pp->m_VOffset;
 
-#endif
         }
 
         AENG_dirt_uvlookup_valid = TRUE;
@@ -2861,7 +2706,6 @@ void AENG_draw_dirt()
                 lv[3].color = rubbish_colour;
                 lv[3].specular = 0xff000000;
 
-#ifdef TEX_EMBED
 
                 pp = &POLY_Page[POLY_PAGE_RUBBISH];
 
@@ -2877,7 +2721,6 @@ void AENG_draw_dirt()
                 lv[3].tu = lv[3].tu * pp->m_UScale + pp->m_UOffset;
                 lv[3].tv = lv[3].tv * pp->m_VScale + pp->m_VOffset;
 
-#endif
 
                 //
                 // Build the indices.
@@ -3105,11 +2948,7 @@ void AENG_draw_dirt()
                 dd->dx >> 2,
                 dd->dy >> TICK_SHIFT,
                 dd->dz >> 2,
-#ifdef TARGET
-                0xff224455,
-#else
                 0x00224455,
-#endif
                 POLY_PAGE_DROPLET);
             break;
 
@@ -3134,11 +2973,7 @@ void AENG_draw_dirt()
                 dd->dx >> 2,
                 dd->dy >> TICK_SHIFT,
                 dd->dz >> 2,
-#ifdef TARGET
-                0xff775533,
-#else
                 0x00775533,
-#endif
                 POLY_PAGE_DROPLET);
             break;
 
@@ -3408,10 +3243,8 @@ UBYTE AENG_aa_buffer[AENG_AA_BUF_SIZE][AENG_AA_BUF_SIZE];
 
 // #define	NEW_FLOOR defined
 
-#ifndef NEW_FLOOR
 POLY_Point AENG_upper[MAP_WIDTH / 2 + MAP_SIZE_TWEAK][MAP_HEIGHT / 2 + MAP_SIZE_TWEAK];
 POLY_Point AENG_lower[MAP_WIDTH / 2 + MAP_SIZE_TWEAK * 2][MAP_HEIGHT / 2 + MAP_SIZE_TWEAK * 2];
-#endif
 
 //
 // Globals affecting the way the engine works.
@@ -4202,357 +4035,7 @@ void AENG_get_detail_levels(int* stars,
 #define MAX_VERTS_FOR_STRIPS (MAX_FLOOR_TILES_FOR_STRIPS * 4) // 4 verts per map square
 #define MAX_INDICES_FOR_STRIPS (MAX_FLOOR_TILES_FOR_STRIPS * 5) // 5 indicies per map square
 
-#ifdef STRIP_STATS
-ULONG strip_stats[MAX_FLOOR_TILES_FOR_STRIPS + 10];
-#endif
 
-#ifdef MIKES_UNUSED_AUTOMATIC_FLOOR_TEXTURE_GROUPER
-
-//
-// draws the floor quicker by grouping adjacent squares with the same texture into one index prim
-//
-UWORD in_group[64 * 10];
-
-UWORD groups[256][9];
-UWORD group_count[256];
-SLONG group_stats[256][9]; // how often each member of the group is used
-SLONG group_break[256][64 * 10]; // for each group how often the strip is broken by each texture
-SLONG group_hits[256][64 * 10]; // for each group how often the strip is broken by each texture
-
-UWORD page_next[64 * 10][64 * 10];
-ULONG group_upto = 1;
-
-#define MAX_PREV 8
-float how_good(void)
-{
-    SLONG x, z;
-    SLONG page, my_group = 0, prev_group[10];
-    SLONG bucket_group[10], bucket_length[10], bucket = 0;
-    SLONG length = 1;
-    SLONG total_length = 0, strip_count = 0;
-    float average_len, prev_average_len = 0.0f;
-    SLONG count;
-    SLONG quit = 0;
-    SLONG c0;
-    UWORD strips[128];
-    SLONG match;
-
-    memset(strips, 0, 128 * 2);
-
-    PAP_Hi* ph;
-
-    group_upto = 1;
-
-    memset(prev_group, 0, 4 * 10);
-
-    memset(bucket_group, 0, 4 * 10);
-    memset(bucket_length, 0, 4 * 10);
-    //	prev_group[0]=0;
-
-    total_length = 0;
-    strip_count = 0;
-
-    for (z = 0; z < 128; z++) {
-        for (x = 0; x < 128; x++) {
-
-            ph = &PAP_2HI(x, z);
-            ASSERT(bucket_group[0] < 128 * 128);
-            ASSERT(bucket_length[0] < 128 * 128);
-            //			if(x==22 && z==16)
-            //				ASSERT(0);
-
-            my_group = 0;
-
-            page = ph->Texture & 0x3ff;
-
-            if (in_group[page]) {
-                my_group = in_group[page];
-            } else {
-                ASSERT(0);
-            }
-
-            match = 0;
-            for (c0 = 0; c0 < MAX_PREV; c0++) {
-                if (my_group == bucket_group[c0]) {
-                    match = c0 + 1;
-                }
-            }
-
-            if (match) {
-                if (bucket_length[match - 1] > 32) {
-                    match = 0;
-                }
-            }
-
-            if (match) // y_group==prev_group)
-            {
-                //
-                // the same group hoorah
-                //
-
-                bucket_length[match - 1]++;
-                ASSERT(bucket_length[bucket] < 128);
-                // length++;
-
-            } else {
-                //
-                // different group
-                //
-
-                // store length stat
-
-                bucket++;
-                bucket %= MAX_PREV;
-
-                total_length += bucket_length[bucket];
-                ASSERT(bucket_length[bucket] < 128);
-                strip_count++;
-                strips[bucket_length[bucket]]++;
-
-                bucket_length[bucket] = 1;
-                bucket_group[bucket] = my_group;
-            }
-            ASSERT(my_group);
-            for (c0 = MAX_PREV; c0 > 0; c0--) {
-                prev_group[c0] = prev_group[c0 - 1];
-            }
-            prev_group[0] = my_group;
-        }
-    }
-
-    DebugText(" FLOOR STRIP \n");
-    for (c0 = 0; c0 < 128; c0++) {
-        DebugText(" %d %d \n", c0, strips[c0]);
-    }
-
-    ASSERT(strip_count > 0);
-    average_len = (float)total_length / (float)strip_count;
-    DebugText(" FLOOR STRIP average %f\n", average_len);
-
-    return (average_len);
-}
-UWORD frequency[64 * 10];
-
-float init_groups2(void)
-{
-    SLONG x, z;
-    SLONG page, p1, p2;
-    SLONG highest, best;
-    SLONG g_count = 0, g_index = 0;
-    SLONG c1, c2;
-    SLONG c0;
-
-    PAP_Hi* ph;
-    /*
-            for(c0=0;c0<64*10;c0++)
-            {
-                    in_group[c0]=c0+1;
-
-            }
-            how_good();
-    */
-
-    memset(page_next, 0, 64 * 10 * 64 * 10 * 2);
-    memset(frequency, 0, 64 * 10 * 2);
-    memset(in_group, 0, 64 * 10 * 2);
-    memset(groups, 0, 256 * 9 * 2);
-
-    //	for(page=0;page<8*64;page++)
-    for (z = 0; z < 128; z++) {
-        for (x = 0; x < 128; x++) {
-            ph = &PAP_2HI(x, z);
-            p1 = ph->Texture & 0x3ff;
-            if (x) {
-                ph = &PAP_2HI(x - 1, z); // to the left
-                p2 = ph->Texture & 0x3ff;
-                if (p1 != p2)
-                    page_next[p1][p2]++;
-            }
-            if (x < 127) {
-                ph = &PAP_2HI(x + 1, z); // to the right
-                p2 = ph->Texture & 0x3ff;
-                if (p1 != p2)
-                    page_next[p1][p2]++;
-            }
-
-            frequency[p1]++;
-        }
-    }
-    //
-    // for every texture we now know how many times every other texture appears next to it
-    //
-
-    /*
-            highest=0;
-            for(c0=0;c0<64*10;c0++)
-            {
-                    if(frequency[c0]>highest)
-                    {
-                            highest=frequency[c0];
-                            best=c0;
-                    }
-
-            }
-    */
-
-    while (1) {
-        g_count = 0;
-
-        highest = 0;
-        best = -1;
-        for (c0 = 0; c0 < 64 * 10; c0++) {
-            if (!in_group[c0])
-                for (c1 = 0; c1 < 64 * 10; c1++) {
-                    if (c0 != c1)
-                        if (page_next[c0][c1] > highest) {
-                            highest = page_next[c0][c1];
-                            best = c0;
-                        }
-                }
-        }
-        if (best == -1)
-            break;
-
-        //
-        // for the most frequently used texture, group with it the textures that often appear next to it
-        //
-
-        g_index++;
-        groups[g_index][g_count] = best;
-        in_group[best] = g_index;
-        for (c0 = 0; c0 < 64 * 10; c0++) {
-            page_next[c0][best] = 0; // remove me from next to other textures
-            //			page_next[best][c0]=0;   //remove me from next to other textures
-        }
-        //		frequency[best]=0;
-
-        g_count++;
-        {
-            SLONG group_perc[9];
-            SLONG ndhighest = 0;
-            SLONG perc;
-            SLONG current_best_perc = 0;
-            SLONG c2;
-
-            page = best;
-
-            page = -1;
-
-            while (g_count < 9) {
-                SLONG n_of;
-
-                //
-                // for all members of the group find the highest probabilty neihbour
-                //
-                ndhighest = 0;
-                best = -1;
-                for (c1 = 0; c1 < g_count; c1++) {
-                    n_of = groups[g_index][c1];
-                    for (c0 = 0; c0 < 64 * 10; c0++) {
-                        if (frequency[c0]) {
-                            perc = 0;
-
-                            for (c2 = 0; c2 < g_count; c2++)
-                                perc += (page_next[groups[g_index][c2]][c0]); // /frequency[c0];
-
-                            if (perc > ndhighest) {
-                                SLONG abort_store = 0;
-                                //
-                                // check if better paired up elsewhere
-                                //
-                                for (c2 = 0; c2 < 64 * 10; c2++) {
-                                    if (page_next[c0][c2] > perc)
-                                        abort_store = 1;
-                                }
-                                if (!abort_store) {
-                                    ndhighest = perc;
-                                    best = c0;
-                                }
-                            }
-                        }
-                    }
-                }
-                if (best >= 0) {
-                    groups[g_index][g_count] = best;
-                    g_count++;
-                    in_group[best] = g_index;
-                    //						frequency[best]=0;
-                    for (c0 = 0; c0 < 64 * 10; c0++) {
-                        page_next[c0][best] = 0; // remove me from next to other textures
-                        //						page_next[best][c0]=0;   //remove me from next to other textures
-                    }
-                } else {
-                    //
-                    // no more for this group so exit the while loop
-                    //
-                    break;
-                }
-            }
-            group_count[g_index] = g_count;
-        }
-    }
-
-    for (c0 = 0; c0 < 64 * 10; c0++) {
-        if (!in_group[c0] && frequency[c0]) {
-            //
-            // not in a group but exists on map
-            //
-            groups[g_index][g_count] = c0;
-            in_group[c0] = g_index;
-
-            g_count++;
-            if (g_count >= 9) {
-                g_count = 0;
-                g_index++;
-            }
-        }
-    }
-
-    //
-    // compress groups
-    //
-
-    for (c0 = 1; c0 < g_index; c0++) {
-        if (group_count[c0] < 9) {
-            for (c1 = c0 + 1; c1 < g_index; c1++) {
-                if (group_count[c1])
-                    if (group_count[c0] + group_count[c1] <= 9) {
-                        //
-                        // group c1 can fit into group c0
-                        //
-                        for (c2 = 0; c2 < group_count[c1]; c2++) {
-                            SLONG group, index;
-                            groups[c0][group_count[c0] + c2] = groups[c1][c2];
-                            in_group[groups[c1][c2]] = c0;
-                        }
-                        group_count[c0] = group_count[c0] + group_count[c1];
-                        group_count[c1] = 0;
-                        c0--;
-                        break;
-                    }
-            }
-        }
-    }
-
-    //
-    // move g_index back
-    //
-    for (; g_index > 0; g_index--) {
-        if (group_count[g_index - 1])
-            break;
-    }
-
-    float ret;
-
-    ret = how_good();
-    DebugText(" FLOOR STRIP pages %d\n", g_index);
-
-    DebugText(" try random \n", g_index);
-
-    return (ret);
-}
-
-#endif
 
 #define IPRIM_COUNT 5
 
@@ -4706,11 +4189,9 @@ inline SLONG add_kerb(float alt1, float alt2, SLONG x, SLONG z, SLONG dx, SLONG 
     pv->tu = 0.0f;
     pv->tv = 1.0f;
 
-#ifdef TEX_EMBED
     pv->tu = pv->tu * kerb_scaleu + kerb_du;
     pv->tv = pv->tv * kerb_scalev + kerb_dv;
 
-#endif
 
     // set verts colour
     pv->color = c1; // 0xff808080;//202020;
@@ -4725,11 +4206,9 @@ inline SLONG add_kerb(float alt1, float alt2, SLONG x, SLONG z, SLONG dx, SLONG 
     pv->tu = 1.0f;
     pv->tv = 1.0f;
 
-#ifdef TEX_EMBED
     pv->tu = pv->tu * kerb_scaleu + kerb_du;
     pv->tv = pv->tv * kerb_scalev + kerb_dv;
 
-#endif
 
     // set verts colour
     pv->color = c2; // 0xff808080;//202020;
@@ -4744,11 +4223,9 @@ inline SLONG add_kerb(float alt1, float alt2, SLONG x, SLONG z, SLONG dx, SLONG 
     pv->tu = 1.0f;
     pv->tv = 0.0f;
 
-#ifdef TEX_EMBED
     pv->tu = pv->tu * kerb_scaleu + kerb_du;
     pv->tv = pv->tv * kerb_scalev + kerb_dv;
 
-#endif
 
     // set verts colour
     pv->color = c2; // 0xff808080;//202020;
@@ -4763,12 +4240,10 @@ inline SLONG add_kerb(float alt1, float alt2, SLONG x, SLONG z, SLONG dx, SLONG 
     pv->tu = 0.0f;
     pv->tv = 0.0f;
 
-#ifdef TEX_EMBED
 
     pv->tu = pv->tu * kerb_scaleu + kerb_du;
     pv->tv = pv->tv * kerb_scalev + kerb_dv;
 
-#endif
 
     // set verts colour
     pv->color = c1; // 0xff808080;//202020;
@@ -4858,11 +4333,6 @@ inline SLONG add_kerb(float alt1, float alt2, SLONG x, SLONG z, SLONG dx, SLONG 
 inline void draw_i_prim(LPDIRECT3DTEXTURE2 page, D3DLVERTEX* verts, UWORD* indicies, SLONG* vert_count, SLONG* index_count, D3DMULTIMATRIX* mm_draw_floor)
 {
     HRESULT res;
-#ifdef STRIP_STATS
-    strip_stats[(*vert_count >> 2) + 1]++;
-    strip_stats[0]++;
-    strip_stats[1] += (*vert_count >> 2);
-#endif
 
     mm_draw_floor->lpvVertices = verts;
 
@@ -4887,7 +4357,6 @@ inline void draw_i_prim(LPDIRECT3DTEXTURE2 page, D3DLVERTEX* verts, UWORD* indic
 #define KERB_INDICIES (5 * KERB_TILES)
 
 // Well, it's now become the final code...
-#define TOMS_TEST_FIXUP_CODE yes
 
 #ifdef DEBUG
 int m_iDrawThingCount = 0;
@@ -4900,11 +4369,6 @@ UWORD m_indicies[IPRIM_COUNT][MAX_INDICES_FOR_STRIPS + 1]; // data for verts, on
 
 struct GroupInfo {
     LPDIRECT3DTEXTURE2 page; // ptr to actual page to use for drawing
-#ifndef TOMS_TEST_FIXUP_CODE
-    float uscale;
-    float vscale;
-    float du, dv;
-#endif
 #ifdef DEBUG
     int iDebugCount;
 #endif
@@ -5022,23 +4486,18 @@ void draw_quick_floor(SLONG warehouse)
     SLONG no_floor = 0;
     SLONG is_shadow;
 
-#ifdef TEX_EMBED
     pp = &POLY_Page[0];
 
     kerb_du = pp->m_UOffset;
     kerb_dv = pp->m_VOffset;
     kerb_scaleu = pp->m_UScale;
     kerb_scalev = pp->m_VScale;
-#endif
 
     if (GAME_FLAGS & GF_NO_FLOOR)
         no_floor = 1;
 
     general_steam(0, 0, 0, 0); // init it
 
-#ifdef STRIP_STATS
-    memset(strip_stats, 0, 4 * MAX_FLOOR_TILES_FOR_STRIPS + 4 * 10);
-#endif
     memset(group, 0, sizeof(struct GroupInfo) * IPRIM_COUNT);
 
 #ifdef DEBUG
@@ -5289,14 +4748,6 @@ void draw_quick_floor(SLONG warehouse)
                             current_set = c0;
 
                             group[current_set].page = tex_handle;
-#ifdef TEX_EMBED
-#ifndef TOMS_TEST_FIXUP_CODE
-                            group[current_set].du = pp->m_UOffset;
-                            group[current_set].dv = pp->m_VOffset;
-                            group[current_set].uscale = pp->m_UScale;
-                            group[current_set].vscale = pp->m_VScale;
-#endif
-#endif
 
                             break;
                         }
@@ -5338,14 +4789,6 @@ void draw_quick_floor(SLONG warehouse)
                         ASSERT(bin_set == current_set);
 
                         group[current_set].page = tex_handle;
-#ifdef TEX_EMBED
-#ifndef TOMS_TEST_FIXUP_CODE
-                        group[current_set].du = pp->m_UOffset;
-                        group[current_set].dv = pp->m_VOffset;
-                        group[current_set].uscale = pp->m_UScale;
-                        group[current_set].vscale = pp->m_VScale;
-#endif
-#endif
                     }
                 }
                 //			group[current_set]=page;
@@ -5413,9 +4856,7 @@ void draw_quick_floor(SLONG warehouse)
                     &pv[2].tu,
                     &pv[2].tv);
 
-#ifdef TEX_EMBED
 
-#ifdef TOMS_TEST_FIXUP_CODE
                 pv[0].tu = pv[0].tu * pp->m_UScale + pp->m_UOffset;
                 pv[1].tu = pv[1].tu * pp->m_UScale + pp->m_UOffset;
                 pv[2].tu = pv[2].tu * pp->m_UScale + pp->m_UOffset;
@@ -5425,19 +4866,7 @@ void draw_quick_floor(SLONG warehouse)
                 pv[1].tv = pv[1].tv * pp->m_VScale + pp->m_VOffset;
                 pv[2].tv = pv[2].tv * pp->m_VScale + pp->m_VOffset;
                 pv[3].tv = pv[3].tv * pp->m_VScale + pp->m_VOffset;
-#else
-                pv[0].tu = pv[0].tu * group[current_set].uscale + group[current_set].du;
-                pv[1].tu = pv[1].tu * group[current_set].uscale + group[current_set].du;
-                pv[2].tu = pv[2].tu * group[current_set].uscale + group[current_set].du;
-                pv[3].tu = pv[3].tu * group[current_set].uscale + group[current_set].du;
 
-                pv[0].tv = pv[0].tv * group[current_set].vscale + group[current_set].dv;
-                pv[1].tv = pv[1].tv * group[current_set].vscale + group[current_set].dv;
-                pv[2].tv = pv[2].tv * group[current_set].vscale + group[current_set].dv;
-                pv[3].tv = pv[3].tv * group[current_set].vscale + group[current_set].dv;
-#endif
-
-#endif
 
 #ifdef DEBUG
 #endif
@@ -5838,16 +5267,12 @@ void AENG_draw_city()
 
     LOG_EXIT(AENG_Draw_Indoors_Floors);
 
-#ifdef NEW_FLOOR
-    draw_quick_floor(0);
-#endif
 
     //
     // Rotate all the points.   //draw_floor
     //
 
     LOG_ENTER(AENG_Rotate_Points);
-#ifndef NEW_FLOOR
     colour = 0x00888888;
     specular = 0xff000000;
 
@@ -5995,7 +5420,6 @@ void AENG_draw_city()
                 }
             }
         }
-#endif
     BreakTime("Rotated points");
 
     ANNOYINGSCRIBBLECHECK;
@@ -6972,7 +6396,6 @@ void AENG_draw_city()
 
     ANNOYINGSCRIBBLECHECK;
 
-#ifndef NEW_FLOOR
     if (AENG_detail_people_reflection) {
         SLONG oldcolour[4];
         SLONG oldspecular[4];
@@ -7077,7 +6500,6 @@ void AENG_draw_city()
             }
         }
     }
-#endif
     BreakTime("Drawn reflective squares");
 
     /*
@@ -7312,7 +6734,6 @@ void AENG_draw_city()
     // draw floor draw_floor  //things to search for
     //
 
-#ifndef NEW_FLOOR
     LOG_ENTER(AENG_Draw_Floors)
 
     SLONG num_squares_drawn = 0;
@@ -7330,10 +6751,6 @@ void AENG_draw_city()
                         continue;
                     }
 
-#ifdef FAST_EDDIE
-                    if (Keys[KB_1] && ((x ^ z) & 1))
-                        continue;
-#endif
 
                     /*
 
@@ -7755,7 +7172,6 @@ void AENG_draw_city()
                 }
             }
     }
-#endif
     BreakTime("Drawn floors");
 
     LOG_EXIT(AENG_Draw_Floors)
@@ -8100,118 +7516,6 @@ void AENG_draw_city()
                             {
                                 ASSERT(p_thing->Class == CLASS_PERSON);
 
-#ifdef BIKE
-#error Better not be doing this.
-                                //
-                                // If this person is riding the bike...
-                                //
-
-                                if (p_thing->SubState == SUB_STATE_RIDING_BIKE) {
-                                    Thing* p_bike = TO_THING(p_thing->Genus.Person->InCar);
-
-                                    ASSERT(p_thing->Genus.Person->Flags & FLAG_PERSON_BIKING);
-                                    ASSERT(p_thing->Genus.Person->InCar);
-
-                                    BIKE_Drawinfo bdi = BIKE_get_drawinfo(p_bike);
-
-                                    //
-                                    // Move to the same position above the bike.
-                                    //
-
-                                    GameCoord newpos = p_bike->WorldPos;
-
-                                    p_thing->Draw.Tweened->Angle = bdi.yaw;
-                                    p_thing->Draw.Tweened->Tilt = bdi.pitch;
-                                    p_thing->Draw.Tweened->Roll = bdi.roll;
-
-                                    /*
-                                    {
-                                            SLONG roll = bdi.roll;
-
-                                            if (roll > 1024)
-                                            {
-                                                    roll -= 2048;
-                                            }
-
-                                            roll /= 2;
-                                            roll &= 2047;
-
-                                            p_thing->Draw.Tweened->Roll = roll;
-                                    }
-                                    */
-
-                                    {
-                                        BIKE_Control bc;
-                                        DrawTween* dt = p_thing->Draw.Tweened;
-                                        SLONG steer;
-
-                                        bc = BIKE_control_get(p_bike);
-                                        steer = bc.steer >> 1;
-
-                                        if (steer > 32)
-                                            steer = 32;
-                                        else if (steer < -32)
-                                            steer = -32;
-
-                                        if (abs(steer) > 21) {
-                                            SLONG tween;
-                                            if (steer < 0) {
-                                                dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT];
-                                                dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT_FOOT];
-                                                tween = ((-steer) - 21) << 5;
-
-                                            } else {
-                                                dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT];
-                                                dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT_FOOT];
-                                                tween = ((steer)-21) << 5;
-                                            }
-                                            if (tween < 0)
-                                                tween = 0;
-                                            if (tween > 255)
-                                                tween = 255;
-
-                                            dt->AnimTween = tween;
-                                        } else if (bc.steer == 0) {
-                                            // dt->CurrentFrame = dt->TheChunk->AnimList[248];
-                                            // dt->NextFrame    = dt->TheChunk->AnimList[248];
-                                            dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
-                                            dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
-                                        } else if (bc.steer < 0) {
-
-                                            // dt->CurrentFrame =  dt->TheChunk->AnimList[248];
-                                            // dt->NextFrame    =  dt->TheChunk->AnimList[250];
-                                            dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
-                                            dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT];
-                                            dt->AnimTween = -steer << 3;
-                                        } else {
-                                            // dt->CurrentFrame = dt->TheChunk->AnimList[248];
-                                            // dt->NextFrame    = dt->TheChunk->AnimList[252];
-                                            dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
-                                            dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT];
-                                            dt->AnimTween = steer << 3;
-                                        }
-                                    }
-
-                                    {
-                                        GameCoord oldpos = p_thing->WorldPos;
-
-                                        p_thing->WorldPos = newpos;
-                                        FIGURE_draw(p_thing);
-
-                                        p_thing->WorldPos = oldpos;
-                                    }
-
-                                    /*
-
-
-                            //	p_person->Draw.Tweened->Roll = bdi.roll;//BIKE_get_roll(TO_THING(p_person->Genus.Person->InCar));
-                            //	p_person->Draw.Tweened->Tilt = bdi.pitch;
-
-                            //	if (p_person->Draw.Tweened.Roll > 1024)
-
-                                    */
-                                } else
-#endif
                                 {
                                     if (p_thing->Genus.Person->PlayerID) {
                                         if (FirstPersonMode) {
@@ -8258,40 +7562,8 @@ void AENG_draw_city()
                                         PCOM_person_state_debug(p_thing));
                                 }
 
-#if DRAW_THIS_DEBUG_STUFF
-
-                                AENG_world_line(
-                                    (p_thing->WorldPos.X >> 8),
-                                    (p_thing->WorldPos.Y >> 8) + 0x60,
-                                    (p_thing->WorldPos.Z >> 8),
-                                    32,
-                                    0x00ffffff,
-                                    (x << PAP_SHIFT_LO) + (1 << (PAP_SHIFT_LO - 1)),
-                                    (p_thing->WorldPos.Y >> 8),
-                                    (z << PAP_SHIFT_LO) + (1 << (PAP_SHIFT_LO - 1)),
-                                    0,
-                                    0x0000ff00,
-                                    FALSE);
-
-#endif
                             }
 
-#if NO_MORE_BALLOONS
-
-                            if (p_thing->Genus.Person->Balloon) {
-                                SLONG balloon;
-                                BALLOON_Balloon* bb;
-
-                                //
-                                // Draw this person's balloon.
-                                //
-
-                                for (balloon = p_thing->Genus.Person->Balloon; balloon; balloon = BALLOON_balloon[balloon].next) {
-                                    SHAPE_draw_balloon(balloon);
-                                }
-                            }
-
-#endif
 
                             if (p_thing->State == STATE_DEAD) {
                                 if (p_thing->Genus.Person->Timer1 > 10) {
@@ -8375,103 +7647,6 @@ void AENG_draw_city()
 
                         break;
 
-#ifdef BIKE
-
-#error A bike! Are you mad?
-
-                        case DT_BIKE:
-
-                            ASSERT(p_thing->Class == CLASS_BIKE);
-                            {
-                                //
-                                // Nasty eh! But I can't be arsed to create a new drawtype.
-                                //
-
-                                BIKE_Drawinfo bdi = BIKE_get_drawinfo(p_thing);
-
-                                //
-                                // Draw the frame of the bike.
-                                //
-
-                                ANIM_obj_draw(p_thing, p_thing->Draw.Tweened);
-
-                                //
-                                // If the bike is parked or being mounted then the wheels are
-                                // included in the animating object.
-                                //
-
-                                if (p_thing->Genus.Bike->mode == BIKE_MODE_DRIVING) {
-                                    AENG_set_bike_wheel_rotation(bdi.front_rot, PRIM_OBJ_BIKE_BWHEEL);
-
-                                    MESH_draw_poly(
-                                        PRIM_OBJ_BIKE_BWHEEL,
-                                        bdi.front_x,
-                                        bdi.front_y,
-                                        bdi.front_z,
-                                        bdi.steer,
-                                        bdi.pitch,
-                                        bdi.roll,
-                                        NULL, 0xff, 0);
-
-                                    AENG_set_bike_wheel_rotation(bdi.back_rot, PRIM_OBJ_BIKE_BWHEEL);
-
-                                    MESH_draw_poly(
-                                        PRIM_OBJ_BIKE_BWHEEL,
-                                        bdi.back_x,
-                                        bdi.back_y,
-                                        bdi.back_z,
-                                        bdi.yaw,
-                                        0,
-                                        bdi.roll,
-                                        NULL, 0xff, 0);
-                                }
-
-                                // Now some bike fx... first the exhaust
-                                PARTICLE_Exhaust2(p_thing, 5, 16);
-
-                                if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME)) {
-                                    SLONG matrix[9], vector[3], dx, dy, dz;
-                                    //										FMATRIX_calc(matrix, 1024-bdi.steer, bdi.pitch, bdi.roll);
-                                    FMATRIX_calc(matrix, bdi.steer, bdi.pitch, bdi.roll);
-                                    FMATRIX_TRANSPOSE(matrix);
-                                    vector[2] = -255;
-                                    vector[1] = 0;
-                                    vector[0] = 0;
-                                    FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
-                                    dx = vector[0];
-                                    dy = vector[1];
-                                    dz = vector[2];
-                                    vector[2] = 25;
-                                    vector[1] = 80;
-                                    vector[0] = 0;
-                                    FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
-                                    BLOOM_draw(bdi.front_x + vector[0], bdi.front_y + vector[1], bdi.front_z + vector[2], dx, dy, dz, 0x606040, BLOOM_LENSFLARE | BLOOM_BEAM);
-
-                                    FMATRIX_calc(matrix, bdi.yaw, bdi.pitch, bdi.roll);
-                                    FMATRIX_TRANSPOSE(matrix);
-                                    vector[2] = 255;
-                                    vector[1] = 0;
-                                    vector[0] = 0;
-                                    FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
-                                    dx = vector[0];
-                                    dy = vector[1];
-                                    dz = vector[2];
-                                    vector[2] = 70;
-                                    vector[1] = 75;
-                                    vector[0] = 0;
-                                    FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
-
-                                    BLOOM_draw(
-                                        (p_thing->WorldPos.X >> 8) + vector[0],
-                                        (p_thing->WorldPos.Y >> 8) + vector[1],
-                                        (p_thing->WorldPos.Z >> 8) + vector[2],
-                                        dx, dy, dz, 0x800000, 0);
-                                }
-                            }
-
-                            break;
-
-#endif
 
                         case DT_VEHICLE:
 
@@ -9424,7 +8599,6 @@ void AENG_draw_warehouse()
     //
     // Rotate all the points.
     //
-#ifndef NEW_FLOOR
     for (z = NGAMUT_point_zmin; z <= NGAMUT_point_zmax; z++) {
         for (x = NGAMUT_point_gamut[z].xmin; x <= NGAMUT_point_gamut[z].xmax; x++) {
             ASSERT(WITHIN(x, 0, PAP_SIZE_HI - 1));
@@ -9483,7 +8657,6 @@ void AENG_draw_warehouse()
             }
         }
     }
-#endif
     //
     // Who shall we generate shadows for?
     //
@@ -9917,14 +9090,10 @@ void AENG_draw_warehouse()
         }
     }
 
-#ifdef NEW_FLOOR
-    draw_quick_floor(1);
-#endif
 
     //
     // Create all the squares.
     //
-#ifndef NEW_FLOOR
     for (z = NGAMUT_zmin; z <= NGAMUT_zmax; z++) {
         for (x = NGAMUT_gamut[z].xmin; x <= NGAMUT_gamut[z].xmax; x++) {
             ASSERT(WITHIN(x, 0, PAP_SIZE_HI - 2));
@@ -9966,7 +9135,6 @@ void AENG_draw_warehouse()
             }
         }
     }
-#endif
 
     //
     // Draw the objects and the things.
@@ -10187,19 +9355,6 @@ void AENG_draw_warehouse()
                             }
                         }
 
-#if NO_MORE_BALLOONS_NOW
-
-                        if (p_thing->Genus.Person->Balloon) {
-                            //
-                            // Draw this person's balloon.
-                            //
-
-                            for (balloon = p_thing->Genus.Person->Balloon; balloon; balloon = BALLOON_balloon[balloon].next) {
-                                SHAPE_draw_balloon(balloon);
-                            }
-                        }
-
-#endif
 
                         if (ControlFlag && allow_debug_keys) {
                             AENG_world_text(
@@ -10319,314 +9474,6 @@ void AENG_draw_scanner(
     SLONG map_zoom,
     SLONG map_angle)
 {
-#ifdef DOG_POO
-    SLONG i;
-
-    AZ_Line* al;
-
-    float tx1;
-    float tx2;
-    float tz1;
-    float tz2;
-
-    float rx1;
-    float rx2;
-    float rz1;
-    float rz2;
-
-    float sx1;
-    float sx2;
-    float sy1;
-    float sy2;
-
-    float left = float(screen_x1);
-    float right = float(screen_x2);
-    float top = float(screen_y1);
-    float bottom = float(screen_y2);
-
-    float screen_mid_x = float(screen_x1 + screen_x2 >> 1);
-    float screen_mid_y = float(screen_y1 + screen_y2 >> 1);
-    float angle = float(map_angle) * (-2.0F * PI / 2048.0F);
-    float zoom = float(map_zoom) * (1.0F / 65536.0F);
-
-    float sin_yaw = sin(angle);
-    float cos_yaw = cos(angle);
-    float matrix[4];
-
-    UBYTE clip1;
-    UBYTE clip2;
-    UBYTE clip_and;
-    UBYTE clip_xor;
-
-    matrix[0] = cos_yaw;
-    matrix[1] = sin_yaw;
-    matrix[2] = -sin_yaw;
-    matrix[3] = cos_yaw;
-
-    //
-    // Set the clipping rectangle.
-    //
-
-    POLY_clip_line_box(
-        left,
-        top,
-        right,
-        bottom);
-
-    //
-    // Initialise the frame.
-    //
-
-    POLY_frame_init(FALSE, FALSE);
-
-    //
-    // Add each line in turn.
-    //
-
-    ULONG type_colour[AZ_LINE_TYPE_NUMBER] = {
-        0x00d83377,
-        0x00eed811,
-        0x0033ccff
-    };
-
-    for (i = 0; i < AZ_line_upto; i++) {
-        al = &AZ_line[i];
-
-        tx1 = float((al->x1 << ELE_SHIFT) - map_x);
-        tz1 = float((al->z1 << ELE_SHIFT) - map_z);
-
-        tx2 = float((al->x2 << ELE_SHIFT) - map_x);
-        tz2 = float((al->z2 << ELE_SHIFT) - map_z);
-
-        //
-        // Rotate the points.
-        //
-
-        rx1 = tx1 * matrix[0] + tz1 * matrix[1];
-        rz1 = tx1 * matrix[2] + tz1 * matrix[3];
-
-        rx2 = tx2 * matrix[0] + tz2 * matrix[1];
-        rz2 = tx2 * matrix[2] + tz2 * matrix[3];
-
-        //
-        // Their screen positions.
-        //
-
-        sx1 = screen_mid_x + zoom * rx1;
-        sy1 = screen_mid_y + zoom * rz1;
-
-        sx2 = screen_mid_x + zoom * rx2;
-        sy2 = screen_mid_y + zoom * rz2;
-
-        //
-        // Add the line.
-        //
-
-        ASSERT(WITHIN(al->type, 0, AZ_LINE_TYPE_NUMBER - 1));
-
-        POLY_clip_line_add(sx1, sy1, sx2, sy2, type_colour[al->type]);
-    }
-
-    //
-    // Draw all the people.
-    //
-
-    {
-        THING_INDEX t_index;
-        Thing* p_thing;
-
-        SLONG dx;
-        SLONG dz;
-
-        for (t_index = the_game.UsedPrimaryThings; t_index; t_index = p_thing->LinkChild) {
-            p_thing = TO_THING(t_index);
-
-            if (p_thing->Class == CLASS_PERSON) {
-                dx = -SIN(p_thing->Draw.Tweened->Angle) >> 9;
-                dz = -COS(p_thing->Draw.Tweened->Angle) >> 9;
-
-                tx1 = float((p_thing->WorldPos.X >> 8) - map_x);
-                tz1 = float((p_thing->WorldPos.Z >> 8) - map_z);
-
-                tx2 = float((p_thing->WorldPos.X >> 8) + dx - map_x);
-                tz2 = float((p_thing->WorldPos.Z >> 8) + dz - map_z);
-
-                //
-                // Rotate the points.
-                //
-
-                rx1 = tx1 * matrix[0] + tz1 * matrix[1];
-                rz1 = tx1 * matrix[2] + tz1 * matrix[3];
-
-                rx2 = tx2 * matrix[0] + tz2 * matrix[1];
-                rz2 = tx2 * matrix[2] + tz2 * matrix[3];
-
-                //
-                // Their screen positions.
-                //
-
-                sx1 = screen_mid_x + zoom * rx1;
-                sy1 = screen_mid_y + zoom * rz1;
-
-                sx2 = screen_mid_x + zoom * rx2;
-                sy2 = screen_mid_y + zoom * rz2;
-
-                //
-                // Add the line.
-                //
-
-                POLY_clip_line_add(sx1, sy1, sx2, sy2, 0x00ffffff);
-            }
-        }
-    }
-
-    //
-    // Draw a cross in the middle of the map.
-    //
-
-#define AENG_CROSS_SIZE 5
-#define AENG_CROSS_COLOUR 0x0033aa33
-
-    POLY_clip_line_add(
-        screen_mid_x - AENG_CROSS_SIZE,
-        screen_mid_y - AENG_CROSS_SIZE,
-        screen_mid_x + AENG_CROSS_SIZE,
-        screen_mid_y + AENG_CROSS_SIZE,
-        AENG_CROSS_COLOUR);
-
-    POLY_clip_line_add(
-        screen_mid_x - AENG_CROSS_SIZE,
-        screen_mid_y + AENG_CROSS_SIZE,
-        screen_mid_x + AENG_CROSS_SIZE,
-        screen_mid_y - AENG_CROSS_SIZE,
-        AENG_CROSS_COLOUR);
-
-    //
-    // Draw an outline.
-    //
-
-#define AENG_BORDER_COLOUR 0x003355cc
-
-    POLY_add_line_2d(left, top, right, top, AENG_BORDER_COLOUR);
-    POLY_add_line_2d(right, top, right, bottom, AENG_BORDER_COLOUR);
-    POLY_add_line_2d(right, bottom, left, bottom, AENG_BORDER_COLOUR);
-    POLY_add_line_2d(left, bottom, left, top, AENG_BORDER_COLOUR);
-
-    //
-    // The transparent background background.
-    //
-
-    POLY_Point pp[4];
-    POLY_Point* quad[4];
-
-#define AENG_BACKGROUND_COLOUR 0x55888800
-
-    pp[0].X = left;
-    pp[0].Y = top;
-    pp[0].z = 0.0F;
-    pp[0].Z = 1.0F;
-    pp[0].u = 0.0F;
-    pp[0].v = 0.0F;
-    pp[0].colour = AENG_BACKGROUND_COLOUR;
-    pp[0].specular = 0;
-
-    pp[1].X = right;
-    pp[1].Y = top;
-    pp[1].z = 0.0F;
-    pp[1].Z = 1.0F;
-    pp[1].u = 0.0F;
-    pp[1].v = 0.0F;
-    pp[1].colour = AENG_BACKGROUND_COLOUR;
-    pp[1].specular = 0;
-
-    pp[2].X = left;
-    pp[2].Y = bottom;
-    pp[2].z = 0.0F;
-    pp[2].Z = 1.0F;
-    pp[2].u = 0.0F;
-    pp[2].v = 0.0F;
-    pp[2].colour = AENG_BACKGROUND_COLOUR;
-    pp[2].specular = 0;
-
-    pp[3].X = right;
-    pp[3].Y = bottom;
-    pp[3].z = 0.0F;
-    pp[3].Z = 1.0F;
-    pp[3].u = 0.0F;
-    pp[3].v = 0.0F;
-    pp[3].colour = AENG_BACKGROUND_COLOUR;
-    pp[3].specular = 0;
-
-    quad[0] = &pp[0];
-    quad[1] = &pp[1];
-    quad[2] = &pp[2];
-    quad[3] = &pp[3];
-
-    POLY_add_quad(quad, POLY_PAGE_ALPHA, FALSE, TRUE);
-
-#if WE_WANT_TO_DRAW_THE_TEXTURE_SHADOW_PAGE
-
-    {
-        left = 80;
-        top = 80;
-
-        right = 144;
-        bottom = 144;
-
-#define USIZE (float(AENG_AA_BUF_SIZE) / float(TEXTURE_SHADOW_SIZE))
-
-        pp[0].X = left;
-        pp[0].Y = top;
-        pp[0].z = 0.0F;
-        pp[0].Z = 1.0F;
-        pp[0].u = 0.0F;
-        pp[0].v = 0.0F;
-        pp[0].colour = 0xffffffff;
-        pp[0].specular = 0xff000000;
-
-        pp[1].X = right;
-        pp[1].Y = top;
-        pp[1].z = 0.0F;
-        pp[1].Z = 1.0F;
-        pp[1].u = USIZE;
-        pp[1].v = 0.0F;
-        pp[1].colour = 0xffffffff;
-        pp[1].specular = 0xff000000;
-
-        pp[2].X = left;
-        pp[2].Y = bottom;
-        pp[2].z = 0.0F;
-        pp[2].Z = 1.0F;
-        pp[2].u = 0.0F;
-        pp[2].v = USIZE;
-        pp[2].colour = 0xffffffff;
-        pp[2].specular = 0xff000000;
-
-        pp[3].X = right;
-        pp[3].Y = bottom;
-        pp[3].z = 0.0F;
-        pp[3].Z = 1.0F;
-        pp[3].u = USIZE;
-        pp[3].v = USIZE;
-        pp[3].colour = 0xffffffff;
-        pp[3].specular = 0xff000000;
-
-        quad[0] = &pp[0];
-        quad[1] = &pp[1];
-        quad[2] = &pp[2];
-        quad[3] = &pp[3];
-
-        POLY_add_quad(quad, POLY_PAGE_SHADOW, FALSE, TRUE);
-    }
-
-#endif
-
-    //
-    // Draw the polys.
-    //
-
-    POLY_frame_draw(TRUE, TRUE);
-#endif
 }
 
 void AENG_draw_power(SLONG x, SLONG y, SLONG w, SLONG h, SLONG val, SLONG max)
@@ -10823,69 +9670,6 @@ void AENG_draw_messages()
         last_game_turn = GAME_TURN;
     }
 
-#if ARGH
-
-    static SLONG px[3] = { 4 << 16, 8 << 16, 8 << 16 };
-    static SLONG py[3] = { 4 << 16, 4 << 16, 8 << 16 };
-
-    if (LeftButton) {
-        SLONG mx;
-        SLONG my;
-
-        SLONG dx;
-        SLONG dy;
-
-        mx = MouseX - AENG_AA_LEFT;
-        my = MouseY - AENG_AA_TOP;
-
-        mx <<= 16;
-        my <<= 16;
-
-        mx /= AENG_AA_PIX_SIZE;
-        my /= AENG_AA_PIX_SIZE;
-
-        SLONG i;
-
-        SLONG dist;
-        SLONG best_dist = INFINITY;
-        SLONG* best_x;
-        SLONG* best_y;
-
-        for (i = 0; i < 3; i++) {
-            dx = abs(px[i] - mx);
-            dy = abs(py[i] - my);
-
-            dist = dx + dy;
-
-            if (dist < best_dist) {
-                best_dist = dist;
-                best_x = &px[i];
-                best_y = &py[i];
-            }
-        }
-
-        *best_x = mx;
-        *best_y = my;
-    }
-
-    {
-        //
-        // Draw a mad quad!
-        //
-
-        memset(AENG_aa_buffer, 0, sizeof(AENG_aa_buffer));
-
-        AA_draw(
-            (UBYTE*)AENG_aa_buffer,
-            AENG_AA_BUF_SIZE,
-            AENG_AA_BUF_SIZE,
-            AENG_AA_BUF_SIZE,
-            px[0], py[0],
-            px[1], py[1],
-            px[2], py[2]);
-    }
-
-#endif
 
     //
     // Draw stuff straight to the screen.
@@ -10912,39 +9696,6 @@ void AENG_draw_messages()
 //
 
 // MSG_draw();
-#if werrr
-
-        SLONG x;
-        SLONG y;
-
-        SLONG dx;
-        SLONG dy;
-
-        for (x = 0; x < AENG_AA_BUF_SIZE; x++)
-            for (y = 0; y < AENG_AA_BUF_SIZE; y++) {
-                for (dx = 0; dx < AENG_AA_PIX_SIZE; dx++)
-                    for (dy = 0; dy < AENG_AA_PIX_SIZE; dy++) {
-                        the_display.PlotPixel(
-                            AENG_AA_LEFT + x * AENG_AA_PIX_SIZE + dx,
-                            AENG_AA_TOP + y * AENG_AA_PIX_SIZE + dy,
-                            AENG_aa_buffer[y][x],
-                            AENG_aa_buffer[y][x],
-                            AENG_aa_buffer[y][x]);
-                    }
-            }
-
-        for (SLONG i = 0; i < 3; i++) {
-            x = AENG_AA_LEFT + (px[i] * AENG_AA_PIX_SIZE >> 16);
-            y = AENG_AA_TOP + (py[i] * AENG_AA_PIX_SIZE >> 16);
-
-            the_display.PlotPixel(x + 0, y + 0, 255, 255, 0);
-            the_display.PlotPixel(x + 1, y + 0, 255, 100, 0);
-            the_display.PlotPixel(x + 0, y + 1, 255, 100, 0);
-            the_display.PlotPixel(x - 1, y + 0, 255, 100, 0);
-            the_display.PlotPixel(x + 0, y - 1, 255, 100, 0);
-        }
-
-#endif
 
         the_display.screen_unlock();
     }
@@ -11542,354 +10293,6 @@ ULONG AENG_light_draw(
     return ans;
 }
 
-#ifdef SEWERS
-
-void AENG_draw_sewer_editor(
-    SLONG cam_x,
-    SLONG cam_y,
-    SLONG cam_z,
-    SLONG cam_yaw,
-    SLONG cam_pitch,
-    SLONG cam_roll,
-    SLONG mouse_x,
-    SLONG mouse_y,
-    SLONG* mouse_over_valid,
-    SLONG* mouse_over_x,
-    SLONG* mouse_over_y,
-    SLONG* mouse_over_z,
-    SLONG draw_prim_at_mouse,
-    SLONG prim_object,
-    SLONG prim_yaw)
-{
-    SLONG i;
-
-    SLONG x;
-    SLONG z;
-
-    float px;
-    float py;
-    float pz;
-
-    float wy;
-
-    SLONG height;
-    SLONG page;
-
-    float along_01;
-    float along_02;
-
-    POLY_Point pp[4];
-    POLY_Point* quad[4];
-
-    quad[0] = &pp[0];
-    quad[1] = &pp[1];
-    quad[2] = &pp[2];
-    quad[3] = &pp[3];
-
-    pp[0].colour = 0x00ffffff;
-    pp[1].colour = 0x00ffffff;
-    pp[2].colour = 0x00ffffff;
-    pp[3].colour = 0x00ffffff;
-
-    pp[0].specular = 0xff000000;
-    pp[1].specular = 0xff000000;
-    pp[2].specular = 0xff000000;
-    pp[3].specular = 0xff000000;
-
-    pp[0].u = 0.0F;
-    pp[0].v = 0.0F;
-    pp[1].u = 1.0F;
-    pp[1].v = 0.0F;
-    pp[2].u = 0.0F;
-    pp[2].v = 1.0F;
-    pp[3].u = 1.0F;
-    pp[3].v = 1.0F;
-
-    ES_Hi* eh;
-    ES_Lo* el;
-
-    ES_Thing* et;
-
-    //
-    // Clear screen.
-    //
-
-    AENG_clear_screen();
-
-    //
-    // Clear out stuff.
-    //
-
-    POLY_frame_init(FALSE, FALSE);
-
-    //
-    // Set the camera.
-    //
-
-    POLY_camera_set(
-        float(cam_x),
-        float(cam_y),
-        float(cam_z),
-        float(cam_yaw) * 2.0F * PI / 2048.0F,
-        float(cam_pitch) * 2.0F * PI / 2048.0F,
-        float(cam_roll) * 2.0F * PI / 2048.0F,
-        float(AENG_DRAW_DIST) * 256.0F,
-        AENG_LENS);
-
-    //
-    // Calculate the gamut.
-    //
-
-    AENG_calc_gamut(
-        float(cam_x),
-        float(cam_y),
-        float(cam_z),
-        float(cam_yaw) * 2.0F * PI / 2048.0F,
-        float(cam_pitch) * 2.0F * PI / 2048.0F,
-        float(cam_roll) * 2.0F * PI / 2048.0F,
-        float(AENG_DRAW_DIST),
-        AENG_LENS);
-
-    *mouse_over_valid = FALSE;
-
-    for (z = NGAMUT_zmin; z <= NGAMUT_zmax; z++) {
-        for (x = NGAMUT_gamut[z].xmin; x <= NGAMUT_gamut[z].xmax; x++) {
-            ASSERT(WITHIN(x, 0, PAP_SIZE_HI - 1));
-            ASSERT(WITHIN(z, 0, PAP_SIZE_HI - 1));
-
-            eh = &ES_hi[x][z];
-
-            switch (eh->type) {
-            case ES_TYPE_ROCK:
-                page = NS_page[NS_PAGE_ROCK].page;
-                break;
-            case ES_TYPE_SEWER:
-                page = NS_page[NS_PAGE_SWALL].page;
-                break;
-            case ES_TYPE_GROUND:
-                page = NS_page[NS_PAGE_STONE].page;
-                break;
-            case ES_TYPE_HOLE:
-                page = 0;
-                break;
-            default:
-                ASSERT(0);
-                break;
-            }
-
-            if (eh->flag & ES_FLAG_GRATING) {
-                page = NS_page[NS_PAGE_GRATE].page;
-            }
-
-            //
-            // The height.
-            //
-
-            py = float((eh->height << 5) + -32 * 0x100);
-
-            //
-            // Create the four points.
-            //
-
-            for (i = 0; i < 4; i++) {
-                px = float(x + ((i & 1) ? 1 : 0)) * 256.0F;
-                pz = float(z + ((i & 2) ? 1 : 0)) * 256.0F;
-
-                POLY_transform(
-                    px,
-                    py,
-                    pz,
-                    &pp[i]);
-
-                if (!pp[i].MaybeValid()) {
-                    goto abandon_this_square;
-                }
-            }
-
-            if (POLY_valid_quad(quad)) {
-                POLY_add_quad(quad, page, FALSE);
-
-                //
-                // Is the mouse in this quad?
-                //
-
-                if (POLY_inside_quad(
-                        float(mouse_x),
-                        float(mouse_y),
-                        quad,
-                        &along_01,
-                        &along_02)) {
-                    *mouse_over_valid = TRUE;
-
-                    *mouse_over_x = x * 256 + 0x80;
-                    *mouse_over_y = SLONG(py);
-                    *mouse_over_z = z * 256 + 0x80;
-                }
-            }
-
-        abandon_this_square:;
-
-            //
-            // Draw water above this square?
-            //
-
-            if (eh->water) {
-                //
-                // The height.
-                //
-
-                wy = float((eh->water << 5) + -32 * 0x100);
-
-                //
-                // Create the four points.
-                //
-
-                for (i = 0; i < 4; i++) {
-                    px = float(x + ((i & 1) ? 1 : 0)) * 256.0F;
-                    pz = float(z + ((i & 2) ? 1 : 0)) * 256.0F;
-
-                    POLY_transform(
-                        px,
-                        wy,
-                        pz,
-                        &pp[i]);
-
-                    if (!pp[i].MaybeValid()) {
-                        goto abandon_this_water;
-                    }
-                }
-
-                pp[0].colour = 0x00222266;
-                pp[1].colour = 0x00222266;
-                pp[2].colour = 0x00222266;
-                pp[3].colour = 0x00222266;
-
-                if (POLY_valid_quad(quad)) {
-                    POLY_add_quad(quad, POLY_PAGE_ADDITIVE, FALSE);
-                }
-
-                pp[0].colour = 0x00ffffff;
-                pp[1].colour = 0x00ffffff;
-                pp[2].colour = 0x00ffffff;
-                pp[3].colour = 0x00ffffff;
-
-            abandon_this_water:;
-            }
-
-            if (eh->flag & ES_FLAG_ENTRANCE) {
-                SLONG mx = (x << 8) + 0x80;
-                SLONG mz = (z << 8) + 0x80;
-
-                SLONG colourbot;
-                SLONG colourtop;
-
-                if (eh->flag & ES_FLAG_NOCURBS) {
-                    colourbot = 0x0000ff00;
-                    colourtop = 0x000000ff;
-                } else {
-                    colourbot = 0x00ff0000;
-                    colourtop = 0x00ffff88;
-                }
-
-                AENG_world_line(
-                    mx, SLONG(py) + 0x010, mz, 32, colourbot,
-                    mx, SLONG(py) + 0x280, mz, 0, colourtop,
-                    FALSE);
-            }
-        }
-    }
-
-    //
-    // Draw the lights.
-    //
-
-    for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++) {
-        for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++) {
-            ASSERT(WITHIN(x, 0, PAP_SIZE_LO - 1));
-            ASSERT(WITHIN(z, 0, PAP_SIZE_LO - 1));
-
-            el = &ES_lo[x][z];
-
-            if (el->light_y) {
-                SLONG lx = (x << PAP_SHIFT_LO) + (el->light_x << 3);
-                SLONG ly = (el->light_y << 5) + -32 * 0x100;
-                SLONG lz = (z << PAP_SHIFT_LO) + (el->light_z << 3);
-
-                SHAPE_sphere(
-                    lx, ly, lz,
-                    32,
-                    0x00ddddff);
-            }
-        }
-    }
-
-    //
-    // Draw the things.
-    //
-
-    for (i = 0; i < ES_MAX_THINGS; i++) {
-        et = &ES_thing[i];
-
-        switch (et->type) {
-        case ES_THING_TYPE_UNUSED:
-            break;
-
-        case ES_THING_TYPE_LADDER:
-
-            FACET_draw_ns_ladder(
-                et->x1,
-                et->z1,
-                et->x2,
-                et->z2,
-                et->height);
-
-            break;
-
-        case ES_THING_TYPE_PRIM:
-
-            MESH_draw_poly(
-                et->prim,
-                et->x,
-                et->y,
-                et->z,
-                et->yaw, 0, 0,
-                NULL, 0xff, 0);
-
-            break;
-
-        default:
-            ASSERT(0);
-            break;
-        }
-    }
-
-    if (*mouse_over_valid) {
-        //
-        // Highlight the square the mouse is over.
-        //
-
-        AENG_e_draw_3d_mapwho_y(
-            *mouse_over_x >> 8,
-            *mouse_over_y,
-            *mouse_over_z >> 8);
-
-        if (draw_prim_at_mouse) {
-            MESH_draw_poly(
-                prim_object,
-                *mouse_over_x & ~0xff,
-                *mouse_over_y,
-                *mouse_over_z & ~0xff,
-                prim_yaw, 0, 0,
-                NULL, 0xff, 0);
-        }
-    }
-
-    POLY_frame_draw(TRUE, TRUE);
-
-    return;
-}
-
-#endif
 
 //
 // Draws text at the given point.

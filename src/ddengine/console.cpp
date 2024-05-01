@@ -14,6 +14,7 @@
 #include "font2d.h"
 #include "panel.h"
 #include <winsock.h>
+#include "font.h"
 
 #define CONSOLE_LINES 15
 #define CONSOLE_WIDTH 50

@@ -17,6 +17,7 @@
 #include "pow.h"
 #include "dirt.h"
 #include "../ddengine/panel.h"
+#include "../ddengine/aeng.h"
 
 BARREL_Sphere* BARREL_sphere; //[BARREL_MAX_SPHERES];
 SLONG BARREL_sphere_last; // MARK!!! WTF, you usuall call thing BLAH_blah_upto

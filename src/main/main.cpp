@@ -5,6 +5,7 @@
 #include "../ddlibrary/ddlib.h"
 #include "../ddengine/renderstate.h"
 #include "../ddlibrary/drive.h"
+#include "../ddengine/aeng.h"
 
 #ifdef GUY
 #include "gedit.h"

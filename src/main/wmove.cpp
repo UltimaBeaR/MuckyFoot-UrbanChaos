@@ -8,6 +8,7 @@
 #include "memory.h"
 #include "fmatrix.h"
 #include "statedef.h"
+#include "../ddengine/aeng.h"
 
 // #include "prim.h"
 

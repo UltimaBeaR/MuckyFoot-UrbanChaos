@@ -26,6 +26,7 @@
 #include "statedef.h"
 #include "../ddengine/poly.h"
 #include "sound.h"
+#include "../ddengine/aeng.h"
 
 #define NEW_LEVELS 1
 

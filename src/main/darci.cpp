@@ -17,6 +17,7 @@
 #include "memory.h"
 #include "sound.h"
 #include "mav.h"
+#include "../ddengine/aeng.h"
 
 //---------------------------------------------------------------
 // This is all temporary editor reliant stuff.

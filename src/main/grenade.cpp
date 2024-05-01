@@ -15,6 +15,7 @@
 #include "grenade.h"
 #include "statedef.h"
 #include "../ddengine/drawxtra.h"
+#include "../ddengine/aeng.h"
 
 // Grenade
 //

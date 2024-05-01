@@ -17,6 +17,7 @@
 #include <libcd.h>
 #include <ctype.h>
 #endif
+#include "../ddengine/aeng.h"
 
 //		STOREY_TYPE_NORMAL
 

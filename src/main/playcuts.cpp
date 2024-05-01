@@ -25,6 +25,7 @@
 #include "../ddengine/polypage.h"
 #include "../ddengine/drawxtra.h"
 #include "../ddengine/font2d.h"
+#include "../ddengine/aeng.h"
 
 //----------------------------------------------------------------------------
 // DEFINES

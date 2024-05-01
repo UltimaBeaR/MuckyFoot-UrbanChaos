@@ -12,6 +12,7 @@
 #include "supermap.h"
 #include "memory.h"
 #include "../ddengine/matrix.h"
+#include "../ddengine/aeng.h"
 
 #define PRIM_MIN_BBOX 0x58
 

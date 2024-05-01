@@ -60,6 +60,7 @@
 #include "grenade.h"
 #include "env.h"
 #include "../ddengine/panel.h"
+#include "../ddengine/aeng.h"
 
 #include "sound.h"
 #ifdef USE_A3D

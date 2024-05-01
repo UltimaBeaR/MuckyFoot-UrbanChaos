@@ -26,6 +26,7 @@
 #include "env.h"
 #include "../ddlibrary/ddlib.h"
 #include "../ddengine/poly.h"
+#include "../ddengine/aeng.h"
 
 UBYTE player_relative;
 

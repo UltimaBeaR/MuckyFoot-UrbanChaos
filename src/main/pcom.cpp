@@ -25,6 +25,7 @@
 #include "ob.h"
 #include "spark.h"
 #include "../ddengine/panel.h"
+#include "../ddengine/aeng.h"
 
 #include "memory.h"
 extern UBYTE stealth_debug;

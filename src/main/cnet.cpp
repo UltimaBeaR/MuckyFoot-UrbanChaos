@@ -1,5 +1,6 @@
 #include "game.h"
 #include "../ddlibrary/net.h"
+#include "../ddengine/aeng.h"
 
 UBYTE CNET_network_game;
 UBYTE CNET_i_am_host;

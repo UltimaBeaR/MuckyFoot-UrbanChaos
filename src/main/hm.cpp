@@ -11,6 +11,7 @@
 #include "maths.h"
 #include "pap.h"
 #include "memory.h"
+#include "../ddengine/aeng.h"
 
 //
 // How to draw a line in the world.

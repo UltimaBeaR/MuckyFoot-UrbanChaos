@@ -7,6 +7,7 @@
 #include "../ddengine/font2d.h"
 #include "../ddengine/poly.h"
 #include "../ddengine/panel.h"
+#include "../ddengine/aeng.h"
 #include "startscr.h"
 #include "briefing.h"
 #define DEMO

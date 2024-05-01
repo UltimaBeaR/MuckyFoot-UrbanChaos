@@ -28,6 +28,7 @@
 #include "../ddlibrary/mfx.h"
 #include "../main/sound.h"
 #include "../main/gamemenu.h"
+#include "aeng.h"
 
 /*************************************************************
  *

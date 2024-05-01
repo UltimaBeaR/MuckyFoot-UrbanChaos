@@ -11,6 +11,7 @@
 #include "interfac.h"
 #include "../ddlibrary/mfx.h"
 #include "gamemenu.h"
+#include "../ddengine/aeng.h"
 
 #include "memory.h"
 // extern	ULONG	get_hardware_input(UWORD type);

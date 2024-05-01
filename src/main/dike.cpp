@@ -7,6 +7,7 @@
 #include "pap.h"
 #include "road.h"
 #include "fmatrix.h"
+#include "../ddengine/aeng.h"
 
 //
 // Our dikes.

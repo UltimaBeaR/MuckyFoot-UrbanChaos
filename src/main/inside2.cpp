@@ -5,6 +5,7 @@
 #include "inside2.h"
 #include "memory.h"
 #include "mav.h"
+#include "../ddengine/aeng.h"
 
 // struct 	DInsideRect	inside_rect[MAX_INSIDE_RECT];
 

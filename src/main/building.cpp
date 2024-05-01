@@ -10,6 +10,8 @@
 #include "../editor/editor.h"
 #include "../editor/outline.h"
 
+#include "../ddengine/aeng.h"
+
 struct DepthStrip edit_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH]; // 2meg
 UWORD tex_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
 

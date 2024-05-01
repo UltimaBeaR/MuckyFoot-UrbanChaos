@@ -5,6 +5,7 @@
 #pragma once
 
 #include "../mfstdlib/mfstdlib.h"
+#include "aeng.h"
 
 //
 // Creates a shadow map of the given person.

@@ -19,6 +19,7 @@
 #include "night.h"
 #include "ob.h"
 #include "elev.h"
+#include "../ddengine/aeng.h"
 
 WARE_Ware* WARE_ware; //[WARE_MAX_WARES];
 UWORD WARE_ware_upto;

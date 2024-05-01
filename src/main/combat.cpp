@@ -12,6 +12,7 @@
 #include "psystem.h"
 #include "../ddengine/poly.h"
 #include "dirt.h"
+#include "../ddengine/aeng.h"
 
 SLONG people_allowed_to_hit_each_other(Thing* p_victim, Thing* p_agressor);
 

@@ -8,6 +8,7 @@
 #include "wand.h"
 #include "memory.h"
 #include "ob.h"
+#include "../ddengine/aeng.h"
 
 void WAND_init(void)
 {

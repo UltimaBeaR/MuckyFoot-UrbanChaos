@@ -25,6 +25,7 @@
 #include "ware.h"
 #include "../ddlibrary/mfx.h"
 #include "pcom.h"
+#include "../ddengine/aeng.h"
 
 extern UBYTE cheat;
 

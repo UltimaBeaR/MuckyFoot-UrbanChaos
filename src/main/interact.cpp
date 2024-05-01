@@ -9,6 +9,7 @@
 #include "animate.h"
 #include "fmatrix.h"
 #include "../editor/prim_draw.h"
+#include "../ddengine/aeng.h"
 /*
 
   actions that cause you to look for a grab face

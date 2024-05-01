@@ -1,7 +1,12 @@
 
 https://stackoverflow.com/questions/2290509/debug-vs-ndebug
 https://learn.microsoft.com/en-us/cpp/build/reference/md-mt-ld-use-run-time-library?view=msvc-170
-    about NDEBUG, _DEBUG and DEBUG symbols
+    about NDEBUG, _DEBUG symbols
+
+
+
+
+#ifdef (?!DEBUG|_DEBUG|FINAL|NDEBUG|_RELEASE)
 
 
 coan https://coan2.sourceforge.net/index.php?page=about

@@ -15,12 +15,10 @@
 #endif
 #endif
 
-#ifdef TEX_EMBED
 static D3DTexture* EmbedSource = NULL;
 static LPDIRECTDRAWSURFACE4 EmbedSurface = NULL;
 static LPDIRECT3DTEXTURE2 EmbedTexture = NULL;
 static UBYTE EmbedOffset = 0;
-#endif
 
 extern void POLY_reset_render_states(void);
 
@@ -89,12 +87,10 @@ void D3DTexture::BeginLoading()
 {
     SLONG first_time = TRUE;
 
-#ifdef TEX_EMBED
     EmbedSource = NULL;
     EmbedSurface = NULL;
     EmbedTexture = NULL;
     EmbedOffset = 0;
-#endif
 
     // And redo all the render states and sorting.
     POLY_reset_render_states();
@@ -127,7 +123,6 @@ void D3DPage::Unload(void)
     }
 }
 
-#ifdef TEX_EMBED
 void D3DTexture::GetTexOffsetAndScale(float* pfUScale, float* pfUOffset, float* pfVScale, float* pfVOffset)
 {
     switch (bPageType) {
@@ -161,7 +156,6 @@ void D3DTexture::GetTexOffsetAndScale(float* pfUScale, float* pfUOffset, float* 
         break;
     }
 }
-#endif // #ifdef TEX_EMBED
 
 HRESULT D3DTexture::ChangeTextureTGA(CBYTE* tga_file)
 {

@@ -3008,24 +3008,6 @@ void PANEL_last()
         float strip;
         SLONG c;
 
-#ifdef STRIP_STATS
-        extern ULONG strip_stats[];
-        if (strip_stats[0])
-            strip = (float)strip_stats[1] / (float)strip_stats[0];
-
-        for (c = 2; c < 34; c++) {
-            sprintf(
-                timing,
-                "(%d)%d", c - 1,
-                strip_stats[c]);
-
-            FONT2D_DrawString(
-                timing,
-                10 + (((c - 2) & 7)) * 75,
-                120 + (((c - 2) & 0xf8) >> 3) * 20,
-                0xffffff);
-        }
-#endif
     }
 
     //
@@ -3755,6 +3737,7 @@ void PANEL_last()
 
     extern SLONG FARFACET_num_squares_drawn;
 
+#ifdef _DEBUG
     {
         CBYTE text[64];
 
@@ -3778,6 +3761,7 @@ void PANEL_last()
             POLY_PAGE_FONT2D,
             0);
     }
+#endif
 
     extern UBYTE just_asked_for_mode_now;
     extern UBYTE just_asked_for_mode_number;

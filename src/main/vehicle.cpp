@@ -337,16 +337,6 @@ SLONG VEH_find_runover_things(Thing* p_vehicle, UWORD thing_index[], SLONG max_n
             infront -= abs(p_vehicle->Genus.Vehicle->WheelAngle * 3);
         break;
 
-#ifdef BIKE
-
-    case CLASS_BIKE:
-        angle = p_vehicle->Draw.Mesh->Angle & 2047;
-        infront = MAX_INFRONT;
-        if (!dangle)
-            infront -= abs(BIKE_control_get(p_vehicle).steer) * 8;
-        break;
-
-#endif
 
     default:
         ASSERT(0);
@@ -1369,17 +1359,10 @@ void VEH_collide_find_things(SLONG x, SLONG y, SLONG z, SLONG radius, SLONG igno
 
     ULONG collide_types;
 
-#if BIKE
-    if (ignore && TO_THING(ignore)->Class == CLASS_BIKE) {
-        // This is collision for a bike - include bikes.
-        collide_types = (1 << CLASS_VEHICLE) | (1 << CLASS_ANIM_PRIM) | (1 << CLASS_BIKE);
-    } else
-#else
     {
         // This is collision for a van or car - ignore bikes.
         collide_types = (1 << CLASS_VEHICLE) | (1 << CLASS_ANIM_PRIM) | (1 << CLASS_BAT);
     }
-#endif
 
         //
         // Find everything in our sphere
@@ -1473,25 +1456,6 @@ void VEH_collide_find_things(SLONG x, SLONG y, SLONG z, SLONG radius, SLONG igno
 #endif
             break;
 
-#if BIKE
-
-        case CLASS_BIKE:
-
-            vc = &VEH_col[VEH_col_upto++];
-
-            vc->type = VEH_COL_TYPE_CYLINDER;
-            vc->ob_index = NULL;
-            vc->veh = NULL;
-            vc->mid_x = p_found->WorldPos.X >> 8;
-            vc->mid_y = p_found->WorldPos.Y >> 8;
-            vc->mid_z = p_found->WorldPos.Z >> 8;
-            vc->height = 0x100;
-
-            vc->radius_or_yaw = 0x40; // (= radius for a cylinder)
-
-            break;
-
-#endif
 
         case CLASS_BAT:
 
@@ -2223,7 +2187,6 @@ static SLONG CollideCar(Thing* p_car, SLONG step)
         // Damage the car depending on how fast it is going
         //
 
-#if !defined(FAST_EDDIE) || !defined(_DEBUG)
     {
         SLONG speed = p_car->Velocity >> 5;
 
@@ -2233,7 +2196,6 @@ static SLONG CollideCar(Thing* p_car, SLONG step)
             veh->Health -= speed >> 1; // miked cars were blowing up too easy so I've halved the damage, Ive increased cars health to 300 so they are harder to shoot too
         }
     }
-#endif
 
     //
     // set flag
@@ -3191,10 +3153,6 @@ static inline void pedals(Vehicle* veh, VehInfo* vinfo, SLONG velocity, UBYTE& f
                     accel = 0;
             }
 
-#ifdef FAST_EDDIE
-            if (Keys[KB_T])
-                accel <<= 1; // !$$! we're fucking Batman!
-#endif
 
             if ((velocity < -200) || ((veh->DControl & VEH_FASTER) && (velocity < 400))) {
                 // do wheelspin smoke

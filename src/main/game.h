@@ -86,9 +86,7 @@ extern struct MemTable save_table[];
 #include "collide.h"
 #include "interact.h"
 
-#ifdef VERSION_D3D
 #include "../ddengine/aeng.h"
-#endif
 
 //---------------------------------------------------------------
 #define MAX_RADIUS (24)

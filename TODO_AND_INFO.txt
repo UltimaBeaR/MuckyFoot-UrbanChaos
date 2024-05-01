@@ -1,59 +1,138 @@
 
+https://stackoverflow.com/questions/2290509/debug-vs-ndebug
+https://learn.microsoft.com/en-us/cpp/build/reference/md-mt-ld-use-run-time-library?view=msvc-170
+    about NDEBUG, _DEBUG and DEBUG symbols
+
+
+coan https://coan2.sourceforge.net/index.php?page=about
+
+coan report unique preprocessor directives that are using in project
+    coan symbols --ifs --once-only --gag error --filter cpp,c,h,hpp --recurse src
+
+coan modify
+    coan source ***CONFIG_FLAGS*** --no-transients --filter cpp,c,h,hpp --recurse src
 
 
 
 
 
-all defines
-    NDEBUG: unconfigured
-    DEBUG: unconfigured
-    DOG_POO: unconfigured
-    MAKE_THEM_FACE_THE_CAMERA: unconfigured
-    TEX_EMBED: unconfigured
-    TARGET: unconfigured
-    NEW_FLOOR: unconfigured
-    STRIP_STATS: unconfigured
-    MIKES_UNUSED_AUTOMATIC_FLOOR_TEXTURE_GROUPER: unconfigured
-    TOMS_TEST_FIXUP_CODE: transient
-    FAST_EDDIE: unconfigured
-    BIKE: unconfigured
-    DRAW_THIS_DEBUG_STUFF: unconfigured
-    NO_MORE_BALLOONS: unconfigured
-    _DEBUG: unconfigured
-    NO_MORE_BALLOONS_NOW: unconfigured
-    WE_WANT_TO_DRAW_THE_TEXTURE_SHADOW_PAGE: unconfigured
-    ARGH: unconfigured
-    werrr: unconfigured
-    SEWERS: unconfigured
-    BREAKTIMER: unconfigured
-    DISABLE_CRINKLES: transient
-    FINAL: unconfigured
-    LIMIT_TOTAL_PYRO_SPRITES_PLEASE_BOB: unconfigured
-    FACETINFO: transient
-    UNUSED_WIRE_CUTTERS: unconfigured
-    FACET_REMOVAL_TEST: unconfigured
-    UNUSED_WIRECUTTERS: unconfigured
-    QUICK_FACET: unconfigured
-    WE_WANT_TO_DRAW_THESE_FACET_LINES: unconfigured
-    DO_SUPERFACETS_PLEASE_BOB: unconfigured
-    FARFACET_USE_INDEXED_LISTS: transient
-    FASTPRIM_PERFORMANCE: unconfigured
+
+
+in cmd:
+
+coan source ^
+-DTEX_EMBED ^
+-DVERSION_D3D ^
+-UDOG_POO ^
+-UMAKE_THEM_FACE_THE_CAMERA ^
+-UTARGET ^
+-UNEW_FLOOR ^
+-USTRIP_STATS ^
+-UMIKES_UNUSED_AUTOMATIC_FLOOR_TEXTURE_GROUPER ^
+-UTOMS_TEST_FIXUP_CODE ^
+-UFAST_EDDIE ^
+-UBIKE ^
+-UDRAW_THIS_DEBUG_STUFF ^
+-UNO_MORE_BALLOONS ^
+-UNO_MORE_BALLOONS_NOW ^
+-UWE_WANT_TO_DRAW_THE_TEXTURE_SHADOW_PAGE ^
+-UARGH ^
+-Uwerrr ^
+-USEWERS ^
+-UBREAKTIMER ^
+-UDISABLE_CRINKLES ^
+-ULIMIT_TOTAL_PYRO_SPRITES_PLEASE_BOB ^
+-UFACETINFO ^
+-UUNUSED_WIRE_CUTTERS ^
+-UFACET_REMOVAL_TEST ^
+-UUNUSED_WIRECUTTERS ^
+-UQUICK_FACET ^
+-UWE_WANT_TO_DRAW_THESE_FACET_LINES ^
+-UDO_SUPERFACETS_PLEASE_BOB ^
+-UFARFACET_USE_INDEXED_LISTS ^
+-UFASTPRIM_PERFORMANCE ^
+-UTARGET_DC ^
+-UPSX ^
+-UBUILD_PSX ^
+-UPSX_COMPRESS_LIGHT ^
+-UPSX_STERN_REVENGE_BUG_AND_CRAP_DRIVERS ^
+-UPSX_NOT_REALLY ^
+-UDODGYPSXIFY ^
+-UVERSION_PSX ^
+-UVERSION_GLIDE ^
+-UEDITOR ^
+--no-transients --filter cpp,c,h,hpp --recurse src
 
 
 
 
 
-useful defines
-    DARCI_HITS_COPS
-        enables hitting cops (1st level for example)
 
 
-    USE_A3D
-        something about sound - probably should delete that
-    BIKE
-        delete
+
+coan config flags. not everything applied is written here :(
+    don't touch (don't pass it to coan)
+        NDEBUG
+        _DEBUG
+        FINAL
+        DARCI_HITS_COPS
     
-    ??? something about grappling hook
+    keep and inline
+        -DTEX_EMBED
+        -DVERSION_D3D
+
+    Other
+        -UDOG_POO
+        -UMAKE_THEM_FACE_THE_CAMERA
+        -UTARGET
+        -UNEW_FLOOR
+        -USTRIP_STATS
+        -UMIKES_UNUSED_AUTOMATIC_FLOOR_TEXTURE_GROUPER
+        -UTOMS_TEST_FIXUP_CODE
+        -UFAST_EDDIE
+        -UBIKE
+        -UDRAW_THIS_DEBUG_STUFF
+        -UNO_MORE_BALLOONS
+        -UNO_MORE_BALLOONS_NOW
+        -UWE_WANT_TO_DRAW_THE_TEXTURE_SHADOW_PAGE
+        -UARGH
+        -Uwerrr
+        -USEWERS
+        -UBREAKTIMER
+        -UDISABLE_CRINKLES
+        -ULIMIT_TOTAL_PYRO_SPRITES_PLEASE_BOB
+        -UFACETINFO
+        -UUNUSED_WIRE_CUTTERS
+        -UFACET_REMOVAL_TEST
+        -UUNUSED_WIRECUTTERS
+        -UQUICK_FACET
+        -UWE_WANT_TO_DRAW_THESE_FACET_LINES
+        -UDO_SUPERFACETS_PLEASE_BOB
+        -UFARFACET_USE_INDEXED_LISTS
+        -UFASTPRIM_PERFORMANCE
+
+    dreamcast platform
+        -UTARGET_DC
+
+    ps1 platform
+        -UPSX
+        -UBUILD_PSX
+        -UPSX_COMPRESS_LIGHT
+        -UPSX_STERN_REVENGE_BUG_AND_CRAP_DRIVERS
+        -UPSX_NOT_REALLY
+        -UDODGYPSXIFY
+        -UVERSION_PSX
+
+    glide platform
+        -UVERSION_GLIDE
+
+    editor
+        -UEDITOR
+
+
+
+
+
 
 
 
@@ -62,72 +141,9 @@ useful defines
 whole project dependency graph could be analyzed using cppdepend 2024.1
 
 
-
 reformating whole project with clang-format
     find . -regex '.*\.\(cpp\|c\|h\|hpp\)' -exec clang-format -style=file -i {} \;
     in project folder from git bash
-
-coan - tool to analyze preprocessor symbols and optimize/throw away unused code under it
-    https://coan2.sourceforge.net/index.php?page=about
-
-    commands to clean source code from old unused ifdef-s
-
-    command:
-        coan source *** --filter cpp,h --recurse src
-        where *** is options string
-
-    options for defines:
-        TARGET_DC - should be undefined. only for dreamcast platform
-            -UTARGET_DC
-
-        PSX - should be undefined. only for ps1 platform
-            -UPSX
-            -UBUILD_PSX
-            -UPSX_COMPRESS_LIGHT
-            -UPSX_STERN_REVENGE_BUG_AND_CRAP_DRIVERS
-            -UPSX_NOT_REALLY
-            -UDODGYPSXIFY
-            -UVERSION_PSX
-        
-        GLIDE
-            -UVERSION_GLIDE
-
-    other options
-        --no-transients fixes some bad coan optimizations that should not be done here
-
-
-
-report unique preprocessor directives that are using in project
-    coan symbols --ifs --once-only --gag error --filter cpp,c,h,hpp --recurse src
-
-
-remove specific define
-    coan source -U*** --no-transients --filter cpp,c,h,hpp --recurse src
-
-
-
-
-things to try
-
-
-    https://github.com/myint/cppclean
-        dead code ellimination
-
-
-    
-    src\fallen\Headers\inline.h
-        remove asm from here and other files like this
-
-
-done
-    coan source -UTARGET_DC -UPSX --no-transients --filter cpp,c,h,hpp --recurse src
-        to remove ps1 and dreamcast code under ifdefs
-
-    coan source -UEDITOR --no-transients --filter cpp,c,h,hpp --recurse src
-        to remove editor related code from main code base
-
-    coan source -UBUILD_PSX -UPSX_COMPRESS_LIGHT -UPSX_STERN_REVENGE_BUG_AND_CRAP_DRIVERS -UPSX_NOT_REALLY -UDODGYPSXIFY -UVERSION_PSX -UVERSION_GLIDE --no-transients --filter cpp,c,h,hpp --recurse src
-        other psx and glide stuff
 
 
 

@@ -597,7 +597,6 @@ void SUPERCRINKLE_load(SLONG crinkle, CBYTE* fname)
         tl->tu = sp->x;
         tl->tv = sp->y;
 
-#ifdef TEX_EMBED
 
         //
         // UV's depend on the paging...
@@ -606,7 +605,6 @@ void SUPERCRINKLE_load(SLONG crinkle, CBYTE* fname)
         tl->tu = pp->m_UOffset + tl->tu * pp->m_UScale;
         tl->tv = pp->m_VOffset + tl->tv * pp->m_VScale;
 
-#endif
 
         ASSERT(SUPERCRINKLE_colour_upto == SUPERCRINKLE_lvert_upto);
 

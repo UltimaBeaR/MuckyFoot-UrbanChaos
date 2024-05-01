@@ -16,15 +16,6 @@
 
 // #define	BREAKTIMER
 
-#ifdef BREAKTIMER
-
-extern void BreakStart();
-extern void BreakEnd(const char* filename);
-extern void BreakTime(const char* name);
-extern void BreakFacets(ULONG facets);
-extern void BreakFrame();
-
-#else
 
 #define BreakStart() 0
 #define BreakEnd(X) 0
@@ -32,7 +23,6 @@ extern void BreakFrame();
 #define BreakFacets(N) 0
 #define BreakFrame() 0
 
-#endif
 
 extern void StartStopwatch();
 extern float StopStopwatch();

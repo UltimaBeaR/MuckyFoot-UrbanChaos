@@ -2,6 +2,14 @@
 
 [Original readme](/README_ORIGINAL.md)
 
+It's an attempt to make the game crossplatform (windows/linux/macos) and also move from x86 to optional ARM as well, add gamepad support (xbox, ps4/5 gamepads), mabe add some graphics options and fixing some issues with game.
+
+As part1 i'm trying to remove as much unused/debug/editor-only code as i can so it's easier to understand code. Maby latter i get all removed code back when i figure out how to make game crossplatform.
+
+Editor is not priority for now, i'm just trying to port game itself. Editor takes slot of code so i'm removing it for now.
+
+It's seems that rewriting whole game to better architecture, or move to different game engine is going to be very time consuming so i won't do that.
+
 ## Build:
 
 ### Prerequisites

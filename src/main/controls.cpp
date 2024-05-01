@@ -188,11 +188,7 @@ EWAY_Way* eway_find_near(GameCoord pos)
 #ifndef NDEBUG
 BOOL allow_debug_keys = 1;
 #else
-#ifdef FAST_EDDIE
-BOOL allow_debug_keys = 1;
-#else
 BOOL allow_debug_keys = 0;
-#endif
 #endif
 
 BOOL dkeys_have_been_used;
@@ -4054,33 +4050,6 @@ extern	SLONG	FC_cam_height;
             */
         }
 
-#ifdef BIKE
-        if (Keys[KB_K]) {
-            Keys[KB_K] = 0;
-
-            //
-            // Create a bike at the mouse.
-            //
-
-            SLONG world_x;
-            SLONG world_y;
-            SLONG world_z;
-
-            AENG_raytraced_position(
-                MouseX,
-                MouseY,
-                &world_x,
-                &world_y,
-                &world_z);
-
-            if (WITHIN(world_x, 0, (PAP_SIZE_HI << PAP_SHIFT_HI) - 1) && WITHIN(world_z, 0, (PAP_SIZE_HI << PAP_SHIFT_HI) - 1)) {
-                BIKE_create(
-                    world_x,
-                    world_z,
-                    0);
-            }
-        }
-#endif
 
         if (Keys[KB_G]) {
             Keys[KB_G] = 0;

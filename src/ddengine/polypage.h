@@ -51,7 +51,6 @@ public:
     PolyPage(ULONG logsize = 6);
     ~PolyPage();
 
-#ifdef TEX_EMBED
     // texture embedding
 
     PolyPage* pTheRealPolyPage; // The poly page you actually need to add tris to.
@@ -59,7 +58,6 @@ public:
 
     void SetTexOffset(D3DTexture* src);
     void SetTexOffset(UBYTE offset); // 0 for (0,0)-(1,1) else 128 + (0-15) for the subtexture
-#endif
 
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
     // fan submission
@@ -111,12 +109,10 @@ public:
     PolyPoint2D* FanAlloc(ULONG num_points); // Allocate a fan polygon.
                                              // You just fill in the data, the indices are handled magically.
 
-#ifdef TEX_EMBED
     float m_UScale;
     float m_UOffset;
     float m_VScale;
     float m_VOffset;
-#endif
 
     // private:
 

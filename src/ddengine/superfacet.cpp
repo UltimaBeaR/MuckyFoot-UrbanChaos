@@ -239,7 +239,6 @@ LPDIRECT3DTEXTURE2 SUPERFACET_convert_texture(SLONG page, POLY_Point* quad[4])
 
     PolyPage* pp = &POLY_Page[page];
 
-#ifdef TEX_EMBED
 
     //
     // Convert texture coordinates.
@@ -250,7 +249,6 @@ LPDIRECT3DTEXTURE2 SUPERFACET_convert_texture(SLONG page, POLY_Point* quad[4])
         quad[i]->v = quad[i]->v * pp->m_VScale + pp->m_VOffset;
     }
 
-#endif
 
     return pp->RS.GetTexture();
 }

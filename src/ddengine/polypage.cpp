@@ -58,13 +58,11 @@ PolyPage::PolyPage(ULONG logsize)
     m_iNumIndicesUsed = 0;
 #endif
 
-#ifdef TEX_EMBED
     m_UScale = 1;
     m_UOffset = 0;
     m_VScale = 1;
     m_VOffset = 0;
     pTheRealPolyPage = this;
-#endif
 
     ASSERT(sizeof(PolyPoint2D) == sizeof(D3DTLVERTEX));
 }
@@ -91,12 +89,10 @@ PolyPage::~PolyPage()
 //
 // set texture embedding
 
-#ifdef TEX_EMBED
 void PolyPage::SetTexOffset(D3DTexture* src)
 {
     src->GetTexOffsetAndScale(&m_UScale, &m_UOffset, &m_VScale, &m_VOffset);
 }
-#endif
 
 // SetGreenScreen
 //
@@ -124,7 +120,7 @@ void PolyPage::SetScaling(float xmul, float ymul)
 PolyPoint2D* PolyPage::PointAlloc(ULONG num_points)
 {
 
-#if defined(DEBUG) && defined(TEX_EMBED)
+#if defined(DEBUG)
     // Make sure this is a "real" page.
     ASSERT(this == pTheRealPolyPage);
 #endif
@@ -163,7 +159,7 @@ PolyPoint2D* PolyPage::PointAlloc(ULONG num_points)
 PolyPoint2D* PolyPage::FanAlloc(ULONG num_points)
 {
 
-#if defined(DEBUG) && defined(TEX_EMBED)
+#if defined(DEBUG)
     // Make sure this is a "real" page.
     ASSERT(this == pTheRealPolyPage);
 #endif
@@ -214,7 +210,7 @@ PolyPoint2D* PolyPage::FanAlloc(ULONG num_points)
 PolyPoly* PolyPage::PolyBufAlloc()
 {
 
-#if defined(DEBUG) && defined(TEX_EMBED)
+#if defined(DEBUG)
     // Make sure this is a "real" page.
     ASSERT(this == pTheRealPolyPage);
 #endif
@@ -264,11 +260,7 @@ static inline void InvAlphaPremult(UBYTE* color)
 
 static PolyPage* ppLastPolyPageSetup = NULL;
 
-#ifdef TEX_EMBED
 #define DRAWN_PP ppDrawn
-#else
-#define DRAWN_PP this
-#endif
 
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
 
@@ -276,9 +268,7 @@ void PolyPage::AddFan(POLY_Point** pts, ULONG num_vertices)
 {
     ULONG ii;
 
-#ifdef TEX_EMBED
     PolyPage* ppDrawn = pTheRealPolyPage;
-#endif
 
     PolyPoly* pp = DRAWN_PP->PolyBufAlloc();
     ASSERT(pp != NULL);
@@ -296,12 +286,8 @@ void PolyPage::AddFan(POLY_Point** pts, ULONG num_vertices)
         float zbias = float(RS.ZLift()) / 65536.0F;
         for (ii = 0; ii < num_vertices; ii++) {
             pv[ii].SetSC(pts[ii]->X * s_XScale, pts[ii]->Y * s_YScale, 1.0F - pts[ii]->Z - zbias);
-#ifdef TEX_EMBED
             pv[ii].SetUV2(pts[ii]->u * m_UScale + m_UOffset,
                 pts[ii]->v * m_VScale + m_VOffset);
-#else
-            pv[ii].SetUV(pts[ii]->u, pts[ii]->v);
-#endif
             pv[ii].SetColour(pts[ii]->colour & s_ColourMask);
             pv[ii].SetSpecular(pts[ii]->specular);
 
@@ -315,12 +301,8 @@ void PolyPage::AddFan(POLY_Point** pts, ULONG num_vertices)
 
         for (ii = 0; ii < num_vertices; ii++) {
             pv[ii].SetSC(pts[ii]->X * s_XScale, pts[ii]->Y * s_YScale, 1.0F - pts[ii]->Z);
-#ifdef TEX_EMBED
             pv[ii].SetUV2(pts[ii]->u * m_UScale + m_UOffset,
                 pts[ii]->v * m_VScale + m_VOffset);
-#else
-            pv[ii].SetUV(pts[ii]->u, pts[ii]->v);
-#endif
             pv[ii].SetColour(pts[ii]->colour & s_ColourMask);
             pv[ii].SetSpecular(pts[ii]->specular);
 
@@ -345,9 +327,7 @@ void PolyPage::AddWirePoly(POLY_Point** pts, ULONG num_vertices)
 #if WIREFRAME
     ULONG ii;
 
-#ifdef TEX_EMBED
     PolyPage* ppDrawn = pTheRealPolyPage;
-#endif
 
     PolyPoly* pp = DRAWN_PP->PolyBufAlloc();
     if (!pp)
@@ -382,12 +362,10 @@ void PolyPage::AddWirePoly(POLY_Point** pts, ULONG num_vertices)
 
 void PolyPage::MassageVertices()
 {
-#ifdef TEX_EMBED
     if (pTheRealPolyPage != this) {
         // Don't do this to non-drawn pages.
         return;
     }
-#endif
 
     if (RS.GetEffect()) {
         ULONG ii;
@@ -434,7 +412,7 @@ void PolyPage::Render(IDirect3DDevice3* dev)
     if (!m_VertexBuffer /* || !m_PolyBufUsed*/)
         return;
 
-#if defined(DEBUG) && defined(TEX_EMBED)
+#if defined(DEBUG)
     // Should only be rendering stuff from polypages that are real ones,
     // i.e. they are not just living on another page.
     // So this should just map back to itself.

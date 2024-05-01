@@ -1966,41 +1966,6 @@ SLONG get_along_facet(SLONG x, SLONG z, SLONG colvect)
 
     return (along);
 }
-#ifdef UNUSED_WIRECUTTERS
-extern UWORD fence_colvect;
-SLONG set_person_cut_fence(Thing* p_person)
-{
-    SLONG x1, y1, z1, x2, y2, z2, dx, dz;
-    SLONG along;
-
-    dx = -(SIN(p_person->Draw.Tweened->Angle) * 50) >> 8;
-    dz = -(COS(p_person->Draw.Tweened->Angle) * 50) >> 8;
-
-    x1 = p_person->WorldPos.X;
-    y1 = p_person->WorldPos.Y;
-    z1 = p_person->WorldPos.Z;
-
-    x2 = x1 + dx;
-    z2 = z1 + dz;
-    y2 = y1;
-
-    slide_along(x1, y1, z1, &x2, &y2, &z2, 0, 50, 0);
-
-    if (fence_colvect) {
-        // we have hit a fence colvect
-
-        along = get_along_facet(x1 >> 8, z1 >> 8, fence_colvect);
-
-        if (along > 0 && along < 255) {
-
-            set_fence_hole(&dfacets[fence_colvect], along);
-            set_person_croutch(p_person);
-            return (1);
-        }
-    }
-    return (0);
-}
-#endif
 void set_person_dead(
     Thing* p_thing,
     Thing* p_aggressor,
@@ -2026,24 +1991,6 @@ void set_person_dead(
 
     //	ASSERT(is_there_room_behind_person(p_thing, behind));
 
-#ifdef BIKE
-
-    //
-    // If you've come off a bike...
-    //
-
-    if (p_thing->Genus.Person->Flags & FLAG_PERSON_BIKING) {
-        //
-        // Knocked off your bike...
-        //
-
-        BIKE_set_parked(TO_THING(p_thing->Genus.Person->InCar));
-
-        p_thing->Genus.Person->Flags &= ~FLAG_PERSON_BIKING;
-        p_thing->Genus.Person->InCar = 0;
-    }
-
-#endif
 
     //
     // Tell the PCOM brain what has happened.
@@ -7474,112 +7421,6 @@ try_again:;
     plant_feet(p_person);
 }
 
-#ifdef BIKE
-void position_person_for_mounting_bike(Thing* p_person, Thing* p_bike)
-{
-    GameCoord newpos;
-    SLONG vector[3];
-
-    FMATRIX_vector(
-        vector,
-        (p_bike->Draw.Tweened->Angle + 1024) & 2047,
-        0);
-
-    newpos = p_bike->WorldPos;
-
-    switch (p_person->Genus.Person->AnimType) {
-        /*
-                case ANIM_TYPE_ROPER:
-                        newpos.X += vector[2] * 30 >> 8;
-                        newpos.Y -= 0x1800;
-                        newpos.Z -= vector[0] * 30 >> 8;
-
-                        newpos.X += vector[0] * 50 >> 8;
-                        newpos.Z += vector[2] * 50 >> 8;
-
-                        break;
-        */
-    default:
-
-        newpos.X += vector[2] * 60 >> 8;
-        newpos.Y -= 0x2800;
-        newpos.Z -= vector[0] * 60 >> 8;
-
-        newpos.X += vector[0] * 30 >> 8;
-        newpos.Z += vector[2] * 30 >> 8;
-
-        break;
-    }
-
-    move_thing_on_map(p_person, &newpos);
-
-    p_person->Draw.Tweened->Angle = (p_bike->Draw.Tweened->Angle - 512) & 2047;
-}
-
-void set_person_mount_bike(Thing* p_person, Thing* p_bike)
-{
-    set_generic_person_state_function(p_person, STATE_MOVEING);
-
-    set_anim(p_person, ANIM_BIKE_MOUNT);
-
-    //
-    // Position the person for getting on the bike.
-    //
-
-    position_person_for_mounting_bike(p_person, p_bike);
-
-    p_person->SubState = SUB_STATE_MOUNTING_BIKE;
-    p_person->Genus.Person->Flags |= FLAG_PERSON_BIKING | FLAG_PERSON_NON_INT_M | FLAG_PERSON_NON_INT_C;
-    p_person->Genus.Person->InCar = THING_NUMBER(p_bike);
-    p_person->Genus.Person->Action = ACTION_ENTER_VEHICLE;
-
-    //
-    // Tell the bike that somebody is getting on it.
-    //
-
-    BIKE_set_mounting(p_bike, p_person);
-}
-
-void set_person_dismount_bike(Thing* p_person)
-{
-    //
-    // Tell the bike to play its dismount anim.
-    //
-
-    void BIKE_set_dismounting(Thing * p_bike);
-
-    Thing* p_bike = TO_THING(p_person->Genus.Person->InCar);
-
-    BIKE_set_dismounting(p_bike);
-
-    set_generic_person_state_function(p_person, STATE_MOVEING);
-
-    set_anim(p_person, ANIM_BIKE_DISMOUNT);
-
-    // position_person_for_mounting_bike(p_person, p_bike);
-
-    p_person->SubState = SUB_STATE_DISMOUNTING_BIKE;
-    p_person->Genus.Person->Flags |= FLAG_PERSON_BIKING | FLAG_PERSON_NON_INT_M | FLAG_PERSON_NON_INT_C;
-    p_person->Genus.Person->Action = ACTION_ENTER_VEHICLE; // Enter.. exit.. whats the difference!
-
-    /*
-
-    p_person->Genus.Person->Flags &= ~FLAG_PERSON_BIKING;
-    p_person->Genus.Person->InCar  =  0;
-
-    p_person->Draw.Tweened->Tilt=0;
-    set_person_idle(p_person);
-
-    */
-
-    //
-    // Position the person for getting on the bike.
-    //
-
-    position_person_for_mounting_bike(p_person, p_bike);
-}
-
-#endif
 
 void set_anim_walking(Thing* p_person)
 {

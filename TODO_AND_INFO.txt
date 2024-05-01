@@ -169,3 +169,18 @@ TODO
 
     
 
+
+Initialization of direct3d/direct draw
+    
+        HRESULT Display::InitInterfaces(void)
+            creating d3d (direct3d 6) and directdraw objects
+            look at query interface functions
+    
+
+
+Code is using d3d 6 and some version of direct draw (not most recent one)
+I havent found usable translation libraries to just replace standard direct3d/directdraw libs
+So the plan is to
+    1) replace window management and input to SDL2, using old windows only version of d3d/ddraw
+    2) remove d3d dependency and make inhouse stubs for functions and types that are being used for ddraw and d3d
+    3) implement them with opengl only using specific parameters that are passed in runtime (not implementing all possible use cases) 

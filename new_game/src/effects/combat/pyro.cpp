@@ -2487,7 +2487,7 @@ static void PYRO_draw_twanger(Pyro* pyro)
 
     for (i = 0; i < 8; i += iIncrement) {
         ang = pyro->radii[i] & 0xff;
-        dir = (pyro->radii[i] >> 4);
+        dir = (pyro->radii[i] >> 4) & 2047;
 
         c = ((COS(ang) >> 8) * pyro->counter) / 128;
 
@@ -2517,10 +2517,11 @@ static void PYRO_draw_twanger(Pyro* pyro)
 static void PYRO_draw_streambit(Pyro* pyro, SLONG cx, SLONG cy, SLONG cz, SLONG c, UBYTE i)
 {
     SLONG x, y, z, dx, dy, dir;
+    const SLONG attitude = pyro->radii[i + 4];
 
-    dir = (pyro->radii[i + 4] >> 8) * 16;
-    dx = SIN(pyro->radii[i + 4] & 0xff) / 256;
-    dy = COS(pyro->radii[i + 4] & 0xff) / 256;
+    dir = ((attitude >> 8) * 16) & 2047;
+    dx = SIN(attitude & 0xff) / 256;
+    dy = COS(attitude & 0xff) / 256;
     y = ((SIN(c * 4) / 256) * dy) + cy;
     c = (c * dx) / 128;
     x = ((SIN(dir) * c) / 128) + cx;

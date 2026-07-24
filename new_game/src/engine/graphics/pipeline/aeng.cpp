@@ -3,6 +3,7 @@
 // All Direct3D rendering will be replaced in Stage 7; for now this is a 1:1 port.
 
 #include "engine/graphics/pipeline/aeng_globals.h"
+#include "engine/core/rng.h"
 #include "engine/input/input_frame.h"
 #include "engine/console/message.h" // MSG_draw
 #include "engine/console/console.h" // CONSOLE_text_at (debug overlay)
@@ -904,9 +905,9 @@ void AENG_draw_rain()
         AENG_rain_drops_count = 0;
 
         for (SLONG s = 0; s < AENG_NUM_RAINDROPS; s++) {
-            const float u = float(rand()) * (1.0F / float(RAND_MAX >> 1)) - 1.0F;
-            const float v = float(rand()) * (1.0F / float(RAND_MAX >> 1)) - 0.5F;
-            const float w = float(rand()) * (1.0F / float(RAND_MAX)) + 0.1F;
+            const float u = float(uc_rand()) * (1.0F / float(UC_RAND_MAX >> 1)) - 1.0F;
+            const float v = float(uc_rand()) * (1.0F / float(UC_RAND_MAX >> 1)) - 0.5F;
+            const float w = float(uc_rand()) * (1.0F / float(UC_RAND_MAX)) + 0.1F;
 
             float wx = u, wy = v, wz = w;
             MATRIX_MUL_BY_TRANSPOSE(matrix, wx, wy, wz);
@@ -3338,7 +3339,7 @@ void AENG_draw_city()
                     float expected_drips = PUDDLE_RAIN_DRIP_HZ * g_frame_dt_ms * (1.0f / 1000.0f);
                     SLONG drip_spawn_count = SLONG(expected_drips);
                     expected_drips -= float(drip_spawn_count);
-                    if (rand() < SLONG(expected_drips * float(RAND_MAX))) {
+                    if (uc_rand() < SLONG(expected_drips * float(UC_RAND_MAX))) {
                         drip_spawn_count += 1;
                     }
 
@@ -3351,8 +3352,8 @@ void AENG_draw_city()
                             // Choose somewhere in the puddle to put a drip.
                             //
 
-                            drip_along_x = float(rand() & 0xff) * (1.0F / 256.0F);
-                            drip_along_z = float(rand() & 0xff) * (1.0F / 256.0F);
+                            drip_along_x = float(uc_rand() & 0xff) * (1.0F / 256.0F);
+                            drip_along_z = float(uc_rand() & 0xff) * (1.0F / 256.0F);
 
                             world_x = px1 + (px2 - px1) * drip_along_x;
                             world_z = pz1 + (pz2 - pz1) * drip_along_z;
@@ -3363,7 +3364,7 @@ void AENG_draw_city()
                                 UWORD(world_z),
                                 1);
 
-                            if (rand() & 0x11) {
+                            if (uc_rand() & 0x11) {
                                 //
                                 // Don't splash.
                                 //

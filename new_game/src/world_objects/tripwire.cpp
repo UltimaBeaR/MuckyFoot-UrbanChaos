@@ -1,4 +1,5 @@
 #include "engine/platform/uc_common.h"
+#include "engine/core/rng.h"
 #include "game/game_types.h"
 #include "things/core/interact.h" // calc_sub_objects_position
 #include "things/characters/anim_ids.h"
@@ -38,7 +39,7 @@ UBYTE TRIP_create(
     }
 
     tw = &TRIP_wire[TRIP_wire_upto++];
-    tw->counter = rand();
+    tw->counter = uc_rand();
     tw->y = y;
     tw->x1 = x1;
     tw->z1 = z1;

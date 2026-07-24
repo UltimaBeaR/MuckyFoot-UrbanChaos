@@ -5,6 +5,7 @@
 // except PYRO_EXPLODE which uses PYRO_fn_init_ex/PYRO_fn_normal_ex.
 
 #include "game/game_types.h"
+#include "engine/core/rng.h"
 #include "effects/combat/pyro.h"
 #include "effects/combat/pyro_globals.h"
 #include "things/core/statedef.h"
@@ -195,7 +196,7 @@ static SLONG MergeSoundFX(Thing* thing, Pyro* pyro)
 
     switch (pyro->PyroType) {
     case PYRO_EXPLODE2:
-        sample = S_EXPLODE_START + (rand() % 3);
+        sample = S_EXPLODE_START + (uc_rand() % 3);
         mode = 0;
         break;
     case PYRO_BONFIRE:
@@ -266,12 +267,12 @@ void PYRO_fn_init(Thing* thing)
             100, 1, 0, 0);
         break;
     case PYRO_IMMOLATE:
-        pyro->radii[0] = RIBBON_alloc(RIBBON_FLAG_CONVECT | RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE, 8 + (rand() & 7), POLY_PAGE_FLAMES3, -1, 8, 5 + (rand() & 7));
+        pyro->radii[0] = RIBBON_alloc(RIBBON_FLAG_CONVECT | RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE, 8 + (uc_rand() & 7), POLY_PAGE_FLAMES3, -1, 8, 5 + (uc_rand() & 7));
         if (!pyro->radii[0]) {
             free_pyro(thing);
             return;
         }
-        pyro->radii[1] = RIBBON_alloc(RIBBON_FLAG_CONVECT | RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE, 8 + (rand() & 7), POLY_PAGE_FLAMES3, -1, 8, 5 + (rand() & 7));
+        pyro->radii[1] = RIBBON_alloc(RIBBON_FLAG_CONVECT | RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE, 8 + (uc_rand() & 7), POLY_PAGE_FLAMES3, -1, 8, 5 + (uc_rand() & 7));
         if (!pyro->radii[1]) {
             RIBBON_free(pyro->radii[0]);
             free_pyro(thing);
@@ -283,22 +284,22 @@ void PYRO_fn_init(Thing* thing)
     case PYRO_STREAMER:
         for (i = 0; i < 4; i++) {
             // Set streamer start time offsets.
-            pyro->radii[i] = rand() & 0x3f;
+            pyro->radii[i] = uc_rand() & 0x3f;
             // Prepare streamer attitudes.
-            pyro->radii[i + 4] = rand();
+            pyro->radii[i + 4] = uc_rand();
         }
         pyro->counter = 4; // Each streamer decrements this when done.
         break;
     case PYRO_TWANGER:
         for (i = 0; i < 8; i++) {
             // Set twanger attitudes.
-            pyro->radii[i] = rand();
+            pyro->radii[i] = uc_rand();
         }
         pyro->tints[0] = pyro->tints[1] = 0;
         break;
     case PYRO_FLICKER:
-        pyro->Dummy = RIBBON_alloc(RIBBON_FLAG_CONVECT | RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE, 8 + (rand() & 0xf), POLY_PAGE_FLAMES3, -1, 8, 5 + (rand() & 7));
-        pyro->scale = 140 + (rand() & 0x7f);
+        pyro->Dummy = RIBBON_alloc(RIBBON_FLAG_CONVECT | RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE, 8 + (uc_rand() & 0xf), POLY_PAGE_FLAMES3, -1, 8, 5 + (uc_rand() & 7));
+        pyro->scale = 140 + (uc_rand() & 0x7f);
         pyro->radii[0] = 256;
         pyro->radii[1] = 0;
         pyro->tints[0] = pyro->tints[1] = 0;
@@ -415,12 +416,12 @@ void PYRO_fn_init_ex(Thing* thing)
 
     // Set up per-instance explosion data.
     for (i = 0; i < 8; i++) {
-        pyro->points[i].delta = 40 + (rand() & 0x1f);
+        pyro->points[i].delta = 40 + (uc_rand() & 0x1f);
         pyro->points[i].radius = 10;
     }
     height = 0;
     for (i = 8; i < 16; i++) {
-        pyro->points[i].delta = 30 + (rand() & 0x1f);
+        pyro->points[i].delta = 30 + (uc_rand() & 0x1f);
         pyro->points[i].radius = 10;
         height += pyro->points[i].delta;
     }
@@ -586,13 +587,13 @@ void PYRO_fn_normal(Thing* thing)
                         pyro->radius++;
                         switch (pyro->radius) {
                         case 30:
-                            pyro->radii[2] = RIBBON_alloc(RIBBON_FLAG_CONVECT | RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE, 7, POLY_PAGE_FLAMES3, 100, 7, 5 + (rand() & 7));
+                            pyro->radii[2] = RIBBON_alloc(RIBBON_FLAG_CONVECT | RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE, 7, POLY_PAGE_FLAMES3, 100, 7, 5 + (uc_rand() & 7));
                             break;
                         case 100:
-                            pyro->radii[3] = RIBBON_alloc(RIBBON_FLAG_CONVECT | RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE, 5, POLY_PAGE_FLAMES3, 90, 5, 5 + (rand() & 7));
+                            pyro->radii[3] = RIBBON_alloc(RIBBON_FLAG_CONVECT | RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE, 5, POLY_PAGE_FLAMES3, 90, 5, 5 + (uc_rand() & 7));
                             break;
                         case 150:
-                            pyro->radii[4] = RIBBON_alloc(RIBBON_FLAG_CONVECT | RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE, 3, POLY_PAGE_FLAMES3, 90, 3, 5 + (rand() & 7));
+                            pyro->radii[4] = RIBBON_alloc(RIBBON_FLAG_CONVECT | RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE, 3, POLY_PAGE_FLAMES3, 90, 3, 5 + (uc_rand() & 7));
                             break;
                         }
                         if ((pyro->radius > 350) && (!pyro->victim->Genus.Person->BurnIndex))
@@ -691,7 +692,7 @@ void PYRO_fn_normal(Thing* thing)
                 DIRT_new_water(px - 2, py, pz, +1, 29, 0);
                 break;
             case 1:
-                if (!(rand() & 0xff))
+                if (!(uc_rand() & 0xff))
                     DIRT_new_water(px, py, pz, 0, 0, 0);
                 break;
             case 2: // smokestack
@@ -842,7 +843,7 @@ void PYRO_fn_normal(Thing* thing)
                 SLONG dx, dr, dz, x, y, z, b, ox, oz;
 
                 sz = (255 - pyro->counter) >> 3;
-                dr = rand() & 2047;
+                dr = uc_rand() & 2047;
                 ox = SIN(dr) >> 4;
                 oz = COS(dr) >> 4;
                 PARTICLE_Add(pyro->thing->WorldPos.X, pyro->thing->WorldPos.Y, pyro->thing->WorldPos.Z,
@@ -850,7 +851,7 @@ void PYRO_fn_normal(Thing* thing)
                     POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), 0x7FFF0000,
                     PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE | PFLAG_GRAVITY | PFLAG_RESIZE, 130, 30, 1, 10, -2);
 
-                dr = rand() & 2047;
+                dr = uc_rand() & 2047;
                 dx = ((SIN(dr) >> 8) * sz) >> 8;
                 dz = ((COS(dr) >> 8) * sz) >> 8;
                 if ((dx == 0) && (dz == 0))
@@ -1657,7 +1658,7 @@ void PYRO_draw_pyro(Thing* p_pyro)
                                 p = 0xf;
                                 break;
                             }
-                            p = rand() & p;
+                            p = uc_rand() & p;
                             calc_sub_objects_position(
                                 pyro->victim,
                                 pyro->victim->Draw.Tweened->AnimTween,
@@ -1677,8 +1678,8 @@ void PYRO_draw_pyro(Thing* p_pyro)
         } else {
             if (pyro->Flags & PYRO_FLAGS_FLICKER) {
                 pos = pyro->thing->WorldPos;
-                pos.X += (rand() / 2);
-                pos.Z += (rand() / 2);
+                pos.X += (uc_rand() / 2);
+                pos.Z += (uc_rand() / 2);
                 RIBBON_extend(pyro->radii[0], pos.X >> 8, pos.Y / 256, pos.Z >> 8);
             }
         }
@@ -2526,7 +2527,7 @@ static void PYRO_draw_streambit(Pyro* pyro, SLONG cx, SLONG cy, SLONG cz, SLONG 
     c = (c * dx) / 128;
     x = ((SIN(dir) * c) / 128) + cx;
     z = ((COS(dir) * c) / 128) + cz;
-    PARTICLE_Add(x, y, z, 0, -2, 0, POLY_PAGE_STEAM, 1 + ((rand() & 3) << 2), 0x888888, PFLAG_RESIZE | PFLAG_FADE, 40 + (rand() & 0xf), 4, 1, 5, 2);
+    PARTICLE_Add(x, y, z, 0, -2, 0, POLY_PAGE_STEAM, 1 + ((uc_rand() & 3) << 2), 0x888888, PFLAG_RESIZE | PFLAG_FADE, 40 + (uc_rand() & 0xf), 4, 1, 5, 2);
 }
 
 // uc_orig: PYRO_draw_streamer (fallen/DDEngine/Source/drawxtra.cpp)

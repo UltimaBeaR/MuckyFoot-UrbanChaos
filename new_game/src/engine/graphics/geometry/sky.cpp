@@ -1,4 +1,5 @@
 #include "game/game_types.h"
+#include "engine/core/rng.h"
 
 #include "engine/platform/uc_common.h"
 #include "engine/graphics/geometry/sky.h"
@@ -67,11 +68,11 @@ void SKY_init(CBYTE* star_file)
     for (i = 0; i < SKY_NUM_CLOUDS; i++) {
         sc = &SKY_cloud[i];
 
-        sc->texture = rand() % SKY_NUM_TEXTURES;
-        sc->flip = rand() & 0x8;
-        sc->yaw = (float(rand()) / float(RAND_MAX)) * (2.0F * PI);
-        sc->pitch = (float(rand()) / float(RAND_MAX)) * (PI / 3.0F) + (PI / 64.0F);
-        sc->dyaw = (float(rand()) / float(RAND_MAX)) * 0.0005F + 0.0001F;
+        sc->texture = uc_rand() % SKY_NUM_TEXTURES;
+        sc->flip = uc_rand() & 0x8;
+        sc->yaw = (float(uc_rand()) / float(UC_RAND_MAX)) * (2.0F * PI);
+        sc->pitch = (float(uc_rand()) / float(UC_RAND_MAX)) * (PI / 3.0F) + (PI / 64.0F);
+        sc->dyaw = (float(uc_rand()) / float(UC_RAND_MAX)) * 0.0005F + 0.0001F;
 
         ASSERT(WITHIN(sc->texture, 0, SKY_NUM_TEXTURES - 1));
 
@@ -82,8 +83,8 @@ void SKY_init(CBYTE* star_file)
 
         // Randomise the height and width of the cloud, but always make the
         // texels more than one pixel so we get the benefit of filtering.
-        twidth *= 0.3F + (float(rand()) * 0.5F / float(RAND_MAX));
-        theight *= 0.3F + (float(rand()) * 0.5F / float(RAND_MAX));
+        twidth *= 0.3F + (float(uc_rand()) * 0.5F / float(UC_RAND_MAX));
+        theight *= 0.3F + (float(uc_rand()) * 0.5F / float(UC_RAND_MAX));
 
         sc->width = UBYTE(twidth);
         sc->height = UBYTE(theight);
@@ -99,11 +100,11 @@ void SKY_init(CBYTE* star_file)
     if (handle == NULL) {
         // Randomly generate the stars.
         for (i = 0; i < SKY_MAX_STARS; i++) {
-            yaw = rand() % 360;
-            pitch = rand() % 60;
+            yaw = uc_rand() % 360;
+            pitch = uc_rand() % 60;
             pitch += 10;
 
-            bright = rand() % (pitch + 0x3f);
+            bright = uc_rand() % (pitch + 0x3f);
             bright += 0x1f;
 
             SKY_star[i].colour = bright;

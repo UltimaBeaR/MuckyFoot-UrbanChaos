@@ -166,11 +166,16 @@ typedef struct
         // Multiply motion values by TickRatio >> TICK_SHIFT for frame-rate independence.
         TickTock,
         TickRatio,
-        TickInvRatio,
+        TickInvRatio;
 
-        // Deterministic RNG state. Updated by Random() macro. Must stay in sync in multiplayer.
-        RandSeed,
+    // Deterministic RNG state. Updated by Random() macro. Must stay in sync in multiplayer.
+    // Unsigned so the LCG multiply in Random() is well-defined modular arithmetic
+    // (a signed multiply overflow is UB). Produces bit-identical output to the old
+    // signed field, so sequence/save/MP compatibility is preserved. Same 32-bit width
+    // as the surrounding SLONG fields, so struct layout is unchanged.
+    ULONG RandSeed;
 
+    SLONG
         // 24-hour clock in fixed-point 8 (256 units = 1 hour). Range 0..6143.
         Time,
         Season;

@@ -3,6 +3,7 @@
 // FRONTEND_display, FRONTEND_init, FRONTEND_loop, etc.
 
 #include <sys/stat.h>
+#include "engine/core/rng.h"
 #include "config.h"
 #include "engine/platform/uc_common.h"
 #include "engine/platform/sdl3_bridge.h"
@@ -819,24 +820,24 @@ void FRONTEND_kibble_process()
 
     if (now > last + 100) {
         // Front-end running at less than 10 fps — disable some random particles.
-        kibble_off[rand() & 0x1ff] = UC_TRUE;
-        kibble_off[rand() & 0x1ff] = UC_TRUE;
-        kibble_off[rand() & 0x1ff] = UC_TRUE;
-        kibble_off[rand() & 0x1ff] = UC_TRUE;
-        kibble_off[rand() & 0x1ff] = UC_TRUE;
-        kibble_off[rand() & 0x1ff] = UC_TRUE;
-        kibble_off[rand() & 0x1ff] = UC_TRUE;
-        kibble_off[rand() & 0x1ff] = UC_TRUE;
+        kibble_off[uc_rand() & 0x1ff] = UC_TRUE;
+        kibble_off[uc_rand() & 0x1ff] = UC_TRUE;
+        kibble_off[uc_rand() & 0x1ff] = UC_TRUE;
+        kibble_off[uc_rand() & 0x1ff] = UC_TRUE;
+        kibble_off[uc_rand() & 0x1ff] = UC_TRUE;
+        kibble_off[uc_rand() & 0x1ff] = UC_TRUE;
+        kibble_off[uc_rand() & 0x1ff] = UC_TRUE;
+        kibble_off[uc_rand() & 0x1ff] = UC_TRUE;
     } else if (now < last + 50) {
         // More than 20 fps — enable some random particles.
-        kibble_off[rand() & 0x1ff] = UC_FALSE;
-        kibble_off[rand() & 0x1ff] = UC_FALSE;
-        kibble_off[rand() & 0x1ff] = UC_FALSE;
-        kibble_off[rand() & 0x1ff] = UC_FALSE;
-        kibble_off[rand() & 0x1ff] = UC_FALSE;
-        kibble_off[rand() & 0x1ff] = UC_FALSE;
-        kibble_off[rand() & 0x1ff] = UC_FALSE;
-        kibble_off[rand() & 0x1ff] = UC_FALSE;
+        kibble_off[uc_rand() & 0x1ff] = UC_FALSE;
+        kibble_off[uc_rand() & 0x1ff] = UC_FALSE;
+        kibble_off[uc_rand() & 0x1ff] = UC_FALSE;
+        kibble_off[uc_rand() & 0x1ff] = UC_FALSE;
+        kibble_off[uc_rand() & 0x1ff] = UC_FALSE;
+        kibble_off[uc_rand() & 0x1ff] = UC_FALSE;
+        kibble_off[uc_rand() & 0x1ff] = UC_FALSE;
+        kibble_off[uc_rand() & 0x1ff] = UC_FALSE;
     }
 
     SLONG i;

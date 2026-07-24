@@ -1,4 +1,5 @@
 #include "engine/platform/uc_common.h" // MFFileHandle, UBYTE etc.
+#include "engine/core/rng.h"
 #include "game/game_types.h" // Game struct, ENGINE_palette macro
 #include "engine/animation/anim_types.h" // KeyFrameChunk, GameKeyFrameChunk, KeyFrameElement, etc.
 #include "buildings/prim_types.h" // PrimObject, PrimFace3/4, PrimPoint, PRIM_OBJ_*
@@ -117,9 +118,9 @@ file_error:;
     SLONG i;
 
     for (i = 0; i < 256; i++) {
-        ENGINE_palette[i].red = rand();
-        ENGINE_palette[i].green = rand();
-        ENGINE_palette[i].blue = rand();
+        ENGINE_palette[i].red = uc_rand();
+        ENGINE_palette[i].green = uc_rand();
+        ENGINE_palette[i].blue = uc_rand();
     }
 }
 

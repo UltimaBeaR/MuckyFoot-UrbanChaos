@@ -1,4 +1,5 @@
 #include "engine/platform/uc_common.h"
+#include "engine/core/rng.h"
 #include "map/map.h" // MAP_WIDTH, MAP_HEIGHT, ELE_SHIFT, MapElement
 #include "engine/core/macros.h" // WITHIN, SWAP
 #include "ai/mav.h"
@@ -180,10 +181,10 @@ void PUDDLE_precalculate()
                             goto not_a_corner_of_a_building;
                     }
 
-                    if ((rand() & 0x3) == ((mx + mz) & 0x3)) {
+                    if ((uc_rand() & 0x3) == ((mx + mz) & 0x3)) {
                         midx = (mx << 8) + 0x80 + dx * 0x80;
                         midz = (mz << 8) + 0x80 + dz * 0x80;
-                        size = 0xa0 + (rand() & 0x3f);
+                        size = 0xa0 + (uc_rand() & 0x3f);
                         px1 = midx - dx * size;
                         pz1 = midz - dz * size;
                         px2 = midx + dx * size;
@@ -214,10 +215,10 @@ void PUDDLE_precalculate()
                     if (MAV_SPARE(cx, cz) & MAV_SPARE_FLAG_WATER)
                         goto not_a_corner_of_a_road;
 
-                    if ((rand() & 0x3) == ((mx + mz) & 0x3)) {
+                    if ((uc_rand() & 0x3) == ((mx + mz) & 0x3)) {
                         midx = (mx << 8) + 0x80 + dx * 0x80;
                         midz = (mz << 8) + 0x80 + dz * 0x80;
-                        size = 0xa0 + (rand() & 0x3f);
+                        size = 0xa0 + (uc_rand() & 0x3f);
                         px1 = midx - dx * size;
                         pz1 = midz - dz * size;
                         px2 = midx + dx * size;
@@ -261,14 +262,14 @@ void PUDDLE_precalculate()
                     if (PAP_2HI(cx, cz).Flags & (PAP_FLAG_HIDDEN | PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER))
                         goto not_a_building_edge;
 
-                    if ((rand() & 0x7) == ((mx + mz) & 0x7)) {
-                        size = 0xa0 + (rand() & 0x3f);
+                    if ((uc_rand() & 0x7) == ((mx + mz) & 0x7)) {
+                        size = 0xa0 + (uc_rand() & 0x3f);
                         px1 = (mx << 8) + 0x80 + vec1x * 0x80 - vec2x * 0x80;
                         pz1 = (mz << 8) + 0x80 + vec1z * 0x80 - vec2z * 0x80;
                         px2 = px1 - vec1x * size + vec2x * 0x200;
                         pz2 = pz1 - vec1z * size + vec2z * 0x200;
                         py = PAP_calc_height_at(px2, pz2) + 0x4;
-                        type = PUDDLE_TYPE_STRIP1 + (rand() & 0x1);
+                        type = PUDDLE_TYPE_STRIP1 + (uc_rand() & 0x1);
                         PUDDLE_create_do(px1, pz1, px2, pz2, py, type, (i == 0 || i == 1));
                     }
 
@@ -303,14 +304,14 @@ void PUDDLE_precalculate()
                     if (!(PAP_2HI(cx, cz).Flags & PAP_FLAG_SINK_SQUARE) || (PAP_2HI(cx, cz).Flags & (PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER)))
                         goto not_a_road_edge;
 
-                    if ((rand() & 0x3) == ((mx + mz) & 0x3)) {
-                        size = 0xa0 + (rand() & 0x3f);
+                    if ((uc_rand() & 0x3) == ((mx + mz) & 0x3)) {
+                        size = 0xa0 + (uc_rand() & 0x3f);
                         px1 = (mx << 8) + 0x80 + vec1x * 0x80 - vec2x * 0x80;
                         pz1 = (mz << 8) + 0x80 + vec1z * 0x80 - vec2z * 0x80;
                         px2 = px1 - vec1x * size + vec2x * 0x200;
                         pz2 = pz1 - vec1z * size + vec2z * 0x200;
                         py = PAP_calc_height_at(px2, pz2) + 0x2;
-                        type = PUDDLE_TYPE_STRIP1 + (rand() & 0x1);
+                        type = PUDDLE_TYPE_STRIP1 + (uc_rand() & 0x1);
                         PUDDLE_create_do(px1, pz1, px2, pz2, py, type, (i == 0 || i == 1));
                     }
 
@@ -463,7 +464,7 @@ void PUDDLE_splash(SLONG x, SLONG y, SLONG z)
                         }
 
                         if (WITHIN(x, px1, px2) && WITHIN(z, pz1, pz2)) {
-                            SLONG ripple = rand() & (PUDDLE_NUM_RIPPLES - 1);
+                            SLONG ripple = uc_rand() & (PUDDLE_NUM_RIPPLES - 1);
                             pp->y1 = PUDDLE_ripple[ripple].y1;
                             pp->y2 = PUDDLE_ripple[ripple].y2;
                             pp->g1 = PUDDLE_ripple[ripple].g1;

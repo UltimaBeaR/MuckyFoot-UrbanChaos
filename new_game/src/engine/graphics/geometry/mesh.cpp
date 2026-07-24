@@ -1,4 +1,5 @@
 #include "engine/graphics/geometry/mesh.h"
+#include "engine/core/rng.h"
 #include "engine/graphics/geometry/mesh_globals.h"
 #include "engine/platform/sdl3_bridge.h"
 #include "engine/graphics/pipeline/poly.h"
@@ -46,8 +47,8 @@ static SLONG mesh_env_page_for_base(SLONG uv00, SLONG texture_page)
 // Returns a random float in [0.0, 1.0].
 static float frand(void)
 {
-    SLONG irand = rand();
-    float ans = float(irand) * (1.0F / float(RAND_MAX));
+    SLONG irand = uc_rand();
+    float ans = float(irand) * (1.0F / float(UC_RAND_MAX));
 
     return ans;
 }

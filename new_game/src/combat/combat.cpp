@@ -1,4 +1,5 @@
 #include "combat/combat.h"
+#include "engine/core/rng.h"
 #include "combat/combat_cooldown.h" // combat_cooldown_reset on level (re)load
 #include "combat/combat_test_mode.h" // combat_test_reset on level (re)load
 #include "engine/debug/dbglog/dbglog.h" // OC_DEBUG_LOG (no-op when off)
@@ -520,7 +521,7 @@ SLONG should_i_block(Thing* p_person, Thing* p_agressor, SLONG anim)
         sprintf(str, "block prob %d    same %d other %d \n", (block_prob * 100) >> 8, same, other);
     }
 
-    if ((rand() & 255) < block_prob)
+    if ((uc_rand() & 255) < block_prob)
         return (1);
     else
         return (0);

@@ -8,6 +8,7 @@
 #pragma warning(disable : 4200) // no warning for flexible array members
 
 #include <cstdint>
+#include "engine/core/rng.h"
 
 // uc_orig: SLONG (fallen/outro/always.h)
 typedef int32_t SLONG;
@@ -231,8 +232,8 @@ static inline float qdist2(float x, float y)
 // uc_orig: frand (fallen/outro/always.h)
 static inline float frand(void)
 {
-    SLONG irand = rand();
-    float ans = float(irand) * (1.0F / float(RAND_MAX));
+    SLONG irand = uc_rand();
+    float ans = float(irand) * (1.0F / float(UC_RAND_MAX));
     return ans;
 }
 

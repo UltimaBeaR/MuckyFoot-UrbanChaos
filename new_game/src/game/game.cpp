@@ -3,6 +3,7 @@
 // handling level win/loss, and dispatching to attract mode.
 
 #include "game/game.h"
+#include "engine/core/rng.h"
 #include "game/game_globals.h"
 #include "game/missing_resources.h" // startup resource guard
 #include "engine/platform/host.h" // HOST_fatal_error
@@ -323,7 +324,7 @@ BOOL make_texture_clumps(CBYTE* mission_name)
     INDOORS_DBUILDING = 0;
 
     SetSeed(0);
-    srand(1234567);
+    uc_srand(1234567);
     GAME_STATE = GS_PLAY_GAME;
 
     extern SLONG quick_load;
@@ -376,7 +377,7 @@ BOOL game_init(void)
     INDOORS_DBUILDING = 0;
 
     SetSeed(0);
-    srand(1234567);
+    uc_srand(1234567);
 
     extern int m_iPanelXPos;
     extern int m_iPanelYPos;

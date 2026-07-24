@@ -275,6 +275,7 @@ set(SOURCES_NEW
     src/engine/core/memory.cpp
     src/engine/core/math.cpp
     src/engine/core/math_globals.cpp
+    src/engine/core/rng.cpp
     src/engine/core/matrix.cpp
     src/engine/core/fmatrix.cpp
     src/engine/core/quaternion.cpp

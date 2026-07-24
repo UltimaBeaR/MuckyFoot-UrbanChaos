@@ -1,4 +1,5 @@
 #include "effects/weather/drip.h"
+#include "engine/core/rng.h"
 #include "effects/weather/drip_globals.h"
 #include "engine/effects/psystem.h"
 #include "engine/graphics/pipeline/poly.h"
@@ -10,7 +11,7 @@
 
 // Starting fade and size for a newly created drip.
 #define DRIP_SFADE (255)
-#define DRIP_SSIZE (rand() & 0x7)
+#define DRIP_SSIZE (uc_rand() & 0x7)
 
 // Per-tick changes applied in DRIP_process. One tick = UC_VISUAL_CADENCE_TICK_MS
 // of wall-clock time (= 33.33 ms = 30 Hz) — see the accumulator in DRIP_process.

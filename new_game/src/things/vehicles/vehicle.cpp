@@ -6,6 +6,7 @@
 // VEH_reduce_health, and wheel position query API.
 
 #include <math.h>
+#include "engine/core/rng.h"
 
 #include "engine/platform/uc_common.h" // base types, ASSERT
 #include "game/game_types.h" // Game struct, TICK_RATIO, pool macros
@@ -972,7 +973,7 @@ void draw_car(Thing* p_car)
                     vp->VelZ + (Random() & 0xff) - 0x7f,
                     POLY_PAGE_SMOKECLOUD, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
                     PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE2 | PFLAG_RESIZE | PFLAG_DAMPING,
-                    75, 40 + (rand() & 31), 1, 4, 1);
+                    75, 40 + (uc_rand() & 31), 1, 4, 1);
 
                 if (p_car->Genus.Vehicle->Health <= 0) {
                     // additional smoke from rear when health exhausted
@@ -985,7 +986,7 @@ void draw_car(Thing* p_car)
                         vp->VelZ + (Random() & 0xff) - 0x7f,
                         POLY_PAGE_SMOKECLOUD, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
                         PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE2 | PFLAG_RESIZE | PFLAG_DAMPING,
-                        75, 40 + (rand() & 31), 1, 4, 1);
+                        75, 40 + (uc_rand() & 31), 1, 4, 1);
                 }
             }
         }
@@ -1099,7 +1100,7 @@ void draw_car(Thing* p_car)
             wz = p_car->WorldPos.Z + (wz << 8);
 
             PARTICLE_Add(wx, wy, wz,
-                (rand() & 7) - 3, 20, (rand() & 7) - 3,
+                (uc_rand() & 7) - 3, 20, (uc_rand() & 7) - 3,
                 POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), 0x7Fc9B7A3, PFLAG_FADE | PFLAG_RESIZE | PFLAG_SPRITEANI | PFLAG_SPRITELOOP, 30, 60, 1, 16, 10);
             speed = ((vp->VelX >> CAR_VEL_SHIFT) * (vp->VelX >> CAR_VEL_SHIFT))
                 + ((vp->VelZ >> CAR_VEL_SHIFT) * (vp->VelZ >> CAR_VEL_SHIFT));

@@ -1,4 +1,5 @@
 #include "engine/platform/uc_common.h"
+#include "engine/core/rng.h"
 #include "game/game_types.h"
 #include "things/items/hook.h"
 #include "things/items/hook_globals.h"
@@ -210,17 +211,17 @@ static void HOOK_process_flying()
             speed >>= 4;
             speed += 1;
 
-            odd = rand() % speed;
+            odd = uc_rand() % speed;
             odd -= speed >> 1;
 
             HOOK_point[0].dx += odd << 3;
 
-            odd = rand() % speed;
+            odd = uc_rand() % speed;
             odd -= speed >> 1;
 
             HOOK_point[0].dz += odd << 3;
 
-            HOOK_spin_speed = rand() & 0x1f;
+            HOOK_spin_speed = uc_rand() & 0x1f;
         } else {
             // Bouncing off a wall — determine which axis to reflect.
             SLONG check_x;
@@ -251,7 +252,7 @@ static void HOOK_process_flying()
                 HOOK_point[0].z += HOOK_point[0].dz;
             }
 
-            HOOK_spin_speed = rand() & 0x1f;
+            HOOK_spin_speed = uc_rand() & 0x1f;
         }
     }
 

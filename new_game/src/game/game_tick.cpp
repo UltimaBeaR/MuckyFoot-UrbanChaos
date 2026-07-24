@@ -3,6 +3,7 @@
 // danger level calculation, debug console parser, and the process_controls() dispatcher.
 
 #include <stdio.h>
+#include "engine/core/rng.h"
 #include <string.h>
 
 #include "game/game_types.h" // NET_PERSON, NET_PLAYER, GAME_STATE, GAME_TURN, the_game
@@ -2181,14 +2182,14 @@ void process_controls(void)
             case 2:
                 PYRO_construct(posn, 14, 256);
                 PYRO_construct(posn, 1, 400);
-                posn.X += rand() >> 1;
-                posn.Z += rand() >> 1;
-                PYRO_construct(posn, 2, 96 + (rand() & 0x3f));
+                posn.X += uc_rand() >> 1;
+                posn.Z += uc_rand() >> 1;
+                PYRO_construct(posn, 2, 96 + (uc_rand() & 0x3f));
                 posn.X = darci->WorldPos.X;
                 posn.Z = darci->WorldPos.Z;
-                posn.X -= rand() >> 1;
-                posn.Z -= rand() >> 1;
-                PYRO_construct(posn, 2, 96 + (rand() & 0x3f));
+                posn.X -= uc_rand() >> 1;
+                posn.Z -= uc_rand() >> 1;
+                PYRO_construct(posn, 2, 96 + (uc_rand() & 0x3f));
 
                 PCOM_oscillate_tympanum(
                     PCOM_SOUND_BANG,

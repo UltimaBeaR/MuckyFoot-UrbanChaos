@@ -2,6 +2,7 @@
 #define ENGINE_AUDIO_SOUND_H
 
 #include "engine/audio/mfx.h"
+#include "engine/core/rng.h"
 #include "engine/audio/sound_globals.h"
 #include "assets/sound_id.h"
 
@@ -55,7 +56,7 @@
 inline SLONG SOUND_Range(SLONG start, SLONG end)
 {
     SLONG diff = (end - start) + 1;
-    return start + (rand() % diff);
+    return start + (uc_rand() % diff);
 }
 
 // uc_orig: play_glue_wave (fallen/Source/Sound.cpp)

@@ -3,6 +3,7 @@
 // particles[0] is a permanent sentinel so that the used-list always has a non-null head.
 
 #include "engine/platform/sdl3_bridge.h"
+#include "engine/core/rng.h"
 #include "things/core/thing.h" // CLASS_PERSON, Thing, GameCoord, THING_find_sphere, TO_THING
 #include "game/game_types.h"
 #include "engine/graphics/pipeline/poly.h" // POLY_PAGE_FLAMES2, POLY_PAGE_STEAM, POLY_PAGE_SMOKECLOUD2
@@ -128,9 +129,9 @@ void PARTICLE_Run()
         if (local_ratio > 255) {
             // PFLAG_WANDER: random velocity perturbation each tick; used for smoke billowing.
             if (p->flags & PFLAG_WANDER) {
-                p->dx += ((rand() & 0x1f) - 0xf) * 4;
-                p->dy += ((rand() & 0x1f) - 0xf) * 4;
-                p->dz += ((rand() & 0x1f) - 0xf) * 4;
+                p->dx += ((uc_rand() & 0x1f) - 0xf) * 4;
+                p->dy += ((uc_rand() & 0x1f) - 0xf) * 4;
+                p->dz += ((uc_rand() & 0x1f) - 0xf) * 4;
             }
 
             // PFLAG_DRIFT: sinusoidal drift — unimplemented, code was commented out in original.

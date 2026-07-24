@@ -1,4 +1,5 @@
 #include "engine/platform/uc_common.h"
+#include "engine/core/rng.h"
 #include "effects/combat/glitter.h"
 #include "effects/combat/glitter_globals.h"
 
@@ -116,9 +117,9 @@ void GLITTER_add(
     gs->y = y;
     gs->z = z;
 
-    SLONG dx = (rand() & 0x3f) - 0x1f;
-    SLONG dy = (rand() & 0x3f) - 0x1f;
-    SLONG dz = (rand() & 0x3f) - 0x1f;
+    SLONG dx = (uc_rand() & 0x3f) - 0x1f;
+    SLONG dy = (uc_rand() & 0x3f) - 0x1f;
+    SLONG dz = (uc_rand() & 0x3f) - 0x1f;
 
     if (gg->flag & GLITTER_FLAG_DXPOS) {
         dx = +abs(dx);

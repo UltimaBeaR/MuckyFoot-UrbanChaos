@@ -1,5 +1,6 @@
 // Camera and player control logic.
 #include "engine/platform/uc_common.h"
+#include "engine/core/rng.h"
 #include "game/game_types.h"
 #include "things/characters/anim_ids.h"
 #include "engine/core/fmatrix.h"
@@ -2052,9 +2053,9 @@ void FC_process()
 
         // Camera shake from explosions.
         if (fc->shake) {
-            SLONG shake_x = (rand() % fc->shake) - (fc->shake >> 1);
-            SLONG shake_y = (rand() % fc->shake) - (fc->shake >> 1);
-            SLONG shake_z = (rand() % fc->shake) - (fc->shake >> 1);
+            SLONG shake_x = (uc_rand() % fc->shake) - (fc->shake >> 1);
+            SLONG shake_y = (uc_rand() % fc->shake) - (fc->shake >> 1);
+            SLONG shake_z = (uc_rand() % fc->shake) - (fc->shake >> 1);
 
             fc->x += shake_x << 7;
             fc->y += shake_y << 7;

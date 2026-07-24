@@ -1,4 +1,5 @@
 #include "game/game_types.h"
+#include "engine/core/rng.h"
 
 #include "effects/environment/tracks.h"
 #include "effects/environment/tracks_globals.h"
@@ -245,10 +246,10 @@ void TRACKS_Bleed(Thing* bleeder)
     if (!VIOLENCE)
         return;
 
-    UBYTE sz = 1 + (rand() & 0x1f);
+    UBYTE sz = 1 + (uc_rand() & 0x1f);
     UBYTE u = (Random() & 1) ? SUB_OBJECT_LEFT_FOOT : SUB_OBJECT_RIGHT_FOOT;
     SLONG dx, dr, dz, x, y, z;
-    dr = rand() & 2047;
+    dr = uc_rand() & 2047;
     dx = ((SIN(dr) >> 8) * sz) >> 8;
     dz = ((COS(dr) >> 8) * sz) >> 8;
     if ((dx == 0) && (dz == 0))
@@ -266,8 +267,8 @@ void TRACKS_Bleed(Thing* bleeder)
     z <<= 8;
     x += bleeder->WorldPos.X;
     z += bleeder->WorldPos.Z;
-    x += (rand() & 0247) - 1024;
-    z += (rand() & 2047) - 1024;
+    x += (uc_rand() & 0247) - 1024;
+    z += (uc_rand() & 2047) - 1024;
     y = (PAP_calc_map_height_at(x >> 8, z >> 8) << 8) + 257;
     TRACKS_AddQuad(x, y, z, dx, 0, dz, POLY_PAGE_BLOODSPLAT, 0x00ffffff, sz, 0, TRACK_FLAGS_SPLUTTING);
 }
@@ -278,9 +279,9 @@ void TRACKS_Bloodpool(Thing* bleeder)
     if (!VIOLENCE)
         return;
 
-    UBYTE sz = 80 + (rand() & 0x1f);
+    UBYTE sz = 80 + (uc_rand() & 0x1f);
     SLONG dx, dr, dz, x, y, z;
-    dr = rand() & 2047;
+    dr = uc_rand() & 2047;
     dx = ((SIN(dr) >> 8) * sz) >> 8;
     dz = ((COS(dr) >> 8) * sz) >> 8;
     if ((dx == 0) && (dz == 0))

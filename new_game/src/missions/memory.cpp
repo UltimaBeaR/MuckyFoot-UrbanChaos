@@ -3,6 +3,7 @@
 // First chunk: globals init, level memory table, pointer/index conversion, anim serialization.
 
 #include "things/core/thing.h" // pool types (Vehicle, Person, etc.)
+#include "engine/core/rng.h"
 #include "game/game_types.h" // Game struct, TICK_RATIO, PEOPLE, VEHICLES, etc.
 #include "buildings/prim.h" // calc_prim_normals, calc_prim_info, mark_prim_objects_as_unloaded, etc.
 #include "assets/formats/anim_globals.h" // game_chunk, anim_chunk, next_game_chunk, next_anim_chunk, next_prim_*
@@ -608,7 +609,7 @@ void load_whole_game(CBYTE* gamename)
     UWORD padding_word;
 
     SetSeed(1234567);
-    srand(1234567);
+    uc_srand(1234567);
 
     extern UWORD player_dlight;
     player_dlight = 0;

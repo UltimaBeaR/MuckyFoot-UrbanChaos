@@ -1,4 +1,5 @@
 #include "engine/platform/uc_common.h"
+#include "engine/core/rng.h"
 #include "map/supermap.h"
 #include "map/pap.h"
 #include "map/pap_globals.h"
@@ -532,7 +533,7 @@ static int compare_facets(const DFacet* pf1, const DFacet* pf2)
 
     if ((s1 == s2) && (e1 == e2) && (ys1 == ys2) && (ye1 == ye2) && (h1 == h2)) {
         if (sameway)
-            return (rand() & 128) ? 1 : 2;
+            return (uc_rand() & 128) ? 1 : 2;
         else
             return 3;
     }

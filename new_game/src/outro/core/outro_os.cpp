@@ -5,6 +5,7 @@
 // (engine/graphics/graphics_engine/backend_directx6/outro/core.cpp).
 
 #include <stdarg.h>
+#include "engine/core/rng.h"
 #include <string.h>
 
 #include "engine/input/gamepad.h"
@@ -778,7 +779,7 @@ void OS_hack(void)
     MUSIC_mode(0);
     MUSIC_mode_process();
 
-    switch (rand() % 5) {
+    switch (uc_rand() % 5) {
     case 0:
         sound = S_TUNE_COMBAT_TRAINING;
         break;

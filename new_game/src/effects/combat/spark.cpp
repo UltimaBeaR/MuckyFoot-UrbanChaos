@@ -1,4 +1,5 @@
 #include "engine/platform/uc_common.h"
+#include "engine/core/rng.h"
 #include "game/game_types.h"
 #include "effects/combat/spark.h"
 #include "effects/combat/spark_globals.h"
@@ -36,9 +37,9 @@ static void SPARK_point_set_velocity(SPARK_Point* sp)
         sp->dz = 0;
         return;
     } else {
-        SLONG dx = (rand() & 0xff) - 0x1f;
-        SLONG dy = (rand() & 0xff) - 0x1f;
-        SLONG dz = (rand() & 0xff) - 0x1f;
+        SLONG dx = (uc_rand() & 0xff) - 0x1f;
+        SLONG dy = (uc_rand() & 0xff) - 0x1f;
+        SLONG dz = (uc_rand() & 0xff) - 0x1f;
 
         if (sp->flag & SPARK_FLAG_FAST) {
             dx <<= 2;
@@ -114,9 +115,9 @@ static void SPARK_new_point(
 {
     SLONG i;
 
-    SLONG best_x = mid_x + (rand() & 0x3f) - 0x1f;
-    SLONG best_y = mid_y + (rand() & 0x3f) - 0x1f;
-    SLONG best_z = mid_z + (rand() & 0x3f) - 0x1f;
+    SLONG best_x = mid_x + (uc_rand() & 0x3f) - 0x1f;
+    SLONG best_y = mid_y + (uc_rand() & 0x3f) - 0x1f;
+    SLONG best_z = mid_z + (uc_rand() & 0x3f) - 0x1f;
     SLONG best_flag = SPARK_FLAG_FAST | SPARK_FLAG_DART_ABOUT;
     SLONG best_type = SPARK_TYPE_CIRCULAR;
     SLONG best_dist = radius;
@@ -133,8 +134,8 @@ static void SPARK_new_point(
     SLONG dz;
 
     for (i = 0; i < 4; i++) {
-        x = mid_x + (rand() % radius) - (radius >> 1);
-        z = mid_z + (rand() % radius) - (radius >> 1);
+        x = mid_x + (uc_rand() % radius) - (radius >> 1);
+        z = mid_z + (uc_rand() % radius) - (radius >> 1);
 
         y = calc_map_height_at(x, z);
 
@@ -257,7 +258,7 @@ void SPARK_create(
 found_spare_spark:;
 
     ss->used = UC_TRUE;
-    ss->die = rand() % max_life;
+    ss->die = uc_rand() % max_life;
     ss->die += 8;
     ss->glitter = NULL;
 
@@ -373,15 +374,15 @@ void SPARK_process()
                     }
 
                     if (sp->flag & SPARK_FLAG_DART_ABOUT) {
-                        if ((rand() & 0xf) == (i & 0xf)) {
+                        if ((uc_rand() & 0xf) == (i & 0xf)) {
                             SPARK_point_set_velocity(sp);
                         }
                     }
                 }
             }
 
-            point_2 = ((rand() & 0xf) == (i & 0xf));
-            point_3 = ((rand() & 0xf) == (i & 0xf));
+            point_2 = ((uc_rand() & 0xf) == (i & 0xf));
+            point_3 = ((uc_rand() & 0xf) == (i & 0xf));
 
             if (point_2 | point_3) {
                 //				play_quick_wave_xyz(ss->map_x<<16,256<<8,ss->map_z<<16,S_ELEC_START+(i%5),point_3,WAVE_PLAY_INTERUPT);
@@ -398,7 +399,7 @@ void SPARK_process()
                 SLONG py;
                 SLONG pz;
 
-                j = rand() % (ss->num_points - 1);
+                j = uc_rand() % (ss->num_points - 1);
                 j += 1;
 
                 SPARK_point_pos(
